@@ -1,0 +1,290 @@
+{
+  "fixture_id": "stockmesh.synthetic.unfinished-record.v0.1",
+  "contract": "stockmesh.domain@0.1.0",
+  "fixture_status": "synthetic-only",
+  "synthetic_notice": "Every name, statement, timestamp, relation, and event in this fixture is invented for contract validation.",
+  "sources": [
+    {
+      "id": "evidence-syn-001",
+      "source_kind": "synthetic-text",
+      "content_identity": "invented-note-001",
+      "authority": "fixture-author",
+      "acquired_at": "2026-08-16T09:00:00Z",
+      "integrity": "fixture-defined",
+      "locator": null
+    },
+    {
+      "id": "evidence-syn-002",
+      "source_kind": "synthetic-table",
+      "content_identity": "invented-table-002",
+      "authority": "fixture-author",
+      "acquired_at": "2026-08-16T09:05:00Z",
+      "integrity": "fixture-defined",
+      "locator": null
+    }
+  ],
+  "playgrounds": [
+    {
+      "id": "playground-syn-001",
+      "profile_id": "organizational.social@0.1",
+      "scope": "invented-lantern-project",
+      "time_basis": { "kind": "discrete", "zone": "UTC", "resolution": "hour" },
+      "evidence_policy": "synthetic-only",
+      "episode_ids": ["episode-syn-001"]
+    }
+  ],
+  "perspectives": [
+    {
+      "id": "perspective-syn-analyst",
+      "visibility_scope": "fixture-all",
+      "question": "Which next conversation could clarify the invented project decision?",
+      "stakeholder_node_id": "node-syn-analyst"
+    }
+  ],
+  "nodes": [
+    { "id": "node-syn-analyst", "node_type": "person", "identity_scope": "playground-syn-001", "view_alias": "Pawn" },
+    { "id": "node-syn-sponsor", "node_type": "person", "identity_scope": "playground-syn-001", "view_alias": "Pawn" },
+    { "id": "node-syn-lantern-team", "node_type": "team", "identity_scope": "playground-syn-001", "view_alias": "Pawn" },
+    { "id": "node-syn-decision", "node_type": "decision-object", "identity_scope": "playground-syn-001", "view_alias": "Pawn" }
+  ],
+  "relations": [
+    {
+      "id": "relation-syn-membership",
+      "relation_type": "membership",
+      "subject_id": "node-syn-analyst",
+      "object_id": "node-syn-lantern-team",
+      "valid_time": { "from": "2026-08-16T09:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-membership"]
+    },
+    {
+      "id": "relation-syn-authority",
+      "relation_type": "decision-authority",
+      "subject_id": "node-syn-sponsor",
+      "object_id": "node-syn-decision",
+      "valid_time": { "from": "2026-08-16T09:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-authority"]
+    }
+  ],
+  "flows": [
+    {
+      "id": "flow-syn-information",
+      "flow_type": "information",
+      "path": ["node-syn-analyst", "node-syn-sponsor"],
+      "valid_time": { "from": "2026-08-16T10:00:00Z", "to": "2026-08-16T10:00:00Z" },
+      "claim_refs": ["claim-syn-message"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-syn-membership",
+      "subject_ref": "relation-syn-membership",
+      "claim_kind": "attributed-report",
+      "epistemic_status": "reported",
+      "valid_time": { "from": "2026-08-16T09:00:00Z", "to": null },
+      "evidence_refs": ["evidence-syn-002"],
+      "author": "fixture-author"
+    },
+    {
+      "id": "claim-syn-authority",
+      "subject_ref": "relation-syn-authority",
+      "claim_kind": "human-judgment",
+      "epistemic_status": "adopted",
+      "valid_time": { "from": "2026-08-16T09:00:00Z", "to": null },
+      "evidence_refs": ["evidence-syn-002"],
+      "author": "fixture-reviewer"
+    },
+    {
+      "id": "claim-syn-message",
+      "subject_ref": "node-syn-analyst",
+      "claim_kind": "direct-observation",
+      "epistemic_status": "observed",
+      "valid_time": { "from": "2026-08-16T10:00:00Z", "to": "2026-08-16T10:00:00Z" },
+      "evidence_refs": ["evidence-syn-001"],
+      "author": "fixture-author"
+    },
+    {
+      "id": "claim-syn-pressure",
+      "subject_ref": "node-syn-sponsor",
+      "claim_kind": "model-hypothesis",
+      "epistemic_status": "hypothesis",
+      "valid_time": { "from": "2026-08-16T10:00:00Z", "to": null },
+      "evidence_refs": ["evidence-syn-001"],
+      "author": "synthetic-analyst"
+    }
+  ],
+  "assertions": ["claim-syn-membership", "claim-syn-authority", "claim-syn-message", "claim-syn-pressure"],
+  "states": [
+    {
+      "id": "state-syn-open-decision",
+      "subject_id": "node-syn-decision",
+      "state_type": "decision-status",
+      "value": "open",
+      "valid_time": { "from": "2026-08-16T10:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-authority"]
+    },
+    {
+      "id": "state-syn-sponsor-pressure",
+      "subject_id": "node-syn-sponsor",
+      "state_type": "pressure",
+      "value": "unknown-with-hypothesis",
+      "valid_time": { "from": "2026-08-16T10:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-pressure"]
+    }
+  ],
+  "events": [
+    {
+      "id": "event-syn-001",
+      "event_type": "episode-opened",
+      "mode": "actual",
+      "occurred_time": "2026-08-16T09:00:00Z",
+      "observed_at": "2026-08-16T09:00:00Z",
+      "recorded_at": "2026-08-16T09:10:00Z",
+      "claim_refs": ["claim-syn-membership"],
+      "resulting_position_id": "position-syn-001"
+    },
+    {
+      "id": "event-syn-002",
+      "event_type": "group-context-added",
+      "mode": "actual",
+      "occurred_time": "2026-08-16T09:30:00Z",
+      "observed_at": "2026-08-16T09:35:00Z",
+      "recorded_at": "2026-08-16T09:40:00Z",
+      "claim_refs": ["claim-syn-authority"],
+      "resulting_position_id": "position-syn-002"
+    },
+    {
+      "id": "event-syn-003",
+      "event_type": "proposal-stated",
+      "mode": "reconstructed",
+      "occurred_time": "2026-08-16T10:00:00Z",
+      "observed_at": "2026-08-16T10:05:00Z",
+      "recorded_at": "2026-08-16T10:10:00Z",
+      "claim_refs": ["claim-syn-message"],
+      "resulting_position_id": "position-syn-003"
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "mechanism-syn-clarification",
+      "mechanism_type": "information-clarification",
+      "mode": "hypothetical",
+      "claim_refs": ["claim-syn-pressure"],
+      "transition_effect": "A private clarification may reduce uncertainty, but response is unknown."
+    }
+  ],
+  "positions": [
+    {
+      "id": "position-syn-001",
+      "mode": "reconstructed",
+      "as_of": "2026-08-16T09:00:00Z",
+      "playground_id": "playground-syn-001",
+      "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-lantern-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": [] },
+      "evidence_cutoff": "2026-08-16T09:00:00Z",
+      "derived_from_event_ids": ["event-syn-001"]
+    },
+    {
+      "id": "position-syn-002",
+      "mode": "reconstructed",
+      "as_of": "2026-08-16T09:30:00Z",
+      "playground_id": "playground-syn-001",
+      "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-lantern-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-open-decision"] },
+      "evidence_cutoff": "2026-08-16T09:35:00Z",
+      "derived_from_event_ids": ["event-syn-001", "event-syn-002"]
+    },
+    {
+      "id": "position-syn-003",
+      "mode": "reconstructed",
+      "as_of": "2026-08-16T10:00:00Z",
+      "playground_id": "playground-syn-001",
+      "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-lantern-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-open-decision", "state-syn-sponsor-pressure"] },
+      "evidence_cutoff": "2026-08-16T10:05:00Z",
+      "derived_from_event_ids": ["event-syn-001", "event-syn-002", "event-syn-003"]
+    },
+    {
+      "id": "position-syn-var-001",
+      "mode": "hypothetical",
+      "as_of": "2026-08-16T11:00:00Z",
+      "playground_id": "playground-syn-001",
+      "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-lantern-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-open-decision", "state-syn-sponsor-pressure"] },
+      "evidence_cutoff": "2026-08-16T10:05:00Z",
+      "derived_from_event_ids": [],
+      "derived_from_action_ids": ["action-syn-private-clarify"]
+    }
+  ],
+  "timeline": {
+    "id": "timeline-syn-001",
+    "playground_id": "playground-syn-001",
+    "ordered_item_refs": ["event-syn-001", "event-syn-002", "event-syn-003"],
+    "ordering_basis": "occurred_time; ties retain recorded order"
+  },
+  "actions": [
+    {
+      "id": "action-syn-private-clarify",
+      "actor_node_id": "node-syn-analyst",
+      "mode": "human-proposed",
+      "target_position_id": "position-syn-003",
+      "constraints": ["no-public-escalation", "ask-one-open-question"]
+    }
+  ],
+  "transitions": [
+    { "id": "transition-syn-main-001", "from_position_id": "position-syn-001", "to_position_id": "position-syn-002", "mode": "reconstructed", "cause_refs": ["event-syn-002"] },
+    { "id": "transition-syn-main-002", "from_position_id": "position-syn-002", "to_position_id": "position-syn-003", "mode": "reconstructed", "cause_refs": ["event-syn-003"] },
+    { "id": "transition-syn-001", "from_position_id": "position-syn-003", "to_position_id": "position-syn-var-001", "mode": "hypothetical", "cause_refs": ["action-syn-private-clarify", "mechanism-syn-clarification"] }
+  ],
+  "evaluations": [
+    {
+      "id": "evaluation-syn-001",
+      "target_id": "position-syn-003",
+      "perspective_id": "perspective-syn-analyst",
+      "objective": "clarify-next-decision",
+      "horizon": { "unit": "hour", "value": 6 },
+      "dimensions": { "information_gain": { "value": "medium", "weight": 1.0 }, "escalation_risk": { "value": "unknown", "weight": 1.0 }, "reversibility": { "value": "high", "weight": 0.8 } },
+      "uncertainty": ["sponsor response is not observed"],
+      "evidence_cutoff": "2026-08-16T10:05:00Z"
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory-syn-main",
+      "mode": "reconstructed",
+      "position_ids": ["position-syn-001", "position-syn-002", "position-syn-003"],
+      "transition_ids": ["transition-syn-main-001", "transition-syn-main-002"],
+      "assumptions": []
+    },
+    {
+      "id": "trajectory-syn-var-001",
+      "mode": "predicted",
+      "position_ids": ["position-syn-003", "position-syn-var-001"],
+      "transition_ids": ["transition-syn-001"],
+      "assumptions": ["the analyst can ask privately", "the sponsor responds within six hours"]
+    }
+  ],
+  "episodes": [
+    {
+      "id": "episode-syn-001",
+      "playground_id": "playground-syn-001",
+      "status": "ongoing",
+      "game_record_view_id": "game-record-syn-001"
+    }
+  ],
+  "game_records": [
+    {
+      "id": "game-record-syn-001",
+      "playground_id": "playground-syn-001",
+      "episode_id": "episode-syn-001",
+      "perspective_id": "perspective-syn-analyst",
+      "status": "ongoing",
+      "main_line": { "event_ids": ["event-syn-001", "event-syn-002", "event-syn-003"], "trajectory_id": "trajectory-syn-main" },
+      "variations": [{ "id": "variation-syn-001", "anchor_position_id": "position-syn-003", "trajectory_id": "trajectory-syn-var-001", "status": "candidate", "mode": "predicted" }],
+      "checkpoints": ["position-syn-001", "position-syn-002", "position-syn-003"],
+      "frontier": { "position_id": "position-syn-003", "unresolved_action_ids": ["action-syn-private-clarify"], "confirmed_through": "2026-08-16T10:00:00Z" },
+      "promotion_records": []
+    }
+  ],
+  "promotion_policy": {
+    "required_confirmation": "A later actual or reconstructed Event with authorized evidence must explicitly reference variation-syn-001.",
+    "append_only_record_type": "promotion-record",
+    "rewrite_forbidden": true,
+    "current_state": "no promotion has occurred; the record is intentionally unfinished"
+  }
+}

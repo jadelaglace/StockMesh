@@ -1,0 +1,104 @@
+{
+  "contract_id": "stockmesh.domain",
+  "version": "0.1.0",
+  "status": "candidate-for-review",
+  "scope": "semantic-contract",
+  "description": "Transport-neutral domain contract for evidence-aware temporal network analysis.",
+  "planes": ["world", "knowledge", "model", "possibility"],
+  "universal_types": {
+    "Playground": {
+      "required": ["id", "profile_id", "scope", "time_basis", "evidence_policy"],
+      "meaning": "Reusable bounded analytical world that may contain multiple Episodes."
+    },
+    "Node": {
+      "required": ["id", "node_type", "identity_scope"],
+      "meaning": "Distinguishable modeled element; identity does not imply personhood or agency."
+    },
+    "Relation": {
+      "required": ["id", "relation_type", "subject_id", "object_id", "valid_time"],
+      "meaning": "Typed structural condition; it is not a Flow or proven cause by default."
+    },
+    "Flow": {
+      "required": ["id", "flow_type", "path", "valid_time"],
+      "meaning": "Typed movement, exchange, propagation, or rate over Nodes or Relations."
+    },
+    "State": {
+      "required": ["id", "subject_id", "state_type", "value", "valid_time", "claim_refs"],
+      "meaning": "Value believed to hold over an interval, not a complete account of reality."
+    },
+    "Event": {
+      "required": ["id", "event_type", "mode", "occurred_time", "claim_refs"],
+      "meaning": "Represented occurrence situated in time; extraction alone does not make it certain."
+    },
+    "Mechanism": {
+      "required": ["id", "mechanism_type", "mode", "claim_refs", "transition_effect"],
+      "meaning": "Evidence-bound rule or hypothesis about how conditions may produce a Transition."
+    },
+    "Transition": {
+      "required": ["id", "from_position_id", "to_position_id", "mode", "cause_refs"],
+      "meaning": "Modeled change between Positions; an Action is only one possible cause."
+    },
+    "Position": {
+      "required": ["id", "mode", "as_of", "playground_id", "projection", "evidence_cutoff"],
+      "meaning": "Reproducible question-bounded projection of relevant modeled State."
+    },
+    "Timeline": {
+      "required": ["id", "playground_id", "ordered_item_refs", "ordering_basis"],
+      "meaning": "Time-indexed or partially ordered view of Events and State changes."
+    },
+    "Perspective": {
+      "required": ["id", "visibility_scope", "question"],
+      "meaning": "Declared observational or analytical vantage; it cannot rewrite history."
+    },
+    "Evaluation": {
+      "required": ["id", "target_id", "perspective_id", "objective", "horizon", "dimensions", "uncertainty"],
+      "meaning": "Profile-bound vector assessment with inspectable assumptions and weights."
+    },
+    "Action": {
+      "required": ["id", "actor_node_id", "mode", "target_position_id", "constraints"],
+      "meaning": "Optional intentional intervention where a profile declares agency and control."
+    },
+    "Trajectory": {
+      "required": ["id", "mode", "position_ids", "transition_ids", "assumptions"],
+      "meaning": "Realized, reconstructed, or simulated succession of Positions and Transitions."
+    }
+  },
+  "knowledge_types": {
+    "EvidenceItem": ["id", "source_kind", "content_identity", "authority", "acquired_at", "integrity"],
+    "Claim": ["id", "subject_ref", "claim_kind", "epistemic_status", "valid_time", "evidence_refs", "author"],
+    "Assertion": { "compatibility_alias_for": "Claim", "rule": "Use Claim as the canonical neutral name; Assertion is accepted when a strategy/game-record consumer uses the earlier term." },
+    "epistemic_statuses": ["observed", "reported", "interpreted", "hypothesis", "adopted", "disputed", "superseded", "unknown", "rejected"]
+  },
+  "time_fields": ["occurred_time", "valid_time", "observed_at", "recorded_at"],
+  "modes": {
+    "actual": "Observed or human-confirmed world occurrence.",
+    "reconstructed": "Derived from authorized historical evidence at a cutoff.",
+    "hypothetical": "Counterfactual or candidate development.",
+    "predicted": "Model-generated possible development with uncertainty.",
+    "human-proposed": "Human-authored candidate intervention awaiting outcome."
+  },
+  "strategy_view_aliases": {
+    "Node": "Pawn",
+    "Action": "Move",
+    "Trajectory": "Line",
+    "Evaluation": "Scorecard",
+    "Episode": "Game Record"
+  },
+  "game_record_view": {
+    "required": ["id", "playground_id", "perspective_id", "status", "main_line", "variations", "frontier"],
+    "status_values": ["not-started", "ongoing", "dormant", "concluded", "abandoned"],
+    "main_line_rule": "Only actual or reconstructed items confirmed by authorized evidence may enter Main Line.",
+    "variation_rule": "Hypothetical, predicted, deliberative, and human-proposed branches remain Position-bound Variations.",
+    "frontier_rule": "Frontier is the latest confirmed Position plus unresolved candidates; it does not include hypothetical branch state.",
+    "promotion_rule": "A later confirmation appends a promotion record linking a Variation to a new Main Line item; it never rewrites the Variation or source evidence.",
+    "dormant_rule": "Dormant means processing is paused, not that the external episode concluded."
+  },
+  "invariants": [
+    "Every consequential Claim has provenance, epistemic status, author, and time context.",
+    "A Position is a projection and never replaces Events, Claims, or source evidence.",
+    "Actual/reconstructed and hypothetical/predicted Trajectories cannot silently merge.",
+    "A Relation is not a Flow; a State is not an Event; an Action is not required for every Transition.",
+    "Promotion is append-only and requires later authorized confirmation.",
+    "Profiles may add types and terminology but cannot weaken provenance, uncertainty, time, correction, or privacy rules."
+  ]
+}

@@ -127,3 +127,14 @@ The external conversations supplied with the same instruction are governed by th
 - Retrieval phrases: “先把domain整清楚”, “data与业务验算自然清楚”
 
 > 建议你先把domain整清楚 然后data与业务验算自然清楚
+
+## DW-012 — Adopt the domain direction and continue
+
+- Source: direct user continuation in Codex task, in response to the three explicit domain choices presented for review
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; authorizes moving from the adopted domain direction into the next contract stage
+- Exact wording:
+
+> 可以 继续
+
+- Interpretation boundary: the exact wording is only a continuation instruction. The adopted semantic choices are recorded separately in [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction); this entry does not attribute the Agent's explanatory text to the user.

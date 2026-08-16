@@ -92,9 +92,19 @@ foreach ($relativePath in $forbiddenPaths) {
     }
 }
 
+$contractValidator = Join-Path $RepositoryRoot 'scripts\validate-synthetic-contract.ps1'
+if (-not (Test-Path -LiteralPath $contractValidator)) {
+    $failures.Add('Synthetic contract validator is missing.')
+} else {
+    $contractValidationOutput = & $contractValidator 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        $failures.Add("Synthetic contract validation failed: $($contractValidationOutput -join ' ')")
+    }
+}
+
 if ($failures.Count -gt 0) {
     $failures | ForEach-Object { Write-Error $_ }
     exit 1
 }
 
-Write-Output "Repository documentation and public-content checks passed ($($markdownFiles.Count) Markdown files)."
+Write-Output "Repository documentation, public-content, and synthetic-contract checks passed ($($markdownFiles.Count) Markdown files)."

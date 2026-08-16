@@ -9,13 +9,14 @@ Purpose: report evidence-backed current delivery state. This is not product acce
 | Requirements / PRD / acceptance | Requirements-rooted draft established | Broad domain and profile behavior are aligned; user review and first pilot workflow remain open |
 | Universal domain | Candidate ready for user review | Four semantic planes, neutral core concepts, profile rules, optional strategy/game-record views, and invariants are documented; not adopted yet |
 | Cross-domain semantic fit | Paper check passed | Organizational interaction, microgrid, and machine collective shapes fit without company-only universal fields; this is not data or business validation |
-| Data contracts | Not started | Intentionally follows domain review under DW-011 |
+| Data contracts | R1 candidate locally validated | Version `0.1.0` semantic contract and a fully synthetic unfinished record pass the repository gate; user review is pending and runtime schema/implementation remain unchosen |
+| Synthetic unfinished record | Locally validated | Covers Playground, Pawn/Node, Assertion/Claim, Event, Game Record, Main Line, Variation, Position/frontier, source trace, and append-only promotion policy; not business validation |
 | Business validation design | Not started | Intentionally follows domain and data contracts; private case cannot define the core |
 | Architecture direction | Aligned to candidate domain | Knowledge/model/possibility ownership and profile boundaries documented; stack deliberately unchosen |
 | Implementation scaffold | Not started | Outside this init scope |
 | Real authorized workflow proven | Not started | Requires a selected pilot and authorized/synthetic corpus |
 | Product accepted | No claim | Human acceptance is required |
-| Documentation scaffold | Verified | Repository checker passes for the current 18 Markdown files, internal targets, recovery order, and public candidate content |
+| Documentation scaffold | Verified | Repository checker passes for the current Markdown files, internal targets, recovery order, and public candidate content |
 | GitHub publication | Achieved | [jadelaglace/StockMesh](https://github.com/jadelaglace/StockMesh) read back as `PUBLIC`, default branch `main`; initial commit `8e9d079` was present on `origin/main` before closure update |
 | Init observer report | Achieved | [product-docs init observations](../meta/product-docs-init-observations.md) |
 | Candidate domain model | Ready for user review | [Universal core and profile model](../product/domain-model.md); neutral core plus optional chess aliases, not yet adopted as an implementation contract |

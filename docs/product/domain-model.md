@@ -1,6 +1,6 @@
 # Candidate universal domain model
 
-Status: **candidate for user review**. This document interprets the broad network-analysis requirement in [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief) and [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), subject to the requirements-first corrections in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation). It is not a data schema or an adopted implementation contract.
+Status: **adopted semantic direction; candidate versioned contract for R1**. This document interprets the broad network-analysis requirement in [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief) and [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), subject to the requirements-first corrections in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation), and adopted direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction). It is not yet a transport/storage schema or an implementation contract.
 
 ## Domain statement
 
@@ -176,9 +176,7 @@ The candidate passes an initial paper check across three deliberately different 
 
 No company-only property is needed in the universal core. This is a domain-coherence result only; data contracts and business validation have not started.
 
-## Decisions for user review
+## Remaining decisions for user review
 
-1. Adopt neutral core names (`Node`, `Action`, `Trajectory`) with `Pawn`, `Move`, and `Line` as strategy-workbench aliases, or make the chess names primary even outside agentic domains?
-2. Treat a Playground as a reusable bounded world that may contain many Episodes, rather than equating it with one case?
-3. Is `Mechanism` a first-class universal concept now, or should it remain a derived analysis object until causal modeling is implemented?
-4. For the first organizational profile, which semantics must be present beyond people/units, relations/flows, events, state, stance, actions, and evaluation?
+1. For the first organizational profile, which semantics must be present beyond people/units, relations/flows, events, state, stance, actions, and evaluation?
+2. Which concrete company workflow and primary user persona should be the first business-validation target?

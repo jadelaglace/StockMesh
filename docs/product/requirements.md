@@ -1,6 +1,6 @@
 # Current requirements
 
-Purpose: state the current interpreted product outcome and constraints. Upstream authorities are [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief), the public/case boundary in [DW-002](../discovery/direct-wording.md#dw-002--public-repository-and-case-data-boundary), the strategic domain direction in [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), and the requirements-first correction in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first). Downstream consumers are the PRD, candidate domain model, acceptance, design, architecture, and integration contract.
+Purpose: state the current interpreted product outcome and constraints. Upstream authorities are [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief), the public/case boundary in [DW-002](../discovery/direct-wording.md#dw-002--public-repository-and-case-data-boundary), the strategic domain direction in [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), the requirements-first correction in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first), and adopted domain direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction). Downstream consumers are the PRD, candidate domain model, acceptance, design, architecture, and integration contract.
 
 ## Product intent
 
@@ -59,4 +59,3 @@ The underlying model must not assume that every node is a person, every edge is 
 - What user correction and appeal workflow is required for human subjects represented in the graph.
 - The first evaluation profile and useful scenario depth for the company pilot.
 - Whether external Agents in v1 may stage evidence or remain read/analysis-only.
-- Which names belong in the universal contract versus the chess-like human interface (`Node` versus `Pawn`, `Action/Transition` versus `Move`).

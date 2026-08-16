@@ -4,9 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. R0-001 reached its candidate-definition terminal; user review is pending. Data-contract work requires adoption or revision of the domain boundary first.
+None. R1-001 reached its contract/fixture terminal. The candidate is ready for user review; product and business-workflow acceptance remain pending.
 
-The environment Goal runtime still carries the superseded pre-correction schema/fixture objective. Its API exposes terminal status only, not objective replacement; it remains non-terminal rather than falsely claiming that the rejected work was completed. On recovery, this document and DW-010/DW-011 govern the newer route.
+## Last terminal: R1-001
+
+- Source anchor: [DW-012](../discovery/direct-wording.md#dw-012--adopt-the-domain-direction-and-continue) and [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction), following the R0 terminal
+- User goal: continue from the adopted requirements-rooted domain into a reviewable versioned contract and a completely synthetic unfinished Game Record, without using the private Kimi record or choosing a runtime stack.
+- Lifecycle mode: definition / contract and synthetic validation fixture
+- Terminal: candidate contract round succeeded on 2026-08-16; user product acceptance remains pending.
+- Outcome: `stockmesh.domain@0.1.0` defines the neutral universal types, knowledge statuses, strategy aliases, Game Record view, frontier, and append-only promotion rules. The fully invented ongoing record covers Playground, four Pawn views, four Assertion/Claim references, three Main Line Events, four Positions, one confirmed frontier, one predicted Variation, and two source records with null locators.
+- Verification: the dedicated validator and repository-wide gate pass; reference integrity, mode separation, unfinished state, source trace, privacy markers, and rewrite prohibition are checked. The fixture proves structure only, not business usefulness.
+- Protected boundaries: no private Kimi record was read or transformed in this round; no Babata operation, model/provider, database, framework, frontend, deployment, or real-data decision was introduced.
+- Evidence entry: [R1 verification evidence](../verification/README.md#r1-001-evidence--2026-08-16)
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly said “可以 继续” after adopting the three R0 domain choices and authorized the contract stage.
 
 ## Last terminal: R0-001
 
@@ -54,4 +64,4 @@ The environment Goal runtime still carries the superseded pre-correction schema/
 
 ## Next-start queue
 
-Review and adopt or revise R0-001. Only then start R1 data contracts; business validation and implementation remain later stages.
+Review the R1 contract and synthetic unfinished record. R2 cross-domain/business validation and all implementation remain later stages.

@@ -27,3 +27,15 @@ No database, programming language, framework, model provider, deployment topolog
 - Authority: [DW-003](../discovery/direct-wording.md#dw-003--tribute-and-licensing-boundary)
 - Decision: license StockMesh under MIT. Any Stockfish tribute is name-only and carries no product or technical analogy.
 - Consequence: the repository carries the standard MIT License.
+
+## ADR-003 — Requirements-rooted domain direction
+
+- Status: adopted for the R1 contract stage; product acceptance remains open
+- Date: 2026-08-16
+- Authority: [DW-012](../discovery/direct-wording.md#dw-012--adopt-the-domain-direction-and-continue), following the explicit three-choice review in the active task
+- Decision:
+  - Use `Node`, `Action`, and `Trajectory` as the neutral universal contract names.
+  - Use `Pawn`, `Move`, and `Line` as strategy-workbench aliases, not as universal storage semantics.
+  - Treat a `Playground` as a reusable bounded world that may contain multiple `Episode` views.
+  - Treat `Mechanism` as a first-class, evidence-bound rule or hypothesis about transitions; it is not automatically proven causality.
+- Consequence: R1 may define versioned contracts and fully synthetic examples from this domain. Company cases remain validation material, and the optional Game Record view cannot constrain non-agentic or non-social domains. Data schemas, implementation choices, and product acceptance remain separate decisions.
