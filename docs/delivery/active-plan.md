@@ -4,7 +4,18 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. No queued item is eligible for automatic promotion.
+None. SPEC-001 is terminal; adoption requires user review.
+
+## Last terminal: SPEC-001
+
+- Source anchor: [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface)
+- User goal: check whether Kimi conversation bodies have been recovered, then propose a coherent domain model, Web UI, simulation/scoring boundary, and external Agent Skill interface for review.
+- Lifecycle mode: definition
+- Terminal: candidate planning succeeded on 2026-08-16; product adoption remains open.
+- Outcome: Kimi acquisition status was reported in the live conversation without retaining private content or locators; the candidate [domain model](../product/domain-model.md), [Web workbench](../design/web-workbench.md), and [Agent contract](../integrations/agent-skill-contract.md) were created and traced through requirements, PRD, acceptance, and architecture.
+- Protected boundaries: Kimi content, locators, and case material remain outside Git pending explicit handling instructions; personality, stance, behavior, prediction, and strategy outputs remain evidence-linked hypotheses rather than facts; the user retains authority over adoption and sensitive-data scope.
+- Evidence entry: [current status](status.md) and [verification evidence](../verification/README.md)
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly started domain/UI/Agent interface planning after INIT-001 succeeded.
 
 ## Last terminal: INIT-001
 
@@ -19,4 +30,4 @@ None. No queued item is eligible for automatic promotion.
 
 ## Next-start queue
 
-Choosing the first concrete pilot workflow requires explicit user product authority.
+The candidate domain, UI, Agent contract, and first pilot require explicit user review and adoption before implementation.

@@ -59,3 +59,26 @@ The external conversations supplied with the same instruction are governed by th
 - Retrieval phrases: “纯名字致敬”
 
 > 纯名字致敬
+
+## DW-006 — Chess-like domain, simulation, UI, and Agent interface
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; candidate product direction awaiting structured review
+- Retrieval phrases: “广义的棋盘”, “pawn 棋子”, “局势”, “盘面评分系统”, “决策回溯引擎”, “精准的军师”
+
+> domain先规划好了 举个例子 像stcokfish一样 首先是一个广义的棋盘 广场 payground也好
+> 然后是pawn 棋子   棋子就是狭义的一个人 或者一个分析节点 例如 公司啊 组织啊 等 。pawn带一堆属性 比如人 那就是性格  处事风格 能力 外在内在 位置等等
+> 然后就是棋盘事件 当下 谁登场了加入了（棋里面可能少见） 谁暂时退出啊 在场的什么关系 设么职位 什么事 在微信啊 打字啊 还是视频啊 还是会议室啊 还是研发现场啊 还是销售现场啊 balabla 说简单点 局势 也就是下棋里的一个盘面
+>
+> 然后就是时间线 比如谁拉了个群 都谁 说了啥 立场咋变 气氛咋变 下一步建议怎么说话 谁会干啥的预测 像下棋预测一样 局势之间怎么变动的 预测 分析 建议
+>
+> 盘面评分系统 对每一个局势 盘面 分析评分 。决策回溯引擎 下棋里历史招数不咋影响盘面 现实里还是有点影响的 不过也可以把历史信息作为当前盘面要素来对待 那其实就还是盘面概念 给盘面评分
+>
+> 然后 盘面能怎么发展 下一步 谁说什么话 谁什么反应 连锁几步 推演 每一步如果什么盘面 什么评分 找出10步20步最优解 好了 大概就是这玩意 其实很像下棋 只不过这个就是多方博弈 信息可能更抽象点。
+>
+> 这个更多是 预测小时级别啊 天月级别 季度年级别的 太碎的 几秒这种级别的 瞬间的 微妙的 这个要靠真人的 他没法。他就像一个识别精准 计策精准的军师。
+>
+> 这个大概率要有ui的 网页web就像个下棋软件一样 怎么走下一步 其实也就是主要靠打字对话 类似控制台输入 或者是导入对话表啊 历史截图啊 agent要分析的 ui大概就是一个我描述的盘面 时间线 这种 然后有个对话框 可以输入信息，然后pawn有些子对话框啊 记录啊这些
+>
+> 也做好给外面agent用的skill 接口 规划下吧 我看看

@@ -16,6 +16,9 @@ Initially, an individual analyst or learner exploring an explicitly authorized c
 6. The system presents patterns and hypotheses with evidence links, uncertainty, contradiction, and alternatives.
 7. The user can correct identity resolution, challenge an interpretation, or record an explicit human judgment without rewriting the source.
 8. Derived graphs and views can be rebuilt when processing changes.
+9. The user selects a perspective, objective, horizon, and risk profile, then evaluates the current Position with an inspectable vector scorecard.
+10. The user proposes or requests candidate Moves; StockMesh produces materially different scenario Lines, modeled responses, resulting Positions, uncertainty, and replan triggers.
+11. The user can replay an earlier decision using only information available at that time and optionally compare it with a hindsight view.
 
 ## Initial capability slice
 
@@ -26,6 +29,11 @@ Initially, an individual analyst or learner exploring an explicitly authorized c
 - Compare expressed positions across people, topics, and time while separating quote from interpretation.
 - Add a new evidence item and surface its most relevant existing context.
 - Mark analyses as hypothesis, observation, conflict, unknown, or human-adopted judgment.
+- Build an as-of Position from the event timeline for a selected question and perspective.
+- Evaluate goal progress, relationship effect, authority fit, information gain, escalation risk, reversibility, cost, and robustness without hiding the vector behind one score.
+- Compare at least three diverse short scenario Lines and select a human-approved recommendation.
+- Use a Web workbench with timeline, position board, Pawn drawer, strategist console, and scenario comparison.
+- Expose read/analysis capabilities to external Agents behind a narrow contract.
 
 ## Explicit non-goals for the initial slice
 
@@ -35,6 +43,8 @@ Initially, an individual analyst or learner exploring an explicitly authorized c
 - General macro-network support in the first delivery slice.
 - Real-time enterprise deployment before the data and correction contracts are validated.
 - Publishing conversation locators or concrete cases to the public repository.
+- Second-level behavioral direction, autonomous communication, or unsupervised action on recommendations.
+- Guaranteed 10–20 step social prediction; depth is a search budget constrained by uncertainty.
 
 ## Case-to-product learning boundary
 

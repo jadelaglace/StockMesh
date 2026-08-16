@@ -25,6 +25,15 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - Git remote readback: `origin` is `git@github.com:jadelaglace/StockMesh.git`; initial `origin/main` resolved to `8e9d079697ca77bd70f15a96f6911c9daab6ab46` before this closure update.
 - Observer report: recorded under [meta observations](../meta/product-docs-init-observations.md).
 
+## SPEC-001 evidence — 2026-08-16
+
+- Candidate authorities exist for domain, Web workbench, and external Agent capabilities and are linked from the documentation index.
+- Requirements, PRD, acceptance, and architecture trace the new semantics without claiming an implemented engine or accepted product scope.
+- Domain review confirms that Pawn traits, stance, atmosphere, and predicted behavior are attributed assertions rather than timeless facts.
+- Evaluation review confirms that scores are perspective-, objective-, horizon-, risk-, and evidence-bound and remain vector-first.
+- Scenario review confirms that depth is a search budget and every Line requires assumptions, uncertainty, alternatives, and replan triggers.
+- Repository checker passed for 17 Markdown files; the private-source scan found no Kimi conversation locator, supplied chat identity, retained case title, or private case narrative.
+
 ## Evidence policy
 
 Record real command/API results before checking an item. A present file proves only that the scaffold exists. It does not prove a real analysis workflow, product acceptance, or operational closure.
