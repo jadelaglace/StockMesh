@@ -109,6 +109,34 @@ novelty claim.
 | [tsna](https://github.com/statnet/tsna) | Temporal social-network analysis in R | GPL-3.0 | Relevant method/reference suite for longitudinal network change | `R` - use papers/external validation; implement through permissive primitives or an isolated reviewed route |
 | [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) | Graph neural-network research library | MIT | Candidate learned Method layer for later evidence-backed tasks | `P2` - only after a labeled task and baseline justify GNN complexity |
 
+## Selected initial social-network Method pack
+
+This table answers which algorithms StockMesh currently selects for the first
+organizational profile. It selects Method behavior, not a permanent library or
+dependency. The TypeScript v0 route should use Graphology where its verified
+implementation fits; the optional Python Method worker may use NetworkX or a
+specialized permissive library when a named capability justifies the process
+boundary. Every result is a typed, time-bounded feature supplied to LLM and
+human analysis, never a fact about motive, loyalty, or worth.
+
+| Algorithm / Method | Question it can help answer | Initial status and executor route | Required interpretation guard |
+| --- | --- | --- | --- |
+| Typed `k`-hop ego network and BFS neighborhood | Which Nodes, Relations, Events, and recent paths belong in this question's bounded context? | **v0 foundation**; Graphology traversal over a Position projection | A retrieved neighborhood is context coverage, not importance or causality |
+| Directed weighted in/out degree and strength | Who has many incoming/outgoing ties or high observed interaction/dependency volume for this relation type and window? | **v0 foundation**; Graphology/basic typed aggregation | Degree is activity/exposure/connection under the chosen edge definition, not influence or support by itself |
+| Weak/strong connected components, reachability, and shortest paths | Where are structural splits, reachable channels, or candidate connection paths? | **v0 foundation**; Graphology components and shortest-path methods | A topological path is not proof that information, trust, or action will travel along it; weights must declare meaning |
+| Density, reciprocity, and local clustering coefficient | How cohesive, mutual, or locally closed is a selected typed subgraph? | **v0 foundation**; Graphology metrics or a verified equivalent | These measures are highly sensitive to scope and missing edges and do not equal relationship quality |
+| Betweenness centrality | Which Nodes or edges sit on many selected shortest paths and may be brokers or bottlenecks? | **v0 foundation**; Graphology betweenness | Brokerage is a structural hypothesis sensitive to graph construction, not proof of control |
+| PageRank | Which Nodes receive recursively weighted incoming attention/dependency in a directed graph? | **v0 exploratory metric**; Graphology PageRank | Direction, edge weight, damping, and scope must be visible; the result is not a universal influence score |
+| Department/category mixing matrix and assortativity | Are observed ties concentrated within or across declared groups such as departments? | **organizational-profile Method**; typed aggregation first, optional NetworkX cross-check | Formal categories may be incomplete; mixing does not establish preference, discrimination, or cause |
+| Position-to-Position metric delta over time windows | Which structural measures changed between evidence cutoffs or before/after a Strategy Step? | **v0 foundation wrapper** around the selected metrics | A metric change may reflect new evidence, changed scope, or correction rather than a real-world change; show both time axes |
+| Louvain community detection with seed/resolution sensitivity runs | What candidate informal clusters appear under one modularity model? | **v0 exploratory Method**; Graphology Louvain, later compare through CDlib when useful | Communities are unstable model outputs, not established factions; expose resolution, seed, modularity, and disagreement |
+| Independent Cascade and Linear Threshold diffusion | Under explicit adoption/propagation assumptions, how might a signal spread across a selected graph? | **opt-in later experiment**; NDlib in the optional Python worker | These are counterfactual Mechanisms, not default models of human reaction; parameters and calibration must be explicit |
+
+Not selected for the first pack: opaque graph embeddings, GNN prediction,
+automatic causal discovery, universal personality scoring, or one composite
+"influence" number. They require a validated question, suitable labeled data,
+and a baseline demonstrating incremental value.
+
 ## Causal, probabilistic, conversational, and explainability methods
 
 | Candidate | Verified scope | License | StockMesh fit | Recommendation |
@@ -129,7 +157,8 @@ novelty claim.
 | Candidate | Verified scope | License | StockMesh fit | Recommendation |
 | --- | --- | --- | --- | --- |
 | [Cytoscape.js](https://github.com/cytoscape/cytoscape.js) | Browser graph visualization plus graph algorithms and interaction | MIT | Strong fit for inspectable network editing/exploration | `P1` - leading embedded graph-workbench candidate if the Web stack fits |
-| [Sigma.js](https://github.com/jacomyal/sigma.js) + [Graphology](https://github.com/graphology/graphology) | Scalable graph rendering plus JS/TS graph model/algorithms | MIT | Strong alternative for larger interactive graphs | `P1` - benchmark against Cytoscape.js; select one primary graph UI route |
+| [Graphology](https://github.com/graphology/graphology) | JS/TS graph model, traversal, metrics, centrality, shortest paths, and compatible community packages | MIT | Fits the TypeScript application core and selected transparent SNA pack | `P1 selected direction` - first in-process GraphEngine; retain algorithm/version trace and benchmark missing methods before adding a worker |
+| [Sigma.js](https://github.com/jacomyal/sigma.js) | Scalable WebGL graph rendering over Graphology | MIT | Strong alternative renderer for larger interactive graphs | `P1` - benchmark against Cytoscape.js only when rendering scale requires it |
 | [D3](https://github.com/d3/d3) | Low-level custom data visualization | ISC | Useful for specialized timelines, score views, and bespoke interactions | `P2` - use for gaps, not as a reason to hand-build the entire graph workbench |
 | [Apache ECharts](https://github.com/apache/echarts) | Browser charting and interactive dashboards | Apache-2.0 | Strong score, uncertainty, timeline, and comparison views | `P1` - candidate non-network visualization layer |
 | [DuckDB](https://github.com/duckdb/duckdb) | Embedded analytical SQL engine | MIT | Useful for local/private analytical staging and reproducible slices | `P2` - evaluate after workload and canonical-storage boundaries are known |
@@ -145,10 +174,10 @@ novelty claim.
 
 | Capability | Default research direction | Do not build yet | StockMesh-owned boundary |
 | --- | --- | --- | --- |
-| Core graph metrics | NetworkX first; benchmark NetworKit/rustworkx | Centrality, paths, components, standard graph structures | Profile semantics, evidence cutoff, temporal Position projection, Method trace |
-| Communities and diffusion | CDlib and NDlib | Community/diffusion algorithm catalogs | Mechanism assumptions, party/objective interpretation, uncertainty and review |
+| Core graph metrics | Graphology first inside the TypeScript core; optional NetworkX cross-check/worker | Centrality, paths, components, PageRank, Louvain, standard graph structures | Profile semantics, typed/time-bounded projection, evidence cutoff, Method trace, LLM/human interpretation |
+| Communities and diffusion | Graphology Louvain for initial exploration; CDlib and NDlib only behind the optional Python worker | Community/diffusion algorithm catalogs | Sensitivity/disagreement, Mechanism assumptions, party/objective interpretation, uncertainty and review |
 | Statistical/causal analysis | graspologic, DoWhy, pgmpy, causal-learn | Generic estimators and inference engines | Question formulation, admissible evidence, causal assumptions, Claim status |
-| Conversation/text | ConvoKit plus spaCy; BERTopic only if justified | Tokenization, entity extraction, generic dialogue features | Identity resolution, context, stance/personality Claim policy, wording decision support |
+| Conversation/text | Provider-neutral LLM AnalysisPort first; add ConvoKit/spaCy Methods only for measured gaps; BERTopic only if justified | Generic language analysis and, later, reusable dialogue/linguistic features | Exact branch context, identity resolution, provider trace, stance/personality Claim policy, wording decision support |
 | General simulation | Mesa; compare Concordia/AgentSociety/OneSim | Scheduler, Agent lifecycle, experiment plumbing | Position/Strategy Step bridge, evidence-to-simulation boundary, real/synthetic separation |
 | Social-platform simulation | OASIS | Platform actions, Agent graph, recommender simulation | Authorized profiles, calibration, scenario provenance, result promotion rules |
 | Multi-party search experiments | OpenSpiel and PettingZoo | Generic game/search environment interfaces | Non-zero-sum objectives, incomplete social evidence, Method portfolios, explanation |
@@ -157,23 +186,25 @@ novelty claim.
 
 ## Candidate v0 foundation stack evidence
 
-This is official-source eligibility evidence for the candidate in the
+This is official-source eligibility evidence for the adopted direction in the
 [architecture direction](../architecture/architecture.md#candidate-v0-local-first-modular-monolith),
 not dependency adoption. GitHub repository license/archive metadata was checked
-on 2026-08-16; NetworkX's official license text was separately read because its
-GitHub SPDX field reports `NOASSERTION`.
+on 2026-08-16. Node.js requires its normal version-level license and bundled
+third-party-notice review because repository metadata reports `NOASSERTION`.
 
 | Candidate | Official source | License observed | Candidate role |
 | --- | --- | --- | --- |
-| FastAPI | <https://github.com/fastapi/fastapi> | MIT | HTTP application boundary |
-| Pydantic | <https://github.com/pydantic/pydantic> | MIT | validated request/domain transfer schemas |
-| SQLAlchemy / Alembic | <https://github.com/sqlalchemy/sqlalchemy>, <https://github.com/sqlalchemy/alembic> | MIT | relational persistence and migrations |
+| Node.js | <https://github.com/nodejs/node> | Repository metadata `NOASSERTION`; official license/bundled notices require version review | local application runtime |
+| TypeScript | <https://github.com/microsoft/TypeScript> | Apache-2.0 | shared Domain/application/client language |
+| Fastify | <https://github.com/fastify/fastify> | MIT | thin HTTP and static-asset host |
+| better-sqlite3 | <https://github.com/WiseLibs/better-sqlite3> | MIT | Node.js SQLite adapter |
+| Drizzle ORM | <https://github.com/drizzle-team/drizzle-orm> | Apache-2.0 | relational schema and migrations |
 | SQLite | <https://sqlite.org/copyright.html> | Public domain | local-first transactional store |
 | React / Vite | <https://github.com/facebook/react>, <https://github.com/vitejs/vite> | MIT | Web application and build tooling |
+| Graphology | <https://github.com/graphology/graphology> | MIT | typed in-memory graph model and initial SNA algorithms |
 | Cytoscape.js | <https://github.com/cytoscape/cytoscape.js> | MIT | interactive Position/network board |
 | Apache ECharts | <https://github.com/apache/echarts> | Apache-2.0 | Timeline, score, uncertainty, and comparison views |
-| NetworkX | <https://github.com/networkx/networkx/blob/main/LICENSE.txt> | BSD-3-Clause license text | correctness-first graph projection and metrics |
-| pytest | <https://github.com/pytest-dev/pytest> | MIT | domain/application/API verification |
+| Vitest | <https://github.com/vitest-dev/vitest> | MIT | Domain/application/contract verification |
 | Playwright | <https://github.com/microsoft/playwright> | Apache-2.0 | complete Web workflow verification |
 
 Before installation, pin exact versions and review lockfile transitive licenses,

@@ -25,10 +25,10 @@ direct wording / external sources
 | Product behavior / PRD | [product/prd.md](product/prd.md) | Actors, use cases and observable behavior | Storage or code layout |
 | Candidate domain model | [product/domain-model.md](product/domain-model.md) | Proposed universal semantics, domain profiles, and optional application views | Data schema or adopted implementation contract |
 | Acceptance | [product/acceptance.md](product/acceptance.md) | Observable success and failure criteria | Test implementation |
-| Candidate interface design | [design/web-workbench.md](design/web-workbench.md) | Proposed Web workbench tasks and information layout | Framework or backend internals |
+| Web-first interface design | [design/web-workbench.md](design/web-workbench.md) | Primary Web workbench tasks, branch/replay interactions, and candidate information layout | Framework or backend internals |
 | Architecture / ownership | [architecture/architecture.md](architecture/architecture.md) | Durable boundaries, data classes and permitted writers | Product priority |
 | Versioned contracts | [../contracts/README.md](../contracts/README.md) | Reviewable semantic contract versions and synthetic fixtures | Runtime schema, storage, or API implementation |
-| Candidate Agent contract | [integrations/agent-skill-contract.md](integrations/agent-skill-contract.md) | Proposed transport-neutral external Agent capabilities | Canonical data ownership or implemented API |
+| Candidate Skill/CLI client contract | [integrations/agent-skill-contract.md](integrations/agent-skill-contract.md) | Proposed transport-neutral lightweight client capabilities over the shared application/analysis API | Canonical data ownership, LLM provider selection, or implemented API |
 | Active plan | [delivery/active-plan.md](delivery/active-plan.md) | Single current goal, route, next action and terminal | Product truth or execution logs |
 | Candidate roadmap | [delivery/candidate-roadmap.md](delivery/candidate-roadmap.md) | Proposed implementation order and stage terminals | Live progress or user adoption |
 | Live status | [delivery/status.md](delivery/status.md) | Evidence-backed current delivery state | Product acceptance |

@@ -1,8 +1,8 @@
 # Candidate Web workbench design
 
-Status: **candidate for user review**. This design supports the domain contract in [domain-model.md](../product/domain-model.md) and does not commit a framework or visual style.
+Status: **Web-first interaction direction adopted; detailed design remains candidate**. This design supports the domain contract in [domain-model.md](../product/domain-model.md).
 
-Purpose: provide a universal network/time/evidence workbench, with an optional organizational strategy layout that feels like analyzing a board position. Profiles may change terminology and panels without changing the underlying meanings.
+Purpose: provide the primary human route for universal network/time/evidence analysis, LLM-assisted situation reasoning, branch selection, and replay, with an optional organizational strategy layout that feels like analyzing a board position. Profiles may change terminology and panels without changing the underlying meanings.
 
 ## Universal shell and profile contributions
 
@@ -22,7 +22,7 @@ The layout below is the first organizational strategy profile, not the universal
 │ before ↔ after   │ state; profile overlays     │ actions when supported  │
 │                  │                             │ scorecards / explanation│
 ├──────────────────┴─────────────────────────────┴─────────────────────────┤
-│ Trajectories: P0 → transition → P1 …   scenario / compare / replay      │
+│ Main Line + Variations: checkout / fork / pin / resume / compare       │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -34,9 +34,10 @@ The layout below is the first organizational strategy profile, not the universal
 4. **Open a Node drawer:** inspect identity, typed State and Claims, Relations/Flows, Timeline, notes, and evidence; a Pawn profile adds role, capability, interaction style, and stance.
 5. **Add information:** type/paste text or stage an authorized table, conversation export, or screenshot for extraction and review.
    In a dialogue profile, the preview shows the utterance as a candidate Strategy Step with before/after Position differences and separates source words, inferred Action, observed Event, and unresolved Claims.
-6. **Ask the analyst/strategist:** request explanation, comparison, prediction, replay, or—where the profile supports it—action/wording advice.
-7. **Compare trajectories:** see materially different scenarios or candidate Actions, modeled Transitions, score vectors, assumptions, and stop conditions.
-8. **Correct the model:** challenge an identity, event, assertion, weight, or predicted transition without rewriting source evidence.
+6. **Ask the analyst/strategist:** call the configured LLM analysis service for explanation, comparison, prediction, replay, or—where the profile supports it—action/wording advice; see the provider/model and exact context boundary.
+7. **Explore branches:** expand a Position under visible search budgets, inspect materially different candidate Actions and modeled responses, and distinguish materialized/evaluated, cached, pruned, stopped, and unevaluated possibilities.
+8. **Pin and revisit:** keep several promising forecasts, checkout any historical or hypothetical Position, resume an unchanged cached branch, or fork another Variation without deleting siblings or converting predictions into history.
+9. **Correct the model:** challenge an identity, event, assertion, weight, or predicted transition without rewriting source evidence.
 
 ## Position board
 
@@ -58,7 +59,7 @@ The console accepts natural language and structured commands such as:
 - “回到周五下午，当时的信息下这个决定合理吗？”
 - “比较立即说、私下说、等待一天三条线。”
 
-Every answer separates:
+Every LLM-assisted answer separates:
 
 ```text
 observed evidence
@@ -68,6 +69,11 @@ observed evidence
 -> scorecard and uncertainty
 -> recommended line and replan triggers
 ```
+
+The console is not a free-floating chatbot. Each turn is attached to a Position,
+branch, evidence cutoff, objectives, Method results, provider/model run, and
+cache identity. Agent Skill/CLI clients may offer a lighter Kimi-like dialogue
+over the same capabilities, but they do not own a separate conversation truth.
 
 ## Node drawer and organizational Pawn view
 
@@ -91,12 +97,18 @@ Action/Event interpretation, Position after, changed fields, evidence, and
 branch mode. The UI does not own this state; it renders the same revision graph
 used by replay and Agent access.
 
+The Timeline shows confirmed Main Line Events by default and overlays selected
+Variations without blending their modes. The branch explorer records pins and
+user selections as derived preferences. Returning to an earlier Position is a
+checkout; continuing from it creates a new Variation. A later real Event is
+reviewed and appended to history even when it resembles a prior prediction.
+
 ## MVP screens
 
 1. Playground setup and private evidence staging.
-2. Workbench with Timeline, Position/network board, analysis console, and trajectory strip.
+2. Workbench with Timeline, Position/network board, LLM analysis console, and Main Line/Variation explorer.
 3. Node drawer and Claim/evidence review, with the organizational Pawn view enabled.
-4. Position comparison and decision replay.
+4. Position checkout, comparison, branch pin/fork/resume, and cutoff-correct decision replay.
 
 ## Deferred UI scope
 

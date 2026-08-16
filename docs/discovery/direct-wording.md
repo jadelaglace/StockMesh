@@ -244,3 +244,61 @@ The external conversations supplied with the same instruction are governed by th
 > 还有 嘱咐你一句 别搞着搞着 忘记了什么才是需求哈
 
 - Interpretation boundary: architecture elegance, prior art, and implementation convenience remain subordinate to the current StockMesh product outcome and observable user workflow.
+
+## DW-023 — Configurable search scale and a TypeScript-first runtime challenge
+
+- Source: direct user architecture review in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; requires clarification/correction before architecture adoption
+- Retrieval phrases: “两层分支啥意思”, “35个分支 20多步”, “可配置”, “python咋那么碍眼”, “直接用vite”, “ts没法用sqlite吗”, “用go语言”
+
+> 都不错 俩疑问
+>
+> 1. 你说的 多方评分 + 两层分支搜索， 两层分支啥意思？ 一个分支只能走两步 还是就俩分支？正常下棋能算35个分支 20多步 而且可配置的啊
+>
+> 2. 架构选型有个小问题：python 咋那么碍眼呢 有啥必要吗？强行前后端分离吗？ 直接用（vite+）不就得了 ts没法用sqlite吗，实在要后端分离用go语言啊。
+>
+> 其他我都没啥疑问
+
+- Interpretation boundary: the user accepts the remaining architecture direction while withholding acceptance on the fixed-looking search baseline and Python/backend choice. Search depth, candidate width, total budget, and pruning must be distinct and configurable; runtime selection must be justified by the required workflow rather than library availability alone.
+
+## DW-024 — Agent-led analysis with framework-owned branching and replay
+
+- Source: direct user architecture correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: partially superseded by DW-026; branch/history behavior remains active, Agent-as-primary-engine interpretation does not
+- Retrieval phrases: “不是真的35个候选”, “每一步分析”, “agent分析”, “通过skill”, “分支缓存”, “时间线”, “用户觉得希望选的几个预演”, “回溯哪一步”
+
+> 我只是举例子啊 不是真的35个候选 因为第一步35 第二步那就是35x35 第20步就是35的20次方 然后剪枝 蒙特之类的
+>
+> 然后我也没说逼你去掉python 既然你说python生态好那你就用 如果vite+也行 那就ts vite+
+>
+> 然后这个每一步分析 肯定是agent分析的 通过skill带着 调用框架的分支缓存啊 上下文啊这些的能力 我目前看你没给agent留位置 ，一些自然语言的分析 ，agent才是分析引擎，然后domain那些能量化的才是程序辅助算。因为 agent是训练好的llm 本身就是有一定的局势分析评分 和发言分析啊 关系分析啊这些走法选择的能力
+>
+> 然后时间线 也是要有缓存已经选的 用户觉得希望选的几个预演。类似下棋软件复盘 下发分支的功能。还有回溯哪一步 虚拟看看分支 分析之类的。
+>
+> 你先回答
+
+- Interpretation boundary: the branching-factor number is illustrative rather than a target or cap. The framework owns authoritative Domain state, quantitative Methods, branch/context caches, replay, and provenance; selected forecasts remain hypothetical until separately evidenced as history. DW-026 supersedes this entry's initial Agent-as-primary-engine interpretation: natural-language analysis may be provided directly by an LLM API, while Agent Skill/CLI is primarily a client route. Python remains available where its method ecosystem earns the integration cost, while TypeScript/Vite remains an acceptable application route.
+
+## DW-025 — Adopt the corrected architecture direction and expose algorithm selections
+
+- Source: direct user adoption and documentation instruction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; authorizes documentation propagation and asks for the researched algorithm-selection table; Agent-role interpretation corrected by DW-026
+- Retrieval phrases: “这一版理解是对的”, “docs可以落盘”, “社交网络算法”, “选了哪些”, “调研表格”
+
+> OK 这一版理解是对的 docs可以落盘 另外 我问你社交网络算法你调研之后选了哪些 ？ 调研表格有吗
+
+- Interpretation boundary: this authorizes documentation of the corrected framework-owned branch/replay and replaceable runtime/method direction and requests a clear current selection from the existing social-network research. DW-026 supersedes the then-current Agent-led analysis interpretation; no dependency installation or implementation is authorized in this round.
+
+## DW-026 — LLM analysis service with Web-first and Skill/CLI client access
+
+- Source: direct user architecture correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; supersedes the Agent-as-primary-analysis-engine interpretation in DW-024/DW-025 while preserving framework-owned branch/context/replay behavior
+- Retrieval phrases: “用llm api也可以”, “百炼”, “qwen的skill”, “agent可以不用成为主导”, “skill对接”, “cli对接”, “人类用户从webui交互回溯为主”, “轻量的交互”
+
+> 我这句话 我要纠偏一下：“一些自然语言的分析 ，agent才是分析引擎，然后domain那些能量化的才是程序辅助算。因为 agent是训练好的llm 本身就是有一定的局势分析评分 和发言分析啊 关系分析啊这些走法选择的能力”。其实用llm api也可以 比如 百炼 或者qwen的skill qwen3.8-max的api可以做这个事。agent可以不用成为主导 ，自然语言分析这块用llm api足够。agent主要还是skill对接 或者cli对接。 人类用户从webui交互回溯为主， 或者agent skill 像kimi对话一样轻量的交互。 纠正一下。
+
+- Interpretation boundary: StockMesh requires an LLM-capable natural-language analysis boundary, not an Agent-led runtime. A provider API, local model, or Agent-hosted model may implement that boundary. The primary human route is the Web workbench with branch selection, replay, and analysis; Agent Skill/CLI are lighter clients over the same application capabilities. Provider/product names are examples, not adopted dependencies or credentials.

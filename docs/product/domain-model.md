@@ -169,13 +169,17 @@ The step graph yields the higher-level views naturally:
 - alternative or predicted outgoing paths are Variations;
 - the latest confirmed Position is the frontier;
 - Timeline orders realized steps by the selected time basis;
-- replay selects an earlier Position and its then-known outgoing choices;
+- a user may pin, compare, archive, or resume selected Variations without changing their hypothetical mode;
+- replay selects any earlier historical or hypothetical Position, reconstructs its branch-specific context, and may fork a new Variation without deleting later paths;
 - UI and Agent Skill expose views or operations over the same graph rather than
   owning separate context.
 
 The “Git/state-machine” analogy describes append-only revisions, snapshots,
 parent/child transitions, and branches. It does not choose Git or a particular
-state-machine library as the runtime implementation.
+state-machine library as the runtime implementation. Branch snapshots, Agent
+analysis, Method results, and Evaluations may be cached as derived records when
+their Position, context cutoff, profile, processor, objectives, and policy
+identity are retained. Cache reuse never changes canonical history.
 
 ## Domain profiles
 

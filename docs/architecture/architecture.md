@@ -1,6 +1,6 @@
 # Architecture and data governance direction
 
-Purpose: describe durable ownership and information-flow boundaries that enable [acceptance](../product/acceptance.md), plus one requirement-rooted runnable v0 candidate. The candidate is reviewable and replaceable; it is not an adopted implementation until the user accepts it.
+Purpose: describe durable ownership and information-flow boundaries that enable [acceptance](../product/acceptance.md), plus the requirement-rooted runnable v0 direction adopted in [ADR-005](../decisions/README.md#adr-005--llm-analysis-with-framework-owned-state-and-shared-clients). The direction is replaceable and implementation remains unstarted.
 
 ```text
 authorized sources (read-only)
@@ -8,15 +8,17 @@ authorized sources (read-only)
   -> validation and normalization staging
   -> canonical knowledge + model history
   -> reproducible temporal network / Position projector
-  -> evaluation + scenario engine
-  -> Web workbench / external Agent contract
-                    ^
-             human correction and judgment
+  -> branch context + quantitative Methods
+  -> provider-neutral LLM analysis
+  -> possibility graph + multi-party Evaluation
+  -> Web workbench / Agent Skill / CLI
+                         ^
+                  human correction, branch choice, and judgment
 ```
 
 ## Candidate v0: local-first modular monolith
 
-This candidate answers [DW-021](../discovery/direct-wording.md#dw-021--one-runnable-architecture-with-replaceable-parts) under the requirement-root constraint in [DW-022](../discovery/direct-wording.md#dw-022--architecture-must-remain-rooted-in-the-requirement). Every component below exists to complete the first user loop; there are no microservices, graph database, message broker, or large social simulator in v0.
+This direction answers [DW-021](../discovery/direct-wording.md#dw-021--one-runnable-architecture-with-replaceable-parts) under the requirement-root constraint in [DW-022](../discovery/direct-wording.md#dw-022--architecture-must-remain-rooted-in-the-requirement), corrected by [DW-023](../discovery/direct-wording.md#dw-023--configurable-search-scale-and-a-typescript-first-runtime-challenge) and [DW-024](../discovery/direct-wording.md#dw-024--agent-led-analysis-with-framework-owned-branching-and-replay). Every component below exists to complete the first user loop; there are no microservices, graph database, message broker, or large social simulator in v0.
 
 ### First runnable user loop
 
@@ -24,10 +26,11 @@ This candidate answers [DW-021](../discovery/direct-wording.md#dw-021--one-runna
 2. Stage text or structured conversation data as immutable Evidence with source identity, time, scope, and hash.
 3. Extract candidate Nodes, Utterances, Events, Relations, State, and Claims; a human reviews and accepts or rejects them.
 4. Append accepted changes to canonical history, then build a reproducible as-of Position.
-5. Run a small Method pack over that Position: temporal/graph context retrieval, transparent network metrics, and profile scoring.
-6. Generate human-, template-, or optional model-proposed Strategy Steps; search two plies with a small diverse beam and evaluate every reachable Position for every declared Party.
-7. Show the Timeline, network Position, before/after changes, score vectors, three alternative Lines, assumptions, evidence trace, and replan triggers in the Web workbench.
-8. Append a human correction, rebuild the affected Position and runs, and replay the earlier cutoff without hindsight leakage.
+5. Run the selected transparent SNA Method pack and assemble an exact branch-specific context containing evidence, current Position, objectives, prior steps, unknowns, and metric results.
+6. Let the configured LLM analysis adapter interpret the situation, propose a context-dependent set of Strategy Steps and modeled responses, and explain multi-party Evaluation proposals.
+7. Materialize selected resulting Positions in a possibility graph, calculate quantitative features for each, cache the complete run identity, and continue LLM-assisted or policy-assisted exploration until its declared Position/time/token/cost budget is exhausted or the user stops it.
+8. Show Main Line and Variations, the network Position at any selected node, before/after changes, score vectors, assumptions, evidence trace, pinned forecasts, and replan triggers in the Web workbench.
+9. Return to any historical or hypothetical Position, fork or resume a cached Variation, append a human correction when needed, and replay an earlier cutoff without hindsight or sibling-branch leakage.
 
 This is the first proof of StockMesh. A graph picture or chatbot response alone is not.
 
@@ -35,38 +38,45 @@ This is the first proof of StockMesh. A graph picture or chatbot response alone 
 
 ```mermaid
 flowchart LR
-    UI["React Web workbench<br/>Cytoscape.js + ECharts"] --> API["FastAPI modular monolith<br/>one validated application API"]
-    CLIENT["CLI / Agent adapter<br/>later thin clients"] --> API
+    UI["Primary React Web workbench<br/>analysis + branch replay"] --> API["TypeScript modular monolith<br/>one validated application API"]
+    CLIENT["Agent Skill / CLI<br/>lighter clients"] --> API
     API --> USE["Application use cases"]
     USE --> REVIEW["Staging + human review<br/>only canonical writer"]
     USE --> POSITION["Position projector<br/>as-of and evidence cutoff"]
-    USE --> METHODS["Method runner<br/>NetworkX + profile rules"]
-    USE --> SEARCH["Evaluation + bounded search"]
+    USE --> CONTEXT["Context assembler<br/>exact branch + objectives"]
+    USE --> SEARCH["Branch/search coordinator<br/>budget + cache + replay"]
+    CONTEXT --> METHODS["Quantitative Method runner<br/>Graphology + profile rules"]
+    CONTEXT --> ANALYSIS["AnalysisPort orchestrator<br/>validated proposal schemas"]
+    SEARCH --> CONTEXT
+    ANALYSIS <--> LLM["LLM adapter<br/>API, local, or Agent-hosted"]
     REVIEW --> DB[("SQLite WAL<br/>canonical history + run metadata")]
     REVIEW --> FILES[("Private evidence files<br/>content-addressed, outside Git")]
     POSITION --> DB
-    METHODS --> POSITION
-    SEARCH --> METHODS
-    METHODS -. "optional proposals only" .-> MODEL["ModelPort<br/>fixture/manual or OpenAI-compatible"]
-    SEARCH -. "candidate steps only" .-> MODEL
+    CONTEXT --> POSITION
+    METHODS --> SEARCH
+    ANALYSIS --> SEARCH
+    SEARCH --> DB
+    WORKER["Optional Python Method worker<br/>only for validated ecosystem needs"] -.-> METHODS
 ```
 
-The Web workbench and future Skill use the same application API. No client reads private storage or writes canonical records directly. Methods and models can propose Claims, Transitions, scores, and Lines, but only the review/canonical use case can append accepted model history.
+The Web workbench is the primary human route. Agent Skill and CLI adapters use the same application API for lighter conversational or automated access; they are clients, not separate analysis authorities. No client reads private storage or writes canonical records directly. LLM adapters and Methods can propose Claims, Transitions, Evaluations, and Lines, but only the review/canonical use case can append accepted model history.
 
 ### Initial technology slice
 
 | Concern | v0 choice | Why it serves the requirement | Later replacement |
 | --- | --- | --- | --- |
-| Deployment | One local modular-monolith process plus static Web assets | Lowest operational cost; preserves one transaction and trace boundary | Split a worker or shared service only after real concurrency/scale evidence |
-| Backend | Python, FastAPI, Pydantic | Direct access to the permissive analysis ecosystem; typed HTTP and generated schemas for Web/Agent clients | Domain/application modules remain framework-light; another transport can call the same use cases |
-| Persistence | SQLite in WAL mode through SQLAlchemy and Alembic | Zero-operator local-first storage with transactions, temporal queries, migrations, and simple backup | PostgreSQL when shared writers, access control, or service deployment is required |
+| Deployment | One local Node.js modular-monolith process plus static Web assets | One command and one trace/transaction boundary without pretending the browser can safely own private files or native SQLite | Split a worker or shared service only after real concurrency/scale evidence |
+| Application core | TypeScript on Node.js with a thin Fastify HTTP host | One language for Domain, branch/replay, Web contracts, Skill/CLI tools, and most initial Methods; Fastify can serve the Vite build in production | Go or another host only after measured CPU, concurrency, distribution, or security needs |
+| Persistence | SQLite in WAL mode through `better-sqlite3` and Drizzle migrations | Zero-operator local-first storage with transactions, temporal queries, migrations, and simple backup | PostgreSQL when shared writers, access control, or service deployment is required |
 | Evidence bodies | Content-addressed files in a private application-data root | Large/private inputs stay outside Git and outside ordinary database rows; integrity is explicit | Encrypted filesystem or object storage behind `EvidenceStore` |
-| Graph analysis | Build a question-bounded in-memory NetworkX graph from canonical rows | Correctness-first, BSD-3-Clause, broad SNA methods, no premature graph database | NetworKit/rustworkx for measured compute pressure; Apache AGE for measured graph-query/storage needs |
-| Web | React + TypeScript + Vite; Cytoscape.js for the board and ECharts for Timeline/score views | Implements the required workbench with mature permissive components | Sigma.js/Graphology or specialized views behind view-model JSON if graph scale demands it |
-| Model use | Optional provider-neutral `ModelPort`; deterministic fixture/manual adapter is always available | The core loop, tests, and provenance do not depend on a vendor or secret | Any local/cloud model that returns the validated proposal schema |
-| Verification | pytest for domain/API and Playwright for the complete workbench loop | Proves reproducibility and actual user navigation separately | Add load/security suites when a shared or real-data deployment exists |
+| Graph analysis | Build a typed, time-bounded in-memory Graphology graph from canonical rows | Transparent MIT-licensed JS/TS algorithms cover the first selected SNA pack without adding a mandatory second runtime | Optional Python worker with NetworkX/CDlib/NDlib; NetworKit/rustworkx for measured compute pressure; AGE only for measured graph-query/storage needs |
+| Optional Method worker | No Python process required for the foundation loop; define a narrow worker contract | Retains access to the stronger Python SNA, diffusion, conversation, causal, and statistical ecosystem without making every run operationally polyglot | Activate one validated Method at a time with NetworkX, CDlib, NDlib, ConvoKit, DoWhy, pgmpy, or another reviewed library |
+| Web | React + TypeScript + Vite; Cytoscape.js for the board and ECharts for Timeline/score views | Implements the primary workbench, including branch navigation and replay, with mature permissive components | Sigma.js or specialized views behind view-model JSON if graph scale demands it |
+| Natural-language analysis | Provider-neutral `AnalysisPort` with validated structured proposals; deterministic/manual fixture remains available for tests | LLM APIs, local models, and Agent-hosted models can perform the same semantic analysis without binding core history to a provider or requiring an autonomous Agent | Replace provider/model or add a routing policy while preserving context, proposal, trace, and cache contracts |
+| Agent/CLI access | Thin StockMesh Skill and CLI over the application API | Supports Kimi-like lightweight interaction and automation without duplicating state or analysis semantics | MCP or other transports only when a real client requires them |
+| Verification | Vitest for Domain/application/contracts and Playwright for the complete Web loop; worker-specific tests only when Python is activated | Proves reproducibility, cache/replay behavior, and actual user navigation separately | Add load/security/provider-contract suites when a shared or real-data deployment exists |
 
-The foundation choices were checked against official repository license metadata in the [prior-art survey](../discovery/prior-art-survey.md#candidate-v0-foundation-stack-evidence). All are permissive or, for SQLite, public domain; transitive dependencies still require a lockfile-level review before implementation.
+The foundation choices were checked against official repository license metadata in the [prior-art survey](../discovery/prior-art-survey.md#candidate-v0-foundation-stack-evidence). Listed library licenses are permissive and SQLite is public domain; Node.js reports `NOASSERTION` in repository metadata, so its official license and bundled notices require normal version-level review. Every dependency and transitive lockfile still requires review before implementation.
 
 ### Storage and revision model
 
@@ -76,10 +86,12 @@ Use relational canonical tables plus an append-only `change_set` journal, not a 
 - Accepted Nodes, Relations, Flows, Events, State, Claims, and human judgments have stable IDs, valid/observation time, revision, and source trace.
 - A correction appends a superseding revision; it never edits the source or silently rewrites an old analytical run.
 - A Position is rebuildable and optionally cached by Playground, profile version, evidence cutoff, as-of time, perspective, and projector version.
-- `method_run`, Evaluation, candidate Transition, Trajectory, and Recommendation records live in the derived/possibility area with processor identity and inputs.
-- Main Line and Variations are parent/child references among Position/Strategy Step records. Predicted branches never enter canonical history merely because they were later selected.
+- `method_run`, `analysis_run`, Evaluation, candidate Transition, Trajectory, and Recommendation records live in the derived/possibility area with processor identity and inputs.
+- Main Line and Variations are parent/child references among Position/Strategy Step records. A Variation may be pinned, selected for expansion, archived, resumed, or invalidated; none of those states promote it into canonical history.
+- A branch cache identity includes the base Position and evidence cutoff, exact path/context manifest, profile/projector/Method versions, provider/model configuration, Objectives, Evaluation profile, and Search Policy. A changed identity creates or selects a different derived result rather than silently reusing stale analysis.
+- Checkout/replay never mutates the selected Position. Forking from any historical or hypothetical Position appends another Variation and preserves existing descendants.
 
-SQLite remains the authority in v0. NetworkX graphs, embeddings, search trees, and UI view models are derived caches and may be deleted and rebuilt.
+SQLite remains the authority in v0. Graphology projections, optional Python graphs, embeddings, branch-analysis caches, search indexes, and UI view models are derived and may be deleted and rebuilt without deleting evidence, canonical history, or attributed human judgment.
 
 ### Narrow replacement ports
 
@@ -88,25 +100,30 @@ Only boundaries with a real v0 caller become ports:
 | Port | v0 adapter | Replacement examples | Contract that cannot change silently |
 | --- | --- | --- | --- |
 | `EvidenceStore` | Private content-addressed filesystem | Encrypted store, S3-compatible object store | identity, hash, authorization, retention, body access |
-| `CanonicalStore` | SQLite/SQLAlchemy | PostgreSQL; AGE only if graph queries justify it | append/correct transaction, temporal read, provenance, review authority |
-| `GraphEngine` | NetworkX | NetworKit, rustworkx, remote graph query | typed question-bounded graph in; attributed Method result out |
+| `CanonicalStore` | SQLite/Drizzle | PostgreSQL; AGE only if graph queries justify it | append/correct transaction, temporal read, provenance, review authority |
+| `GraphEngine` | Graphology | Optional NetworkX/CDlib worker, NetworKit, rustworkx, remote graph query | typed question-bounded graph in; attributed Method result out |
 | `Method` | Built-in context/metric/profile Methods | ConvoKit, CDlib, NDlib, DoWhy, pgmpy, OASIS/Mesa | method/version, inputs, assumptions, outputs, limitations, uncertainty |
-| `ModelPort` | Deterministic/manual fixture; optional OpenAI-compatible HTTP | Local or cloud model/provider | proposal schema, evidence references, model identity, no canonical writes |
-| `SearchPolicy` | Diverse beam, depth 2 and width 3 defaults | OpenSpiel experiment, MCTS, learned policy, external simulator | branch budget, pruning rationale, diversity, per-Party Evaluation, trace |
+| `AnalysisPort` | Deterministic/manual fixture for tests plus one configured structured-output LLM adapter | Bailian/Qwen-compatible or other cloud API, local model, Agent-hosted model | context manifest, proposal schema, evidence references, provider/model identity, uncertainty, no canonical writes |
+| `PossibilityStore` | SQLite derived branch/run records | Separate analytical store when measured | parent/child identity, branch mode/status, cache identity, pin/resume/invalidation, no silent promotion |
+| `SearchPolicy` | Budgeted LLM-assisted frontier with visible selection rationale | Beam/best-first, MCTS, OpenSpiel experiment, learned policy, external simulator | variable branching, resource budgets, pruning rationale, diversity, per-Party Evaluation, trace |
 | `RunExecutor` | In-process persisted run state | Separate worker and durable queue | idempotency, status, retry reason, input/output identity |
 
 Do not wrap every library behind an interface. These ports protect the user's core history, result trace, or a likely measured replacement; ordinary local helpers remain ordinary code.
 
 ### v0 Method and search behavior
 
-The first Method pack is deliberately legible:
+The first Method pack is deliberately legible and is listed algorithm-by-algorithm in the [selected initial SNA table](../discovery/prior-art-survey.md#selected-initial-social-network-method-pack). It uses typed/time-windowed neighborhood retrieval, weighted in/out degree, components/reachability/shortest paths, density/reciprocity/clustering, betweenness, PageRank, cross-group mixing, temporal deltas, and exploratory Louvain communities. Every result retains its raw metric meaning and caveat; none is a social truth or final strategy score. Independent Cascade and Linear Threshold remain opt-in diffusion experiments rather than default claims.
 
-1. Temporal and graph-neighborhood context retrieval.
-2. NetworkX structural metrics such as degree, betweenness, components, and shortest paths, each labeled as a metric rather than social truth.
-3. Organizational-profile rules that emit vector dimensions such as support, information, relationship effect, risk, reversibility, and cost, including unknowns and evidence confidence.
-4. Optional model proposals for extraction, candidate wording, and likely responses; validation turns them into hypotheses, never observations.
+Natural-language analysis is a separate capability:
 
-The initial `SearchPolicy` uses a diverse beam because it is simple to inspect and works without calibrated transition probabilities. Defaults are depth 2, width 3, and at least three materially different Lines when available. The policy is a replaceable v0 choice, not the StockMesh definition. Monte Carlo, OpenSpiel, OASIS, or learned policies enter only after a synthetic benchmark shows what the simple baseline cannot do.
+1. The framework constructs the exact branch context, evidence cutoff, Objectives, prior steps, unknowns, and quantitative Method results.
+2. `AnalysisPort` asks a configured LLM adapter for validated Claims, situation interpretation, candidate Actions/wording, modeled responses, qualitative multi-party Evaluation dimensions, assumptions, uncertainty, and replan triggers.
+3. The framework validates references and modes, materializes only selected candidate Positions, adds reproducible metrics, and stores analysis provenance. LLM output remains in the knowledge/model or possibility plane until human-reviewed promotion applies.
+4. The Web workbench drives this loop directly. Skill/CLI clients invoke the same use cases and may supply interaction context, but no autonomous Agent runtime is required.
+
+Branching factor is an observed property of each expanded Position, not a configuration target. If level `i` has branching factor `b_i`, exhaustive size grows with the products of those factors; StockMesh therefore never claims to enumerate an arbitrary deep tree. A run may set `max_depth`, but also constrains materialized Positions, elapsed time, model tokens, monetary cost, uncertainty, and diversity. Any limit may stop expansion.
+
+The v0 reference policy is a budgeted LLM-assisted frontier: generate a context-dependent candidate set, validate and evaluate materialized Positions, retain user-pinned branches, and choose the next frontier with visible objective/uncertainty/diversity rationale. The coordinator supports cancellation, persisted resume, and cache reuse. Beam/best-first search, iterative deepening, progressive widening, MCTS, OpenSpiel, OASIS, learned policies, and external simulators remain replaceable policy/Method options. Tiny depth/candidate counts may appear in smoke fixtures only; they are not architecture defaults or caps. Every materialized Position receives a per-Party vector Evaluation, while unexpanded possibilities are explicitly unevaluated.
 
 ### Requirement trace
 
@@ -116,28 +133,30 @@ The initial `SearchPolicy` uses a diverse beam because it is simple to inspect a
 | See who, what relation, what changed, and why | Position projector + Web workbench | Timeline/network before-after view with evidence links |
 | Keep fact, inference, judgment, and prediction separate | canonical status rules + possibility store | trace panel shows each plane and rejects silent promotion |
 | Score a situation for several people/forces | profile evaluator | per-Party vector scores with objectives, weights, horizon, and unknowns |
-| Infer possible next steps and reactions | Method runner + SearchPolicy | three two-ply Lines with assumptions, score changes, and replan triggers |
+| Infer possible next steps and reactions | AnalysisPort + Method runner + SearchPolicy | provider-traced LLM analysis and a budgeted, resumable branch graph with assumptions, score changes, and replan triggers |
 | Learn from macro and micro methods | Method registry | every output names Method/version; disagreements remain visible |
-| Revisit an earlier decision honestly | temporal store + Position projector | replay at old cutoff excludes later Evidence and labels hindsight separately |
-| Use a Web UI and later external Agents | one application API | Web completes the loop; thin client gets the same trace without database access |
+| Revisit an earlier decision honestly | temporal store + Position projector + PossibilityStore | checkout/fork at any Position excludes later or sibling context; pinned forecasts remain hypothetical |
+| Use a Web UI plus lightweight Agent/CLI access | one application API + AnalysisPort | Web completes the primary loop; Skill/CLI clients get the same analysis and trace without database access |
 | Replace parts without losing the product | narrow ports + canonical contracts | adapter contract tests pass before and after one fake replacement |
 
 ### Delivery path
 
 1. **Foundation slice:** schema/migrations, private Evidence staging, human review, canonical history, organizational profile, synthetic fixture, and Position build/compare/replay through API tests.
-2. **Strategy slice:** Method registry, NetworkX metrics, transparent multi-Party score vectors, persisted runs, and diverse depth-2 search returning three Lines.
-3. **Workbench slice:** local React UI completes stage -> review -> Position/Timeline -> analysis -> compare Lines -> trace -> correction/replay.
-4. **Agent slice:** expose the already-tested application API through the narrow CLI/Skill or MCP adapter; no new data authority.
-5. **Learning slice:** run synthetic and explicitly authorized pilots, measure errors/latency/usefulness, and replace only the components that fail their acceptance target.
+2. **Quantitative Method slice:** Method registry, the selected transparent Graphology SNA pack, temporal deltas, multi-Party score structures, and persisted attributable runs.
+3. **Analysis and branch slice:** provider-neutral AnalysisPort, one configured structured-output LLM adapter plus deterministic fixtures, PossibilityStore, budgeted/resumable frontier, pin/fork/cache/replay, and per-materialized-Position Evaluation.
+4. **Workbench slice:** local React UI completes stage -> review -> Position/Timeline -> ask analysis -> explore/pin/fork Variations -> trace -> correction/replay.
+5. **Client slice:** expose the already-tested application API through the narrow CLI and StockMesh Skill adapter; no new analysis or data authority.
+6. **Learning slice:** run synthetic and explicitly authorized pilots, measure errors/latency/usefulness, and replace only the components that fail their acceptance target.
 
 ### Upgrade triggers
 
 - Move SQLite to PostgreSQL only when shared writers, multi-user authorization, backup/operations, or measured query behavior requires it.
 - Add a worker/queue only when Method runs outlive HTTP requests, need independent scaling, or require durable restart/retry beyond the in-process executor.
-- Replace NetworkX only when representative projection/analysis benchmarks fail their target; choose NetworKit/rustworkx for compute or AGE for query/storage, not all three.
-- Add ConvoKit, CDlib, NDlib, causal/probabilistic Methods, or learned models one validated question at a time.
+- Replace Graphology only when representative projection/analysis benchmarks or missing algorithms fail a target. Activate a Python worker for a named Method rather than making it a second general backend; choose NetworkX/CDlib/NDlib for capability or NetworKit/rustworkx for measured compute pressure.
+- Add ConvoKit, causal/probabilistic Methods, learned models, or additional SNA/diffusion algorithms one validated question at a time.
+- Replace or route the LLM provider/model only through AnalysisPort and invalidate affected caches when context-window, model, prompt/schema, or evaluation behavior changes.
 - Add Mesa/OASIS only when the user needs population-level emergence that the bounded Strategy Step model cannot express.
-- Replace beam search only when a fixed synthetic benchmark demonstrates a quality/depth/diversity deficit and supplies enough transition evidence for the alternative.
+- Replace the reference frontier policy only when a fixed synthetic benchmark demonstrates a quality/depth/diversity/cost deficit and supplies enough transition evidence for beam, best-first, MCTS, learned, or simulator-backed alternatives.
 - Split services only for a real security, ownership, lifecycle, or scaling boundary. Source, canonical history, and derived possibilities do not become separate services merely because they are separate concepts.
 
 ## Data classes and permitted writers
@@ -146,11 +165,11 @@ The initial `SearchPolicy` uses a diverse beam because it is simple to inspect a
 | --- | --- | --- | --- |
 | Raw source evidence | External source plus immutable local acquisition record | Authorized acquisition boundary only | Append/read-only after capture; preserve identity and integrity |
 | Source registry / provenance | Ingestion core | Validating ingestion commands | Every accepted item has stable source, time, scope and hash/identity evidence |
-| Canonical Claims and modeled objects | Knowledge/model core | Validated reconciliation commands | Model adapters never write directly; epistemic status and temporal validity are explicit |
+| Canonical Claims and modeled objects | Knowledge/model core | Validated reconciliation commands | LLM/Method adapters never write directly; epistemic status and temporal validity are explicit |
 | Canonical Events, States, Relations and Flows | Temporal network core | Validated ingestion/reconciliation commands | Append/correct through traceable revisions; Positions never rewrite modeled history |
 | Human judgments and corrections | Human-review record | Authorized human-review workflow | Append attributed decisions; do not rewrite source evidence |
 | Positions, indexes, embeddings and views | Projection/derivation pipeline | Rebuildable processors | Bound to as-of time, evidence scope, perspective, and processor identity; deletable/rebuildable |
-| Evaluations, possible Trajectories and recommendations | Analysis run store | Evaluation/simulation engine after input validation | Derived and advisory; retain model, weights, assumptions, uncertainty, and lineage |
+| Evaluations, possible Trajectories, branch preferences and recommendations | Analysis/Possibility run store | Validated AnalysisPort, Method, search, and user-preference use cases | Derived and advisory; retain context/cache identity, provider/model, Methods, weights, assumptions, uncertainty, mode, and lineage |
 | Runtime state and logs | Runtime boundary | Runtime services | Kept outside Git and separated from product evidence |
 | Credentials and access policy | Secret/config boundary | Authorized operators | Never placed in source data, prompts, ordinary logs, or Git |
 | Private source locators and case mapping | Private evidence boundary outside Git | Authorized acquisition/review workflow | Never published; public derivatives use non-linkable safe identities |
@@ -177,23 +196,25 @@ graph/statistical/learned analysis, and search algorithms open.
 ## Key invariants
 
 - Raw evidence is never rewritten to make the graph cleaner.
-- Model output is untrusted staging until validated by the owning boundary.
+- LLM/provider output is untrusted staging or a derived proposal until validated by the owning boundary.
 - Canonical records retain uncertainty, contradiction, time, and provenance.
 - Derived material is rebuildable and cannot delete or alter authoritative input.
 - The universal core does not assume personhood, agency, communication, conservation, or a company. Domain-specific semantics remain in explicit profiles.
 - Relation and Flow remain distinct; Position is a reproducible projection rather than a second word for stance or an authoritative world snapshot.
 - Case-derived learning crosses into the public repository only as generalized product authority, synthetic material, or an explicitly authorized and reviewed de-identified template.
-- External Agents interact through validated capabilities; they do not read private databases or write canonical data directly.
+- Web, Agent Skill, and CLI clients interact through validated capabilities; none reads private databases or writes canonical data directly.
 - Position evaluation is vector-first and objective-bound. Scalar ranking is a derived view with inspectable weights.
 - Scenario search preserves branch diversity and uncertainty; greater depth does not imply greater truth.
 - Actual/reconstructed and hypothetical/predicted Trajectories remain distinct. An optional Variation can be linked to later confirming evidence but never rewritten into historical fact.
+- Pinning, checking out, resuming, or forking a Variation changes only derived branch/preference state; existing parents and siblings remain intact.
+- Cache reuse requires an exact declared context/processor/policy identity; stale analysis is invalidated or visibly superseded rather than silently reused.
 
 ## Open architecture decisions
 
 - Graph database versus relational/event storage versus hybrid, based on the first validated queries.
 - Local-first versus shared service boundary, based on data authority and collaboration needs.
 - Identity-resolution and temporal-logic approach.
-- Retrieval, network metrics, stance analysis, and language-model responsibilities.
+- Exact provider/model route, structured-analysis schema, prompt/evaluation policy, and first optional Python Method worker.
 - Privacy, access, retention, redaction, and audit model for a real company pilot.
 
 These remain candidates. No framework, language, database, or model provider is adopted at repository init.

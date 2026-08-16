@@ -12,7 +12,7 @@ requirements-rooted domain
 -> cross-domain semantic checks
 -> synthetic organizational business validation
 -> replayable implementation backbone
--> evaluation, simulation, UI, and Agent access
+-> Web workbench, LLM analysis, branch search, and Skill/CLI access
 ```
 
 ## R0 — Domain clarification
@@ -45,17 +45,17 @@ Implement the universal timeline, Position/network board, Node detail, source tr
 
 Terminal: a user can complete the selected synthetic workflow without editing internal storage, and profile-specific UI does not contaminate universal semantics.
 
-## R5 — Bounded strategist
+## R5 — LLM-assisted strategist and branch replay
 
-Add explicit objectives and horizons, vector scorecards, three diverse short possible Trajectories, assumptions, uncertainty, and replan triggers. In an optional game-record view, compare generated predictions with later realized outcomes where available.
+Add explicit objectives and horizons, the selected transparent SNA Method pack, a provider-neutral LLM AnalysisPort, multi-party vector scorecards, variable candidate branching under explicit budgets, assumptions, uncertainty, pinned Variations, cache identity, and replan triggers. Let the Web workbench checkout any historical or hypothetical Position, fork/resume analysis, and compare predictions with later realized outcomes where available.
 
-Terminal: recommendations are traceable and alternatives are visible; no universal social score or guaranteed long prediction is presented.
+Terminal: the primary Web route can analyze, expand, pin, compare, fork, resume, and replay traceable branches; every materialized Position is evaluated; no fixed search width/depth, universal social score, or guaranteed long prediction is presented.
 
-## R6 — External Agent interface
+## R6 — Agent Skill and CLI clients
 
-Expose the validated read/analysis capabilities through the chosen first surface. Keep evidence writes in staging and corrections in review; no external canonical writer.
+Expose the validated application and LLM-analysis capabilities through thin Skill and CLI clients. Keep evidence writes in staging and corrections in review; no external canonical writer or second analysis authority.
 
-Terminal: an external Agent can inspect, compare, evaluate, simulate, and explain a synthetic profile scenario through stable contracts.
+Terminal: an Agent or CLI user can inspect, ask analysis, compare, evaluate, explore, pin, fork, resume, and replay a synthetic profile scenario through the same stable contracts as the Web workbench.
 
 ## R7 — Private organizational pilot
 

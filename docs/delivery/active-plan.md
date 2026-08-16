@@ -4,7 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. ARCH-001 reached its candidate-architecture terminal; user architecture acceptance and implementation remain pending.
+None. ARCH-002 reached its documentation terminal; implementation remains held for explicit resume.
+
+## Last terminal: ARCH-002
+
+- Source anchor: architecture review [DW-023](../discovery/direct-wording.md#dw-023--configurable-search-scale-and-a-typescript-first-runtime-challenge), branch correction [DW-024](../discovery/direct-wording.md#dw-024--agent-led-analysis-with-framework-owned-branching-and-replay), documentation adoption [DW-025](../discovery/direct-wording.md#dw-025--adopt-the-corrected-architecture-direction-and-expose-algorithm-selections), and latest analysis/client correction [DW-026](../discovery/direct-wording.md#dw-026--llm-analysis-service-with-web-first-and-skillcli-client-access)
+- User goal: adopt the corrected architecture in which an LLM-capable service performs natural-language analysis, the framework owns Domain state, quantitative Methods, branching, context/cache, provenance, and replay, the Web workbench is the primary human route, and Agent Skill/CLI are lighter clients; make the initial social-network algorithm selections visible.
+- Lifecycle mode: definition / adopted architecture correction
+- Terminal: succeeded on 2026-08-16; product acceptance and implementation remain open.
+- Outcome: all affected public documents now agree on LLM/framework/client responsibilities, variable-branching and budget-bounded search, pinned forecast branches and cutoff-correct replay, a TypeScript application core with an optional Python Method worker, and an explicit selected-initial-SNA table.
+- Verification: repository/public-content and unchanged `0.1.0` contract checks passed for 20 Markdown files; targeted locator/credential scan and `git diff --check` passed; no dependency or implementation was introduced.
+- Protected boundaries: preserve the accepted requirements, universal Domain planes, canonical-versus-hypothetical separation, private/public boundary, MIT posture, and name-only Stockfish tribute. Do not publish private evidence or locators, operate Babata, install dependencies, scaffold runtime code, or claim product completion.
+- Evidence entry: [ARCH-002 verification evidence](../verification/README.md#arch-002-evidence---2026-08-16)
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly authorized the corrected architecture to be written to docs and requested the researched social-network algorithm selections and table.
 
 ## Last terminal: ARCH-001
 
@@ -88,4 +100,4 @@ None. ARCH-001 reached its candidate-architecture terminal; user architecture ac
 
 ## Next-start queue
 
-- `requires-explicit-resume`: after user review/adoption of the v0 architecture, translate it into the candidate `0.2.0` contract and implement the foundation slice with fully synthetic data.
+- `requires-explicit-resume`: when the user explicitly starts implementation, translate the adopted v0 direction into the candidate `0.2.0` contract and implement the foundation slice with fully synthetic data.

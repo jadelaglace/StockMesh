@@ -44,6 +44,18 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - Requirements, acceptance, Web workbench behavior, and the external Agent capability contract were reviewed and left semantically unchanged: the candidate architecture implements those authorities rather than redefining them.
 - User architecture acceptance, exact dependency versions, lockfile/transitive-license review, runtime implementation, and real-workflow proof remain pending.
 
+## ARCH-002 evidence - 2026-08-16
+
+- [ADR-005](../decisions/README.md#adr-005--llm-analysis-with-framework-owned-state-and-shared-clients) records the user-corrected direction: provider-neutral LLM natural-language analysis; framework-owned Domain/Methods/branch/cache/provenance/replay; primary Web interaction; lightweight Skill/CLI clients.
+- The [architecture](../architecture/architecture.md#candidate-v0-local-first-modular-monolith) removes fixed depth/width behavior. Branching factor is context-dependent; search is bounded by declared depth/Position/time/token/cost/uncertainty/diversity budgets; every materialized Position receives a traceable per-Party vector Evaluation.
+- Main Line and Variations share a navigable graph with checkout, pin, fork, resume, cache identity, and replay semantics. Branch preferences never promote a forecast into canonical history.
+- The adopted v0 direction uses a TypeScript/Node modular-monolith core, React/Vite Web workbench, SQLite through better-sqlite3/Drizzle, Graphology, and a provider-neutral AnalysisPort. Python is an optional named-Method worker, not a mandatory second backend. No dependency, provider, model, or runtime was installed.
+- The [selected initial SNA table](../discovery/prior-art-survey.md#selected-initial-social-network-method-pack) distinguishes v0 foundation metrics, exploratory community/influence metrics, and opt-in diffusion experiments, with interpretation guards and replaceable executor routes.
+- Official-source foundation eligibility records permissive library licenses and SQLite public-domain status; Node.js repository metadata remains `NOASSERTION`, so exact-version official license/bundled-notice and lockfile review is still required before installation.
+- `scripts/verify-repository.ps1`: passed for 20 Markdown files; `scripts/validate-synthetic-contract.ps1`: passed for the unchanged `stockmesh.domain@0.1.0` artifacts; `git diff --check`: passed apart from expected Git line-ending notices.
+- A targeted public-tree scan found no Kimi locator, conversation route, Tavily credential marker, or supplied credential prefix. No private case content or Babata operation entered this round.
+- Product acceptance, exact model/provider choice, Python Method activation, implementation, and real-workflow proof remain open.
+
 ## SPEC-001 evidence — 2026-08-16
 
 - Candidate authorities exist for domain, Web workbench, and external Agent capabilities and are linked from the documentation index.

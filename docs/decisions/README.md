@@ -52,3 +52,17 @@ No database, programming language, framework, model provider, deployment topolog
   - Keep evidence-linked network and temporal data as the foundation, with replaceable macro network/historical Methods and micro interpersonal/language Methods above it.
   - Search and prune branches under an inspectable Search Policy; hybrid reasoning is allowed, and neither Monte Carlo tree search, pure rules, nor any other algorithm is adopted by default.
 - Consequence: the chat UI may remain conversational, while backend context supports deeper branching, rollback, comparison, and replay. Scoring is multi-party and not necessarily zero-sum; every Method result remains scoped and attributable, and missing evidence cannot be replaced with false precision.
+
+## ADR-005 — LLM analysis with framework-owned state and shared clients
+
+- Status: adopted as architecture direction; implementation and product acceptance remain open
+- Date: 2026-08-16
+- Authority: branch/replay direction in [DW-024](../discovery/direct-wording.md#dw-024--agent-led-analysis-with-framework-owned-branching-and-replay), documentation adoption in [DW-025](../discovery/direct-wording.md#dw-025--adopt-the-corrected-architecture-direction-and-expose-algorithm-selections), and analysis/client correction in [DW-026](../discovery/direct-wording.md#dw-026--llm-analysis-service-with-web-first-and-skillcli-client-access)
+- Decision:
+  - Put natural-language situation, relationship, stance, response, wording, and strategy analysis behind a provider-neutral LLM boundary. An LLM API, local model, or Agent-hosted model may implement it.
+  - Make the StockMesh framework authoritative for Domain state, evidence cutoffs, quantitative Methods, multi-party score structures, branch/context caches, provenance, replay, and human-reviewed canonical promotion.
+  - Treat branching factor as data- and Agent-dependent. Search is constrained by declared resources and an inspectable replaceable policy, not by a product-wide candidate count or depth.
+  - Preserve selected or pinned forecast branches as resumable derived Variations. They do not become Main Line history without separate evidence and review.
+  - Make the Web workbench the primary human route. Agent Skill and CLI adapters are lighter clients over the same application, analysis, branch, and replay capabilities rather than separate analysis authorities.
+  - Use a TypeScript/Node modular-monolith application core with React/Vite and SQLite as the adopted v0 direction. Keep Python available behind an optional Method-worker boundary when its SNA, statistical, conversational, causal, or simulation ecosystem earns the integration cost.
+- Consequence: LLM analysis is a real application capability rather than an optional decoration after a deterministic strategist. Web, Skill, and CLI routes share it; the latter two do not need an autonomous Agent runtime. Graph and statistical algorithms provide attributable features rather than replacing semantic LLM judgment. Exact provider, dependencies, versions, Python worker activation, and implementation remain subject to adoption gates.
