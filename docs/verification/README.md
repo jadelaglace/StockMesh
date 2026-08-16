@@ -35,6 +35,15 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - Manual public scan found no Kimi locator, conversation ID, Tavily URL/API key, credential signature, or case material. The temporary research credential was not written to the repository.
 - Product acceptance, dependency adoption, runtime implementation, and a real business workflow remain pending human decision.
 
+## ARCH-001 evidence - 2026-08-16
+
+- [Architecture direction](../architecture/architecture.md#candidate-v0-local-first-modular-monolith) defines one complete synthetic user loop, a local-first modular-monolith topology, canonical/derived data ownership, seven narrow replacement ports, a legible v0 Method/search baseline, requirement trace, delivery path, and evidence-based upgrade triggers.
+- The candidate chooses Python/FastAPI/Pydantic, SQLite/SQLAlchemy/Alembic, NetworkX, React/Vite, Cytoscape.js/ECharts, pytest, and Playwright only as a reviewable v0 path. No dependency was installed and no implementation was created.
+- Official repository license metadata was checked for the candidate foundation; all selected projects are permissive, while SQLite is public domain. NetworkX's official BSD-3-Clause text was read separately because GitHub reports `NOASSERTION`.
+- `scripts/verify-repository.ps1`: passed for 20 Markdown files; `scripts/validate-synthetic-contract.ps1`: passed for the unchanged `stockmesh.domain@0.1.0` artifacts; `git diff --check`: passed.
+- Requirements, acceptance, Web workbench behavior, and the external Agent capability contract were reviewed and left semantically unchanged: the candidate architecture implements those authorities rather than redefining them.
+- User architecture acceptance, exact dependency versions, lockfile/transitive-license review, runtime implementation, and real-workflow proof remain pending.
+
 ## SPEC-001 evidence — 2026-08-16
 
 - Candidate authorities exist for domain, Web workbench, and external Agent capabilities and are linked from the documentation index.

@@ -222,3 +222,25 @@ The external conversations supplied with the same instruction are governed by th
 > 嗯 stockfish啊 包括我说的构想有无前人栽树啊 类似的有启发的啊 你都一次性在本轮调研清楚 不盲目造轮子。 license干净的就直接用 ，麻烦的就找替代或者进参考 形成调研表
 
 - Interpretation boundary: “直接用” authorizes a reuse recommendation in this research round, not dependency installation or implementation. Actual adoption still requires capability, maintenance, security, architecture, and license-fit evidence.
+
+## DW-021 — One runnable architecture with replaceable parts
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; starts a bounded architecture-definition round
+- Retrieval phrases: “可行路径”, “能跑通的架构方案”, “零件后面可以一点点升级”, “一点点换”
+
+> OK 现在分析一个可行路径出来 不用太复杂 先给我一个能跑通的架构方案 设计的好点 零件后面可以一点点升级 一点点换
+
+- Interpretation boundary: this authorizes a candidate runnable architecture and staged replacement plan, not implementation or dependency installation in this round.
+
+## DW-022 — Architecture must remain rooted in the requirement
+
+- Source: direct user correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; governs every architecture and component choice
+- Retrieval phrases: “别搞着搞着”, “忘记了什么才是需求”
+
+> 还有 嘱咐你一句 别搞着搞着 忘记了什么才是需求哈
+
+- Interpretation boundary: architecture elegance, prior art, and implementation convenience remain subordinate to the current StockMesh product outcome and observable user workflow.

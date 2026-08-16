@@ -155,6 +155,30 @@ novelty claim.
 | Graph UI | Cytoscape.js or Sigma.js/Graphology; ECharts for score/timeline views | Rendering, layout engines, generic chart controls | Workbench workflow, review states, evidence/Claim/mode distinction |
 | Analytical storage/versioning | DuckDB/Dolt/AGE only after workload evidence | General SQL engine, graph query engine, branch storage | Canonical authorities, append-only promotion, private/public policy, replay contract |
 
+## Candidate v0 foundation stack evidence
+
+This is official-source eligibility evidence for the candidate in the
+[architecture direction](../architecture/architecture.md#candidate-v0-local-first-modular-monolith),
+not dependency adoption. GitHub repository license/archive metadata was checked
+on 2026-08-16; NetworkX's official license text was separately read because its
+GitHub SPDX field reports `NOASSERTION`.
+
+| Candidate | Official source | License observed | Candidate role |
+| --- | --- | --- | --- |
+| FastAPI | <https://github.com/fastapi/fastapi> | MIT | HTTP application boundary |
+| Pydantic | <https://github.com/pydantic/pydantic> | MIT | validated request/domain transfer schemas |
+| SQLAlchemy / Alembic | <https://github.com/sqlalchemy/sqlalchemy>, <https://github.com/sqlalchemy/alembic> | MIT | relational persistence and migrations |
+| SQLite | <https://sqlite.org/copyright.html> | Public domain | local-first transactional store |
+| React / Vite | <https://github.com/facebook/react>, <https://github.com/vitejs/vite> | MIT | Web application and build tooling |
+| Cytoscape.js | <https://github.com/cytoscape/cytoscape.js> | MIT | interactive Position/network board |
+| Apache ECharts | <https://github.com/apache/echarts> | Apache-2.0 | Timeline, score, uncertainty, and comparison views |
+| NetworkX | <https://github.com/networkx/networkx/blob/main/LICENSE.txt> | BSD-3-Clause license text | correctness-first graph projection and metrics |
+| pytest | <https://github.com/pytest-dev/pytest> | MIT | domain/application/API verification |
+| Playwright | <https://github.com/microsoft/playwright> | Apache-2.0 | complete Web workflow verification |
+
+Before installation, pin exact versions and review lockfile transitive licenses,
+security advisories, runtime support, and the smallest representative spike.
+
 ## Adoption gates
 
 Before any candidate becomes a dependency or normal route, record:

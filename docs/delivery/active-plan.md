@@ -4,7 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. DOC-001 reached its documentation/research terminal; the implementation queue remains held for explicit resume.
+None. ARCH-001 reached its candidate-architecture terminal; user architecture acceptance and implementation remain pending.
+
+## Last terminal: ARCH-001
+
+- Source anchor: [DW-021](../discovery/direct-wording.md#dw-021--one-runnable-architecture-with-replaceable-parts) and requirement-root reminder [DW-022](../discovery/direct-wording.md#dw-022--architecture-must-remain-rooted-in-the-requirement)
+- User goal: provide a simple but well-designed architecture that can run the first complete StockMesh workflow and whose parts can be upgraded or replaced incrementally without losing the product's core requirements.
+- Lifecycle mode: definition / candidate architecture
+- Terminal: one requirement-traced runnable architecture candidate completed on 2026-08-16; user adoption and implementation remain pending.
+- Outcome: the [local-first modular-monolith candidate](../architecture/architecture.md#candidate-v0-local-first-modular-monolith) defines the synthetic end-to-end loop, process topology, initial permissive stack, canonical/derived ownership, replaceable ports, simple Method/search baseline, delivery slices, and measured upgrade triggers.
+- Verification: documentation/public-content and unchanged `0.1.0` contract checks passed; foundation licenses were checked at official repositories; no dependency or implementation was introduced.
+- Protected boundaries: the architecture remains subordinate to requirements and cannot collapse evidence, Claims, Positions, or possibilities; no private case, Kimi locator, Babata operation, dependency installation, code scaffold, deployment, or product-completion claim was introduced.
+- Evidence entry: [ARCH-001 verification evidence](../verification/README.md#arch-001-evidence---2026-08-16)
+- Goal transition: `user-explicit-goal-start` - user-explicit-goal-start: the user explicitly requested one feasible runnable architecture with incrementally replaceable parts and reminded the Agent to keep the requirement primary.
 
 ## Last terminal: DOC-001
 
@@ -76,4 +88,4 @@ None. DOC-001 reached its documentation/research terminal; the implementation qu
 
 ## Next-start queue
 
-- `requires-explicit-resume`: translate the consolidated domain and method direction into a candidate `0.2.0` contract, fully synthetic validation artifacts, and later implementation only after the user resumes delivery work.
+- `requires-explicit-resume`: after user review/adoption of the v0 architecture, translate it into the candidate `0.2.0` contract and implement the foundation slice with fully synthetic data.

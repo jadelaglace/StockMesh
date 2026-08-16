@@ -13,7 +13,7 @@ Purpose: report evidence-backed current delivery state. This is not product acce
 | Data contracts | R1 candidate locally validated | Version `0.1.0` semantic contract and a fully synthetic unfinished record pass the repository gate; user review is pending and runtime schema/implementation remain unchosen |
 | Synthetic unfinished record | Locally validated | Covers Playground, Pawn/Node, Assertion/Claim, Event, Game Record, Main Line, Variation, Position/frontier, source trace, and append-only promotion policy; not business validation |
 | Business validation design | Not started | Intentionally follows domain and data contracts; private case cannot define the core |
-| Architecture direction | Aligned to candidate domain | Knowledge/model/possibility ownership, replaceable Method processors, and profile boundaries documented; stack deliberately unchosen |
+| Architecture direction | Runnable v0 candidate ready for review | [Local-first modular-monolith candidate](../architecture/architecture.md#candidate-v0-local-first-modular-monolith) traces the first synthetic loop to requirements and defines replaceable storage, graph, Method, model, search, and execution ports; user adoption is pending |
 | Implementation scaffold | Not started | Explicitly excluded from DOC-001; the candidate `0.2.0` contract and runtime remain held for explicit resume |
 | Real authorized workflow proven | Not started | Requires a selected pilot and authorized/synthetic corpus |
 | Product accepted | No claim | Human acceptance is required |
@@ -29,6 +29,6 @@ Purpose: report evidence-backed current delivery state. This is not product acce
 | Private unfinished Game Record | Cleaned and dormant outside Git | 70 messages, 12 roles, 15 Main Line events, 35 Kimi Variation anchors; source/manifest remain under ignored `private/`; record is unfinished and has a known missing-prefix gap |
 | Upper-level Kimi reference | Acquired and privately separated | 8 messages; user-originated input and Kimi advice are distinct; no content or locator is public |
 | Game Record semantics | Optional candidate view | Main Line, Variations, frontier and dormant/resume behavior remain available for strategy Episodes but do not govern every Playground |
-| Delivery sequence | Candidate ready for review | [roadmap](candidate-roadmap.md) now orders domain → data contracts → cross-domain/business validation → implementation |
+| Delivery sequence | Candidate ready for review | Architecture slices foundation -> strategy -> workbench -> Agent -> measured learning; implementation starts only after architecture review and a fresh active item |
 
 Last updated: 2026-08-16 Asia/Shanghai.
