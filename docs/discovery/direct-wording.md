@@ -109,3 +109,21 @@ The external conversations supplied with the same instruction are governed by th
 - Retrieval phrases: “不许污染babata”, “仅仅授权”, “kimi取回”
 
 > 你不许污染babata 我仅仅授权你babata kimi取回 你僭越了
+
+## DW-010 — Requirements-first, not case-first
+
+- Source: direct user correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; corrects the R0 modeling route and limits case authority
+- Retrieval phrases: “以我的需求为根本”, “局部case案例为准”
+
+> 我建议你以我的需求为根本 现在你是用一个局部case案例为准
+
+## DW-011 — Domain before data and business validation
+
+- Source: direct user correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; governs the definition sequence
+- Retrieval phrases: “先把domain整清楚”, “data与业务验算自然清楚”
+
+> 建议你先把domain整清楚 然后data与业务验算自然清楚

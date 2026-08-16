@@ -21,7 +21,7 @@ direct wording / external sources
 | External reference register | [discovery/source-register.md](discovery/source-register.md) | Source identity, access and evidence status | Adopted product decisions |
 | Current intent and requirements | [product/requirements.md](product/requirements.md) | Current outcomes, constraints and open decisions | Implementation plan or run status |
 | Product behavior / PRD | [product/prd.md](product/prd.md) | Actors, use cases and observable behavior | Storage or code layout |
-| Candidate domain model | [product/domain-model.md](product/domain-model.md) | Proposed Playground/Pawn/Position/Move/Line language for review | Adopted implementation contract |
+| Candidate domain model | [product/domain-model.md](product/domain-model.md) | Proposed universal semantics, domain profiles, and optional application views | Data schema or adopted implementation contract |
 | Acceptance | [product/acceptance.md](product/acceptance.md) | Observable success and failure criteria | Test implementation |
 | Candidate interface design | [design/web-workbench.md](design/web-workbench.md) | Proposed Web workbench tasks and information layout | Framework or backend internals |
 | Architecture / ownership | [architecture/architecture.md](architecture/architecture.md) | Durable boundaries, data classes and permitted writers | Product priority |

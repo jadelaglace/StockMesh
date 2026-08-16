@@ -1,179 +1,184 @@
-# Candidate domain model — Playground, Pawn, Position, Line
+# Candidate universal domain model
 
-Status: **candidate for user review**. This document interprets [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface); it is not yet an adopted implementation contract.
+Status: **candidate for user review**. This document interprets the broad network-analysis requirement in [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief) and [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), subject to the requirements-first corrections in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation). It is not a data schema or an adopted implementation contract.
 
-Purpose: give StockMesh a domain language that works first for company networks but can later represent other social, organizational, resource, biological, or machine networks.
+## Domain statement
 
-## The core loop
+StockMesh analyzes heterogeneous networks that change over time under incomplete evidence. It supports state reconstruction, explanation, contextual evaluation, and simulation of possible development.
+
+The universal domain is therefore neither “a company case” nor “a chess game.” Company analysis is the first practical profile. The chess language is a useful strategy-workbench view when nodes have agency, actions are controllable, and an objective can be evaluated.
+
+## Requirements trace
+
+| Governing need | Domain consequence |
+| --- | --- |
+| Put new material into a network and immediately understand it in context | Playground, Evidence/Claim separation, temporal Position, Timeline, and traceability |
+| Analyze people, relationships, behavior, events, statements, and stance in company work | Organizational profile over Nodes, Relations/Flows, State, Events, profile Claims, and Perspective |
+| Treat a current situation like a board position and reason about what may happen next | Reproducible Position, optional Actions, Trajectories, Evaluation, and strategy-workbench aliases |
+| Score a situation and compare several future developments | Profile-bound vector Evaluation; actual and possible Trajectories remain separate |
+| Extend toward social, resource/energy, biological, machine, and macro networks | Neutral universal concepts; profile-specific agency, units, mechanisms, terminology, and evaluation |
+| Let the human handle second-level nuance while StockMesh acts as a strategic adviser | Configurable horizons and uncertainty; no claim of autonomous real-time control |
+| Do not let a local case define the product | Profiles and synthetic cross-domain fit checks precede data contracts and business validation |
+
+## Four semantic planes
 
 ```mermaid
-flowchart LR
-    E["Evidence"] --> V["Event log"]
-    V --> P["Position at time T"]
-    P --> S["Perspective-bound scorecard"]
-    P --> M["Candidate move"]
-    M --> L["Scenario line"]
-    L --> S
-    S --> R["Recommendation + uncertainty"]
-    R --> H["Human judgment / action"]
-    H --> E
+flowchart TB
+    W["World plane<br/>the external system and what actually occurs"]
+    K["Knowledge plane<br/>evidence, observations, claims, uncertainty"]
+    M["Model plane<br/>nodes, relations, flows, states, events, mechanisms"]
+    P["Possibility plane<br/>scenarios, interventions, trajectories, evaluations"]
+    W -->|"observed or reported incompletely"| K
+    K -->|"supports or challenges"| M
+    M -->|"initial conditions and rules"| P
+    P -->|"predictions later tested by evidence"| K
 ```
 
-The stable idea is:
+1. **World plane:** the external system exists independently of StockMesh. StockMesh never equates a database record with reality.
+2. **Knowledge plane:** Evidence records what a source supplied. Claims state what an observer, human, or processor believes the evidence means. Both may be incomplete, conflicting, or wrong.
+3. **Model plane:** the system constructs a time-aware representation of the bounded network. A model object is accepted only with visible epistemic status and lineage.
+4. **Possibility plane:** counterfactuals, predictions, and proposed interventions describe what might happen. They never become historical fact merely because an Agent generated them.
 
-```text
-Position(t) = project(authorized events up to t, selected perspective)
-Next position = transition(current position, candidate move, modeled responses)
-Advice = compare scenario lines under an explicit objective, horizon, and risk policy
-```
+This separation is the main protection against turning partial company conversations—or any other local sample—into universal truth.
 
-The event log stays authoritative. A position is a reproducible projection, not a replacement for history. Historical influence may be summarized into position features while remaining traceable to the underlying events.
+## Universal concepts
 
-## Domain vocabulary
-
-| Concept | Meaning | Examples |
+| Concept | Meaning in the universal core | Must not imply |
 | --- | --- | --- |
-| **Playground** | A bounded analysis universe with its ontology, participants, permitted evidence, policies, and time range | One project, one company episode, an industry network |
-| **Pawn** | A typed analysis node; not necessarily a person | Person, team, company, institution, resource, AI agent |
-| **Scene** | The active setting in which interaction occurs | WeChat group, video call, meeting room, R&D site, sales site |
-| **Event** | An immutable, time-indexed observation or attributed report of change | Someone joins, speaks, changes role, creates a group, makes a decision |
-| **Position** | An immutable view of the relevant state at a chosen time | Present actors, roles, relationships, topic, channel, open commitments, inferred atmosphere |
-| **Move** | An actual or candidate intervention | Say a sentence, ask a question, wait, escalate, invite someone, publish a report |
-| **Scorecard** | A perspective-bound vector evaluation of a position or line | Goal progress, trust risk, escalation risk, information gain, cost |
-| **Line** | One simulated sequence of moves, responses, and resulting positions | “Say X → B resists → C aligns → decision delayed” |
-| **Recommendation** | A ranked set of lines with assumptions, evidence, uncertainty, and stop conditions | Best current option under a named objective and horizon |
-| **Game Record** | A perspective-bound, append-only record containing a confirmed Main Line, candidate Variations, checkpoints, and an explicit completion state | One unfinished company episode viewed from A's perspective |
+| **Playground** | A bounded analytical world: scope, profile, time basis, questions, evidence authority, and policies | One episode, one organization, or a literal game board only |
+| **Node** | A distinguishable modeled element whose identity persists for some interval | A person, conscious actor, or decision-maker |
+| **Relation** | A typed structural condition between nodes or a node and its environment, with temporal validity | Transfer, causality, friendship, or agency by default |
+| **Flow** | A typed movement, exchange, propagation, or rate over nodes/relations | A static edge; all domains having conserved quantities |
+| **State** | Values attributed to a node, relation, flow, region, or whole Playground over an interval | A complete or directly observed account of reality |
+| **Event** | A represented occurrence situated in time that may change or reveal state, relation, or flow | That the occurrence is certainly true merely because it was extracted |
+| **Mechanism** | An explicit rule or hypothesis describing how conditions may produce transitions | Proven causality or one universal dynamics engine |
+| **Transition** | A change from one modeled state to another, attributed to events, mechanisms, actions, or unresolved causes | An intentional move |
+| **Position** | A reproducible, as-of projection of the relevant modeled state for a scope and question | A person's stance or the whole world state |
+| **Timeline** | A time-indexed or partially ordered view of Events and state changes | One perfectly known global clock |
+| **Perspective** | A declared observational or analytical vantage: visibility, question, and optionally evaluative stakeholder | Permission to rewrite history or hide source disagreement |
+| **Trajectory** | A realized, reconstructed, or simulated sequence of Positions and Transitions | A prediction unless its mode says so |
+| **Evaluation** | A profile-defined vector assessment of a Position or Trajectory under declared criteria | A universal notion of “good” or one opaque truth score |
+| **Action** | An intentional intervention by an agentic Node or external operator; optional by domain | Every Event having an actor or every domain being controllable |
 
-`Pawn` is the compact domain term. Human-facing UI should default to neutral labels such as “参与者” or “节点” when the chess metaphor would feel dehumanizing.
+`Position` is reserved for the projected situation. A person's topic-specific opinion is `Stance`, a profile concept represented through Claims and State; it is not a second meaning of Position.
 
-## Game Record: Main Line and Variations
+## Knowledge and model status
 
-A Game Record is the practical container for one evolving episode:
+An **Evidence Item** preserves source identity, content identity, acquisition context, time, authority, sensitivity, and integrity. An **Observation** is what a source or instrument registered. A **Claim** is an attributable proposition about any Node, Relation, Flow, State, Event, Mechanism, or trajectory.
+
+Claims distinguish at least:
+
+- direct observation;
+- attributed report;
+- human interpretation or judgment;
+- Agent/model hypothesis;
+- adopted modeled fact, still traceable and revisable;
+- disputed, superseded, unknown, or rejected status.
+
+Confidence is not a substitute for status or evidence. Competing Claims may coexist. Correction appends a traceable revision or adjudication; it does not edit the source to fit the model.
+
+## Structure, dynamics, and time
+
+Relations answer “how are these things structurally connected?” Flows answer “what moves, propagates, or is exchanged?” Keeping them separate allows the same core to describe both a reporting relation with information flow and a power-line connection with energy flow.
+
+State, Event, Transition, and Position also remain distinct:
 
 ```text
-Game Record
-  scope: Playground, perspective Pawn, evidence boundary
-  status: not-started | ongoing | dormant | concluded | abandoned
-  source messages: immutable and ordered
-  Main Line: confirmed events and moves
-  Variations: questions, drafts, advice, counterfactuals, and predicted responses
-  checkpoints: reconstructable Positions
-  current frontier: the last confirmed Position plus unresolved candidate Moves
+State        values believed valid over an interval
+Event        occurrence situated in time
+Transition   modeled change between states
+Position     question-bounded as-of projection of relevant state
+Trajectory   ordered or partially ordered succession of Positions/Transitions
 ```
 
-The **Main Line（正谱）** contains only events or moves confirmed by later user input or authorized evidence. A proposal does not enter the Main Line because an Agent recommended it. A **Variation（变例）** remains attached to the Position where it was considered and may contain several predicted steps. When later evidence confirms that a candidate Move happened, the system appends a promotion record linking the Variation to the new Main Line event; it does not rewrite the old branch.
+Every temporal assertion may distinguish:
 
-An unfinished record is normal. `dormant` means no current processing is planned, not that the episode ended. New evidence resumes from the current frontier and retains the earlier source and branch identities.
+- **occurrence time:** when an Event is believed to have happened;
+- **valid time:** when a State or Relation is believed to hold;
+- **observation time:** when a source observed or reported it;
+- **record time:** when StockMesh accepted the record or revision.
 
-## Pawn model
+A profile declares whether time is discrete or continuous, the useful resolution and horizon, and whether ordering may be partial. Unknown is not absent; no recorded Event is not proof that no change occurred. Historical influence can appear in current State or Mechanism memory while retaining traceability to earlier evidence.
 
-A Pawn has a stable identity record and time-bounded facets:
+Given the same authorized evidence cutoff, profile version, projection rules, scope, and question, a Position should be reproducible. Perspective may change visibility or evaluation, but it does not create a different external history.
 
-```text
-Pawn
-  identity: type, aliases, memberships
-  role: formal position, decision authority, responsibility
-  capability: demonstrated or reported abilities
-  style: observed interaction patterns
-  stance: topic-specific, time-bounded expressed or inferred position
-  state: current availability, pressure, attention, commitments
-  relationships: typed, directional, temporal links to other Pawns
-```
+## Domain profiles
 
-Personality, motives, competence, loyalty, atmosphere, and predicted behavior are never bare attributes. Each value is an **Assertion** carrying:
+A Domain Profile specializes the core without replacing it. It may declare:
 
-- assertion kind: observation, attributed report, model hypothesis, or human judgment;
-- evidence references and observer/source;
-- valid time and observation time;
-- confidence and competing assertions;
-- sensitivity and visibility scope;
-- processor identity when derived.
+- Node, Relation, Flow, State, Event, and Mechanism types;
+- quantities, units, constraints, and time resolution;
+- which Nodes have agency and which Actions are controllable;
+- objectives, evaluation dimensions, risk rules, and horizons;
+- import vocabulary, visual encodings, and UI terminology.
 
-This lets the model say “often avoids public conflict in the observed sample” without converting it into “is conflict-avoidant” as timeless fact.
+A profile may not erase provenance, merge hypotheses with observed history, make missing evidence equal absence, or redefine prediction as fact.
 
-## Event and time model
+| Profile shape | Nodes | Relations and Flows | State / Events / Mechanisms | Optional decisions and evaluation |
+| --- | --- | --- | --- | --- |
+| **Organizational/social** | people, teams, organizations | membership, authority, dependency; information, work, resources | roles, availability, commitments, statements, meetings, trust hypotheses | wording, invite, wait, escalate; alignment, information gain, risk, cost |
+| **Resource/energy** | sources, stores, converters, consumers | physical/logical topology; material or energy transfer | inventory, capacity, load, outage, switching; conservation and loss rules | dispatch, isolate, reroute; efficiency, resilience, unmet demand |
+| **Biological collective** | organisms, cells, colonies, habitats | kinship, proximity, symbiosis; nutrient, gene, or signal propagation | population, health, migration, reproduction; ecological mechanisms | intervention only when an operator exists; survival, diversity, stability |
+| **AI/machine collective** | agents, services, robots, operators | control, dependency, delegation; tasks, data, energy | capability, load, availability, deploy, failure, handoff; protocol rules | allocate, route, pause, update; utility, safety, throughput, recoverability |
+| **Macro/astronomical** | bodies, systems, regions | spatial, gravitational, orbital relations; mass or energy exchange | mass, position, velocity, formation, transit, merger; physical models | often observation/simulation only; model fit, stability, uncertainty |
 
-Minimum event families:
+These examples are semantic fit checks, not data fixtures or business-validation evidence. They demonstrate why agency, speech, personality, objectives, and “best move” cannot be universal requirements.
 
-- presence: enter, leave, return, unavailable;
-- membership: group created, member added/removed;
-- role and authority: assigned, delegated, superseded;
-- relationship: cooperation, conflict, dependency, trust signal;
-- communication: statement, reply, silence-after-request, commitment;
-- task and decision: requested, accepted, rejected, delayed, completed;
-- context: channel, physical scene, topic, audience, confidentiality;
-- resource: capacity, information, budget, access, dependency change;
-- correction: identity merge/split, evidence challenge, human override.
+## Strategy-workbench application view
 
-Every event distinguishes when it happened, when it was observed, and—when applicable—the interval for which it is believed valid. Silence, atmosphere, stance change, and motive are interpretations derived from events, not raw events by default.
+When a profile declares agentic Nodes, controllable Actions, objectives, constraints, and evaluation rules, StockMesh may expose the chess-like language requested by the user:
 
-## Position model
-
-A Position answers “what matters now?” for a selected Playground, time, question, and perspective:
-
-- active Pawns and current Scene;
-- formal roles and effective influence;
-- visible relationships and dependencies;
-- current topic, decisions, commitments, and unresolved tensions;
-- known information and likely information asymmetry;
-- recent and historically important events;
-- expressed stances versus inferred stances;
-- inferred atmosphere and pressure with evidence and uncertainty;
-- currently available moves and constraints.
-
-Two users may obtain different projections of the same event log because their authorized evidence or decision perspective differs. The position identity therefore includes source scope, projection version, as-of time, and perspective.
-
-## Evaluation model
-
-There is no universal “good position” score. Every evaluation names:
-
-- whose perspective is being evaluated;
-- the intended objective and unacceptable outcomes;
-- time horizon: hours, days, months, quarters, or years;
-- risk tolerance and uncertainty policy;
-- evidence cutoff and model version.
-
-The default output is a vector, not one magic number:
-
-| Dimension | Question |
+| Universal core | Strategy/workbench alias |
 | --- | --- |
-| Goal progress | Does this move advance the declared outcome? |
-| Relationship effect | What trust, alignment, or conflict may change? |
-| Authority fit | Does it respect or deliberately challenge the decision structure? |
-| Information gain | Does it reveal useful information or reduce ambiguity? |
-| Escalation risk | Could it widen conflict or create irreversible exposure? |
-| Reversibility | Can the move be corrected if assumptions are wrong? |
-| Resource cost | What time, attention, political capital, or material resource is consumed? |
-| Robustness | Does the line remain acceptable across plausible responses? |
+| Playground | board / arena |
+| Node | Pawn / 棋子 |
+| Position | position / 盘面 |
+| Action | Move / 走法 |
+| Trajectory | Line / 推演线 |
+| Evaluation | Scorecard / 局势评分 |
 
-A scalar ranking may be derived for a named evaluation profile, but the vector and weighting must remain inspectable.
+The alias is a view, not a second data ontology. A resource reservoir or star may be shown as a Pawn for visual analysis, but the core does not thereby assign it human intent.
 
-## Scenario and prediction model
+A “best move” recommendation is valid only relative to a named perspective, controllable action set, objective, horizon, constraints, evaluation profile, evidence cutoff, and uncertainty policy. Without those declarations StockMesh may explain or simulate, but should not claim an optimal action.
 
-A Line alternates candidate moves and modeled responses:
+## Optional episode and game-record view
 
-```text
-P0 -> move A -> response hypothesis -> P1 -> move B -> ... -> Pn
-```
+An **Episode** is a bounded analytical segment inside a Playground. A strategy profile may render an Episode as a **Game Record（棋谱）**:
 
-Each transition records probability or qualitative likelihood, assumptions, causal rationale, counter-signals, scorecard, and a stop/replan condition. “Best line” means best under the declared model and assumptions—not a guaranteed or objectively optimal future.
+- the realized/reconstructed Trajectory is the `Main Line（正谱）`;
+- counterfactual or predicted Trajectories are `Variations（变例）`;
+- the current reproducible Position is the frontier;
+- later evidence may link a former prediction to a realized Event, but never rewrites the old prediction into fact;
+- `dormant` means processing is paused, not that the external episode concluded.
 
-StockMesh should support multi-party branching and configurable horizons. Ten or twenty steps are a search budget target, not a promise that long social chains are predictable. Search may use pruning, beam width, scenario diversity, and uncertainty thresholds. The product focuses on strategic horizons from hours to years; second-level micro-behavior stays with the human operator.
+This is useful for company decision replay, but it is optional. The universal domain can model continuous flows, non-agentic systems, overlapping timescales, and partially ordered Events without pretending they form one game record.
 
-## Decision replay
+## Universal invariants
 
-Replay reconstructs the information available at an earlier time, compares the move actually taken with plausible alternatives, and explains which later evidence changed the assessment. It must not leak hindsight into the reconstructed position unless the user explicitly enables a hindsight view.
+1. World, evidence, accepted model, and possibility remain distinguishable.
+2. Every consequential modeled Claim exposes provenance, time, epistemic status, and processor or human author.
+3. Node identity does not imply personhood, agency, or moral status.
+4. Relation, Flow, State, Event, Transition, Position, and Trajectory are not interchangeable.
+5. Perspective changes what is visible, asked, or valued—not what source evidence originally said.
+6. Actual/reconstructed and hypothetical/predicted Trajectories cannot silently merge.
+7. Evaluation is vector-first and profile-bound; scalar ranking keeps its weights and assumptions inspectable.
+8. Action and recommendation are available only where agency, control, objectives, and constraints are declared.
+9. Domain Profiles extend the universal core but cannot weaken evidence, uncertainty, time, correction, or privacy rules.
+10. A local case can challenge or validate the model; it cannot define the universal ontology by proximity.
 
-## Candidate MVP domain slice
+## Conceptual fit checks
 
-One private Playground, persons and teams as Pawn types, text/table/image evidence staged outside Git, an immutable event timeline, position snapshots, a configurable scorecard, three diverse scenario lines of limited depth, and a human-selected recommendation. Other Pawn types and deep 10–20 step search remain compatible extensions rather than first-release claims.
+The candidate passes an initial paper check across three deliberately different shapes:
 
-The first implementation fixture should be synthetic. An authorized private Game Record may validate the same importer and replay behavior locally, but it is not a public fixture or repository dependency.
+1. **Department interaction:** people and teams are Nodes; reporting is a Relation; messages carry information Flows; a meeting is an Event; commitments are State; a proposed private conversation is an Action; alternative response chains are simulated Trajectories.
+2. **Microgrid:** generators, batteries, and loads are Nodes; wiring is a Relation; power is a Flow; charge and capacity are State; an outage is an Event; rerouting is an Action; resilience and unmet demand form an Evaluation vector.
+3. **Machine collective:** agents and services are Nodes; delegation and dependency are Relations; tasks/data are Flows; load and availability are State; failures and handoffs are Events; protocol/capacity rules are Mechanisms; alternative allocations are Trajectories.
+
+No company-only property is needed in the universal core. This is a domain-coherence result only; data contracts and business validation have not started.
 
 ## Decisions for user review
 
-1. Keep `Playground / Pawn / Position / Move / Line` as the public domain vocabulary, or use Chinese-first terms in the product surface?
-2. Should a Playground represent one case/episode, one organization, or a reusable world containing many episodes?
-3. Which scorecard dimensions matter most for the first company workflow?
-4. Should human-authored judgments be able to become canonical immediately, or enter the same review flow as Agent hypotheses?
-5. What maximum prediction depth is useful before uncertainty makes additional steps misleading?
+1. Adopt neutral core names (`Node`, `Action`, `Trajectory`) with `Pawn`, `Move`, and `Line` as strategy-workbench aliases, or make the chess names primary even outside agentic domains?
+2. Treat a Playground as a reusable bounded world that may contain many Episodes, rather than equating it with one case?
+3. Is `Mechanism` a first-class universal concept now, or should it remain a derived analysis object until causal modeling is implemented?
+4. For the first organizational profile, which semantics must be present beyond people/units, relations/flows, events, state, stance, actions, and evaluation?

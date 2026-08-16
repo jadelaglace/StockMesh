@@ -4,7 +4,20 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. DATA-001 is terminal; private data is dormant and excluded from Git.
+None. R0-001 reached its candidate-definition terminal; user review is pending. Data-contract work requires adoption or revision of the domain boundary first.
+
+The environment Goal runtime still carries the superseded pre-correction schema/fixture objective. Its API exposes terminal status only, not objective replacement; it remains non-terminal rather than falsely claiming that the rejected work was completed. On recovery, this document and DW-010/DW-011 govern the newer route.
+
+## Last terminal: R0-001
+
+- Source anchor: [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), corrected by [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and sequenced by [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation)
+- User goal: clarify StockMesh's domain from the broad network-analysis and strategy-workbench requirements before defining data contracts or business validation; company cases are applications and validation material, not universal authority.
+- Lifecycle mode: definition / pre-data contract
+- Terminal: candidate domain clarification succeeded on 2026-08-16; user adoption remains open.
+- Outcome: the domain now separates world, knowledge, model, and possibility planes; defines neutral universal concepts and profile extension rules; keeps strategy/chess and game-record semantics as optional views; and passes conceptual fit checks for organizational interaction, microgrid flow, and machine coordination.
+- Protected boundaries: no data schema, fixture, business-validation artifact, implementation, or private case processing was created in this round. Direct requirements outrank the dormant private case and external Kimi advice.
+- Evidence entry: [candidate universal domain](../product/domain-model.md) and [R0 verification](../verification/README.md#r0-001-evidence--2026-08-16)
+- Goal transition: `user-explicit-goal-override` — user-explicit-goal-override: DW-010 and DW-011 explicitly replace case-first contract work with requirements-rooted domain clarification before data or validation.
 
 ## Last terminal: DATA-001
 
@@ -41,4 +54,4 @@ None. DATA-001 is terminal; private data is dormant and excluded from Git.
 
 ## Next-start queue
 
-Review the candidate Game Record semantics and [delivery roadmap](candidate-roadmap.md). Implementation requires explicit user adoption.
+Review and adopt or revise R0-001. Only then start R1 data contracts; business validation and implementation remain later stages.
