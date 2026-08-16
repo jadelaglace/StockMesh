@@ -20,6 +20,7 @@ direct wording / external sources
 | --- | --- | --- | --- |
 | Direct wording evidence | [discovery/direct-wording.md](discovery/direct-wording.md) | Selected exact user wording | Current interpreted requirements |
 | External reference register | [discovery/source-register.md](discovery/source-register.md) | Source identity, access and evidence status | Adopted product decisions |
+| Prior-art and reuse survey | [discovery/prior-art-survey.md](discovery/prior-art-survey.md) | Candidate capabilities, license posture, alternatives, and Agent recommendations | Dependency adoption or implementation |
 | Current intent and requirements | [product/requirements.md](product/requirements.md) | Current outcomes, constraints and open decisions | Implementation plan or run status |
 | Product behavior / PRD | [product/prd.md](product/prd.md) | Actors, use cases and observable behavior | Storage or code layout |
 | Candidate domain model | [product/domain-model.md](product/domain-model.md) | Proposed universal semantics, domain profiles, and optional application views | Data schema or adopted implementation contract |

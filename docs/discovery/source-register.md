@@ -13,3 +13,27 @@ No external conversation content, locator, or case derivative is retained in thi
 5. A case may enter the public repository only when the user explicitly authorizes it as a template and the upload candidate has been de-identified and reviewed.
 6. Record provenance privately when necessary for audit, outside Git; expose only a safe derivative identity here.
 7. Do not infer or promote content that was not actually acquired.
+
+## Public candidate references
+
+These entries were named directly by the user as possible sources of ideas. A
+narrow public-source review was performed on 2026-08-16. No source code was
+copied and no project, algorithm, dependency, or claim was adopted.
+
+| Candidate | Locator status | Current evidence status | Authority |
+| --- | --- | --- | --- |
+| CAMEL-AI OASIS | <https://github.com/camel-ai/oasis> | Official repository/README reviewed; Apache-2.0 repository | External reference, not a product decision |
+| MiroFish | <https://github.com/666ghj/MiroFish> | Official repository/README reviewed; AGPL-3.0 repository; declares OASIS as its simulation engine | External reference only; no source reuse |
+| UCINET | <https://sites.google.com/site/ucinetsoftware/home> | User's `ucient` identified as UCINET; official product page reviewed | External SNA reference, not a selected dependency |
+| Gephi | <https://gephi.org/desktop> | Official product page reviewed; GPL desktop application | External SNA/reference-UI source, not a selected dependency |
+| R / igraph | <https://r.igraph.org/articles/igraph.html> | Official igraph R-interface overview reviewed; open-source programmable graph analysis | External SNA reference, not a selected language or dependency |
+| Pajek | <http://mrvar.fdv.uni-lj.si/pajek/be3.htm> | Official project/book material reviewed; emphasizes large, sparse, two-mode, temporal, and signed networks | External SNA reference, not a selected dependency |
+| NodeXL | <https://nodexl.com> | Official product page reviewed; spreadsheet-oriented import, metrics, clustering, content/sentiment, and reporting workflow | External SNA/workflow reference, not a selected dependency |
+
+Any future comparison must separately assess obtainable capabilities, method
+fit, provenance, maintenance, licensing, privacy implications, and what can be
+learned without coupling StockMesh to the reference implementation.
+
+The broader official-source comparison and Agent recommendations live in the
+[prior-art and reuse survey](prior-art-survey.md), which remains a candidate
+research artifact rather than an adopted dependency decision.

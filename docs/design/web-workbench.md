@@ -33,6 +33,7 @@ The layout below is the first organizational strategy profile, not the universal
 3. **Scrub time:** move the as-of control, compare two positions, and see which events caused visible changes.
 4. **Open a Node drawer:** inspect identity, typed State and Claims, Relations/Flows, Timeline, notes, and evidence; a Pawn profile adds role, capability, interaction style, and stance.
 5. **Add information:** type/paste text or stage an authorized table, conversation export, or screenshot for extraction and review.
+   In a dialogue profile, the preview shows the utterance as a candidate Strategy Step with before/after Position differences and separates source words, inferred Action, observed Event, and unresolved Claims.
 6. **Ask the analyst/strategist:** request explanation, comparison, prediction, replay, or—where the profile supports it—action/wording advice.
 7. **Compare trajectories:** see materially different scenarios or candidate Actions, modeled Transitions, score vectors, assumptions, and stop conditions.
 8. **Correct the model:** challenge an identity, event, assertion, weight, or predicted transition without rewriting source evidence.
@@ -83,6 +84,12 @@ Universal tabs are Overview, State/Claims, Relations/Flows, Timeline, Notes, and
 ## Input and review flow
 
 Imports land in private staging. Extraction shows a preview of candidate Evidence/Claims and profile objects. For the organizational profile this includes proposed Pawns, Events, statements, times, and Relations. The user resolves ambiguities and approves canonical changes. Screenshots and conversation tables are evidence attachments, not automatically public artifacts.
+
+The visible input can remain a familiar “you say / I say” dialogue. Selecting a
+turn opens its Strategy Step: complete scoped Position before, source Utterance,
+Action/Event interpretation, Position after, changed fields, evidence, and
+branch mode. The UI does not own this state; it renders the same revision graph
+used by replay and Agent access.
 
 ## MVP screens
 

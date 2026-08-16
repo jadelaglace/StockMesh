@@ -138,3 +138,87 @@ The external conversations supplied with the same instruction are governed by th
 > 可以 继续
 
 - Interpretation boundary: the exact wording is only a continuation instruction. The adopted semantic choices are recorded separately in [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction); this entry does not attribute the Agent's explanatory text to the user.
+
+## DW-013 — A sentence is a strategy step between complete positions
+
+- Source: direct user refinement in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; changes the transition granularity and the relation between dialogue, strategy, and Position
+- Retrieval phrases: “每一句话是一个策略”, “每一步前后的上下文domain都是都有个完整的”, “类似git 或者说状态机”
+
+> 说白了 就是每个形势 你找个domain 还是domain 然后找到一种办法 把domain 之间区别 用策略 串成线 这就是所谓的下了一步。最后你domain 规则都弄好了 那么分支 主干 预测分 时间线自然而然就串起来了 最后套个ui  或者skill。其实还是原来那一长串对话 只不过 之前是一句一句 你一句我一句一句话里就包含一个行动。现在 每一句话是一个策略 是一步棋 。然后 每一步前后的上下文domain都是都有个完整的，是一个局势 。其实呢 就是原来的你一句，我一句 变成出招了 变成策略了，然后与隐含在上下文里的局势关系 每一句话之间清晰的建模了。说白了 就算还是原来你一句我一句的ui形势也完全可以，但是后台已经把上下文 字段 建模啥的完整包住维护了 一个类似git 或者说状态机还是什么的也好的 维护起来的时间线了。
+
+## DW-014 — Score and search reachable multi-party positions
+
+- Source: direct user clarification in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; clarifies the scoring/search loop and multi-party objectives
+- Retrieval phrases: “所有棋盘局势都是可以评分的”, “每个人 或者势力 都是一方”, “剪枝”, “计算下一步两步优劣势”
+
+> 这有啥难理解的啊 stockfish的理念就是 所有棋盘局势都是可以评分的 有个评分ai 上来就给每一个可达的盘面评分 然后剪枝啊 或者啥的形成策略预测 就是下一步咋下 分支变化。现在 就是 盘面 就是人网络现状 多少分 啥关系 谁优势 然后不是红方黑方 是每个人 或者势力 都是一方 有个股份 下棋目标就是赢 ，那么人际关系目标就是更多人支持 舆论啊 财富更多啊这些是目标。下棋下哪个子，就是下一步现实的人 ，谁回谁了 干啥了 咋回谁的，导致了谁和谁关系好了坏了钱多了钱少了。然后下棋是有一个专门剪枝啊 遍历策略的叫啥来的 蒙特卡洛的ai 选 最牛逼的盘面，那么咱们这个项目就也是 计算下一步两步优劣势 。之前就是纯对话 一步最多计算俩分支 两轮对话吗，现在有了domain context维护 切换滑动管理，分支深度都可以更牛逼 回溯修改复盘更清晰吗 ，就是这么回事。
+
+## DW-015 — Data foundation with an open, multidisciplinary reasoning layer
+
+- Source: direct user clarification in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; keeps the upper reasoning and search approach open
+- Retrieval phrases: “数据是底子”, “历史回溯”, “社会行为学”, “传播学”, “不一定是纯蒙特卡洛”
+
+> 嗯 不用钉死下棋ai的做法 哪个是纯规则策略的 。咱们这个人际的 数据是底子 但是上层靠一些历史回溯啊 太阳下无新鲜事啊 心理上的真理啊 隐藏的社会行为学啊 社会网络学unet啊 传播学啊 这些支撑。 不一定是纯蒙特卡洛
+
+- Interpretation boundary: `unet` is retained in the original wording; [DW-019](#dw-019--unet-corrects-to-ucient) later corrects it to `ucient`.
+
+## DW-016 — Macro network methods and micro interpersonal methods
+
+- Source: direct user clarification in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; distinguishes method scales without fixing their implementation
+- Retrieval phrases: “大的”, “社会网络学”, “历史借鉴”, “小的”, “荣格分析”, “人情世故”, “谈话内容优化原话”, “厚黑”
+
+> 大的就是上面说的那些社会网络学 历史借鉴的 ，小的就是荣格分析啊 人情世故啊 基本的谈话内容优化原话啊 厚黑啊这些 这些就是人格之间的小的 。
+
+- Interpretation boundary: the named schools and informal bodies of knowledge are candidate analytical lenses at different scales, not automatically adopted truths or validated predictors.
+
+## DW-017 — Candidate simulation and collective-agent references
+
+- Source: direct user clarification in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; identifies optional references without adopting an implementation
+- Retrieval phrases: “不限于unet”, “mirofish”, “oasis”, “备选参考思路”
+
+> 不限于unet 比如gh上优秀的 mirofish啊  https://github.com/camel-ai/oasis oasis啊 都可以备选参考思路
+
+- Interpretation boundary: named projects are candidate external references only. Their architecture, dependencies, claims, and licenses have not been evaluated or adopted.
+
+## DW-018 — Candidate social-network-analysis tool references
+
+- Source: direct user clarification in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; identifies an open SNA reference set
+- Retrieval phrases: “ucient”, “gephi”, “r”, “pajek”, “nodeXL”, “social networl analysis”
+
+> ucient啊 gephi，r,pajek ,nodeXL这些都可参考 social networl analysis的东西
+
+- Interpretation boundary: names are preserved as written. `ucient` is unresolved; no product identity is inferred. The listed tools/ecosystems are references, not selected dependencies.
+
+## DW-019 — `unet` corrects to `ucient`
+
+- Source: direct user correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; supersedes only the unresolved `unet` term in DW-015
+- Retrieval phrases: “unet估计我打错了”, “其实就是 ucient”
+
+> unet估计我打错了 其实就是 ucient
+
+- Interpretation boundary: `ucient` remains an unresolved project/tool identity until external evidence identifies it; this correction does not authorize guessing.
+
+## DW-020 — Research prior art and license-clean reuse before building
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; expands the documentation round with a prior-art and reuse survey
+- Retrieval phrases: “前人栽树”, “一次性在本轮调研清楚”, “不盲目造轮子”, “license干净的就直接用”, “形成调研表”
+
+> 嗯 stockfish啊 包括我说的构想有无前人栽树啊 类似的有启发的啊 你都一次性在本轮调研清楚 不盲目造轮子。 license干净的就直接用 ，麻烦的就找替代或者进参考 形成调研表
+
+- Interpretation boundary: “直接用” authorizes a reuse recommendation in this research round, not dependency installation or implementation. Actual adoption still requires capability, maintenance, security, architecture, and license-fit evidence.

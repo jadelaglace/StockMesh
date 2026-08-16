@@ -39,3 +39,16 @@ No database, programming language, framework, model provider, deployment topolog
   - Treat a `Playground` as a reusable bounded world that may contain multiple `Episode` views.
   - Treat `Mechanism` as a first-class, evidence-bound rule or hypothesis about transitions; it is not automatically proven causality.
 - Consequence: R1 may define versioned contracts and fully synthetic examples from this domain. Company cases remain validation material, and the optional Game Record view cannot constrain non-agentic or non-social domains. Data schemas, implementation choices, and product acceptance remain separate decisions.
+
+## ADR-004 — Strategy graph, multidisciplinary reasoning, and open search policy
+
+- Status: adopted as product direction; runtime algorithm and scoring profile remain open
+- Date: 2026-08-16
+- Authority: [DW-013](../discovery/direct-wording.md#dw-013--a-sentence-is-a-strategy-step-between-complete-positions), [DW-014](../discovery/direct-wording.md#dw-014--score-and-search-reachable-multi-party-positions), [DW-015](../discovery/direct-wording.md#dw-015--data-foundation-with-an-open-multidisciplinary-reasoning-layer), and [DW-016](../discovery/direct-wording.md#dw-016--macro-network-methods-and-micro-interpersonal-methods)
+- Decision:
+  - Model each contextual Utterance/Action/Event as a Strategy Step connecting a complete scoped before-Position to an after-Position through a Transition.
+  - Treat Positions as search-tree nodes and Strategy Steps as edges. Main Line, Variations, frontier, prediction, Timeline, and replay are graph views.
+  - Evaluate every reachable Position separately for each declared Party and its Objectives, stake/weights, horizon, constraints, evidence cutoff, and uncertainty.
+  - Keep evidence-linked network and temporal data as the foundation, with replaceable macro network/historical Methods and micro interpersonal/language Methods above it.
+  - Search and prune branches under an inspectable Search Policy; hybrid reasoning is allowed, and neither Monte Carlo tree search, pure rules, nor any other algorithm is adopted by default.
+- Consequence: the chat UI may remain conversational, while backend context supports deeper branching, rollback, comparison, and replay. Scoring is multi-party and not necessarily zero-sum; every Method result remains scoped and attributable, and missing evidence cannot be replaced with false precision.

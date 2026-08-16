@@ -16,10 +16,12 @@ Initially, an individual analyst or learner exploring an explicitly authorized c
 6. The system presents patterns and hypotheses with evidence links, uncertainty, contradiction, and alternatives.
 7. The user can correct identity resolution, challenge an interpretation, or record an explicit human judgment without rewriting the source.
 8. Derived graphs and views can be rebuilt when processing changes.
-9. The user selects a perspective, objective, horizon, and risk profile, then evaluates the current Position with an inspectable vector scorecard.
-10. Where a profile declares agency and controllable Actions, the user proposes or requests candidate Actions; StockMesh produces materially different possible Trajectories, modeled Transitions, resulting Positions, uncertainty, and replan triggers.
-11. The user can replay an earlier decision using only information available at that time and optionally compare it with a hindsight view.
-12. When an application uses an episode/game-record view, the user can preserve an ongoing record with confirmed history and Position-bound alternatives without rewriting source history.
+9. In a dialogue/agentic profile, each reviewed utterance or contextual input can form a Strategy Step linking the complete scoped before-Position, input, Event/Action, Transition, after-Position, evidence, and mode.
+10. The user can inspect which macro and micro Methods contributed to an analysis, including their assumptions, evidence boundary, uncertainty, limitations, and disagreements.
+11. The user selects a perspective, objective, horizon, and risk profile, then evaluates the current Position with an inspectable vector scorecard.
+12. Where a profile declares agency and controllable Actions, the user proposes or requests candidate Actions; StockMesh produces materially different possible Trajectories, modeled Transitions, resulting Positions, uncertainty, and replan triggers.
+13. The user can replay an earlier decision using only information available at that time and optionally compare it with a hindsight view.
+14. When an application uses an episode/game-record view, the user can preserve an ongoing record with confirmed history and Position-bound alternatives without rewriting source history.
 
 ## Initial capability slice
 
@@ -37,6 +39,7 @@ Initially, an individual analyst or learner exploring an explicitly authorized c
 - Expose read/analysis capabilities to external Agents behind a narrow contract.
 - Load a domain profile that defines permitted node types, relation/flow types, state variables, event types, evaluation dimensions, and UI terminology without changing the universal evidence/time contracts.
 - Optionally pause an unfinished episode/game-record view and later resume it from the same frontier and identities.
+- Preserve a chat-like turn view while maintaining each turn as a traceable Strategy Step in the backend Position/Transition graph.
 
 ## Explicit non-goals for the initial slice
 

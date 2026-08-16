@@ -25,6 +25,16 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - Git remote readback: `origin` is `git@github.com:jadelaglace/StockMesh.git`; initial `origin/main` resolved to `8e9d079697ca77bd70f15a96f6911c9daab6ab46` before this closure update.
 - Observer report: recorded under [meta observations](../meta/product-docs-init-observations.md).
 
+## DOC-001 evidence - 2026-08-16
+
+- [Prior-art and reuse survey](../discovery/prior-art-survey.md) records official-source evidence and Agent interpretation for Stockfish/search, SNA, diffusion, Agent simulation, causal/probabilistic, conversation/NLP, visualization, storage, and organizational-network products.
+- The survey classifies candidates as reuse, evaluate, reference/external, or avoid/replace and records license posture, alternatives, and adoption gates. No source code or dependency was added.
+- `scripts/verify-repository.ps1`: passed for 20 Markdown files, including internal links, recovery-hook order, public-content markers, and private/default-excluded paths.
+- `scripts/validate-synthetic-contract.ps1`: passed for the unchanged published `stockmesh.domain@0.1.0` and `stockmesh.synthetic.unfinished-record.v0.1` artifacts.
+- `git diff --cached --check`: passed for the documentation-only staged change set.
+- Manual public scan found no Kimi locator, conversation ID, Tavily URL/API key, credential signature, or case material. The temporary research credential was not written to the repository.
+- Product acceptance, dependency adoption, runtime implementation, and a real business workflow remain pending human decision.
+
 ## SPEC-001 evidence — 2026-08-16
 
 - Candidate authorities exist for domain, Web workbench, and external Agent capabilities and are linked from the documentation index.

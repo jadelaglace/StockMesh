@@ -35,6 +35,19 @@ The product-level meanings are owned by the [candidate domain model](../product/
 
 Profiles own concepts such as person, statement, stance, trust, energy, organism, task, and orbit. `Pawn`, `Move`, `Line`, and `Game Record` are optional strategy-workbench aliases or views, not storage-layer assumptions.
 
+`Utterance` is a communication-profile object. `Strategy Step` is a rebuildable
+view joining a contextual input to its before/after Position and Transition; it
+does not become a second canonical event log. The Git/state-machine analogy
+governs revision, parent/child, branch, and replay semantics without selecting a
+runtime implementation.
+
+Reasoning Methods are replaceable derived processors above the evidence,
+knowledge, and Position layers. Macro and micro Methods may compose or disagree,
+but each result retains method/version, inputs, assumptions, scope, and
+uncertainty. A Method may use profile Mechanisms without rewriting them or the
+evidence it analyzed. This boundary deliberately leaves rules, retrieval,
+graph/statistical/learned analysis, and search algorithms open.
+
 ## Key invariants
 
 - Raw evidence is never rewritten to make the graph cleaner.

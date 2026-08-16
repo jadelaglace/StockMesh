@@ -1,10 +1,16 @@
 # Current requirements
 
-Purpose: state the current interpreted product outcome and constraints. Upstream authorities are [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief), the public/case boundary in [DW-002](../discovery/direct-wording.md#dw-002--public-repository-and-case-data-boundary), the strategic domain direction in [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), the requirements-first correction in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first), and adopted domain direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction). Downstream consumers are the PRD, candidate domain model, acceptance, design, architecture, and integration contract.
+Purpose: state the current interpreted product outcome and constraints. Upstream authorities are [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief), the public/case boundary in [DW-002](../discovery/direct-wording.md#dw-002--public-repository-and-case-data-boundary), the strategic domain direction in [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), the requirements-first correction in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first), adopted domain direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction), the transition/search refinements in [DW-013](../discovery/direct-wording.md#dw-013--a-sentence-is-a-strategy-step-between-complete-positions) and [DW-014](../discovery/direct-wording.md#dw-014--score-and-search-reachable-multi-party-positions), and the method-layer clarifications in [DW-015](../discovery/direct-wording.md#dw-015--data-foundation-with-an-open-multidisciplinary-reasoning-layer) and [DW-016](../discovery/direct-wording.md#dw-016--macro-network-methods-and-micro-interpersonal-methods). Downstream consumers are the PRD, candidate domain model, acceptance, design, architecture, and integration contract.
 
 ## Product intent
 
 StockMesh should help a user understand how a network behaves by placing new nodes, relationships or flows, events, state observations, and contextual evidence into an evolving model and immediately seeing the relevant Position, history, patterns, risks, and possible developments. It should support cumulative learning: new evidence refines understanding instead of producing an isolated one-off answer.
+
+In an agentic dialogue or interaction profile, each utterance or other contextual action may be modeled as a strategy step: a traceable input that transforms one complete, question-bounded Position into the next. The backend preserves the context fields, evidence, and transition history; the Web UI or external Skill is only a view over that maintained state graph.
+
+Evidence-linked Nodes, Relations, Flows, Events, State, time, and Positions form the durable data foundation. Above it, StockMesh may combine macro methods such as historical analogy, social-network analysis, social behavior, and communication/propagation analysis with micro methods such as personality lenses, interpersonal conventions, conversation analysis, and wording optimization. These are inspectable analytical lenses, not automatic truths about a person or guarantees that history will repeat.
+
+For a declared set of people, coalitions, organizations, or other Parties, every reachable Position should be evaluable against each Party's explicit Objectives, stake/weights, horizon, constraints, and uncertainty. StockMesh may combine retrieval and historical comparison, rules and heuristics, graph analysis, statistical or learned methods, and search/planning to produce alternative Lines. The combination and search policy remain open; no single technique, including Monte Carlo or a pure rule system, defines the product.
 
 ## Initial scope
 
@@ -40,6 +46,16 @@ The underlying model must not assume that every node is a person, every edge is 
 13. External Agents need a narrow Skill-compatible interface for inspection, analysis, simulation, replay, and reviewed staging without direct canonical writes.
 14. A local case, dataset, or profile may validate the general model but must not define universal core semantics by itself.
 15. Domain-specific concepts—such as personality, stance, organizational authority, energy flow, biological signaling, or orbital relation—belong to explicit profiles built on the same core evidence, node, relation, event, state, and time contracts.
+16. A strategy step must link its before-Position, input (such as an Utterance or Action), resulting Event/Transition, after-Position, mode, and evidence. An utterance alone does not prove intent, personality, or outcome.
+17. Position evaluation must be multi-party and objective-bound. Support, influence, relationship quality, wealth/resources, information, risk, and other goals are profile dimensions—not one universal social score—and a scalar is optional and inspectable.
+18. Every reachable Position may receive an Evaluation, but insufficient evidence must yield unknowns, ranges, or uncertainty rather than invented precision.
+19. Search must expose depth/branch budget, candidate-generation boundary, pruning rationale, diversity, and uncertainty policy. Monte Carlo tree search, beam search, or other algorithms remain implementation candidates until later validation.
+20. A Strategy Step may change Relations, Flows, State, resources, support, or other profile-defined quantities; the before/after Position difference must show those modeled effects.
+21. Analytical Methods must be replaceable and composable above the shared data foundation. A method declares its scale, applicable profile and question, required inputs, provenance/version, assumptions, limitations, and uncertainty treatment.
+22. Macro network or historical methods and micro interpersonal or language methods may cooperate on one analysis, but their outputs remain separately attributable and may disagree.
+23. A method output is a Claim, Evaluation, candidate Transition, Prediction, or Recommendation with trace—not a silent mutation of source evidence or a fact about a represented person.
+24. Informal heuristics and named psychological or strategic schools may be available as explicitly labeled lenses; StockMesh must not present them as validated universal laws merely because they are familiar or useful.
+25. Classical SNA and multi-Agent social simulation are complementary candidate Method families. Structural metrics or simulated reactions must remain traceable derived results in the model or possibility planes, never replacements for source evidence.
 
 ## Current priorities
 
@@ -58,4 +74,10 @@ The underlying model must not assume that every node is a person, every edge is 
 - Which analysis methods provide useful insight without encouraging overconfident surveillance or profiling.
 - What user correction and appeal workflow is required for human subjects represented in the graph.
 - The first evaluation profile and useful scenario depth for the company pilot.
+- How multi-party Objectives and stake/weights are elicited, contested, and updated over time.
+- Which search/pruning policy gives useful depth without hiding uncertainty or minority-party harm.
 - Whether external Agents in v1 may stage evidence or remain read/analysis-only.
+- Which context fields make an organizational Position complete enough for a strategy step without claiming whole-world completeness.
+- What project or tool the user's term `ucient` refers to; `unet` was corrected to `ucient` in [DW-019](../discovery/direct-wording.md#dw-019--unet-corrects-to-ucient), but no identity is inferred without evidence.
+- Which macro and micro method families earn inclusion, how they are validated, and how conflicts between them are surfaced.
+- What can be learned from the user-named simulation/collective-agent and SNA references without treating any project or tool as a required dependency.

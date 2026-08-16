@@ -4,7 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. R1-001 reached its contract/fixture terminal. The candidate is ready for user review; product and business-workflow acceptance remain pending.
+None. DOC-001 reached its documentation/research terminal; the implementation queue remains held for explicit resume.
+
+## Last terminal: DOC-001
+
+- Source anchor: [DW-013](../discovery/direct-wording.md#dw-013--a-sentence-is-a-strategy-step-between-complete-positions), [DW-014](../discovery/direct-wording.md#dw-014--score-and-search-reachable-multi-party-positions), [DW-015](../discovery/direct-wording.md#dw-015--data-foundation-with-an-open-multidisciplinary-reasoning-layer), [DW-016](../discovery/direct-wording.md#dw-016--macro-network-methods-and-micro-interpersonal-methods), candidate references [DW-017](../discovery/direct-wording.md#dw-017--candidate-simulation-and-collective-agent-references) / [DW-018](../discovery/direct-wording.md#dw-018--candidate-social-network-analysis-tool-references), correction [DW-019](../discovery/direct-wording.md#dw-019--unet-corrects-to-ucient), and prior-art requirement [DW-020](../discovery/direct-wording.md#dw-020--research-prior-art-and-license-clean-reuse-before-building)
+- User goal: preserve the core StockMesh intent, research relevant prior art and reusable license-clean building blocks, and commit the resulting documentation before implementation.
+- Lifecycle mode: definition / documentation and bounded research
+- Terminal: documentation and prior-art survey completed on 2026-08-16; product acceptance and implementation remain pending.
+- Outcome: the requirements/domain chain now records an evidence-linked data foundation, macro and micro replaceable Methods, Strategy Steps, multi-party objective-bound Evaluation, inspectable algorithm-open search, and explicit external-reference boundaries. The [prior-art survey](../discovery/prior-art-survey.md) maps capabilities, licenses, alternatives, and reuse classes across the reviewed families.
+- Verification: repository/public-content checks passed for 20 Markdown files; the unchanged `0.1.0` synthetic contract passed; staged documentation passed `git diff --cached --check`; no Kimi locator, case material, or temporary Tavily credential was retained.
+- Protected boundaries: no contract version, fixture, validator, runtime, model/provider, database, framework, frontend, Skill, private corpus, Kimi locator, or Babata operation was introduced. Stockfish remains name-only inspiration; MiroFish/OASIS and other external projects remain references or candidates, not adopted dependencies.
+- Evidence entry: [DOC-001 verification evidence](../verification/README.md#doc-001-evidence---2026-08-16)
+- Goal transition: `user-explicit-goal-override` — user-explicit-goal-override: the user explicitly instructed this round to land and commit the basic documents and intent quickly, then expanded it to a bounded prior-art and license survey without rushing into implementation.
 
 ## Last terminal: R1-001
 
@@ -64,4 +76,4 @@ None. R1-001 reached its contract/fixture terminal. The candidate is ready for u
 
 ## Next-start queue
 
-Review the R1 contract and synthetic unfinished record. R2 cross-domain/business validation and all implementation remain later stages.
+- `requires-explicit-resume`: translate the consolidated domain and method direction into a candidate `0.2.0` contract, fully synthetic validation artifacts, and later implementation only after the user resumes delivery work.

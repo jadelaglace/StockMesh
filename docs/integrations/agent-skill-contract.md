@@ -19,6 +19,7 @@ Purpose: let external Agents use StockMesh as an evidence-aware temporal-network
 | `playground.get` | Read scope, ontology, policies, and available profiles | Read-only |
 | `node.get` | Read one Node and authorized Claims, State, Relations, and Flows | Read-only |
 | `timeline.query` | Query authorized Events and state changes by time, Node, or profile-defined filters | Read-only |
+| `step.explain` | Return one Strategy Step with source input, evidence/Claims, before/after Position, Transition, mode, and branch membership | Derived/read-only |
 | `position.build` | Materialize a reproducible as-of projection | Derived output only |
 | `position.compare` | Explain changes between two positions | Derived output only |
 | `position.evaluate` | Produce a perspective-bound scorecard | Derived output only |
@@ -91,6 +92,7 @@ A future `stockmesh` Skill should route intents such as:
 ```text
 ingest/stage evidence
 inspect current position
+explain one dialogue turn / strategy step
 compare before/after
 analyze a Node, Relation, or Flow
 evaluate a position

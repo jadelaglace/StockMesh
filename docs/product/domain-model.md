@@ -1,6 +1,6 @@
 # Candidate universal domain model
 
-Status: **adopted semantic direction; candidate versioned contract for R1**. This document interprets the broad network-analysis requirement in [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief) and [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), subject to the requirements-first corrections in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation), and adopted direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction). It is not yet a transport/storage schema or an implementation contract.
+Status: **adopted semantic direction; candidate domain refinement**. This document interprets the broad network-analysis requirement in [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief) and [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), subject to the requirements-first corrections in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation), adopted direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction), strategy-step refinement [DW-013](../discovery/direct-wording.md#dw-013--a-sentence-is-a-strategy-step-between-complete-positions), and method-layer clarifications [DW-015](../discovery/direct-wording.md#dw-015--data-foundation-with-an-open-multidisciplinary-reasoning-layer) and [DW-016](../discovery/direct-wording.md#dw-016--macro-network-methods-and-micro-interpersonal-methods). It is not yet a transport/storage schema or an implementation contract.
 
 ## Domain statement
 
@@ -19,6 +19,8 @@ The universal domain is therefore neither “a company case” nor “a chess ga
 | Extend toward social, resource/energy, biological, machine, and macro networks | Neutral universal concepts; profile-specific agency, units, mechanisms, terminology, and evaluation |
 | Let the human handle second-level nuance while StockMesh acts as a strategic adviser | Configurable horizons and uncertainty; no claim of autonomous real-time control |
 | Do not let a local case define the product | Profiles and synthetic cross-domain fit checks precede data contracts and business validation |
+| Treat each contextual sentence as a strategy step while retaining a chat-like UI | Profile-scoped Utterance linked to Action/Event, before/after Position, Transition, evidence, and branch mode |
+| Learn from social patterns without fixing one chess-search algorithm | A stable data foundation plus inspectable, replaceable macro and micro Methods |
 
 ## Four semantic planes
 
@@ -102,6 +104,79 @@ A profile declares whether time is discrete or continuous, the useful resolution
 
 Given the same authorized evidence cutoff, profile version, projection rules, scope, and question, a Position should be reproducible. Perspective may change visibility or evaluation, but it does not create a different external history.
 
+“Complete Position” means complete for the declared Playground scope, question,
+profile, evidence cutoff, and projection rules. It never claims that StockMesh
+knows the whole external world.
+
+## Reasoning methods and mechanisms
+
+The data foundation describes the currently supported world and knowledge:
+Evidence, Claims, Nodes, Relations, Flows, Events, State, time, and derived
+Positions. A **Method** describes how StockMesh analyzes that foundation. A
+**Mechanism** remains a profile-scoped, evidence-bound hypothesis about how the
+modeled world changes. Methods may discover, test, compare, or apply Mechanisms;
+the two concepts are not interchangeable.
+
+Methods can work at different scales:
+
+- **Macro:** historical analogy, social-network structure, coalition and social
+  behavior, diffusion, communication, and other system-level patterns.
+- **Micro:** personality or psychological lenses, interpersonal conventions,
+  conversational interpretation, response construction, and wording
+  optimization between particular actors.
+
+A Method declares its identity and version, scale, applicable profile/question,
+required inputs, assumptions, provenance, limitations, and uncertainty policy.
+Its outputs remain attributed Claims, Evaluations, candidate Transitions,
+Predictions, or Recommendations. Named schools, practical heuristics, and
+historical analogies may be useful lenses but are not promoted to universal
+truth, causality, or personality fact by default.
+
+A reasoning run may compose several Methods and preserve disagreement between
+them. Retrieval, historical comparison, rules, heuristics, graph analysis,
+statistical or learned models, and tree/graph search are all possible routes.
+The domain does not require a pure rule system, Monte Carlo search, or any other
+single algorithm.
+
+## Strategy step and dialogue transition
+
+A **Strategy Step（一步）** is a derived transition view, not a competing
+universal ontology:
+
+```text
+Position_before
+  + contextual input (Utterance, Action, Event, or human choice)
+  + evidence / interpretation / mode
+  -> Transition
+  -> Position_after
+```
+
+For an organizational dialogue profile, an **Utterance** preserves who said
+what, when, where, to whom, and from which evidence. The same Utterance may be
+linked to an intended Action and an observed communication Event, but these are
+not identical: the words are evidence; strategic intent is a Claim; the Event
+records that the words occurred; the Transition explains the modeled difference
+between Positions.
+
+One visible chat turn can therefore render one strategy step while the backend
+maintains the complete scoped before/after Position and trace graph. Silence,
+joining/leaving, a resource change, or an external intervention can also form a
+step without an Utterance.
+
+The step graph yields the higher-level views naturally:
+
+- the realized/reconstructed path is Main Line;
+- alternative or predicted outgoing paths are Variations;
+- the latest confirmed Position is the frontier;
+- Timeline orders realized steps by the selected time basis;
+- replay selects an earlier Position and its then-known outgoing choices;
+- UI and Agent Skill expose views or operations over the same graph rather than
+  owning separate context.
+
+The “Git/state-machine” analogy describes append-only revisions, snapshots,
+parent/child transitions, and branches. It does not choose Git or a particular
+state-machine library as the runtime implementation.
+
 ## Domain profiles
 
 A Domain Profile specializes the core without replacing it. It may declare:
@@ -134,6 +209,7 @@ When a profile declares agentic Nodes, controllable Actions, objectives, constra
 | Node | Pawn / 棋子 |
 | Position | position / 盘面 |
 | Action | Move / 走法 |
+| Strategy Step | ply / 一步 |
 | Trajectory | Line / 推演线 |
 | Evaluation | Scorecard / 局势评分 |
 
@@ -151,6 +227,11 @@ An **Episode** is a bounded analytical segment inside a Playground. A strategy p
 - later evidence may link a former prediction to a realized Event, but never rewrites the old prediction into fact;
 - `dormant` means processing is paused, not that the external episode concluded.
 
+Operationally, a Game Record is a view over a graph of Strategy Steps. Main Line
+selects confirmed/reconstructed parent-child steps; each Variation starts from
+an anchor Position and follows hypothetical or predicted steps. Promotion adds
+a new confirmed step and a trace link; it never changes the old branch mode.
+
 This is useful for company decision replay, but it is optional. The universal domain can model continuous flows, non-agentic systems, overlapping timescales, and partially ordered Events without pretending they form one game record.
 
 ## Universal invariants
@@ -165,12 +246,15 @@ This is useful for company decision replay, but it is optional. The universal do
 8. Action and recommendation are available only where agency, control, objectives, and constraints are declared.
 9. Domain Profiles extend the universal core but cannot weaken evidence, uncertainty, time, correction, or privacy rules.
 10. A local case can challenge or validate the model; it cannot define the universal ontology by proximity.
+11. Every Strategy Step identifies its before/after Position, contextual input, Transition, mode, and evidence; an Utterance alone does not prove strategy or outcome.
+12. Every Method output identifies the Method/version, inputs, assumptions, scope, uncertainty, and trace; method output cannot silently become source evidence.
+13. Macro and micro Methods may be composed, compared, or replaced without changing the underlying evidence history.
 
 ## Conceptual fit checks
 
 The candidate passes an initial paper check across three deliberately different shapes:
 
-1. **Department interaction:** people and teams are Nodes; reporting is a Relation; messages carry information Flows; a meeting is an Event; commitments are State; a proposed private conversation is an Action; alternative response chains are simulated Trajectories.
+1. **Department interaction:** people and teams are Nodes; reporting is a Relation; messages carry information Flows; a meeting is an Event; commitments are State; each contextual Utterance can become a traceable Strategy Step; a proposed private conversation is an Action; alternative response chains are simulated Trajectories.
 2. **Microgrid:** generators, batteries, and loads are Nodes; wiring is a Relation; power is a Flow; charge and capacity are State; an outage is an Event; rerouting is an Action; resilience and unmet demand form an Evaluation vector.
 3. **Machine collective:** agents and services are Nodes; delegation and dependency are Relations; tasks/data are Flows; load and availability are State; failures and handoffs are Events; protocol/capacity rules are Mechanisms; alternative allocations are Trajectories.
 
@@ -180,3 +264,4 @@ No company-only property is needed in the universal core. This is a domain-coher
 
 1. For the first organizational profile, which semantics must be present beyond people/units, relations/flows, events, state, stance, actions, and evaluation?
 2. Which concrete company workflow and primary user persona should be the first business-validation target?
+3. Which organizational context fields are required for a Position to be complete enough for one strategy step?
