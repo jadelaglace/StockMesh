@@ -30,8 +30,24 @@ if ($mutatedHook -eq $agents -or (Test-RecoveryHook $mutatedHook)) {
     $failures.Add('Recovery-hook negative mutation was not rejected.')
 }
 
-$trackedCandidates = Get-ChildItem -LiteralPath $RepositoryRoot -Recurse -File -Force |
-    Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' }
+$gitDirectory = Join-Path $RepositoryRoot '.git'
+if (Test-Path -LiteralPath $gitDirectory) {
+    $candidateRelativePaths = & git -C $RepositoryRoot ls-files --cached --others --exclude-standard
+    if ($LASTEXITCODE -ne 0) {
+        $failures.Add('Unable to enumerate tracked and non-ignored repository candidates.')
+        $trackedCandidates = @()
+    } else {
+        $trackedCandidates = @($candidateRelativePaths | ForEach-Object {
+            Get-Item -LiteralPath (Join-Path $RepositoryRoot $_)
+        })
+    }
+} else {
+    $trackedCandidates = Get-ChildItem -LiteralPath $RepositoryRoot -Recurse -File -Force |
+        Where-Object {
+            $_.FullName -notmatch '[\\/]\.git[\\/]' -and
+            $_.FullName -notmatch '[\\/](private|data|runtime|artifacts|evidence-private|source-locators)[\\/]'
+        }
+}
 
 $forbiddenContentPatterns = @(
     'https?://(?:www\.)?kimi\.com/chat/',

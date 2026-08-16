@@ -27,6 +27,7 @@ direct wording / external sources
 | Architecture / ownership | [architecture/architecture.md](architecture/architecture.md) | Durable boundaries, data classes and permitted writers | Product priority |
 | Candidate Agent contract | [integrations/agent-skill-contract.md](integrations/agent-skill-contract.md) | Proposed transport-neutral external Agent capabilities | Canonical data ownership or implemented API |
 | Active plan | [delivery/active-plan.md](delivery/active-plan.md) | Single current goal, route, next action and terminal | Product truth or execution logs |
+| Candidate roadmap | [delivery/candidate-roadmap.md](delivery/candidate-roadmap.md) | Proposed implementation order and stage terminals | Live progress or user adoption |
 | Live status | [delivery/status.md](delivery/status.md) | Evidence-backed current delivery state | Product acceptance |
 | Verification | [verification/README.md](verification/README.md) | Test cases and evidence pointers | New requirements |
 | Decisions | [decisions/README.md](decisions/README.md) | Explicitly adopted durable decisions | Candidate ideas by proximity |

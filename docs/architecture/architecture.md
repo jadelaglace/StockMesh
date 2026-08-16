@@ -43,6 +43,7 @@ authorized sources (read-only)
 - **Position:** a reproducible as-of projection of events and assertions for a selected question and perspective.
 - **Move:** an actual or candidate intervention that may transition one Position to another.
 - **Line:** a derived sequence of Moves, modeled responses, Positions, scorecards, and replan triggers.
+- **Game Record:** an append-only episode aggregate holding ordered sources, the confirmed Main Line, Position-bound Variations, checkpoints, and an explicit ongoing/dormant/concluded state.
 
 ## Key invariants
 
@@ -55,6 +56,7 @@ authorized sources (read-only)
 - External Agents interact through validated capabilities; they do not read private databases or write canonical data directly.
 - Position evaluation is vector-first and objective-bound. Scalar ranking is a derived view with inspectable weights.
 - Scenario search preserves branch diversity and uncertainty; greater depth does not imply greater truth.
+- A Variation is promoted only by a later confirmation record; processors cannot silently turn recommendations into Main Line facts.
 
 ## Open architecture decisions
 

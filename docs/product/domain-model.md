@@ -42,8 +42,28 @@ The event log stays authoritative. A position is a reproducible projection, not 
 | **Scorecard** | A perspective-bound vector evaluation of a position or line | Goal progress, trust risk, escalation risk, information gain, cost |
 | **Line** | One simulated sequence of moves, responses, and resulting positions | “Say X → B resists → C aligns → decision delayed” |
 | **Recommendation** | A ranked set of lines with assumptions, evidence, uncertainty, and stop conditions | Best current option under a named objective and horizon |
+| **Game Record** | A perspective-bound, append-only record containing a confirmed Main Line, candidate Variations, checkpoints, and an explicit completion state | One unfinished company episode viewed from A's perspective |
 
 `Pawn` is the compact domain term. Human-facing UI should default to neutral labels such as “参与者” or “节点” when the chess metaphor would feel dehumanizing.
+
+## Game Record: Main Line and Variations
+
+A Game Record is the practical container for one evolving episode:
+
+```text
+Game Record
+  scope: Playground, perspective Pawn, evidence boundary
+  status: not-started | ongoing | dormant | concluded | abandoned
+  source messages: immutable and ordered
+  Main Line: confirmed events and moves
+  Variations: questions, drafts, advice, counterfactuals, and predicted responses
+  checkpoints: reconstructable Positions
+  current frontier: the last confirmed Position plus unresolved candidate Moves
+```
+
+The **Main Line（正谱）** contains only events or moves confirmed by later user input or authorized evidence. A proposal does not enter the Main Line because an Agent recommended it. A **Variation（变例）** remains attached to the Position where it was considered and may contain several predicted steps. When later evidence confirms that a candidate Move happened, the system appends a promotion record linking the Variation to the new Main Line event; it does not rewrite the old branch.
+
+An unfinished record is normal. `dormant` means no current processing is planned, not that the episode ended. New evidence resumes from the current frontier and retains the earlier source and branch identities.
 
 ## Pawn model
 
@@ -148,6 +168,8 @@ Replay reconstructs the information available at an earlier time, compares the m
 
 One private Playground, persons and teams as Pawn types, text/table/image evidence staged outside Git, an immutable event timeline, position snapshots, a configurable scorecard, three diverse scenario lines of limited depth, and a human-selected recommendation. Other Pawn types and deep 10–20 step search remain compatible extensions rather than first-release claims.
 
+The first implementation fixture should be synthetic. An authorized private Game Record may validate the same importer and replay behavior locally, but it is not a public fixture or repository dependency.
+
 ## Decisions for user review
 
 1. Keep `Playground / Pawn / Position / Move / Line` as the public domain vocabulary, or use Chinese-first terms in the product surface?
@@ -155,4 +177,3 @@ One private Playground, persons and teams as Pawn types, text/table/image eviden
 3. Which scorecard dimensions matter most for the first company workflow?
 4. Should human-authored judgments be able to become canonical immediately, or enter the same review flow as Agent hypotheses?
 5. What maximum prediction depth is useful before uncertainty makes additional steps misleading?
-

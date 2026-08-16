@@ -19,5 +19,6 @@ Purpose: define observable results for the first validated StockMesh capability.
 | AC-13 | Decision replay reconstructs the evidence available at the historical cutoff and labels any hindsight view separately. | Later knowledge silently leaks into the reconstructed decision. |
 | AC-14 | The Web workbench supports the full pilot loop: stage evidence, inspect timeline/Position/Pawn, ask for analysis, compare Lines, and correct an assertion. | The user must edit internal graph or database records to complete the loop. |
 | AC-15 | An external Agent can inspect a Position, request evaluation/simulation, and obtain traceable results without direct canonical writes. | The Agent must access private storage or can bypass validation/review. |
+| AC-16 | An unfinished Game Record preserves ordered source messages, a confirmed Main Line, Position-bound Variations, and a resumable frontier; branch promotion appends provenance rather than rewriting history. | Advice is silently recorded as fact, dormant is mistaken for concluded, or resuming changes prior identities. |
 
 Engineering scaffold, schemas, file counts, or fixture-only tests do not prove these criteria. User acceptance remains a separate human decision.

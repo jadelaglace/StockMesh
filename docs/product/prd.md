@@ -19,6 +19,7 @@ Initially, an individual analyst or learner exploring an explicitly authorized c
 9. The user selects a perspective, objective, horizon, and risk profile, then evaluates the current Position with an inspectable vector scorecard.
 10. The user proposes or requests candidate Moves; StockMesh produces materially different scenario Lines, modeled responses, resulting Positions, uncertainty, and replan triggers.
 11. The user can replay an earlier decision using only information available at that time and optionally compare it with a hindsight view.
+12. The user can preserve an ongoing Game Record with a confirmed Main Line and Position-bound Variations; later evidence can promote a branch outcome without rewriting its history.
 
 ## Initial capability slice
 
@@ -34,6 +35,7 @@ Initially, an individual analyst or learner exploring an explicitly authorized c
 - Compare at least three diverse short scenario Lines and select a human-approved recommendation.
 - Use a Web workbench with timeline, position board, Pawn drawer, strategist console, and scenario comparison.
 - Expose read/analysis capabilities to external Agents behind a narrow contract.
+- Pause an unfinished Game Record as dormant and later resume it from the same frontier and identities.
 
 ## Explicit non-goals for the initial slice
 

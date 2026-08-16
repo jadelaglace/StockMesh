@@ -2,7 +2,7 @@
 
 Purpose: govern content derived from external conversations or cases without retaining private conversation locators or identifying case details in this public repository. A registered derivative is not an adopted product decision.
 
-No external conversation content or case derivative is currently retained.
+No external conversation content, locator, or case derivative is retained in this public repository. An authorized unfinished case and an upper-level reference currently exist only in StockMesh's Git-ignored private workspace; their public record is limited to processing state, non-identifying counts, and generalized product consequences.
 
 ## Admission rules
 

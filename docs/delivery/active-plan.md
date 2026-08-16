@@ -4,7 +4,18 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. SPEC-001 is terminal; adoption requires user review.
+None. DATA-001 is terminal; private data is dormant and excluded from Git.
+
+## Last terminal: DATA-001
+
+- Source anchor: [DW-007](../discovery/direct-wording.md#dw-007--preserve-the-unfinished-a-perspective-case-as-a-private-game-record) and route correction [DW-008](../discovery/direct-wording.md#dw-008--stockmesh-owns-this-cleaning-task)
+- User goal: preserve the later A-perspective Kimi process as one complete unfinished private game record, omit the first two small examples, distinguish the confirmed Main Line from speculative Variations, maintain anonymized roles, acquire the upper-level summary reference, and refine planning.
+- Lifecycle mode: discovery / definition with private data preparation
+- Terminal: succeeded on 2026-08-16; dataset status is `cleaned-unfinished-dormant-candidate`, not concluded or published.
+- Outcome: StockMesh privately preserved 70 visible A-series messages and an 8-message upper-level reference; produced 12-role ledger, 15-event Main Line, 35 Kimi Variation anchors, an unfinished frontier, cleaning report, manifest, and integrity hashes. The visible source starts by referring to earlier context, so the gap is preserved rather than invented.
+- Protected boundaries: Babata was not used for storage, capture, processing, or registration. Babata authorization remains limited strictly to Kimi retrieval. All case content, locator, aliases, model output, and manifests remain in the Git-ignored StockMesh private tree. Only generalized Game Record semantics and a candidate roadmap entered the public repository.
+- Evidence entry: ignored private dataset `private/datasets/kimi-a-game-20260816/`; public status records only counts, state, boundary, and generalized consequences.
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly authorized private cleaning after SPEC-001.
 
 ## Last terminal: SPEC-001
 
@@ -30,4 +41,4 @@ None. SPEC-001 is terminal; adoption requires user review.
 
 ## Next-start queue
 
-The candidate domain, UI, Agent contract, and first pilot require explicit user review and adoption before implementation.
+Review the candidate Game Record semantics and [delivery roadmap](candidate-roadmap.md). Implementation requires explicit user adoption.

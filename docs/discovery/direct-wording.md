@@ -82,3 +82,30 @@ The external conversations supplied with the same instruction are governed by th
 > 这个大概率要有ui的 网页web就像个下棋软件一样 怎么走下一步 其实也就是主要靠打字对话 类似控制台输入 或者是导入对话表啊 历史截图啊 agent要分析的 ui大概就是一个我描述的盘面 时间线 这种 然后有个对话框 可以输入信息，然后pawn有些子对话框啊 记录啊这些
 >
 > 也做好给外面agent用的skill 接口 规划下吧 我看看
+
+## DW-007 — Preserve the unfinished A-perspective case as a private game record
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; authorizes private case staging but not public-repository publication
+- Retrieval phrases: “完整保留作为一次棋谱”, “正谱”, “分支预测”, “还没下完”, “备选数据”
+
+> Kimi会话 开始有两个小例子 先不管 后面以A为视角的系列过程 你完整保留作为一次“棋谱” 还没下完呢 其中过程中一些纠结发散的就类似分支预测分  主线的 确定的就是正谱 然后也还没发展完 你先简单洗一下这个数据 包括角色也都维护一些数据抽出来 然后作为备选数据就不管了 kimi另一个总结性的 你再试试拿取 这个是一个偏上层需求的思考  也是供参考 然后就研究下怎么和计划吧。
+
+## DW-008 — StockMesh owns this cleaning task
+
+- Source: direct user correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; corrects the processing route in DATA-001
+- Retrieval phrases: “你自己洗”, “不要用babata”
+
+> 不是 你自己洗 不要用babata 跟你没关系啊
+
+## DW-009 — Babata authorization is retrieval-only
+
+- Source: direct user correction in Codex task
+- Captured: 2026-08-16, Asia/Shanghai
+- Status: active; establishes the strict external-tool authorization boundary
+- Retrieval phrases: “不许污染babata”, “仅仅授权”, “kimi取回”
+
+> 你不许污染babata 我仅仅授权你babata kimi取回 你僭越了

@@ -38,6 +38,7 @@ The underlying model should not assume that every node is a person or that every
 11. Prediction must expose assumptions, uncertainty, alternative branches, and stop/replan conditions; long search depth must not be presented as certainty.
 12. A Web workbench is the intended primary human interface, with text/dialogue input, authorized conversation-table or screenshot staging, a position board, timeline, Pawn detail, and scenario comparison.
 13. External Agents need a narrow Skill-compatible interface for inspection, analysis, simulation, replay, and reviewed staging without direct canonical writes.
+14. An evolving episode must be preservable as an unfinished Game Record: confirmed history forms the Main Line, deliberation and predictions remain Position-bound Variations, and later evidence may promote an outcome only through an append-only trace.
 
 ## Current priorities
 
