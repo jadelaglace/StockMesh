@@ -1,0 +1,84 @@
+param(
+    [string]$RepositoryRoot = (Split-Path -Parent $PSScriptRoot)
+)
+
+$ErrorActionPreference = 'Stop'
+$failures = [System.Collections.Generic.List[string]]::new()
+
+function Test-RecoveryHook([string]$content) {
+    $marker = [regex]::Match($content, '(?s)<!-- STOCKMESH-RECOVERY-HOOK:START -->(.*?)<!-- STOCKMESH-RECOVERY-HOOK:END -->')
+    if (-not $marker.Success) { return $false }
+    $hook = $marker.Groups[1].Value
+    $goalIndex = $hook.IndexOf('Goal/task-state API', [System.StringComparison]::Ordinal)
+    $planIndex = $hook.IndexOf('[docs/delivery/active-plan.md]', [System.StringComparison]::Ordinal)
+    return $goalIndex -ge 0 -and $planIndex -ge 0 -and $goalIndex -lt $planIndex
+}
+
+$agentsPath = Join-Path $RepositoryRoot 'AGENTS.md'
+$agents = Get-Content -Raw -LiteralPath $agentsPath
+if (-not (Test-RecoveryHook $agents)) {
+    $failures.Add('AGENTS.md must order Goal/task-state API before the active-plan link.')
+}
+
+# Negative mutation: a reversed hook must be rejected by the same rule.
+$mutatedHook = [regex]::Replace(
+    $agents,
+    'At every recovery boundary, first call the environment Goal/task-state API\.\r?\nThen read \[docs/delivery/active-plan\.md\]',
+    "At every recovery boundary, first read [docs/delivery/active-plan.md]`nThen call the environment Goal/task-state API"
+)
+if ($mutatedHook -eq $agents -or (Test-RecoveryHook $mutatedHook)) {
+    $failures.Add('Recovery-hook negative mutation was not rejected.')
+}
+
+$trackedCandidates = Get-ChildItem -LiteralPath $RepositoryRoot -Recurse -File -Force |
+    Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' }
+
+$forbiddenContentPatterns = @(
+    'https?://(?:www\.)?kimi\.com/chat/',
+    'ghp_[A-Za-z0-9_]{20,}',
+    '-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----'
+)
+
+foreach ($file in $trackedCandidates) {
+    if ($file.Extension -notin @('.md', '.txt', '.json', '.yaml', '.yml', '.toml', '.ps1')) {
+        continue
+    }
+    $content = Get-Content -Raw -LiteralPath $file.FullName
+    foreach ($pattern in $forbiddenContentPatterns) {
+        if ($content -match $pattern) {
+            $relative = [IO.Path]::GetRelativePath($RepositoryRoot, $file.FullName)
+            $failures.Add("Forbidden public-repository content in ${relative}: ${pattern}")
+        }
+    }
+}
+
+$markdownFiles = $trackedCandidates | Where-Object Extension -eq '.md'
+foreach ($file in $markdownFiles) {
+    $content = Get-Content -Raw -LiteralPath $file.FullName
+    $links = [regex]::Matches($content, '(?<!\!)\[[^\]]+\]\(([^)]+)\)')
+    foreach ($match in $links) {
+        $target = $match.Groups[1].Value.Trim('<', '>')
+        if ($target -match '^(?:https?://|mailto:|#)') { continue }
+        $pathPart = ($target -split '#', 2)[0]
+        if ([string]::IsNullOrWhiteSpace($pathPart)) { continue }
+        $resolved = [IO.Path]::GetFullPath((Join-Path $file.DirectoryName $pathPart))
+        if (-not (Test-Path -LiteralPath $resolved)) {
+            $relative = [IO.Path]::GetRelativePath($RepositoryRoot, $file.FullName)
+            $failures.Add("Broken Markdown link in ${relative}: ${target}")
+        }
+    }
+}
+
+$forbiddenPaths = @('cases', 'evidence-private', 'source-locators')
+foreach ($relativePath in $forbiddenPaths) {
+    if (Test-Path -LiteralPath (Join-Path $RepositoryRoot $relativePath)) {
+        $failures.Add("Private/default-excluded path exists in repository: ${relativePath}")
+    }
+}
+
+if ($failures.Count -gt 0) {
+    $failures | ForEach-Object { Write-Error $_ }
+    exit 1
+}
+
+Write-Output "Repository documentation and public-content checks passed ($($markdownFiles.Count) Markdown files)."

@@ -1,0 +1,30 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Runtime and private data
+data/
+private/
+runtime/
+artifacts/
+cases/
+evidence-private/
+source-locators/
+*.db
+*.sqlite
+*.sqlite3
+
+# Common build/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/
+dist/
+build/
+__pycache__/
+.pytest_cache/
+.venv/
