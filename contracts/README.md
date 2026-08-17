@@ -21,6 +21,17 @@ organizational strategy view with `Pawn`, `Game Record`, `Main Line`, and
 `Variation`. Predicted branches remain hypothetical and cannot promote
 themselves into history.
 
+## Candidate next minor version
+
+The adopted direction in
+[ADR-006](../docs/decisions/README.md#adr-006--realized-reactions-revise-profile-claims-and-calibrate-frozen-forecasts)
+requires a new candidate minor version rather than reinterpretation of `0.1.0`.
+That future contract must review transport fields for branch purpose, frozen
+branch-root profile/context identity, Forecast Assessment, horizon and
+observation coverage, many-to-many forecast/actual links, time-bounded profile
+Claim revisions, and separate analysis/search calibration. No `0.2.0` artifact
+or migration is created by this documentation round.
+
 ## Version policy
 
 Contract versions use `major.minor.patch` semantics while the contract remains

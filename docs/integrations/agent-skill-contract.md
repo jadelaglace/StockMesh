@@ -12,6 +12,7 @@ Purpose: give Agents and command-line users lightweight access to the same evide
 - Read and analyze before write. External Agents never write canonical graph records directly.
 - Inputs are scoped by Playground, authorization, time, perspective, objective, and horizon.
 - Outputs carry evidence references, uncertainty, limitations, processor identity, and a stable run ID.
+- Forecast calls freeze the branch-root Position/profile and declare forecast, counterfactual, or exploratory purpose; realization is assessed separately after reviewed actual evidence arrives.
 - Recommendation is advisory. The contract does not send messages, change employment decisions, or act on people.
 
 ## Capability surface
@@ -29,11 +30,14 @@ Purpose: give Agents and command-line users lightweight access to the same evide
 | `analysis.run` | Invoke the configured LLM analysis boundary over an exact context and return validated semantic proposals with provider/model trace | Derived output only |
 | `trajectory.simulate` | Generate diverse possible Trajectories within a declared model and budget | Derived output only |
 | `strategy.recommend` | When supported by the profile, rank controllable Actions/Trajectories and explain assumptions | Derived output only |
-| `branch.list` | Read Main Line and Variations, statuses, Evaluations, and cache validity | Read-only |
+| `branch.list` | Read Main Line and Variations, purpose, realization status, Evaluations, and cache validity | Read-only |
 | `branch.fork` | Create a hypothetical child from any selected Position without changing its parent or siblings | Derived possibility only |
 | `branch.pin` | Pin/unpin a forecast for user comparison; never promote it to history | Derived preference only |
 | `search.start` / `search.continue` / `search.cancel` | Control a persisted budgeted exploration run and its frontier | Derived runtime/possibility state only |
 | `decision.replay` | Checkout a historical or hypothetical Position, reconstruct its exact information set, and optionally fork | Derived output only |
+| `forecast.assess` | Compare eligible frozen forecasts with reviewed realized Events under a declared horizon, rubric, and observation coverage | Derived assessment/proposal only |
+| `profile.revision.propose` | Propose evidence-linked, time-bounded profile Claim changes and competing explanations from a realized reaction | Review queue only; never canonical directly |
+| `calibration.query` | Inspect provider/model, Method, and Search Policy forecast residuals separately from Pawn profile history | Derived/read-only |
 | `evidence.stage` | Submit private candidate evidence for validation | Staging only; never canonical directly |
 | `correction.propose` | Propose identity, event, assertion, or scoring corrections | Review queue only |
 | `trace.explain` | Return evidence and processing lineage for a claim/output | Read-only |
@@ -79,6 +83,7 @@ Object-level results distinguish `succeeded`, `partial`, `inaccessible`, `quaran
 `trajectory.simulate` and `search.start` additionally accept:
 
 - starting `position_id`;
+- branch purpose: `forecast`, `counterfactual`, or `exploratory`; a forecast also declares a horizon and optional probability/rank semantics;
 - allowed Action classes and excluded interventions when agency/control exists;
 - optional maximum depth plus materialized-Position, time, token, cost, and scenario-diversity budgets;
 - a Search Policy identifier and any policy-specific parameters, without treating candidate count as a universal constant;
@@ -86,7 +91,14 @@ Object-level results distinguish `succeeded`, `partial`, `inaccessible`, `quaran
 - hard constraints and unacceptable outcomes;
 - whether to include wording candidates.
 
-The response returns a persisted branch graph and frontier, not only one answer. Each materialized Position has a per-Party Evaluation; each Transition includes its mode and cause or candidate Action, assumptions, likelihood or uncertainty representation, rationale, and replan trigger. The response identifies pruned, stopped, unevaluated, cached, and pinned state where applicable. Non-agentic profiles need not expose Actions or recommendations.
+The response returns a persisted branch graph and frontier, not only one answer. Each materialized Position has a per-Party Evaluation; each Transition includes its mode and cause or candidate Action, assumptions, likelihood or uncertainty representation, rationale, and replan trigger. The response identifies purpose, realization status, pruned, stopped, unevaluated, cached, and pinned state where applicable. Simulated Pawn attributes use the branch-root profile snapshot unless an explicit hypothetical change is returned. Non-agentic profiles need not expose Actions or recommendations.
+
+`forecast.assess` must identify the frozen forecast run, actual Evidence/Event
+references, horizon, rubric, observation coverage, match rationale, and
+assessor. It may return matched, partial, diverged, expired-unobserved, pending,
+or unknown; counterfactual/exploratory branches return not-applicable. An actual
+Event may link to several forecasts or remain an unmatched surprise. The call
+does not rewrite history or accept a profile revision.
 
 ## Trust tiers
 
@@ -110,6 +122,8 @@ evaluate a position
 simulate possible trajectories or candidate actions
 pin or resume a forecast branch
 return to a position and fork a new variation
+compare a new real reaction with earlier forecasts
+show what changed in a Pawn profile and why
 replay a past decision
 explain evidence
 propose a correction

@@ -1,6 +1,6 @@
 # Candidate universal domain model
 
-Status: **adopted semantic direction; candidate domain refinement**. This document interprets the broad network-analysis requirement in [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief) and [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), subject to the requirements-first corrections in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation), adopted direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction), strategy-step refinement [DW-013](../discovery/direct-wording.md#dw-013--a-sentence-is-a-strategy-step-between-complete-positions), and method-layer clarifications [DW-015](../discovery/direct-wording.md#dw-015--data-foundation-with-an-open-multidisciplinary-reasoning-layer) and [DW-016](../discovery/direct-wording.md#dw-016--macro-network-methods-and-micro-interpersonal-methods). It is not yet a transport/storage schema or an implementation contract.
+Status: **adopted semantic direction; candidate domain refinement**. This document interprets the broad network-analysis requirement in [DW-001](../discovery/direct-wording.md#dw-001--initial-stockmesh-brief) and [DW-006](../discovery/direct-wording.md#dw-006--chess-like-domain-simulation-ui-and-agent-interface), subject to the requirements-first corrections in [DW-010](../discovery/direct-wording.md#dw-010--requirements-first-not-case-first) and [DW-011](../discovery/direct-wording.md#dw-011--domain-before-data-and-business-validation), adopted direction [ADR-003](../decisions/README.md#adr-003--requirements-rooted-domain-direction), strategy-step refinement [DW-013](../discovery/direct-wording.md#dw-013--a-sentence-is-a-strategy-step-between-complete-positions), method-layer clarifications [DW-015](../discovery/direct-wording.md#dw-015--data-foundation-with-an-open-multidisciplinary-reasoning-layer) and [DW-016](../discovery/direct-wording.md#dw-016--macro-network-methods-and-micro-interpersonal-methods), and realized-reaction learning [DW-027](../discovery/direct-wording.md#dw-027--real-reactions-incrementally-revise-pawn-hypotheses-and-calibrate-forecasts). It is not yet a transport/storage schema or an implementation contract.
 
 ## Domain statement
 
@@ -21,6 +21,7 @@ The universal domain is therefore neither “a company case” nor “a chess ga
 | Do not let a local case define the product | Profiles and synthetic cross-domain fit checks precede data contracts and business validation |
 | Treat each contextual sentence as a strategy step while retaining a chat-like UI | Profile-scoped Utterance linked to Action/Event, before/after Position, Transition, evidence, and branch mode |
 | Learn from social patterns without fixing one chess-search algorithm | A stable data foundation plus inspectable, replaceable macro and micro Methods |
+| Learn when real reactions arrive without rewriting old predictions | Time-bounded Claim revisions, frozen branch-root profile context, independent branch purpose and realization assessment, and append-only forecast calibration |
 
 ## Four semantic planes
 
@@ -39,7 +40,7 @@ flowchart TB
 1. **World plane:** the external system exists independently of StockMesh. StockMesh never equates a database record with reality.
 2. **Knowledge plane:** Evidence records what a source supplied. Claims state what an observer, human, or processor believes the evidence means. Both may be incomplete, conflicting, or wrong.
 3. **Model plane:** the system constructs a time-aware representation of the bounded network. A model object is accepted only with visible epistemic status and lineage.
-4. **Possibility plane:** counterfactuals, predictions, and proposed interventions describe what might happen. They never become historical fact merely because an Agent generated them.
+4. **Possibility plane:** counterfactuals, predictions, exploratory branches, and proposed interventions describe what might happen or what the user wants to inspect. They never become historical fact merely because an LLM, Agent, or human generated them.
 
 This separation is the main protection against turning partial company conversations—or any other local sample—into universal truth.
 
@@ -59,6 +60,7 @@ This separation is the main protection against turning partial company conversat
 | **Timeline** | A time-indexed or partially ordered view of Events and state changes | One perfectly known global clock |
 | **Perspective** | A declared observational or analytical vantage: visibility, question, and optionally evaluative stakeholder | Permission to rewrite history or hide source disagreement |
 | **Trajectory** | A realized, reconstructed, or simulated sequence of Positions and Transitions | A prediction unless its mode says so |
+| **Forecast Assessment** | An append-only comparison between an earlier predictive possibility and later realized evidence under a declared horizon, matching rubric, and observation coverage | Promotion of a prediction into fact, proof that an unmatched forecast was impossible, or permission to rewrite the old run |
 | **Evaluation** | A profile-defined vector assessment of a Position or Trajectory under declared criteria | A universal notion of “good” or one opaque truth score |
 | **Action** | An intentional intervention by an agentic Node or external operator; optional by domain | Every Event having an actor or every domain being controllable |
 
@@ -78,6 +80,14 @@ Claims distinguish at least:
 - disputed, superseded, unknown, or rejected status.
 
 Confidence is not a substitute for status or evidence. Competing Claims may coexist. Correction appends a traceable revision or adjudication; it does not edit the source to fit the model.
+
+For profile learning, an observed reaction may support or challenge Claims about
+a Node/Pawn's style, capability, preference, stance, or other profile-defined
+State. The resulting proposal must distinguish at least: a real change over
+time, correction of an earlier estimate, a context-specific exception, changed
+constraints, and insufficient evidence. Accepted learning appends a new
+valid-time Claim/revision; it never edits the profile snapshot used by an older
+Position or forecast.
 
 ## Structure, dynamics, and time
 
@@ -176,10 +186,53 @@ The step graph yields the higher-level views naturally:
 
 The “Git/state-machine” analogy describes append-only revisions, snapshots,
 parent/child transitions, and branches. It does not choose Git or a particular
-state-machine library as the runtime implementation. Branch snapshots, Agent
-analysis, Method results, and Evaluations may be cached as derived records when
+state-machine library as the runtime implementation. Branch snapshots, LLM or
+Agent analysis, Method results, and Evaluations may be cached as derived records when
 their Position, context cutoff, profile, processor, objectives, and policy
 identity are retained. Cache reuse never changes canonical history.
+
+## Forecast purpose, realization, and profile learning
+
+A Variation's purpose and its later relation to reality are separate axes.
+Purpose is declared when the branch is created:
+
+| Branch purpose | Meaning | Later realization assessment |
+| --- | --- | --- |
+| `forecast` | A claim that this development may occur from the branch-root Position, with an optional probability/rank and horizon | Eligible for matching and calibration |
+| `counterfactual` | “What if” analysis under an explicit condition or intervention | `not-applicable` unless separately copied into a forecast |
+| `exploratory` | A deliberately imaginative/fantasy branch used to inspect possibilities without claiming likelihood | `not-applicable` |
+
+An eligible forecast assessment may be `pending`, `matched`,
+`partially-matched`, `diverged`, `expired-unobserved`, or `unknown`. The
+assessment records its comparison rubric, horizon, actual Evidence/Event
+references, observation coverage, assessor, and time. `expired-unobserved`
+requires both an elapsed horizon and adequate coverage; missing evidence alone
+produces `unknown`, not a miss. A realized Event with no eligible match is an
+`unmatched-actual` surprise relative to that forecast set. Matching is
+many-to-many and never changes either side's original mode.
+
+Forecasts use the branch-root Position and its profile Claims as a frozen
+baseline. Pawn attributes remain stable during simulation by default. A branch
+may explicitly hypothesize a profile/State change, but that change is part of
+the hypothetical Transition and its assumptions, not an update to the real
+Pawn.
+
+When later evidence describes an actual reaction, StockMesh closes two related
+but distinct feedback loops:
+
+1. append/review the Evidence, Event, and realized Main Line Strategy Step;
+2. assess any eligible earlier forecasts without editing their original
+   context, probability/rank, or content;
+3. propose evidence-linked revisions to relevant profile Claims, preserving
+   competing explanations such as real change versus earlier model error;
+4. after review, build a new current Position from accepted Claim revisions;
+5. separately calibrate the AnalysisPort, Methods, and Search Policy from the
+   forecast residual when the forecast was specific and assessable enough.
+
+The observed reaction, not the forecast text, is evidence about the Node. A
+forecast miss alone cannot prove that a Pawn changed; it may instead expose
+wrong context, changed constraints, an unavailable Action, model error, or
+insufficient observation.
 
 ## Domain profiles
 
@@ -228,13 +281,16 @@ An **Episode** is a bounded analytical segment inside a Playground. A strategy p
 - the realized/reconstructed Trajectory is the `Main Line（正谱）`;
 - counterfactual or predicted Trajectories are `Variations（变例）`;
 - the current reproducible Position is the frontier;
-- later evidence may link a former prediction to a realized Event, but never rewrites the old prediction into fact;
+- each Variation declares whether it is forecast, counterfactual, or exploratory;
+- later evidence may assess a forecast against realized Events, but never rewrites the old prediction into fact;
+- an actual Main Line step may match an earlier forecast, partially match/diverge, or be an unmatched surprise; purely counterfactual/exploratory branches are not scored as failed forecasts;
 - `dormant` means processing is paused, not that the external episode concluded.
 
 Operationally, a Game Record is a view over a graph of Strategy Steps. Main Line
 selects confirmed/reconstructed parent-child steps; each Variation starts from
-an anchor Position and follows hypothetical or predicted steps. Promotion adds
-a new confirmed step and a trace link; it never changes the old branch mode.
+an anchor Position and follows hypothetical or predicted steps. A later actual
+step is appended independently and may receive Forecast Assessment links to
+eligible earlier branches; it never changes their purpose or mode.
 
 This is useful for company decision replay, but it is optional. The universal domain can model continuous flows, non-agentic systems, overlapping timescales, and partially ordered Events without pretending they form one game record.
 
@@ -253,6 +309,10 @@ This is useful for company decision replay, but it is optional. The universal do
 11. Every Strategy Step identifies its before/after Position, contextual input, Transition, mode, and evidence; an Utterance alone does not prove strategy or outcome.
 12. Every Method output identifies the Method/version, inputs, assumptions, scope, uncertainty, and trace; method output cannot silently become source evidence.
 13. Macro and micro Methods may be composed, compared, or replaced without changing the underlying evidence history.
+14. Forecast, counterfactual, and exploratory branch purposes remain distinct from realization/match status.
+15. Observed reactions may revise profile Claims only through append-only, evidence-linked, time-bounded review; older Position/profile snapshots remain reproducible.
+16. Prediction text is not evidence about a Node, and a prediction miss does not by itself prove profile change.
+17. Non-occurrence requires an elapsed horizon and adequate observation coverage; otherwise the outcome remains unknown.
 
 ## Conceptual fit checks
 

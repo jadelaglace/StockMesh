@@ -56,6 +56,16 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - A targeted public-tree scan found no Kimi locator, conversation route, Tavily credential marker, or supplied credential prefix. No private case content or Babata operation entered this round.
 - Product acceptance, exact model/provider choice, Python Method activation, implementation, and real-workflow proof remain open.
 
+## LEARN-001 evidence - 2026-08-17
+
+- [DW-027](../discovery/direct-wording.md#dw-027--real-reactions-incrementally-revise-pawn-hypotheses-and-calibrate-forecasts) is preserved as the direct authority for learning from newly observed real-world moves and reactions.
+- Requirements, PRD, Domain, acceptance, Web design, architecture, Skill/CLI contract, roadmap, and [ADR-006](../decisions/README.md#adr-006--realized-reactions-revise-profile-claims-and-calibrate-frozen-forecasts) agree that forecast generation freezes the branch-root Pawn profile by default and that explicit hypothetical profile change is a modeled assumption.
+- Branch purpose (`forecast`, `counterfactual`, `exploratory`) is independent from later realization. Forecast Assessment preserves the old run and records horizon, rubric, observation coverage, many-to-many actual links, and pending/match/partial/divergence/expired/unknown status; unmatched actual reactions remain visible surprises.
+- Real reactions can propose append-only, time-bounded profile Claim revisions with competing explanations. Human review controls canonical acceptance; provider/model, Method, and Search calibration is a separate derived path, and prediction text/error is not subject evidence.
+- `scripts/verify-repository.ps1`: passed for 20 Markdown files; `scripts/validate-synthetic-contract.ps1`: passed for the unchanged `stockmesh.domain@0.1.0` artifacts; `git diff --check`: passed apart from expected Git line-ending notices.
+- A targeted public-tree scan found no private conversation locator, supplied credential signature, or case material. No private dataset processing, Babata operation, dependency, contract mutation, or runtime implementation entered this round.
+- Candidate `0.2.0` transport fields, a synthetic learning fixture, match-rubric calibration, product acceptance, and real-workflow proof remain pending.
+
 ## SPEC-001 evidence — 2026-08-16
 
 - Candidate authorities exist for domain, Web workbench, and external Agent capabilities and are linked from the documentation index.

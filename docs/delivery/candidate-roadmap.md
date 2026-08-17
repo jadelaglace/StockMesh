@@ -23,33 +23,33 @@ Terminal: domain questions are visible and the user either adopts or revises the
 
 ## R1 — Versioned data contracts
 
-Define the smallest transport-neutral contracts for Evidence, Claim, Playground, Node, Relation, Flow, State, Event, Mechanism, Position, Perspective, Evaluation, Action, and Trajectory. Define profile extension and actual-versus-possible separation. Use only synthetic examples.
+Define the smallest transport-neutral contracts for Evidence, Claim, Playground, Node, Relation, Flow, State, Event, Mechanism, Position, Perspective, Evaluation, Action, Trajectory, branch purpose, and Forecast Assessment. Define time-bounded profile Claim revision, frozen forecast context, observation coverage, and actual-versus-possible separation. Use only synthetic examples.
 
 Terminal: contracts are versioned, locally validatable, traceable to R0, and do not contain company-only fields in the universal layer.
 
 ## R2 — Business and cross-domain validation design
 
-Define representative synthetic questions and expected semantic results for at least three materially different profiles. Then specify one narrow organizational workflow that tests evidence intake, state reconstruction, correction, contextual analysis, and optional strategic branches.
+Define representative synthetic questions and expected semantic results for at least three materially different profiles. Then specify one narrow organizational workflow that tests evidence intake, state reconstruction, correction, contextual analysis, strategic branches, a later realized reaction, forecast matching, and competing profile-revision hypotheses.
 
 Terminal: each scenario proves a named contract property; the organizational workflow has observable acceptance without using the private case as product authority.
 
 ## R3 — Replayable implementation backbone
 
-Implement validated synthetic ingestion, claim/reconciliation history, temporal relations and flows, deterministic as-of Position construction, and correction without source rewriting. Add the optional Episode/Game Record projection only as a profile view.
+Implement validated synthetic ingestion, append-only profile Claim/reconciliation history, temporal relations and flows, deterministic as-of Position construction, and correction without source rewriting. Add the optional Episode/Game Record projection and frozen branch-root profile snapshots only as profile/application views.
 
-Terminal: the same inputs and projection identity reproduce the same Position; corrections append revisions; actual and hypothetical trajectories remain separate.
+Terminal: the same inputs and projection identity reproduce the same Position; later profile learning appends revisions without changing the earlier Position; actual and hypothetical trajectories remain separate.
 
 ## R4 — Evidence-first Web workbench
 
-Implement the universal timeline, Position/network board, Node detail, source trace, before/after comparison, and correction workflow. Let profiles supply labels and panels such as Pawn, stance, resource flow, or machine load.
+Implement the universal timeline, Position/network board, Node detail/profile history, source trace, before/after comparison, and correction workflow. Let profiles supply labels and panels such as Pawn, stance, resource flow, or machine load.
 
 Terminal: a user can complete the selected synthetic workflow without editing internal storage, and profile-specific UI does not contaminate universal semantics.
 
 ## R5 — LLM-assisted strategist and branch replay
 
-Add explicit objectives and horizons, the selected transparent SNA Method pack, a provider-neutral LLM AnalysisPort, multi-party vector scorecards, variable candidate branching under explicit budgets, assumptions, uncertainty, pinned Variations, cache identity, and replan triggers. Let the Web workbench checkout any historical or hypothetical Position, fork/resume analysis, and compare predictions with later realized outcomes where available.
+Add explicit objectives and horizons, the selected transparent SNA Method pack, a provider-neutral LLM AnalysisPort, multi-party vector scorecards, variable candidate branching under explicit budgets, branch purpose, assumptions, uncertainty, pinned Variations, cache identity, and replan triggers. Let the Web workbench checkout any historical or hypothetical Position, fork/resume analysis, compare frozen forecasts with later realized outcomes, review observation coverage, and propose evidence-linked profile revisions.
 
-Terminal: the primary Web route can analyze, expand, pin, compare, fork, resume, and replay traceable branches; every materialized Position is evaluated; no fixed search width/depth, universal social score, or guaranteed long prediction is presented.
+Terminal: the primary Web route can analyze, expand, pin, compare, fork, resume, reconcile reality, review profile learning, and replay traceable branches; every materialized Position is evaluated; no fixed search width/depth, universal social score, hindsight rewrite, or guaranteed long prediction is presented.
 
 ## R6 — Agent Skill and CLI clients
 
@@ -59,10 +59,10 @@ Terminal: an Agent or CLI user can inspect, ask analysis, compare, evaluate, exp
 
 ## R7 — Private organizational pilot
 
-Run explicitly authorized private organizational material locally as validation data. Keep it outside Git and public fixtures. Measure reconstruction quality, correction burden, contextual usefulness, scenario calibration, and user learning.
+Run explicitly authorized private organizational material locally as validation data. Keep it outside Git and public fixtures. Measure reconstruction quality, correction burden, contextual usefulness, forecast specificity/calibration, profile-revision usefulness, and user learning.
 
 Terminal: observed results and gaps are reported; only generalized, non-linkable product consequences may enter the public repository.
 
 ## Recommended next decision
 
-Approve or revise the R0 universal domain boundary and core/view naming. After that, define data contracts from the accepted meanings, then define the synthetic business checks those contracts must pass.
+On explicit implementation resume, translate the adopted semantics into a candidate `0.2.0` contract and synthetic validation workflow before creating the runtime scaffold. The fixture should include one forecast that matches later reality, one partial/divergent forecast, one unmatched actual reaction, one non-predictive exploratory branch, and one reviewed profile Claim revision.

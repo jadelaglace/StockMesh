@@ -4,7 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. ARCH-002 reached its documentation terminal; implementation remains held for explicit resume.
+None. LEARN-001 reached its documentation terminal; implementation remains held for explicit resume.
+
+## Last terminal: LEARN-001
+
+- Source anchor: [DW-027](../discovery/direct-wording.md#dw-027--real-reactions-incrementally-revise-pawn-hypotheses-and-calibrate-forecasts)
+- User goal: treat newly supplied real-world moves and each Party's reactions as evidence that can incrementally revise time-bounded Node/Pawn profile hypotheses and calibrate earlier forecasts, while preserving the distinction and possible overlap among prediction, realization, non-realization, surprise, and purely hypothetical exploration.
+- Lifecycle mode: definition / domain and behavior refinement
+- Terminal: succeeded on 2026-08-17; product acceptance, candidate `0.2.0`, and implementation remain open.
+- Outcome: public authorities define append-only profile learning from observed reactions, two-axis branch-purpose/realization semantics, frozen-cutoff Forecast Assessment and calibration, non-occurrence evidence requirements, and reviewable Web/Skill/CLI behavior. The contract index records the future minor-version boundary without changing `0.1.0`.
+- Verification: repository/public-content and unchanged `0.1.0` synthetic-contract checks passed for 20 Markdown files; targeted locator/credential scan and `git diff --check` passed; no dependency or implementation was introduced.
+- Protected boundaries: observed behavior is evidence, not automatic proof of motive/personality; predictions do not become facts or training evidence merely because they exist; old Positions, profile Claims, forecasts, and provider runs remain reproducible at their original cutoff; no private case, locator, credential, Babata operation, dependency, implementation, or product-completion claim enters this round.
+- Evidence entry: [LEARN-001 verification evidence](../verification/README.md#learn-001-evidence---2026-08-17)
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly added realized-play feedback as a StockMesh learning requirement and specified the prediction/reality combinations that must remain distinguishable.
 
 ## Last terminal: ARCH-002
 
@@ -100,4 +112,4 @@ None. ARCH-002 reached its documentation terminal; implementation remains held f
 
 ## Next-start queue
 
-- `requires-explicit-resume`: when the user explicitly starts implementation, translate the adopted v0 direction into the candidate `0.2.0` contract and implement the foundation slice with fully synthetic data.
+- `requires-explicit-resume`: when the user explicitly starts implementation, translate the adopted v0 direction—including branch purpose, Forecast Assessment, observation coverage, and time-bounded profile learning—into the candidate `0.2.0` contract and implement the foundation slice with fully synthetic data.

@@ -302,3 +302,14 @@ The external conversations supplied with the same instruction are governed by th
 > 我这句话 我要纠偏一下：“一些自然语言的分析 ，agent才是分析引擎，然后domain那些能量化的才是程序辅助算。因为 agent是训练好的llm 本身就是有一定的局势分析评分 和发言分析啊 关系分析啊这些走法选择的能力”。其实用llm api也可以 比如 百炼 或者qwen的skill qwen3.8-max的api可以做这个事。agent可以不用成为主导 ，自然语言分析这块用llm api足够。agent主要还是skill对接 或者cli对接。 人类用户从webui交互回溯为主， 或者agent skill 像kimi对话一样轻量的交互。 纠正一下。
 
 - Interpretation boundary: StockMesh requires an LLM-capable natural-language analysis boundary, not an Agent-led runtime. A provider API, local model, or Agent-hosted model may implement that boundary. The primary human route is the Web workbench with branch selection, replay, and analysis; Agent Skill/CLI are lighter clients over the same application capabilities. Provider/product names are examples, not adopted dependencies or credentials.
+
+## DW-027 — Real reactions incrementally revise Pawn hypotheses and calibrate forecasts
+
+- Source: direct user domain refinement in Codex task
+- Captured: 2026-08-17, Asia/Shanghai
+- Status: active; governs learning from realized play and prediction/reality separation
+- Retrieval phrases: “现实发生的棋谱”, “每一方的反应”, “实时反向增量更新”, “棋子属性不变推测”, “潜变化”, “修正之前的判断”, “事实发声还是预测推演”, “预测到了现实也发生”, “纯假想的幻想分支”
+
+> 同时，每次用户新输入的现实发生的棋谱，每一方的反应，也是实时反向增量更新这个人或节点的属性的重要语料，也就是说，默认 AI 推测的是基于棋子属性不变推测的棋谱， 而现实世界，真人选择的棋谱，可以一定程度反应他的潜变化，或者修正之前对他的判断，所以为了这一点，还要区分事实发声还是预测推演发生，不是对立的，可能也预测到了，现实也发生了，或者预测了没发生，或者发生了没预测，也可能纯假想的幻想分支没预测也没发生。
+
+- Interpretation boundary: newly observed reactions are evidence for append-only, time-bounded revisions to Node/Pawn profile Claims and for forecast calibration; they do not rewrite the profile, context, or predictions that existed at the earlier cutoff. Prediction purpose and later realization/match are separate axes so a Transition may be both predicted and later observed. Non-occurrence requires an elapsed horizon and adequate observation coverage; a purely counterfactual/exploratory branch makes no prediction claim.

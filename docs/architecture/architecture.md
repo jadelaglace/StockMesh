@@ -31,6 +31,7 @@ This direction answers [DW-021](../discovery/direct-wording.md#dw-021--one-runna
 7. Materialize selected resulting Positions in a possibility graph, calculate quantitative features for each, cache the complete run identity, and continue LLM-assisted or policy-assisted exploration until its declared Position/time/token/cost budget is exhausted or the user stops it.
 8. Show Main Line and Variations, the network Position at any selected node, before/after changes, score vectors, assumptions, evidence trace, pinned forecasts, and replan triggers in the Web workbench.
 9. Return to any historical or hypothetical Position, fork or resume a cached Variation, append a human correction when needed, and replay an earlier cutoff without hindsight or sibling-branch leakage.
+10. Add a later realized reaction, append it to Main Line, assess eligible frozen forecasts, review candidate profile-Claim revisions, rebuild the current Position, and retain the old forecast/profile context for replay and calibration.
 
 This is the first proof of StockMesh. A graph picture or chatbot response alone is not.
 
@@ -45,6 +46,7 @@ flowchart LR
     USE --> POSITION["Position projector<br/>as-of and evidence cutoff"]
     USE --> CONTEXT["Context assembler<br/>exact branch + objectives"]
     USE --> SEARCH["Branch/search coordinator<br/>budget + cache + replay"]
+    USE --> LEARN["Realization reconciler<br/>forecast assessment + learning proposals"]
     CONTEXT --> METHODS["Quantitative Method runner<br/>Graphology + profile rules"]
     CONTEXT --> ANALYSIS["AnalysisPort orchestrator<br/>validated proposal schemas"]
     SEARCH --> CONTEXT
@@ -56,6 +58,8 @@ flowchart LR
     METHODS --> SEARCH
     ANALYSIS --> SEARCH
     SEARCH --> DB
+    LEARN --> DB
+    LEARN --> REVIEW
     WORKER["Optional Python Method worker<br/>only for validated ecosystem needs"] -.-> METHODS
 ```
 
@@ -87,8 +91,12 @@ Use relational canonical tables plus an append-only `change_set` journal, not a 
 - A correction appends a superseding revision; it never edits the source or silently rewrites an old analytical run.
 - A Position is rebuildable and optionally cached by Playground, profile version, evidence cutoff, as-of time, perspective, and projector version.
 - `method_run`, `analysis_run`, Evaluation, candidate Transition, Trajectory, and Recommendation records live in the derived/possibility area with processor identity and inputs.
-- Main Line and Variations are parent/child references among Position/Strategy Step records. A Variation may be pinned, selected for expansion, archived, resumed, or invalidated; none of those states promote it into canonical history.
+- Main Line and Variations are parent/child references among Position/Strategy Step records. Every Variation declares forecast, counterfactual, or exploratory purpose and may be pinned, selected for expansion, archived, resumed, or invalidated; none of those states promote it into canonical history.
+- A `forecast_assessment` appends a horizon-, rubric-, and coverage-bound many-to-many comparison between frozen forecast Transitions and later realized Events/Transitions. It never edits either side; counterfactual/exploratory branches are not assessed as failed forecasts.
+- Realized reactions may produce candidate Claim revisions for a Node/Pawn profile. Only the human-review/reconciliation path may accept them into canonical model history, with valid/observation/record time and the replaced or competing Claim retained.
+- Forecast residuals may update separate provider/Method/Search calibration records. Those derived records cannot write Pawn Claims and cannot use forecast text as evidence about the represented world.
 - A branch cache identity includes the base Position and evidence cutoff, exact path/context manifest, profile/projector/Method versions, provider/model configuration, Objectives, Evaluation profile, and Search Policy. A changed identity creates or selects a different derived result rather than silently reusing stale analysis.
+- Later profile revisions create a new current cache identity but do not invalidate the historical correctness of an old cache at its original cutoff. The UI labels old analyses as historical rather than overwriting or deleting them.
 - Checkout/replay never mutates the selected Position. Forking from any historical or hypothetical Position appends another Variation and preserves existing descendants.
 
 SQLite remains the authority in v0. Graphology projections, optional Python graphs, embeddings, branch-analysis caches, search indexes, and UI view models are derived and may be deleted and rebuilt without deleting evidence, canonical history, or attributed human judgment.
@@ -105,6 +113,7 @@ Only boundaries with a real v0 caller become ports:
 | `Method` | Built-in context/metric/profile Methods | ConvoKit, CDlib, NDlib, DoWhy, pgmpy, OASIS/Mesa | method/version, inputs, assumptions, outputs, limitations, uncertainty |
 | `AnalysisPort` | Deterministic/manual fixture for tests plus one configured structured-output LLM adapter | Bailian/Qwen-compatible or other cloud API, local model, Agent-hosted model | context manifest, proposal schema, evidence references, provider/model identity, uncertainty, no canonical writes |
 | `PossibilityStore` | SQLite derived branch/run records | Separate analytical store when measured | parent/child identity, branch mode/status, cache identity, pin/resume/invalidation, no silent promotion |
+| `ForecastMatcher` | Explicit rubric plus optional LLM-assisted candidate matching and human review | Statistical/event matcher or learned evaluator after calibration evidence | frozen forecast identity, realized evidence, horizon, coverage, many-to-many links, status/rationale, no source rewrite |
 | `SearchPolicy` | Budgeted LLM-assisted frontier with visible selection rationale | Beam/best-first, MCTS, OpenSpiel experiment, learned policy, external simulator | variable branching, resource budgets, pruning rationale, diversity, per-Party Evaluation, trace |
 | `RunExecutor` | In-process persisted run state | Separate worker and durable queue | idempotency, status, retry reason, input/output identity |
 
@@ -117,13 +126,22 @@ The first Method pack is deliberately legible and is listed algorithm-by-algorit
 Natural-language analysis is a separate capability:
 
 1. The framework constructs the exact branch context, evidence cutoff, Objectives, prior steps, unknowns, and quantitative Method results.
-2. `AnalysisPort` asks a configured LLM adapter for validated Claims, situation interpretation, candidate Actions/wording, modeled responses, qualitative multi-party Evaluation dimensions, assumptions, uncertainty, and replan triggers.
+2. `AnalysisPort` asks a configured LLM adapter for validated Claims, situation interpretation, candidate Actions/wording, modeled responses, qualitative multi-party Evaluation dimensions, assumptions, uncertainty, and replan triggers. It uses the branch-root profile snapshot and holds Pawn attributes stable unless an explicit hypothetical profile Transition is proposed.
 3. The framework validates references and modes, materializes only selected candidate Positions, adds reproducible metrics, and stores analysis provenance. LLM output remains in the knowledge/model or possibility plane until human-reviewed promotion applies.
 4. The Web workbench drives this loop directly. Skill/CLI clients invoke the same use cases and may supply interaction context, but no autonomous Agent runtime is required.
 
 Branching factor is an observed property of each expanded Position, not a configuration target. If level `i` has branching factor `b_i`, exhaustive size grows with the products of those factors; StockMesh therefore never claims to enumerate an arbitrary deep tree. A run may set `max_depth`, but also constrains materialized Positions, elapsed time, model tokens, monetary cost, uncertainty, and diversity. Any limit may stop expansion.
 
 The v0 reference policy is a budgeted LLM-assisted frontier: generate a context-dependent candidate set, validate and evaluate materialized Positions, retain user-pinned branches, and choose the next frontier with visible objective/uncertainty/diversity rationale. The coordinator supports cancellation, persisted resume, and cache reuse. Beam/best-first search, iterative deepening, progressive widening, MCTS, OpenSpiel, OASIS, learned policies, and external simulators remain replaceable policy/Method options. Tiny depth/candidate counts may appear in smoke fixtures only; they are not architecture defaults or caps. Every materialized Position receives a per-Party vector Evaluation, while unexpanded possibilities are explicitly unevaluated.
+
+When later reality is reviewed, `ForecastMatcher` compares only eligible
+`forecast` branches against the new Main Line under their original horizon and
+context. It records match/partial/divergence/expired/unknown assessments and
+observation coverage. The same realized reaction separately enters the Claim
+review path, where an LLM or Method may propose that the Pawn changed, the prior
+estimate was wrong, the behavior was context-specific, constraints changed, or
+evidence remains insufficient. Accepted Claim revisions create a new Position;
+forecast assessments and calibration remain derived records.
 
 ### Requirement trace
 
@@ -134,6 +152,7 @@ The v0 reference policy is a budgeted LLM-assisted frontier: generate a context-
 | Keep fact, inference, judgment, and prediction separate | canonical status rules + possibility store | trace panel shows each plane and rejects silent promotion |
 | Score a situation for several people/forces | profile evaluator | per-Party vector scores with objectives, weights, horizon, and unknowns |
 | Infer possible next steps and reactions | AnalysisPort + Method runner + SearchPolicy | provider-traced LLM analysis and a budgeted, resumable branch graph with assumptions, score changes, and replan triggers |
+| Learn from what actually happened | canonical review + ForecastMatcher + Claim revision + calibration store | one realized reaction appends Main Line, assesses eligible forecasts, proposes reviewable competing profile revisions, and preserves the old cutoff |
 | Learn from macro and micro methods | Method registry | every output names Method/version; disagreements remain visible |
 | Revisit an earlier decision honestly | temporal store + Position projector + PossibilityStore | checkout/fork at any Position excludes later or sibling context; pinned forecasts remain hypothetical |
 | Use a Web UI plus lightweight Agent/CLI access | one application API + AnalysisPort | Web completes the primary loop; Skill/CLI clients get the same analysis and trace without database access |
@@ -141,10 +160,10 @@ The v0 reference policy is a budgeted LLM-assisted frontier: generate a context-
 
 ### Delivery path
 
-1. **Foundation slice:** schema/migrations, private Evidence staging, human review, canonical history, organizational profile, synthetic fixture, and Position build/compare/replay through API tests.
+1. **Foundation slice:** schema/migrations, private Evidence staging, human review, canonical history, time-bounded profile Claim revisions, organizational profile, synthetic fixture, and Position build/compare/replay through API tests.
 2. **Quantitative Method slice:** Method registry, the selected transparent Graphology SNA pack, temporal deltas, multi-Party score structures, and persisted attributable runs.
-3. **Analysis and branch slice:** provider-neutral AnalysisPort, one configured structured-output LLM adapter plus deterministic fixtures, PossibilityStore, budgeted/resumable frontier, pin/fork/cache/replay, and per-materialized-Position Evaluation.
-4. **Workbench slice:** local React UI completes stage -> review -> Position/Timeline -> ask analysis -> explore/pin/fork Variations -> trace -> correction/replay.
+3. **Analysis and branch slice:** provider-neutral AnalysisPort, one configured structured-output LLM adapter plus deterministic fixtures, PossibilityStore, branch purpose, budgeted/resumable frontier, pin/fork/cache/replay, per-materialized-Position Evaluation, and cutoff-correct Forecast Assessment.
+4. **Workbench slice:** local React UI completes stage -> review -> Position/Timeline -> ask analysis -> explore/pin/fork Variations -> enter realized reaction -> compare forecast/reality -> review profile revisions -> correction/replay.
 5. **Client slice:** expose the already-tested application API through the narrow CLI and StockMesh Skill adapter; no new analysis or data authority.
 6. **Learning slice:** run synthetic and explicitly authorized pilots, measure errors/latency/usefulness, and replace only the components that fail their acceptance target.
 
@@ -170,6 +189,7 @@ The v0 reference policy is a budgeted LLM-assisted frontier: generate a context-
 | Human judgments and corrections | Human-review record | Authorized human-review workflow | Append attributed decisions; do not rewrite source evidence |
 | Positions, indexes, embeddings and views | Projection/derivation pipeline | Rebuildable processors | Bound to as-of time, evidence scope, perspective, and processor identity; deletable/rebuildable |
 | Evaluations, possible Trajectories, branch preferences and recommendations | Analysis/Possibility run store | Validated AnalysisPort, Method, search, and user-preference use cases | Derived and advisory; retain context/cache identity, provider/model, Methods, weights, assumptions, uncertainty, mode, and lineage |
+| Forecast Assessments and model/Method/Search calibration | Forecast evaluation store | Validated ForecastMatcher/calibration use cases after realized evidence review | Derived; preserve frozen forecast, actual evidence, rubric, horizon, coverage, status, residual, and assessor; never write profile Claims directly |
 | Runtime state and logs | Runtime boundary | Runtime services | Kept outside Git and separated from product evidence |
 | Credentials and access policy | Secret/config boundary | Authorized operators | Never placed in source data, prompts, ordinary logs, or Git |
 | Private source locators and case mapping | Private evidence boundary outside Git | Authorized acquisition/review workflow | Never published; public derivatives use non-linkable safe identities |
@@ -205,9 +225,12 @@ graph/statistical/learned analysis, and search algorithms open.
 - Web, Agent Skill, and CLI clients interact through validated capabilities; none reads private databases or writes canonical data directly.
 - Position evaluation is vector-first and objective-bound. Scalar ranking is a derived view with inspectable weights.
 - Scenario search preserves branch diversity and uncertainty; greater depth does not imply greater truth.
-- Actual/reconstructed and hypothetical/predicted Trajectories remain distinct. An optional Variation can be linked to later confirming evidence but never rewritten into historical fact.
+- Actual/reconstructed and hypothetical/predicted Trajectories remain distinct. An eligible forecast may receive append-only assessments against later evidence but is never rewritten into historical fact.
+- Branch purpose and realization status are orthogonal: an earlier forecast may later match reality, while counterfactual/exploratory branches carry no realization claim.
 - Pinning, checking out, resuming, or forking a Variation changes only derived branch/preference state; existing parents and siblings remain intact.
 - Cache reuse requires an exact declared context/processor/policy identity; stale analysis is invalidated or visibly superseded rather than silently reused.
+- Realized reactions can revise profile Claims only through append-only evidence/review. Forecast residuals calibrate models/Methods/Search separately and never become subject evidence by themselves.
+- An expired-unobserved outcome requires elapsed horizon plus adequate observation coverage; silence otherwise remains unknown.
 
 ## Open architecture decisions
 

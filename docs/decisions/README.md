@@ -66,3 +66,17 @@ No database, programming language, framework, model provider, deployment topolog
   - Make the Web workbench the primary human route. Agent Skill and CLI adapters are lighter clients over the same application, analysis, branch, and replay capabilities rather than separate analysis authorities.
   - Use a TypeScript/Node modular-monolith application core with React/Vite and SQLite as the adopted v0 direction. Keep Python available behind an optional Method-worker boundary when its SNA, statistical, conversational, causal, or simulation ecosystem earns the integration cost.
 - Consequence: LLM analysis is a real application capability rather than an optional decoration after a deterministic strategist. Web, Skill, and CLI routes share it; the latter two do not need an autonomous Agent runtime. Graph and statistical algorithms provide attributable features rather than replacing semantic LLM judgment. Exact provider, dependencies, versions, Python worker activation, and implementation remain subject to adoption gates.
+
+## ADR-006 — Realized reactions revise profile Claims and calibrate frozen forecasts
+
+- Status: adopted as domain direction; contract version and implementation remain open
+- Date: 2026-08-17
+- Authority: [DW-027](../discovery/direct-wording.md#dw-027--real-reactions-incrementally-revise-pawn-hypotheses-and-calibrate-forecasts)
+- Decision:
+  - Use the Node/Pawn profile visible at a forecast's branch-root Position as a frozen baseline; simulated profile changes must be explicit hypotheses.
+  - Treat newly observed real reactions as evidence that may append time-bounded profile Claim revisions after review, preserving alternatives such as actual change, prior-estimate error, context-specific behavior, changed constraints, or insufficient evidence.
+  - Keep branch purpose (`forecast`, `counterfactual`, `exploratory`) independent from later realization assessment. A forecast may match, partially match, diverge, remain pending/unknown, or expire without an observed match; an actual Event may have been forecast or be an unmatched surprise.
+  - Link later actual evidence to earlier forecasts through append-only Forecast Assessments. Never rewrite the old forecast, Position, profile snapshot, probability/rank, or processor identity.
+  - Require elapsed horizon and adequate observation coverage before recording an expired-unobserved outcome.
+  - Keep subject/profile learning separate from provider/model, Method, and Search Policy calibration. Prediction text and prediction error are not themselves evidence about the Pawn.
+- Consequence: the Game Record becomes a learning loop as well as a replay graph. Current profiles may evolve from reviewed reality while historical analysis remains reproducible, and forecast quality can be measured without hindsight rewriting or treating imaginative branches as failed predictions.

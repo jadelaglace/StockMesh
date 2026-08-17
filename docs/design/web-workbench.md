@@ -38,6 +38,7 @@ The layout below is the first organizational strategy profile, not the universal
 7. **Explore branches:** expand a Position under visible search budgets, inspect materially different candidate Actions and modeled responses, and distinguish materialized/evaluated, cached, pruned, stopped, and unevaluated possibilities.
 8. **Pin and revisit:** keep several promising forecasts, checkout any historical or hypothetical Position, resume an unchanged cached branch, or fork another Variation without deleting siblings or converting predictions into history.
 9. **Correct the model:** challenge an identity, event, assertion, weight, or predicted transition without rewriting source evidence.
+10. **Reconcile reality:** after staging what actually happened, compare the reviewed Main Line reaction with eligible forecasts, inspect surprises/misses/unknown coverage, and accept or reject evidence-linked Pawn profile revisions.
 
 ## Position board
 
@@ -81,6 +82,7 @@ Universal tabs are Overview, State/Claims, Relations/Flows, Timeline, Notes, and
 
 - Overview: type, aliases, memberships, current role and presence;
 - Assertions: trait/style/capability claims with status and evidence;
+- Profile history: time-bounded revisions, competing explanations, and the exact Claim snapshot used by each forecast;
 - Stances: topic × time, separating direct expression from inference;
 - Relationships: directional, typed, temporal links;
 - Timeline: events involving the Pawn;
@@ -103,12 +105,39 @@ user selections as derived preferences. Returning to an earlier Position is a
 checkout; continuing from it creates a new Variation. A later real Event is
 reviewed and appended to history even when it resembles a prior prediction.
 
+## Forecast and reality comparison
+
+Each Variation shows two independent labels:
+
+```text
+purpose: forecast | counterfactual | exploratory
+realization: pending | matched | partial | diverged | expired-unobserved | unknown | not-applicable
+```
+
+Selecting a realized Main Line step highlights every eligible forecast it may
+match and any unpredicted remainder. Selecting a forecast shows its frozen
+branch-root Position/profile, original horizon and probability/rank, matching
+rubric, observation coverage, and later actual evidence. Counterfactual and
+exploratory branches are never presented as failed predictions.
+
+The reconciliation panel keeps three decisions separate:
+
+1. accept/correct the realized Evidence/Event and Main Line step;
+2. review the Forecast Assessment without editing either history;
+3. review candidate Pawn/Node Claim revisions such as real change, earlier
+   estimate correction, context-specific exception, changed constraints, or
+   insufficient evidence.
+
+After an accepted profile revision, the current Position updates while old
+forecast/replay screens retain the original profile snapshot. A toggle may show
+the later hindsight profile, but it is visibly distinct from the original run.
+
 ## MVP screens
 
 1. Playground setup and private evidence staging.
 2. Workbench with Timeline, Position/network board, LLM analysis console, and Main Line/Variation explorer.
 3. Node drawer and Claim/evidence review, with the organizational Pawn view enabled.
-4. Position checkout, comparison, branch pin/fork/resume, and cutoff-correct decision replay.
+4. Position checkout, branch pin/fork/resume, forecast-versus-reality comparison, profile-revision review, and cutoff-correct decision replay.
 
 ## Deferred UI scope
 
@@ -122,6 +151,7 @@ reviewed and appended to history even when it resembles a prior prediction.
 
 - Keyboard-accessible navigation and non-color-only status cues.
 - Clear labels for observation, report, inference, judgment, and prediction.
+- Separate visual encodings for branch purpose and realization status; matched does not replace predicted, and missing data does not display as a miss.
 - No single confidence color that hides contradictory evidence.
 - Private-by-default inputs and explicit publication boundaries.
 - A visible “why?” path from every score and recommendation to evidence, weights, assumptions, and model identity.

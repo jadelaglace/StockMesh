@@ -23,9 +23,13 @@ The human primarily works through the Web workbench and owns scope, objectives, 
 11. The user can inspect which provider/model run and macro/micro Methods contributed to an analysis, including their assumptions, evidence boundary, uncertainty, limitations, and disagreements.
 12. The user selects a perspective, objective, horizon, and risk profile, then evaluates the current Position with an inspectable multi-party vector scorecard.
 13. Where a profile declares agency and controllable Actions, the LLM analysis service proposes a context-dependent number of candidate Actions and modeled responses. The framework materializes selected Positions, calculates quantitative features, caches the branch graph, and coordinates further exploration under explicit budgets and a replaceable Search Policy.
-14. The user can pin useful forecast branches, compare them, return to any historical or hypothetical Position, fork a new analysis, and resume an unchanged cached branch.
-15. The user can replay an earlier decision using only information available at that time and optionally compare it with a hindsight view.
-16. When an application uses an episode/game-record view, the user can preserve an ongoing record with confirmed history and Position-bound alternatives without rewriting source history.
+14. Each Variation is created as a forecast, counterfactual, or exploratory branch. Forecasts retain their branch-root Position/profile snapshot, horizon, assumptions, and optional probability/rank; Pawn attributes remain stable during simulation unless a branch explicitly models a hypothetical change.
+15. The user can pin useful branches, compare them, return to any historical or hypothetical Position, fork a new analysis, and resume an unchanged cached branch.
+16. When the user later adds an actual reaction, the system appends the realized Main Line step and compares it with eligible earlier forecasts as matched, partially matched, diverged, expired-unobserved, pending, or unknown. An actual step with no eligible match remains visible as an unmatched surprise.
+17. The system proposes evidence-linked profile Claim updates and keeps “the Pawn changed,” “the old estimate was wrong,” “this was context-specific,” and other supported explanations distinct. A human can accept, reject, or leave them unresolved before they affect the current Position.
+18. Forecast outcomes separately calibrate the responsible LLM/Method/Search configuration when the prediction and observation coverage are specific enough; calibration never uses prediction text as evidence about a Pawn.
+19. The user can replay an earlier decision using only information and profile Claims available at that time and optionally compare it with a separately labeled hindsight/current-profile view.
+20. When an application uses an episode/game-record view, the user can preserve an ongoing record with confirmed history, Position-bound alternatives, Forecast Assessments, and profile revision history without rewriting source history.
 
 ## Initial capability slice
 
@@ -45,6 +49,10 @@ The human primarily works through the Web workbench and owns scope, objectives, 
 - Optionally pause an unfinished episode/game-record view and later resume it from the same frontier and identities.
 - Preserve a chat-like turn view while maintaining each turn as a traceable Strategy Step in the backend Position/Transition graph.
 - Preserve pinned and model/user-selected forecast Variations as resumable derived branches with cache/provenance identity, never as confirmed Main Line history.
+- Label every Variation as forecast, counterfactual, or exploratory and show realization/match status on a separate axis.
+- Compare newly reviewed real reactions with eligible forecasts under a declared horizon, rubric, and observation-coverage record; do not infer non-occurrence from silence.
+- Show time-bounded Pawn/Node profile Claim history and review candidate revisions from realized reactions without mutating the profile snapshot used by earlier predictions.
+- Keep subject/profile learning separate from provider/Method/Search calibration, with explicit run identity for both.
 
 ## Explicit non-goals for the initial slice
 
@@ -63,4 +71,4 @@ The system may derive generalized concepts, workflow requirements, or synthetic 
 
 ## Failure behavior
 
-When provenance is missing, authorization is unclear, identity resolution is ambiguous, or evidence conflicts, the system fails closed: it does not silently promote a canonical fact or high-confidence interpretation. The user sees the reason and the next recoverable action.
+When provenance is missing, authorization is unclear, identity resolution is ambiguous, evidence conflicts, or observation coverage cannot support a “did not happen” conclusion, the system fails closed: it does not silently promote a canonical fact, personality/profile update, forecast miss, or high-confidence interpretation. The user sees the reason and the next recoverable action.
