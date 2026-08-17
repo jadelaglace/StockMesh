@@ -66,6 +66,16 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - A targeted public-tree scan found no private conversation locator, supplied credential signature, or case material. No private dataset processing, Babata operation, dependency, contract mutation, or runtime implementation entered this round.
 - Candidate `0.2.0` transport fields, a synthetic learning fixture, match-rubric calibration, product acceptance, and real-workflow proof remain pending.
 
+## DATA-002 evidence — 2026-08-17
+
+- Read-only authenticated retrieval identified six new turns / twelve messages after the prior private baseline. The page was not generating, and its final exchange explicitly closed the conversation stage.
+- StockMesh preserved the new source as a separate immutable raw delta rather than overwriting the earlier capture. Browser-to-file content equality and the declared message digest passed exactly.
+- Private validation passed for all JSON files, manifest sizes and SHA-256 hashes, message range and count, unique Main Line identities, Variation count, stage-close classification, and the combined 82-message scope.
+- The private clean layer now records 18 Main Line events and 41 attributed Kimi Variations. Later user corrections invalidate or qualify earlier Kimi interpretations instead of rewriting them as facts; the user's judgment about a represented person remains explicitly an interpretation.
+- The conversation stage is closed, but the represented real-world network is not claimed to have ended. The private case remains dormant validation material and cannot define the universal Domain or become a public fixture without separate explicit authorization and de-identification review.
+- Git-ignore checks covered the new raw and clean delta files. `scripts/verify-repository.ps1` passed for 20 Markdown files and the unchanged `stockmesh.domain@0.1.0` synthetic contract; no locator, credential, case body, alias mapping, private hash, or Babata mutation entered Git.
+- P0, candidate `0.2.0`, synthetic business validation, runtime implementation, and product acceptance remain unstarted.
+
 ## SPEC-001 evidence — 2026-08-16
 
 - Candidate authorities exist for domain, Web workbench, and external Agent capabilities and are linked from the documentation index.

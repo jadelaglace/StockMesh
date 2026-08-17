@@ -4,7 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. LEARN-001 reached its documentation terminal; implementation remains held for explicit resume.
+None. DATA-002 reached its private-data terminal; P0 remains held for explicit start.
+
+## Last terminal: DATA-002
+
+- Source anchor: live user instruction on 2026-08-17 to reacquire the updated Kimi Game Record before P0 because the source should now be closed.
+- User goal: refresh the privately held A-perspective Game Record from the authorized source, verify what changed and whether the visible record has reached a usable terminal, then leave the result outside Git for later validation use.
+- Lifecycle mode: discovery / private data preparation
+- Terminal: succeeded on 2026-08-17; the captured conversation stage is closed and dormant, while P0 remains unstarted.
+- Outcome: read-only authenticated retrieval found six new turns / twelve messages after the prior 70-message baseline. StockMesh preserved an immutable raw delta, appended three confirmed/corrected Main Line events and six attributed Kimi Variations, recorded one new generic project role plus reviewable role-Claim deltas, and marked the conversation stage closed without claiming the represented real-world network ended.
+- Verification: the saved raw delta matched the browser extraction exactly; all private JSON, manifest hashes, index ranges, 82-message combined scope, 18 Main Line events, 41 Variations, stage-close classifications, and Git-ignore rules passed. The public repository gate still passed for 20 Markdown files and the unchanged `0.1.0` synthetic contract.
+- Protected boundaries: Babata may be used only for Kimi retrieval and must not store, clean, register, or receive StockMesh artifacts; StockMesh performs any comparison or cleaning locally; no locator, credential, private body, alias mapping, dossier, or case detail enters Git; the private case remains validation material rather than product authority.
+- Evidence entry: [DATA-002 verification evidence](../verification/README.md#data-002-evidence--2026-08-17)
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly requested one final Kimi Game Record refresh before P0 and indicated that the source should now be closed.
 
 ## Last terminal: LEARN-001
 
