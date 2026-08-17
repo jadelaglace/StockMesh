@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **candidate for user review**. This proposes the order from domain clarification toward implementation. It does not authorize real-case publication or claim delivery progress.
+Status: **P0 engineering terminal reached; later runtime phases remain candidate**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -14,6 +14,20 @@ requirements-rooted domain
 -> replayable implementation backbone
 -> Web workbench, LLM analysis, branch search, and Skill/CLI access
 ```
+
+## Current phase map
+
+The earlier `R` stages describe requirement maturity. `P0` is the delivery gate
+that freezes those semantics before runtime code; it does not rename or erase
+the `R` history.
+
+| Stage | Actual state | Consequence |
+| --- | --- | --- |
+| R0 | Direction adopted in ADR-003 | Universal concepts and profile boundary govern contracts. |
+| R1 | `0.1.0` and candidate `0.2.0` completed | The older contract remains immutable compatibility evidence. |
+| R2 | Three-domain paper check and P0 organizational learning-loop proof completed | P0 used only fully synthetic organizational material. |
+| P0 | Engineering terminal reached | The semantic learning loop is frozen and validated before runtime scaffolding. |
+| R3-R7 | Not started | Runtime, Web, LLM, Skill/CLI, and private-pilot work remain outside P0. |
 
 ## R0 — Domain clarification
 
@@ -32,6 +46,27 @@ Terminal: contracts are versioned, locally validatable, traceable to R0, and do 
 Define representative synthetic questions and expected semantic results for at least three materially different profiles. Then specify one narrow organizational workflow that tests evidence intake, state reconstruction, correction, contextual analysis, strategic branches, a later realized reaction, forecast matching, and competing profile-revision hypotheses.
 
 Terminal: each scenario proves a named contract property; the organizational workflow has observable acceptance without using the private case as product authority.
+
+## P0 — Semantic learning-loop foundation
+
+P0 produces an independent candidate `stockmesh.domain@0.2.0` snapshot and one
+fully invented organizational dialogue record that exercises the realized-
+reaction learning loop. It preserves `0.1.0` unchanged, freezes objective
+acceptance in [`contracts/v0.2/p0-acceptance-matrix.json`](../../contracts/v0.2/p0-acceptance-matrix.json),
+and adds a dedicated validator plus repository-gate coverage.
+
+P0 must prove branch purpose versus realization, frozen branch-root context,
+matched and divergent forecasts, an unmatched actual reaction, a non-predictive
+exploratory branch, horizon/observation-coverage rules, append-only reviewed
+profile-Claim revision, separate model/Method/Search calibration, traceable
+Strategy Steps, and multi-party Evaluation for every materialized Position.
+
+P0 explicitly excludes a database/runtime schema, application scaffold, Web UI,
+live LLM call, private-case import, and product-acceptance claim.
+
+Terminal: every frozen P0 criterion has direct artifact evidence and executable
+validation; the complete repository gate and public-boundary audit pass; status
+and verification record the observed result. Human acceptance remains separate.
 
 ## R3 — Replayable implementation backbone
 
@@ -65,4 +100,6 @@ Terminal: observed results and gaps are reported; only generalized, non-linkable
 
 ## Recommended next decision
 
-On explicit implementation resume, translate the adopted semantics into a candidate `0.2.0` contract and synthetic validation workflow before creating the runtime scaffold. The fixture should include one forecast that matches later reality, one partial/divergent forecast, one unmatched actual reaction, one non-predictive exploratory branch, and one reviewed profile Claim revision.
+After P0 reaches its engineering terminal, start R3 with a thin TypeScript/Node
+foundation only when its runtime contract is derived from the validated P0
+semantics. Do not expand P0 into the runtime merely to show visible code.

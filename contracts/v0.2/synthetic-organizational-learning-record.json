@@ -1,0 +1,737 @@
+{
+  "fixture_id": "stockmesh.synthetic.organizational-learning-loop.v0.2",
+  "contract": "stockmesh.domain@0.2.0",
+  "fixture_status": "synthetic-only",
+  "synthetic_notice": "Every role, statement, timestamp, relationship, event, forecast, assessment, and review decision in this fixture is invented for contract validation.",
+  "source_policy": {
+    "authority": "fixture-only",
+    "private_case_used": false,
+    "external_locators_allowed": false
+  },
+  "sources": [
+    {
+      "id": "evidence-syn-scope",
+      "source_kind": "synthetic-scope-note",
+      "content_identity": "invented-scope-v1",
+      "authority": "fixture-author",
+      "acquired_at": "2026-08-17T09:00:00Z",
+      "integrity": "fixture-defined",
+      "sensitivity": "public-synthetic",
+      "locator": null
+    },
+    {
+      "id": "evidence-syn-ask",
+      "source_kind": "synthetic-message",
+      "content_identity": "invented-message-ask-v1",
+      "authority": "fixture-author",
+      "acquired_at": "2026-08-17T09:11:00Z",
+      "integrity": "fixture-defined",
+      "sensitivity": "public-synthetic",
+      "locator": null
+    },
+    {
+      "id": "evidence-syn-sponsor-reply",
+      "source_kind": "synthetic-message",
+      "content_identity": "invented-message-sponsor-v1",
+      "authority": "fixture-author",
+      "acquired_at": "2026-08-17T10:01:00Z",
+      "integrity": "fixture-defined",
+      "sensitivity": "public-synthetic",
+      "locator": null
+    },
+    {
+      "id": "evidence-syn-coordinator-reply",
+      "source_kind": "synthetic-message",
+      "content_identity": "invented-message-coordinator-v1",
+      "authority": "fixture-author",
+      "acquired_at": "2026-08-17T10:06:00Z",
+      "integrity": "fixture-defined",
+      "sensitivity": "public-synthetic",
+      "locator": null
+    },
+    {
+      "id": "evidence-syn-surprise",
+      "source_kind": "synthetic-message",
+      "content_identity": "invented-message-surprise-v1",
+      "authority": "fixture-author",
+      "acquired_at": "2026-08-17T10:21:00Z",
+      "integrity": "fixture-defined",
+      "sensitivity": "public-synthetic",
+      "locator": null
+    },
+    {
+      "id": "evidence-syn-coverage-public",
+      "source_kind": "synthetic-observation-log",
+      "content_identity": "invented-public-channel-coverage-v1",
+      "authority": "fixture-observer",
+      "acquired_at": "2026-08-17T13:16:00Z",
+      "integrity": "fixture-defined",
+      "sensitivity": "public-synthetic",
+      "locator": null
+    },
+    {
+      "id": "evidence-syn-coverage-private",
+      "source_kind": "synthetic-observation-limit",
+      "content_identity": "invented-private-channel-gap-v1",
+      "authority": "fixture-observer",
+      "acquired_at": "2026-08-17T13:16:00Z",
+      "integrity": "fixture-defined",
+      "sensitivity": "public-synthetic",
+      "locator": null
+    }
+  ],
+  "playgrounds": [
+    {
+      "id": "playground-syn-orchard",
+      "profile_id": "organizational.social@0.2",
+      "scope": "invented-orchard-decision",
+      "time_basis": { "kind": "discrete", "zone": "UTC", "resolution": "minute" },
+      "evidence_policy": "synthetic-only",
+      "episode_ids": ["episode-syn-orchard"]
+    }
+  ],
+  "perspectives": [
+    {
+      "id": "perspective-syn-analyst",
+      "visibility_scope": "invented-shared-channel-and-reviewed-records",
+      "question": "Which response best improves decision clarity without unnecessary escalation?",
+      "stakeholder_node_id": "node-syn-analyst"
+    }
+  ],
+  "objectives": [
+    { "id": "objective-syn-clarity", "party_node_id": "node-syn-analyst", "name": "decision-clarity", "weight": 1.0 },
+    { "id": "objective-syn-low-escalation", "party_node_id": "node-syn-analyst", "name": "low-escalation-risk", "weight": 0.8 },
+    { "id": "objective-syn-sponsor-evidence", "party_node_id": "node-syn-sponsor", "name": "evidence-before-commitment", "weight": 1.0 },
+    { "id": "objective-syn-sponsor-speed", "party_node_id": "node-syn-sponsor", "name": "bounded-decision-time", "weight": 0.7 }
+  ],
+  "nodes": [
+    { "id": "node-syn-analyst", "node_type": "person", "identity_scope": "playground-syn-orchard", "view_alias": "Pawn" },
+    { "id": "node-syn-sponsor", "node_type": "person", "identity_scope": "playground-syn-orchard", "view_alias": "Pawn" },
+    { "id": "node-syn-coordinator", "node_type": "person", "identity_scope": "playground-syn-orchard", "view_alias": "Pawn" },
+    { "id": "node-syn-reviewer", "node_type": "person", "identity_scope": "playground-syn-orchard", "view_alias": "Pawn" },
+    { "id": "node-syn-team", "node_type": "team", "identity_scope": "playground-syn-orchard", "view_alias": "Pawn" },
+    { "id": "node-syn-decision", "node_type": "decision-object", "identity_scope": "playground-syn-orchard", "view_alias": "Pawn" }
+  ],
+  "relations": [
+    {
+      "id": "relation-syn-membership",
+      "relation_type": "membership",
+      "subject_id": "node-syn-analyst",
+      "object_id": "node-syn-team",
+      "valid_time": { "from": "2026-08-17T09:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-membership"]
+    },
+    {
+      "id": "relation-syn-authority",
+      "relation_type": "decision-authority",
+      "subject_id": "node-syn-sponsor",
+      "object_id": "node-syn-decision",
+      "valid_time": { "from": "2026-08-17T09:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-authority"]
+    }
+  ],
+  "flows": [
+    {
+      "id": "flow-syn-shared-channel",
+      "flow_type": "information",
+      "path": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-reviewer"],
+      "valid_time": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T10:20:00Z" },
+      "claim_refs": ["claim-syn-ask", "claim-syn-sponsor-reply", "claim-syn-coordinator-reply", "claim-syn-surprise"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-syn-membership",
+      "subject_ref": "relation-syn-membership",
+      "claim_kind": "attributed-report",
+      "epistemic_status": "adopted",
+      "valid_time": { "from": "2026-08-17T09:00:00Z", "to": null },
+      "observed_at": "2026-08-17T09:00:00Z",
+      "recorded_at": "2026-08-17T09:00:30Z",
+      "evidence_refs": ["evidence-syn-scope"],
+      "author": "fixture-reviewer",
+      "revision": 1
+    },
+    {
+      "id": "claim-syn-authority",
+      "subject_ref": "relation-syn-authority",
+      "claim_kind": "human-judgment",
+      "epistemic_status": "adopted",
+      "valid_time": { "from": "2026-08-17T09:00:00Z", "to": null },
+      "observed_at": "2026-08-17T09:00:00Z",
+      "recorded_at": "2026-08-17T09:00:30Z",
+      "evidence_refs": ["evidence-syn-scope"],
+      "author": "fixture-reviewer",
+      "revision": 1
+    },
+    {
+      "id": "claim-syn-sponsor-style-v1",
+      "subject_ref": "node-syn-sponsor",
+      "claim_kind": "profile-response-style",
+      "epistemic_status": "adopted",
+      "proposition": "The sponsor usually prefers synchronous alignment before written criteria.",
+      "valid_time": { "from": "2026-08-17T09:00:00Z", "to": null },
+      "observed_at": "2026-08-17T09:00:00Z",
+      "recorded_at": "2026-08-17T09:01:00Z",
+      "evidence_refs": ["evidence-syn-scope"],
+      "author": "fixture-reviewer",
+      "revision": 1
+    },
+    {
+      "id": "claim-syn-ask",
+      "subject_ref": "utterance-syn-ask",
+      "claim_kind": "direct-observation",
+      "epistemic_status": "observed",
+      "valid_time": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T09:10:00Z" },
+      "observed_at": "2026-08-17T09:10:00Z",
+      "recorded_at": "2026-08-17T09:11:00Z",
+      "evidence_refs": ["evidence-syn-ask"],
+      "author": "fixture-observer",
+      "revision": 1
+    },
+    {
+      "id": "claim-syn-sponsor-reply",
+      "subject_ref": "utterance-syn-sponsor-reply",
+      "claim_kind": "direct-observation",
+      "epistemic_status": "observed",
+      "valid_time": { "from": "2026-08-17T10:00:00Z", "to": "2026-08-17T10:00:00Z" },
+      "observed_at": "2026-08-17T10:00:00Z",
+      "recorded_at": "2026-08-17T10:01:00Z",
+      "evidence_refs": ["evidence-syn-sponsor-reply"],
+      "author": "fixture-observer",
+      "revision": 1
+    },
+    {
+      "id": "claim-syn-coordinator-reply",
+      "subject_ref": "utterance-syn-coordinator-reply",
+      "claim_kind": "direct-observation",
+      "epistemic_status": "observed",
+      "valid_time": { "from": "2026-08-17T10:05:00Z", "to": "2026-08-17T10:05:00Z" },
+      "observed_at": "2026-08-17T10:05:00Z",
+      "recorded_at": "2026-08-17T10:06:00Z",
+      "evidence_refs": ["evidence-syn-coordinator-reply"],
+      "author": "fixture-observer",
+      "revision": 1
+    },
+    {
+      "id": "claim-syn-surprise",
+      "subject_ref": "utterance-syn-surprise",
+      "claim_kind": "direct-observation",
+      "epistemic_status": "observed",
+      "valid_time": { "from": "2026-08-17T10:20:00Z", "to": "2026-08-17T10:20:00Z" },
+      "observed_at": "2026-08-17T10:20:00Z",
+      "recorded_at": "2026-08-17T10:21:00Z",
+      "evidence_refs": ["evidence-syn-surprise"],
+      "author": "fixture-observer",
+      "revision": 1
+    },
+    {
+      "id": "claim-syn-sponsor-style-v2",
+      "subject_ref": "node-syn-sponsor",
+      "claim_kind": "profile-response-style",
+      "epistemic_status": "adopted",
+      "proposition": "For bounded decision requests, the sponsor may respond directly with written criteria.",
+      "valid_time": { "from": "2026-08-17T10:00:00Z", "to": null },
+      "observed_at": "2026-08-17T10:00:00Z",
+      "recorded_at": "2026-08-17T11:00:00Z",
+      "evidence_refs": ["evidence-syn-sponsor-reply"],
+      "author": "fixture-reviewer",
+      "revision": 2,
+      "revision_of": "claim-syn-sponsor-style-v1"
+    },
+    {
+      "id": "claim-syn-style-context-exception",
+      "subject_ref": "node-syn-sponsor",
+      "claim_kind": "profile-revision-alternative",
+      "epistemic_status": "hypothesis",
+      "proposition": "The written reply may be specific to this low-cost context rather than a stable preference.",
+      "valid_time": { "from": "2026-08-17T10:00:00Z", "to": null },
+      "observed_at": "2026-08-17T10:00:00Z",
+      "recorded_at": "2026-08-17T10:45:00Z",
+      "evidence_refs": ["evidence-syn-sponsor-reply"],
+      "author": "deterministic-fixture-analysis",
+      "revision": 1,
+      "competes_with_refs": ["claim-syn-sponsor-style-v2"]
+    },
+    {
+      "id": "claim-syn-style-constraint-change",
+      "subject_ref": "node-syn-sponsor",
+      "claim_kind": "profile-revision-alternative",
+      "epistemic_status": "hypothesis",
+      "proposition": "A changed time constraint may have caused an atypically direct written reply.",
+      "valid_time": { "from": "2026-08-17T10:00:00Z", "to": null },
+      "observed_at": "2026-08-17T10:00:00Z",
+      "recorded_at": "2026-08-17T10:45:00Z",
+      "evidence_refs": ["evidence-syn-sponsor-reply"],
+      "author": "deterministic-fixture-analysis",
+      "revision": 1,
+      "competes_with_refs": ["claim-syn-sponsor-style-v2"]
+    }
+  ],
+  "assertions": [
+    "claim-syn-membership",
+    "claim-syn-authority",
+    "claim-syn-sponsor-style-v1",
+    "claim-syn-ask",
+    "claim-syn-sponsor-reply",
+    "claim-syn-coordinator-reply",
+    "claim-syn-surprise",
+    "claim-syn-sponsor-style-v2"
+  ],
+  "review_decisions": [
+    {
+      "id": "review-syn-style-v2",
+      "target_ref": "revision-proposal-syn-prior-estimate",
+      "decision": "accept",
+      "reviewer": "fixture-reviewer",
+      "reviewed_at": "2026-08-17T11:00:00Z",
+      "rationale": "The observed written criteria directly challenge the earlier estimate; adoption remains context-bounded."
+    },
+    {
+      "id": "review-syn-context-exception",
+      "target_ref": "revision-proposal-syn-context",
+      "decision": "leave-unresolved",
+      "reviewer": "fixture-reviewer",
+      "reviewed_at": "2026-08-17T11:00:00Z",
+      "rationale": "One reaction cannot distinguish a stable preference from a contextual exception."
+    },
+    {
+      "id": "review-syn-constraint-change",
+      "target_ref": "revision-proposal-syn-constraint",
+      "decision": "leave-unresolved",
+      "reviewer": "fixture-reviewer",
+      "reviewed_at": "2026-08-17T11:00:00Z",
+      "rationale": "No independent evidence establishes that constraints changed."
+    }
+  ],
+  "profile_snapshots": [
+    {
+      "id": "profile-snapshot-syn-root",
+      "profile_id": "organizational.social",
+      "as_of": "2026-08-17T09:10:00Z",
+      "evidence_cutoff": "2026-08-17T09:11:00Z",
+      "claim_refs": ["claim-syn-membership", "claim-syn-authority", "claim-syn-sponsor-style-v1", "claim-syn-ask"],
+      "profile_version": "organizational.social@0.2",
+      "snapshot_identity": "fixture-profile-root-v1"
+    },
+    {
+      "id": "profile-snapshot-syn-current",
+      "profile_id": "organizational.social",
+      "as_of": "2026-08-17T11:00:00Z",
+      "evidence_cutoff": "2026-08-17T10:21:00Z",
+      "claim_refs": ["claim-syn-membership", "claim-syn-authority", "claim-syn-sponsor-style-v2", "claim-syn-ask", "claim-syn-sponsor-reply", "claim-syn-coordinator-reply", "claim-syn-surprise"],
+      "profile_version": "organizational.social@0.2",
+      "snapshot_identity": "fixture-profile-current-v1"
+    }
+  ],
+  "states": [
+    {
+      "id": "state-syn-decision-open",
+      "subject_id": "node-syn-decision",
+      "state_type": "decision-status",
+      "value": "open",
+      "valid_time": { "from": "2026-08-17T09:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-authority"]
+    },
+    {
+      "id": "state-syn-style-root",
+      "subject_id": "node-syn-sponsor",
+      "state_type": "response-style-hypothesis",
+      "value": "synchronous-alignment-first",
+      "valid_time": { "from": "2026-08-17T09:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-sponsor-style-v1"]
+    },
+    {
+      "id": "state-syn-style-current",
+      "subject_id": "node-syn-sponsor",
+      "state_type": "response-style-hypothesis",
+      "value": "bounded-written-criteria-possible",
+      "valid_time": { "from": "2026-08-17T10:00:00Z", "to": null },
+      "claim_refs": ["claim-syn-sponsor-style-v2"]
+    }
+  ],
+  "utterances": [
+    {
+      "id": "utterance-syn-ask",
+      "speaker_node_id": "node-syn-analyst",
+      "audience_node_ids": ["node-syn-sponsor", "node-syn-coordinator"],
+      "occurred_time": "2026-08-17T09:10:00Z",
+      "text": "Could we name the three acceptance conditions before choosing the next step?",
+      "evidence_ref": "evidence-syn-ask",
+      "claim_ref": "claim-syn-ask"
+    },
+    {
+      "id": "utterance-syn-sponsor-reply",
+      "speaker_node_id": "node-syn-sponsor",
+      "audience_node_ids": ["node-syn-analyst", "node-syn-coordinator"],
+      "occurred_time": "2026-08-17T10:00:00Z",
+      "text": "Use evidence completeness, reversible cost, and a named owner; send a one-page risk note by noon.",
+      "evidence_ref": "evidence-syn-sponsor-reply",
+      "claim_ref": "claim-syn-sponsor-reply"
+    },
+    {
+      "id": "utterance-syn-coordinator-reply",
+      "speaker_node_id": "node-syn-coordinator",
+      "audience_node_ids": ["node-syn-analyst", "node-syn-sponsor"],
+      "occurred_time": "2026-08-17T10:05:00Z",
+      "text": "I will turn those conditions into an asynchronous checklist.",
+      "evidence_ref": "evidence-syn-coordinator-reply",
+      "claim_ref": "claim-syn-coordinator-reply"
+    },
+    {
+      "id": "utterance-syn-surprise",
+      "speaker_node_id": "node-syn-reviewer",
+      "audience_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator"],
+      "occurred_time": "2026-08-17T10:20:00Z",
+      "text": "The invented budget cap changed this morning, so add a resource ceiling.",
+      "evidence_ref": "evidence-syn-surprise",
+      "claim_ref": "claim-syn-surprise"
+    }
+  ],
+  "actions": [
+    { "id": "action-syn-ask", "actor_node_id": "node-syn-analyst", "mode": "actual", "target_position_id": "position-syn-000", "constraints": ["shared-channel", "one-bounded-question"] },
+    { "id": "action-syn-sponsor-reply", "actor_node_id": "node-syn-sponsor", "mode": "actual", "target_position_id": "position-syn-001", "constraints": ["written", "before-noon"] },
+    { "id": "action-syn-coordinator-reply", "actor_node_id": "node-syn-coordinator", "mode": "actual", "target_position_id": "position-syn-002", "constraints": ["asynchronous"] },
+    { "id": "action-syn-surprise", "actor_node_id": "node-syn-reviewer", "mode": "actual", "target_position_id": "position-syn-003", "constraints": ["new-resource-ceiling"] },
+    { "id": "action-syn-forecast-match", "actor_node_id": "node-syn-sponsor", "mode": "predicted", "target_position_id": "position-syn-001", "constraints": ["written-criteria"] },
+    { "id": "action-syn-forecast-partial", "actor_node_id": "node-syn-coordinator", "mode": "predicted", "target_position_id": "position-syn-001", "constraints": ["synchronous-meeting"] },
+    { "id": "action-syn-forecast-diverged", "actor_node_id": "node-syn-sponsor", "mode": "predicted", "target_position_id": "position-syn-001", "constraints": ["meeting-before-criteria"] },
+    { "id": "action-syn-forecast-expired", "actor_node_id": "node-syn-team", "mode": "predicted", "target_position_id": "position-syn-001", "constraints": ["shared-channel", "within-two-hours"] },
+    { "id": "action-syn-forecast-unknown", "actor_node_id": "node-syn-sponsor", "mode": "predicted", "target_position_id": "position-syn-001", "constraints": ["private-channel", "within-two-hours"] },
+    { "id": "action-syn-counterfactual", "actor_node_id": "node-syn-analyst", "mode": "hypothetical", "target_position_id": "position-syn-001", "constraints": ["public-escalation"] },
+    { "id": "action-syn-exploratory", "actor_node_id": "node-syn-sponsor", "mode": "hypothetical", "target_position_id": "position-syn-001", "constraints": ["imaginative-external-facilitator"] }
+  ],
+  "events": [
+    { "id": "event-syn-ask", "event_type": "question-stated", "mode": "actual", "occurred_time": "2026-08-17T09:10:00Z", "observed_at": "2026-08-17T09:10:00Z", "recorded_at": "2026-08-17T09:11:00Z", "claim_refs": ["claim-syn-ask"], "resulting_position_id": "position-syn-001" },
+    { "id": "event-syn-sponsor-reply", "event_type": "criteria-stated", "mode": "actual", "occurred_time": "2026-08-17T10:00:00Z", "observed_at": "2026-08-17T10:00:00Z", "recorded_at": "2026-08-17T10:01:00Z", "claim_refs": ["claim-syn-sponsor-reply"], "resulting_position_id": "position-syn-002" },
+    { "id": "event-syn-coordinator-reply", "event_type": "checklist-committed", "mode": "actual", "occurred_time": "2026-08-17T10:05:00Z", "observed_at": "2026-08-17T10:05:00Z", "recorded_at": "2026-08-17T10:06:00Z", "claim_refs": ["claim-syn-coordinator-reply"], "resulting_position_id": "position-syn-003" },
+    { "id": "event-syn-surprise", "event_type": "resource-constraint-stated", "mode": "actual", "occurred_time": "2026-08-17T10:20:00Z", "observed_at": "2026-08-17T10:20:00Z", "recorded_at": "2026-08-17T10:21:00Z", "claim_refs": ["claim-syn-surprise"], "resulting_position_id": "position-syn-004" },
+    { "id": "event-syn-profile-review", "event_type": "profile-claim-revision-reviewed", "mode": "reconstructed", "occurred_time": "2026-08-17T11:00:00Z", "observed_at": "2026-08-17T11:00:00Z", "recorded_at": "2026-08-17T11:00:00Z", "claim_refs": ["claim-syn-sponsor-style-v2"], "resulting_position_id": "position-syn-005" },
+    { "id": "event-syn-var-match", "event_type": "criteria-and-checklist-modeled", "mode": "predicted", "occurred_time": "2026-08-17T10:00:00Z", "claim_refs": [], "resulting_position_id": "position-syn-var-match" },
+    { "id": "event-syn-var-partial", "event_type": "meeting-modeled", "mode": "predicted", "occurred_time": "2026-08-17T10:00:00Z", "claim_refs": [], "resulting_position_id": "position-syn-var-partial" },
+    { "id": "event-syn-var-diverged", "event_type": "criteria-delay-modeled", "mode": "predicted", "occurred_time": "2026-08-17T10:00:00Z", "claim_refs": [], "resulting_position_id": "position-syn-var-diverged" },
+    { "id": "event-syn-var-expired", "event_type": "team-checklist-modeled", "mode": "predicted", "occurred_time": "2026-08-17T11:10:00Z", "claim_refs": [], "resulting_position_id": "position-syn-var-expired" },
+    { "id": "event-syn-var-unknown", "event_type": "private-concern-modeled", "mode": "predicted", "occurred_time": "2026-08-17T11:10:00Z", "claim_refs": [], "resulting_position_id": "position-syn-var-unknown" },
+    { "id": "event-syn-var-counterfactual", "event_type": "public-escalation-modeled", "mode": "hypothetical", "occurred_time": "2026-08-17T09:20:00Z", "claim_refs": [], "resulting_position_id": "position-syn-var-counterfactual" },
+    { "id": "event-syn-var-exploratory", "event_type": "external-facilitator-modeled", "mode": "hypothetical", "occurred_time": "2026-08-17T12:00:00Z", "claim_refs": [], "resulting_position_id": "position-syn-var-exploratory" }
+  ],
+  "positions": [
+    { "id": "position-syn-000", "mode": "reconstructed", "as_of": "2026-08-17T09:00:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-reviewer", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:00:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-000" },
+    { "id": "position-syn-001", "mode": "reconstructed", "as_of": "2026-08-17T09:10:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-reviewer", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-001" },
+    { "id": "position-syn-002", "mode": "reconstructed", "as_of": "2026-08-17T10:00:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-reviewer", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T10:01:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-002" },
+    { "id": "position-syn-003", "mode": "reconstructed", "as_of": "2026-08-17T10:05:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-reviewer", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T10:06:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-003" },
+    { "id": "position-syn-004", "mode": "reconstructed", "as_of": "2026-08-17T10:20:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-reviewer", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T10:21:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-004" },
+    { "id": "position-syn-005", "mode": "reconstructed", "as_of": "2026-08-17T11:00:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-reviewer", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-current"] }, "evidence_cutoff": "2026-08-17T10:21:00Z", "profile_snapshot_id": "profile-snapshot-syn-current", "projection_identity": "projection-syn-005" },
+    { "id": "position-syn-var-match", "mode": "predicted", "as_of": "2026-08-17T10:00:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-var-match" },
+    { "id": "position-syn-var-partial", "mode": "predicted", "as_of": "2026-08-17T10:00:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-coordinator", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-var-partial" },
+    { "id": "position-syn-var-diverged", "mode": "predicted", "as_of": "2026-08-17T10:00:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-var-diverged" },
+    { "id": "position-syn-var-expired", "mode": "predicted", "as_of": "2026-08-17T11:10:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-var-expired" },
+    { "id": "position-syn-var-unknown", "mode": "predicted", "as_of": "2026-08-17T11:10:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-var-unknown" },
+    { "id": "position-syn-var-counterfactual", "mode": "hypothetical", "as_of": "2026-08-17T09:20:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-var-counterfactual" },
+    { "id": "position-syn-var-exploratory", "mode": "hypothetical", "as_of": "2026-08-17T12:00:00Z", "playground_id": "playground-syn-orchard", "projection": { "active_node_ids": ["node-syn-analyst", "node-syn-sponsor", "node-syn-team", "node-syn-decision"], "relation_ids": ["relation-syn-membership", "relation-syn-authority"], "state_ids": ["state-syn-decision-open", "state-syn-style-root"] }, "evidence_cutoff": "2026-08-17T09:11:00Z", "profile_snapshot_id": "profile-snapshot-syn-root", "projection_identity": "projection-syn-var-exploratory" }
+  ],
+  "transitions": [
+    { "id": "transition-syn-ask", "from_position_id": "position-syn-000", "to_position_id": "position-syn-001", "mode": "actual", "cause_refs": ["action-syn-ask", "event-syn-ask"], "effect_summary": "A bounded criteria question becomes part of confirmed shared context." },
+    { "id": "transition-syn-sponsor-reply", "from_position_id": "position-syn-001", "to_position_id": "position-syn-002", "mode": "actual", "cause_refs": ["action-syn-sponsor-reply", "event-syn-sponsor-reply"], "effect_summary": "The sponsor supplies three written criteria and a requested artifact." },
+    { "id": "transition-syn-coordinator-reply", "from_position_id": "position-syn-002", "to_position_id": "position-syn-003", "mode": "actual", "cause_refs": ["action-syn-coordinator-reply", "event-syn-coordinator-reply"], "effect_summary": "The coordinator commits to an asynchronous checklist." },
+    { "id": "transition-syn-surprise", "from_position_id": "position-syn-003", "to_position_id": "position-syn-004", "mode": "actual", "cause_refs": ["action-syn-surprise", "event-syn-surprise"], "effect_summary": "An unpredicted resource ceiling enters the shared decision context." },
+    { "id": "transition-syn-profile-review", "from_position_id": "position-syn-004", "to_position_id": "position-syn-005", "mode": "reconstructed", "cause_refs": ["review-syn-style-v2", "event-syn-profile-review"], "effect_summary": "Reviewed profile learning creates a later snapshot without altering the branch-root snapshot." },
+    { "id": "transition-syn-var-match", "from_position_id": "position-syn-001", "to_position_id": "position-syn-var-match", "mode": "predicted", "cause_refs": ["action-syn-forecast-match", "event-syn-var-match"], "effect_summary": "Sponsor provides criteria and coordinator creates a checklist." },
+    { "id": "transition-syn-var-partial", "from_position_id": "position-syn-001", "to_position_id": "position-syn-var-partial", "mode": "predicted", "cause_refs": ["action-syn-forecast-partial", "event-syn-var-partial"], "effect_summary": "Coordinator proposes a synchronous criteria meeting." },
+    { "id": "transition-syn-var-diverged", "from_position_id": "position-syn-001", "to_position_id": "position-syn-var-diverged", "mode": "predicted", "cause_refs": ["action-syn-forecast-diverged", "event-syn-var-diverged"], "effect_summary": "Sponsor defers written criteria until after a meeting." },
+    { "id": "transition-syn-var-expired", "from_position_id": "position-syn-001", "to_position_id": "position-syn-var-expired", "mode": "predicted", "cause_refs": ["action-syn-forecast-expired", "event-syn-var-expired"], "effect_summary": "The team posts an approval checklist within two hours." },
+    { "id": "transition-syn-var-unknown", "from_position_id": "position-syn-001", "to_position_id": "position-syn-var-unknown", "mode": "predicted", "cause_refs": ["action-syn-forecast-unknown", "event-syn-var-unknown"], "effect_summary": "Sponsor privately sends the coordinator a concern within two hours." },
+    { "id": "transition-syn-var-counterfactual", "from_position_id": "position-syn-001", "to_position_id": "position-syn-var-counterfactual", "mode": "hypothetical", "cause_refs": ["action-syn-counterfactual", "event-syn-var-counterfactual"], "effect_summary": "Analyst publicly escalates the unanswered question." },
+    { "id": "transition-syn-var-exploratory", "from_position_id": "position-syn-001", "to_position_id": "position-syn-var-exploratory", "mode": "hypothetical", "cause_refs": ["action-syn-exploratory", "event-syn-var-exploratory"], "effect_summary": "An imagined external facilitator takes over the decision workshop." }
+  ],
+  "strategy_steps": [
+    { "id": "step-syn-ask", "before_position_id": "position-syn-000", "input_refs": ["utterance-syn-ask"], "event_refs": ["event-syn-ask"], "action_refs": ["action-syn-ask"], "transition_id": "transition-syn-ask", "after_position_id": "position-syn-001", "mode": "actual", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "main-line" },
+    { "id": "step-syn-sponsor-reply", "before_position_id": "position-syn-001", "input_refs": ["utterance-syn-sponsor-reply"], "event_refs": ["event-syn-sponsor-reply"], "action_refs": ["action-syn-sponsor-reply"], "transition_id": "transition-syn-sponsor-reply", "after_position_id": "position-syn-002", "mode": "actual", "evidence_refs": ["evidence-syn-sponsor-reply"], "branch_membership": "main-line" },
+    { "id": "step-syn-coordinator-reply", "before_position_id": "position-syn-002", "input_refs": ["utterance-syn-coordinator-reply"], "event_refs": ["event-syn-coordinator-reply"], "action_refs": ["action-syn-coordinator-reply"], "transition_id": "transition-syn-coordinator-reply", "after_position_id": "position-syn-003", "mode": "actual", "evidence_refs": ["evidence-syn-coordinator-reply"], "branch_membership": "main-line" },
+    { "id": "step-syn-surprise", "before_position_id": "position-syn-003", "input_refs": ["utterance-syn-surprise"], "event_refs": ["event-syn-surprise"], "action_refs": ["action-syn-surprise"], "transition_id": "transition-syn-surprise", "after_position_id": "position-syn-004", "mode": "actual", "evidence_refs": ["evidence-syn-surprise"], "branch_membership": "main-line" },
+    { "id": "step-syn-profile-review", "before_position_id": "position-syn-004", "input_refs": ["review-syn-style-v2"], "event_refs": ["event-syn-profile-review"], "action_refs": [], "transition_id": "transition-syn-profile-review", "after_position_id": "position-syn-005", "mode": "reconstructed", "evidence_refs": ["evidence-syn-sponsor-reply"], "branch_membership": "main-line" },
+    { "id": "step-syn-var-match", "before_position_id": "position-syn-001", "input_refs": ["action-syn-forecast-match"], "event_refs": ["event-syn-var-match"], "action_refs": ["action-syn-forecast-match"], "transition_id": "transition-syn-var-match", "after_position_id": "position-syn-var-match", "mode": "predicted", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "variation-syn-match" },
+    { "id": "step-syn-var-partial", "before_position_id": "position-syn-001", "input_refs": ["action-syn-forecast-partial"], "event_refs": ["event-syn-var-partial"], "action_refs": ["action-syn-forecast-partial"], "transition_id": "transition-syn-var-partial", "after_position_id": "position-syn-var-partial", "mode": "predicted", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "variation-syn-partial" },
+    { "id": "step-syn-var-diverged", "before_position_id": "position-syn-001", "input_refs": ["action-syn-forecast-diverged"], "event_refs": ["event-syn-var-diverged"], "action_refs": ["action-syn-forecast-diverged"], "transition_id": "transition-syn-var-diverged", "after_position_id": "position-syn-var-diverged", "mode": "predicted", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "variation-syn-diverged" },
+    { "id": "step-syn-var-expired", "before_position_id": "position-syn-001", "input_refs": ["action-syn-forecast-expired"], "event_refs": ["event-syn-var-expired"], "action_refs": ["action-syn-forecast-expired"], "transition_id": "transition-syn-var-expired", "after_position_id": "position-syn-var-expired", "mode": "predicted", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "variation-syn-expired" },
+    { "id": "step-syn-var-unknown", "before_position_id": "position-syn-001", "input_refs": ["action-syn-forecast-unknown"], "event_refs": ["event-syn-var-unknown"], "action_refs": ["action-syn-forecast-unknown"], "transition_id": "transition-syn-var-unknown", "after_position_id": "position-syn-var-unknown", "mode": "predicted", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "variation-syn-unknown" },
+    { "id": "step-syn-var-counterfactual", "before_position_id": "position-syn-001", "input_refs": ["action-syn-counterfactual"], "event_refs": ["event-syn-var-counterfactual"], "action_refs": ["action-syn-counterfactual"], "transition_id": "transition-syn-var-counterfactual", "after_position_id": "position-syn-var-counterfactual", "mode": "hypothetical", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "variation-syn-counterfactual" },
+    { "id": "step-syn-var-exploratory", "before_position_id": "position-syn-001", "input_refs": ["action-syn-exploratory"], "event_refs": ["event-syn-var-exploratory"], "action_refs": ["action-syn-exploratory"], "transition_id": "transition-syn-var-exploratory", "after_position_id": "position-syn-var-exploratory", "mode": "hypothetical", "evidence_refs": ["evidence-syn-ask"], "branch_membership": "variation-syn-exploratory" }
+  ],
+  "trajectories": [
+    { "id": "trajectory-syn-main", "mode": "reconstructed", "position_ids": ["position-syn-000", "position-syn-001", "position-syn-002", "position-syn-003", "position-syn-004", "position-syn-005"], "transition_ids": ["transition-syn-ask", "transition-syn-sponsor-reply", "transition-syn-coordinator-reply", "transition-syn-surprise", "transition-syn-profile-review"], "assumptions": [] },
+    { "id": "trajectory-syn-var-match", "mode": "predicted", "position_ids": ["position-syn-001", "position-syn-var-match"], "transition_ids": ["transition-syn-var-match"], "assumptions": ["The sponsor answers in the shared channel.", "The coordinator operationalizes written criteria."] },
+    { "id": "trajectory-syn-var-partial", "mode": "predicted", "position_ids": ["position-syn-001", "position-syn-var-partial"], "transition_ids": ["transition-syn-var-partial"], "assumptions": ["The coordinator prefers synchronous clarification."] },
+    { "id": "trajectory-syn-var-diverged", "mode": "predicted", "position_ids": ["position-syn-001", "position-syn-var-diverged"], "transition_ids": ["transition-syn-var-diverged"], "assumptions": ["The root profile estimate remains stable."] },
+    { "id": "trajectory-syn-var-expired", "mode": "predicted", "position_ids": ["position-syn-001", "position-syn-var-expired"], "transition_ids": ["transition-syn-var-expired"], "assumptions": ["The shared channel captures the team's checklist posts."] },
+    { "id": "trajectory-syn-var-unknown", "mode": "predicted", "position_ids": ["position-syn-001", "position-syn-var-unknown"], "transition_ids": ["transition-syn-var-unknown"], "assumptions": ["A private channel may be used."] },
+    { "id": "trajectory-syn-var-counterfactual", "mode": "hypothetical", "position_ids": ["position-syn-001", "position-syn-var-counterfactual"], "transition_ids": ["transition-syn-var-counterfactual"], "assumptions": ["The analyst chooses public escalation."] },
+    { "id": "trajectory-syn-var-exploratory", "mode": "hypothetical", "position_ids": ["position-syn-001", "position-syn-var-exploratory"], "transition_ids": ["transition-syn-var-exploratory"], "assumptions": ["An external facilitator is available in this fantasy branch."] }
+  ],
+  "method_runs": [
+    {
+      "id": "method-run-syn-001",
+      "method_id": "organizational-neighborhood-summary",
+      "method_version": "fixture-0.1",
+      "scale": "macro",
+      "input_refs": ["position-syn-001", "relation-syn-authority", "flow-syn-shared-channel"],
+      "assumptions": ["Only the invented shared-channel graph is in scope."],
+      "limitations": ["No private-channel visibility.", "Fixture topology is too small for general inference."],
+      "uncertainty": ["Influence is not inferred from degree alone."],
+      "output_refs": ["evaluation-syn-001"]
+    }
+  ],
+  "context_snapshots": [
+    {
+      "id": "context-snapshot-syn-root",
+      "position_id": "position-syn-001",
+      "evidence_cutoff": "2026-08-17T09:11:00Z",
+      "branch_path": ["position-syn-000", "step-syn-ask", "position-syn-001"],
+      "profile_snapshot_id": "profile-snapshot-syn-root",
+      "perspective_id": "perspective-syn-analyst",
+      "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation", "objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"],
+      "context_manifest": ["evidence-syn-scope", "evidence-syn-ask", "method-run-syn-001"],
+      "projector_version": "fixture-projector@0.2",
+      "snapshot_identity": "fixture-context-root-v1"
+    }
+  ],
+  "analysis_runs": [
+    {
+      "id": "analysis-run-syn-001",
+      "provider": "deterministic-fixture",
+      "model": "no-live-model",
+      "configuration_identity": "fixture-analysis-config@0.2",
+      "context_snapshot_id": "context-snapshot-syn-root",
+      "method_run_ids": ["method-run-syn-001"],
+      "output_refs": ["variation-syn-match", "variation-syn-partial", "variation-syn-diverged", "variation-syn-expired", "variation-syn-unknown", "variation-syn-counterfactual", "variation-syn-exploratory"],
+      "started_at": "2026-08-17T09:12:00Z",
+      "completed_at": "2026-08-17T09:12:01Z"
+    }
+  ],
+  "search_runs": [
+    {
+      "id": "search-run-syn-001",
+      "root_position_id": "position-syn-001",
+      "policy_id": "budgeted-fixture-frontier",
+      "policy_version": "0.1",
+      "budgets": { "max_depth": 4, "max_materialized_positions": 12, "max_elapsed_ms": 1000, "max_model_tokens": 0, "max_cost": 0 },
+      "selection_rationale": ["preserve purpose diversity", "exercise forecast outcomes", "include one imaginative non-prediction"],
+      "materialized_position_ids": ["position-syn-var-match", "position-syn-var-partial", "position-syn-var-diverged", "position-syn-var-expired", "position-syn-var-unknown", "position-syn-var-counterfactual", "position-syn-var-exploratory"],
+      "unexpanded_candidate_count": 2,
+      "analysis_run_ids": ["analysis-run-syn-001"]
+    }
+  ],
+  "variations": [
+    { "id": "variation-syn-match", "anchor_position_id": "position-syn-001", "trajectory_id": "trajectory-syn-var-match", "purpose": "forecast", "state": "pinned", "root_context_snapshot_id": "context-snapshot-syn-root", "root_profile_snapshot_id": "profile-snapshot-syn-root", "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" }, "assumptions": ["shared-channel reply"], "probability_or_rank": { "kind": "rank", "value": 1 }, "created_by_analysis_run_id": "analysis-run-syn-001" },
+    { "id": "variation-syn-partial", "anchor_position_id": "position-syn-001", "trajectory_id": "trajectory-syn-var-partial", "purpose": "forecast", "state": "candidate", "root_context_snapshot_id": "context-snapshot-syn-root", "root_profile_snapshot_id": "profile-snapshot-syn-root", "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" }, "assumptions": ["coordinator seeks synchronous alignment"], "probability_or_rank": { "kind": "rank", "value": 2 }, "created_by_analysis_run_id": "analysis-run-syn-001" },
+    { "id": "variation-syn-diverged", "anchor_position_id": "position-syn-001", "trajectory_id": "trajectory-syn-var-diverged", "purpose": "forecast", "state": "candidate", "root_context_snapshot_id": "context-snapshot-syn-root", "root_profile_snapshot_id": "profile-snapshot-syn-root", "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" }, "assumptions": ["root response-style Claim is predictive"], "probability_or_rank": { "kind": "rank", "value": 3 }, "created_by_analysis_run_id": "analysis-run-syn-001" },
+    { "id": "variation-syn-expired", "anchor_position_id": "position-syn-001", "trajectory_id": "trajectory-syn-var-expired", "purpose": "forecast", "state": "candidate", "root_context_snapshot_id": "context-snapshot-syn-root", "root_profile_snapshot_id": "profile-snapshot-syn-root", "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T11:10:00Z" }, "assumptions": ["shared-channel coverage is adequate"], "probability_or_rank": { "kind": "rank", "value": 4 }, "created_by_analysis_run_id": "analysis-run-syn-001" },
+    { "id": "variation-syn-unknown", "anchor_position_id": "position-syn-001", "trajectory_id": "trajectory-syn-var-unknown", "purpose": "forecast", "state": "candidate", "root_context_snapshot_id": "context-snapshot-syn-root", "root_profile_snapshot_id": "profile-snapshot-syn-root", "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T11:10:00Z" }, "assumptions": ["a private exchange is possible"], "probability_or_rank": { "kind": "rank", "value": 5 }, "created_by_analysis_run_id": "analysis-run-syn-001" },
+    { "id": "variation-syn-counterfactual", "anchor_position_id": "position-syn-001", "trajectory_id": "trajectory-syn-var-counterfactual", "purpose": "counterfactual", "state": "candidate", "root_context_snapshot_id": "context-snapshot-syn-root", "root_profile_snapshot_id": "profile-snapshot-syn-root", "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" }, "assumptions": ["public escalation is chosen"], "probability_or_rank": null, "created_by_analysis_run_id": "analysis-run-syn-001" },
+    { "id": "variation-syn-exploratory", "anchor_position_id": "position-syn-001", "trajectory_id": "trajectory-syn-var-exploratory", "purpose": "exploratory", "state": "pinned", "root_context_snapshot_id": "context-snapshot-syn-root", "root_profile_snapshot_id": "profile-snapshot-syn-root", "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" }, "assumptions": ["imaginative branch; no likelihood claim"], "probability_or_rank": null, "created_by_analysis_run_id": "analysis-run-syn-001" }
+  ],
+  "observation_coverages": [
+    {
+      "id": "coverage-syn-shared-adequate",
+      "scope": "invented-shared-channel",
+      "interval": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:15:00Z" },
+      "status": "adequate",
+      "evidence_refs": ["evidence-syn-coverage-public"],
+      "limitations": ["Does not cover private messages."],
+      "recorded_at": "2026-08-17T13:16:00Z"
+    },
+    {
+      "id": "coverage-syn-private-inadequate",
+      "scope": "invented-private-channel",
+      "interval": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:15:00Z" },
+      "status": "inadequate",
+      "evidence_refs": ["evidence-syn-coverage-private"],
+      "limitations": ["The fixture observer cannot see private exchanges."],
+      "recorded_at": "2026-08-17T13:16:00Z"
+    }
+  ],
+  "forecast_assessments": [
+    {
+      "id": "assessment-syn-matched",
+      "forecast_variation_id": "variation-syn-match",
+      "forecast_transition_refs": ["transition-syn-var-match"],
+      "actual_event_refs": ["event-syn-sponsor-reply", "event-syn-coordinator-reply"],
+      "actual_transition_refs": ["transition-syn-sponsor-reply", "transition-syn-coordinator-reply"],
+      "status": "matched",
+      "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" },
+      "rubric_id": "fixture-rubric-specific-actions-v1",
+      "observation_coverage_id": "coverage-syn-shared-adequate",
+      "assessor": "fixture-reviewer",
+      "assessed_at": "2026-08-17T13:17:00Z",
+      "rationale": "Both predicted shared-channel effects occurred inside the horizon."
+    },
+    {
+      "id": "assessment-syn-partial",
+      "forecast_variation_id": "variation-syn-partial",
+      "forecast_transition_refs": ["transition-syn-var-partial"],
+      "actual_event_refs": ["event-syn-coordinator-reply"],
+      "actual_transition_refs": ["transition-syn-coordinator-reply"],
+      "status": "partially-matched",
+      "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" },
+      "rubric_id": "fixture-rubric-specific-actions-v1",
+      "observation_coverage_id": "coverage-syn-shared-adequate",
+      "assessor": "fixture-reviewer",
+      "assessed_at": "2026-08-17T13:17:00Z",
+      "rationale": "The coordinator organized criteria but chose an asynchronous checklist rather than a meeting."
+    },
+    {
+      "id": "assessment-syn-diverged",
+      "forecast_variation_id": "variation-syn-diverged",
+      "forecast_transition_refs": ["transition-syn-var-diverged"],
+      "actual_event_refs": ["event-syn-sponsor-reply"],
+      "actual_transition_refs": ["transition-syn-sponsor-reply"],
+      "status": "diverged",
+      "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T13:10:00Z" },
+      "rubric_id": "fixture-rubric-specific-actions-v1",
+      "observation_coverage_id": "coverage-syn-shared-adequate",
+      "assessor": "fixture-reviewer",
+      "assessed_at": "2026-08-17T13:17:00Z",
+      "rationale": "The sponsor supplied written criteria directly rather than deferring them."
+    },
+    {
+      "id": "assessment-syn-expired",
+      "forecast_variation_id": "variation-syn-expired",
+      "forecast_transition_refs": ["transition-syn-var-expired"],
+      "actual_event_refs": [],
+      "actual_transition_refs": [],
+      "status": "expired-unobserved",
+      "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T11:10:00Z" },
+      "rubric_id": "fixture-rubric-specific-actions-v1",
+      "observation_coverage_id": "coverage-syn-shared-adequate",
+      "assessor": "fixture-reviewer",
+      "assessed_at": "2026-08-17T13:17:00Z",
+      "rationale": "The two-hour horizon elapsed and complete shared-channel coverage showed no team-authored checklist."
+    },
+    {
+      "id": "assessment-syn-unknown",
+      "forecast_variation_id": "variation-syn-unknown",
+      "forecast_transition_refs": ["transition-syn-var-unknown"],
+      "actual_event_refs": [],
+      "actual_transition_refs": [],
+      "status": "unknown",
+      "horizon": { "from": "2026-08-17T09:10:00Z", "to": "2026-08-17T11:10:00Z" },
+      "rubric_id": "fixture-rubric-specific-actions-v1",
+      "observation_coverage_id": "coverage-syn-private-inadequate",
+      "assessor": "fixture-reviewer",
+      "assessed_at": "2026-08-17T13:17:00Z",
+      "rationale": "The horizon elapsed, but private-channel coverage is inadequate."
+    }
+  ],
+  "actual_forecast_outcomes": [
+    { "id": "actual-outcome-syn-sponsor", "actual_event_id": "event-syn-sponsor-reply", "forecast_set_id": "search-run-syn-001", "outcome": "forecast-linked", "assessment_refs": ["assessment-syn-matched", "assessment-syn-diverged"], "recorded_at": "2026-08-17T13:17:00Z" },
+    { "id": "actual-outcome-syn-coordinator", "actual_event_id": "event-syn-coordinator-reply", "forecast_set_id": "search-run-syn-001", "outcome": "forecast-linked", "assessment_refs": ["assessment-syn-matched", "assessment-syn-partial"], "recorded_at": "2026-08-17T13:17:00Z" },
+    { "id": "actual-outcome-syn-surprise", "actual_event_id": "event-syn-surprise", "forecast_set_id": "search-run-syn-001", "outcome": "unmatched-actual", "assessment_refs": [], "recorded_at": "2026-08-17T13:17:00Z" }
+  ],
+  "profile_claim_revision_proposals": [
+    {
+      "id": "revision-proposal-syn-prior-estimate",
+      "subject_node_id": "node-syn-sponsor",
+      "prior_claim_refs": ["claim-syn-sponsor-style-v1"],
+      "proposed_claim_id": "claim-syn-sponsor-style-v2",
+      "interpretation": "prior-estimate-error",
+      "evidence_refs": ["evidence-syn-sponsor-reply"],
+      "review_status": "accepted",
+      "review_decision_ref": "review-syn-style-v2"
+    },
+    {
+      "id": "revision-proposal-syn-context",
+      "subject_node_id": "node-syn-sponsor",
+      "prior_claim_refs": ["claim-syn-sponsor-style-v1"],
+      "proposed_claim_id": "claim-syn-style-context-exception",
+      "interpretation": "context-specific-exception",
+      "evidence_refs": ["evidence-syn-sponsor-reply"],
+      "review_status": "unresolved",
+      "review_decision_ref": "review-syn-context-exception"
+    },
+    {
+      "id": "revision-proposal-syn-constraint",
+      "subject_node_id": "node-syn-sponsor",
+      "prior_claim_refs": ["claim-syn-sponsor-style-v1"],
+      "proposed_claim_id": "claim-syn-style-constraint-change",
+      "interpretation": "changed-constraints",
+      "evidence_refs": ["evidence-syn-sponsor-reply"],
+      "review_status": "unresolved",
+      "review_decision_ref": "review-syn-constraint-change"
+    }
+  ],
+  "calibration_records": [
+    {
+      "id": "calibration-syn-001",
+      "assessment_refs": ["assessment-syn-matched", "assessment-syn-partial", "assessment-syn-diverged", "assessment-syn-expired"],
+      "analysis_run_id": "analysis-run-syn-001",
+      "method_run_ids": ["method-run-syn-001"],
+      "search_run_id": "search-run-syn-001",
+      "calibration_targets": [
+        { "kind": "analysis-provider", "identity": "deterministic-fixture/no-live-model" },
+        { "kind": "method", "identity": "organizational-neighborhood-summary@fixture-0.1" },
+        { "kind": "search-policy", "identity": "budgeted-fixture-frontier@0.1" }
+      ],
+      "residual_summary": { "matched": 1, "partially_matched": 1, "diverged": 1, "expired_unobserved": 1, "unknown_excluded": 1 },
+      "recorded_at": "2026-08-17T13:18:00Z",
+      "writer": "fixture-calibration-use-case"
+    }
+  ],
+  "evaluations": [
+    { "id": "evaluation-syn-000", "target_position_id": "position-syn-000", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.2, "weight": 1.0 }, "escalation_risk": { "value": "unknown", "weight": 0.8 } }, "uncertainty": ["No criteria request yet."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.1, "weight": 1.0 }, "decision_speed": { "value": 0.2, "weight": 0.7 } }, "uncertainty": ["Sponsor response is unobserved."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:00:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Small synthetic network."] },
+    { "id": "evaluation-syn-001", "target_position_id": "position-syn-001", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.4, "weight": 1.0 }, "escalation_risk": { "value": 0.2, "weight": 0.8 } }, "uncertainty": ["Response not yet observed."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.3, "weight": 1.0 }, "decision_speed": { "value": 0.4, "weight": 0.7 } }, "uncertainty": ["The root profile Claim may be wrong."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["No response evidence at cutoff."] },
+    { "id": "evaluation-syn-002", "target_position_id": "position-syn-002", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.8, "weight": 1.0 }, "escalation_risk": { "value": 0.1, "weight": 0.8 } }, "uncertainty": ["Checklist ownership is not yet observed."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.6, "weight": 1.0 }, "decision_speed": { "value": 0.7, "weight": 0.7 } }, "uncertainty": ["Risk note is pending."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T10:01:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Resource ceiling is not yet known."] },
+    { "id": "evaluation-syn-003", "target_position_id": "position-syn-003", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.9, "weight": 1.0 }, "escalation_risk": { "value": 0.1, "weight": 0.8 } }, "uncertainty": ["Checklist content is pending."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.7, "weight": 1.0 }, "decision_speed": { "value": 0.8, "weight": 0.7 } }, "uncertainty": ["Risk note remains pending."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T10:06:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Resource constraints may be incomplete."] },
+    { "id": "evaluation-syn-004", "target_position_id": "position-syn-004", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.7, "weight": 1.0 }, "escalation_risk": { "value": 0.2, "weight": 0.8 } }, "uncertainty": ["Resource-ceiling impact is not quantified."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.5, "weight": 1.0 }, "decision_speed": { "value": 0.6, "weight": 0.7 } }, "uncertainty": ["New constraint may delay commitment."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T10:21:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["The surprise was not in forecast context."] },
+    { "id": "evaluation-syn-005", "target_position_id": "position-syn-005", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.7, "weight": 1.0 }, "escalation_risk": { "value": 0.2, "weight": 0.8 } }, "uncertainty": ["Profile revision remains context-bounded."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.5, "weight": 1.0 }, "decision_speed": { "value": 0.6, "weight": 0.7 } }, "uncertainty": ["Alternative profile explanations remain unresolved."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T10:21:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Later snapshot must not alter old evaluations."] },
+    { "id": "evaluation-syn-var-match", "target_position_id": "position-syn-var-match", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.9, "weight": 1.0 }, "escalation_risk": { "value": 0.1, "weight": 0.8 } }, "uncertainty": ["Predicted responses may not occur."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.7, "weight": 1.0 }, "decision_speed": { "value": 0.8, "weight": 0.7 } }, "uncertainty": ["No actual reply at branch cutoff."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Forecast evaluation, not hindsight."] },
+    { "id": "evaluation-syn-var-partial", "target_position_id": "position-syn-var-partial", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.6, "weight": 1.0 }, "escalation_risk": { "value": 0.3, "weight": 0.8 } }, "uncertainty": ["Meeting outcome is unknown."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.5, "weight": 1.0 }, "decision_speed": { "value": 0.4, "weight": 0.7 } }, "uncertainty": ["Meeting availability is unknown."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Forecast evaluation, not actual outcome."] },
+    { "id": "evaluation-syn-var-diverged", "target_position_id": "position-syn-var-diverged", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.3, "weight": 1.0 }, "escalation_risk": { "value": 0.3, "weight": 0.8 } }, "uncertainty": ["Delay length is unknown."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.3, "weight": 1.0 }, "decision_speed": { "value": 0.2, "weight": 0.7 } }, "uncertainty": ["Root style Claim may be inaccurate."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Forecast evaluation, not actual outcome."] },
+    { "id": "evaluation-syn-var-expired", "target_position_id": "position-syn-var-expired", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.7, "weight": 1.0 }, "escalation_risk": { "value": 0.1, "weight": 0.8 } }, "uncertainty": ["Team response probability is unspecified."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.6, "weight": 1.0 }, "decision_speed": { "value": 0.7, "weight": 0.7 } }, "uncertainty": ["Checklist quality is unknown."] }], "horizon": { "unit": "hour", "value": 2 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Forecast evaluation, not actual outcome."] },
+    { "id": "evaluation-syn-var-unknown", "target_position_id": "position-syn-var-unknown", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": "unknown", "weight": 1.0 }, "escalation_risk": { "value": "unknown", "weight": 0.8 } }, "uncertainty": ["Private content is outside visibility."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": "unknown", "weight": 1.0 }, "decision_speed": { "value": "unknown", "weight": 0.7 } }, "uncertainty": ["Private response is unobservable."] }], "horizon": { "unit": "hour", "value": 2 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Unknowns are retained instead of invented precision."] },
+    { "id": "evaluation-syn-var-counterfactual", "target_position_id": "position-syn-var-counterfactual", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": 0.5, "weight": 1.0 }, "escalation_risk": { "value": 0.8, "weight": 0.8 } }, "uncertainty": ["Counterfactual response is not a likelihood claim."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": 0.3, "weight": 1.0 }, "decision_speed": { "value": 0.4, "weight": 0.7 } }, "uncertainty": ["Modeled reaction is hypothetical."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Not eligible for forecast calibration."] },
+    { "id": "evaluation-syn-var-exploratory", "target_position_id": "position-syn-var-exploratory", "perspective_id": "perspective-syn-analyst", "party_scorecards": [{ "party_node_id": "node-syn-analyst", "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation"], "stake_weight": 1.0, "dimensions": { "decision_clarity": { "value": "range-0.2-to-0.8", "weight": 1.0 }, "escalation_risk": { "value": "unknown", "weight": 0.8 } }, "uncertainty": ["Fantasy facilitator availability is assumed."] }, { "party_node_id": "node-syn-sponsor", "objective_refs": ["objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"], "stake_weight": 1.0, "dimensions": { "evidence_readiness": { "value": "unknown", "weight": 1.0 }, "decision_speed": { "value": "unknown", "weight": 0.7 } }, "uncertainty": ["Exploration intentionally avoids a likelihood claim."] }], "horizon": { "unit": "hour", "value": 4 }, "risk_policy": "vector-first-no-scalar", "evidence_cutoff": "2026-08-17T09:11:00Z", "evaluation_profile": "organizational-strategy@0.2", "uncertainty": ["Not eligible for forecast calibration."] }
+  ],
+  "cache_records": [
+    {
+      "id": "cache-syn-pinned-match",
+      "cache_identity": "cache-fixture-root-analysis-search-objectives-v1",
+      "context_snapshot_id": "context-snapshot-syn-root",
+      "profile_snapshot_id": "profile-snapshot-syn-root",
+      "analysis_run_id": "analysis-run-syn-001",
+      "search_run_id": "search-run-syn-001",
+      "objective_refs": ["objective-syn-clarity", "objective-syn-low-escalation", "objective-syn-sponsor-evidence", "objective-syn-sponsor-speed"],
+      "evaluation_profile": "organizational-strategy@0.2",
+      "created_at": "2026-08-17T09:12:02Z",
+      "state": "reusable-at-exact-identity",
+      "variation_refs": ["variation-syn-match", "variation-syn-exploratory"]
+    }
+  ],
+  "timeline": {
+    "id": "timeline-syn-orchard",
+    "playground_id": "playground-syn-orchard",
+    "ordered_item_refs": ["event-syn-ask", "event-syn-sponsor-reply", "event-syn-coordinator-reply", "event-syn-surprise", "event-syn-profile-review"],
+    "ordering_basis": "occurred_time; ties retain recorded order"
+  },
+  "episodes": [
+    { "id": "episode-syn-orchard", "playground_id": "playground-syn-orchard", "status": "ongoing", "game_record_view_id": "game-record-syn-orchard" }
+  ],
+  "game_records": [
+    {
+      "id": "game-record-syn-orchard",
+      "playground_id": "playground-syn-orchard",
+      "episode_id": "episode-syn-orchard",
+      "perspective_id": "perspective-syn-analyst",
+      "status": "ongoing",
+      "main_line": {
+        "event_ids": ["event-syn-ask", "event-syn-sponsor-reply", "event-syn-coordinator-reply", "event-syn-surprise", "event-syn-profile-review"],
+        "strategy_step_ids": ["step-syn-ask", "step-syn-sponsor-reply", "step-syn-coordinator-reply", "step-syn-surprise", "step-syn-profile-review"],
+        "trajectory_id": "trajectory-syn-main"
+      },
+      "variations": ["variation-syn-match", "variation-syn-partial", "variation-syn-diverged", "variation-syn-expired", "variation-syn-unknown", "variation-syn-counterfactual", "variation-syn-exploratory"],
+      "checkpoints": ["position-syn-000", "position-syn-001", "position-syn-002", "position-syn-003", "position-syn-004", "position-syn-005"],
+      "frontier": { "position_id": "position-syn-005", "unresolved_variation_ids": ["variation-syn-counterfactual", "variation-syn-exploratory"], "confirmed_through": "2026-08-17T11:00:00Z" },
+      "forecast_assessment_refs": ["assessment-syn-matched", "assessment-syn-partial", "assessment-syn-diverged", "assessment-syn-expired", "assessment-syn-unknown"],
+      "profile_revision_proposal_refs": ["revision-proposal-syn-prior-estimate", "revision-proposal-syn-context", "revision-proposal-syn-constraint"]
+    }
+  ]
+}

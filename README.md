@@ -4,7 +4,7 @@ StockMesh is an early-stage, context-aware network analysis project. Its first p
 
 The name StockMesh is a tribute to Stockfish; StockMesh does not use Stockfish source code.
 
-The project is currently in **discovery / definition**. No product implementation or technology stack has been adopted yet.
+The project is currently in **definition / delivery foundation**. A TypeScript/Node local-first architecture direction is adopted, while product implementation remains unstarted.
 
 ## Start here
 
@@ -27,7 +27,7 @@ The project is currently in **discovery / definition**. No product implementatio
 
 ## Repository state
 
-This initial repository establishes the governing product-document chain. The next product milestone is to validate a narrow company-network analysis workflow using synthetic or explicitly authorized data.
+The repository now includes candidate `stockmesh.domain@0.2.0` and a fully synthetic organizational learning-loop proof. Runtime, Web, live LLM, Skill/CLI, private-pilot, and human-acceptance work remain later milestones.
 
 ## License
 

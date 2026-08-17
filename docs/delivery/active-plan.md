@@ -4,7 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. DATA-002 reached its private-data terminal; P0 remains held for explicit start.
+None. P0-001 reached its engineering terminal; R3 remains held for explicit resume.
+
+## Last terminal: P0-001
+
+- Source anchor: active Goal created from the user's explicit instruction on 2026-08-17: `仔细完成p0`.
+- User goal: carefully complete P0 rather than merely start it or satisfy a narrow scaffold check.
+- Lifecycle mode: delivery / foundation contract
+- Terminal: succeeded on 2026-08-17. The pre-runtime semantic learning-loop gate is complete; human product acceptance and runtime implementation remain open.
+- Outcome: candidate `stockmesh.domain@0.2.0` is a complete independent snapshot over unchanged `0.1.0`; the frozen twelve-criterion matrix and fully invented organizational record cover Strategy Step trace, three branch purposes, frozen replay context, five forecast outcomes, an unmatched actual surprise, observation coverage, reviewed append-only profile learning, separate calibration, and multi-party Evaluation for all 13 materialized Positions.
+- Verification: the dedicated P0 validator passed 12/12 criteria and rejected four privacy/semantic mutations; the independent `0.1.0` validator, all contract JSON parsing, normalized predecessor hashes, Markdown links, recovery-hook mutation, public-tree sensitive scan, `git diff --check`, and complete repository gate passed. The terminal matrix reports no defects.
+- Protected boundaries: the private Kimi Game Record did not define or enter the public contract, fixture, tests, or evidence; Babata was not used or mutated; no private locator, case, credential, dependency, runtime/database schema, Web/LLM/Skill implementation, or product-acceptance claim entered P0.
+- Evidence entry: [P0-001 verification evidence](../verification/README.md#p0-001-evidence--2026-08-17) and [frozen P0 matrix](../../contracts/v0.2/p0-acceptance-matrix.json).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly instructed the Agent to carefully complete P0.
 
 ## Last terminal: DATA-002
 
@@ -124,4 +136,4 @@ None. DATA-002 reached its private-data terminal; P0 remains held for explicit s
 
 ## Next-start queue
 
-- `requires-explicit-resume`: when the user explicitly starts implementation, translate the adopted v0 direction—including branch purpose, Forecast Assessment, observation coverage, and time-bounded profile learning—into the candidate `0.2.0` contract and implement the foundation slice with fully synthetic data.
+- `requires-explicit-resume`: start R3 with a thin TypeScript/Node foundation derived from validated `stockmesh.domain@0.2.0`; do not expand the Domain contract or import private validation material by implementation convenience.

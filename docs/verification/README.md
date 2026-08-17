@@ -17,6 +17,35 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - [x] GitHub remote can be read back and matches the local origin.
 - [x] Observer findings are recorded in the init observation authority.
 
+## P0-001 evidence — 2026-08-17
+
+- The [frozen P0 matrix](../../contracts/v0.2/p0-acceptance-matrix.json) contains twelve uniquely identified criteria and explicit non-goals. P0 ends at the semantic/synthetic-validation boundary; runtime, Web, live LLM, private-case use, and product acceptance are excluded.
+- Candidate [`stockmesh.domain@0.2.0`](../../contracts/v0.2/contract.json) is a complete independent snapshot. It declares `0.1.0` as its predecessor and records normalized-LF SHA-256 identities for both predecessor artifacts; the P0 validator confirms those older files remain unchanged.
+- The fully invented organizational learning-loop fixture contains 13 materialized Positions, 13 multi-party vector Evaluations, 7 Variations spanning forecast/counterfactual/exploratory purpose, 5 Forecast Assessments spanning matched/partially-matched/diverged/expired-unobserved/unknown, and one unmatched actual surprise.
+- The fixture traces one reviewed Utterance across evidence, Claim, Action/Event, before/after Positions, Transition, Strategy Step, and Main Line. All Variations retain the same frozen root context/profile snapshot; later accepted profile learning creates a new snapshot without changing the old one.
+- A realized sponsor reaction supports one accepted time-bounded Claim revision and two preserved unresolved alternatives. Forecast residuals enter a separate CalibrationRecord that references provider/model, Method, and Search identities but no subject Claim.
+- `scripts/validate-p0-contract.ps1`: passed `12/12` frozen criteria and rejected four deliberate mutations: public locator insertion, expired-unobserved with inadequate coverage, assessment of a non-forecast branch, and hindsight profile leakage into a frozen branch root.
+- `scripts/validate-synthetic-contract.ps1`: the original `stockmesh.domain@0.1.0` fixture still passed independently.
+- `scripts/verify-repository.ps1`: passed the combined documentation, public-content, recovery-hook, `0.1.0` compatibility, and P0 contract gate for 20 Markdown files.
+- No private conversation body, locator, alias map, company case, credential, or private data identity was used in the public fixture. No acquisition-tool operation, dependency installation, database/runtime schema, application scaffold, live model call, or product-acceptance claim entered P0.
+
+| Criterion | Terminal result | Direct evidence |
+| --- | --- | --- |
+| P0-01 | passed | Synthetic notice/policy, null locators, fixture text scan, targeted public-tree scan |
+| P0-02 | passed | Exact `0.2.0` pin and both normalized-LF `0.1.0` hashes |
+| P0-03 | passed | Purpose/mode/realization enums plus frozen root context/profile checks |
+| P0-04 | passed | `step-syn-ask` end-to-end Utterance/Claim/Event/Transition trace |
+| P0-05 | passed | Seven purpose-typed Variations, two pinned branches, exact cache identity |
+| P0-06 | passed | Match/partial/divergence and many-to-many actual links plus unmatched surprise |
+| P0-07 | passed | Adequate expired coverage and inadequate-coverage unknown; negative mutation rejected |
+| P0-08 | passed | Accepted append-only revision, two unresolved alternatives, old/current snapshots |
+| P0-09 | passed | Separate CalibrationRecord with run identities and no subject Claim reference |
+| P0-10 | passed | One multi-party vector Evaluation for each of 13 materialized Positions |
+| P0-11 | passed | Projection/profile/context/Method/analysis/search/cache identities and root-leak mutation |
+| P0-12 | passed | Dedicated validator, four rejected mutations, independent `0.1.0` validator, total repository gate |
+
+Terminal defect ledger: none. Human product acceptance: not claimed.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.
@@ -107,7 +136,7 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 
 Record real command/API results before checking an item. A present file proves only that the scaffold exists. It does not prove a real analysis workflow, product acceptance, or operational closure.
 
-Run `./scripts/verify-repository.ps1` from the repository root. It checks the recovery hook (including a reversed-order negative mutation), internal Markdown targets, forbidden Kimi conversation locators, common credential signatures, and private/default-excluded case paths.
+Run `./scripts/verify-repository.ps1` from the repository root. It checks the recovery hook (including a reversed-order negative mutation), internal Markdown targets, forbidden Kimi conversation locators, common credential signatures, private/default-excluded case paths, unchanged `0.1.0` artifacts, and the complete P0 validator.
 
 ## R1-001 evidence — 2026-08-16
 

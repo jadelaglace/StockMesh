@@ -1,0 +1,89 @@
+{
+  "phase_id": "P0",
+  "title": "Semantic learning-loop foundation",
+  "status": "frozen",
+  "contract_target": "stockmesh.domain@0.2.0",
+  "fixture_target": "stockmesh.synthetic.organizational-learning-loop.v0.2",
+  "scope": "Versioned semantic contract, fully synthetic organizational learning-loop fixture, executable validation, and public-boundary evidence before runtime implementation.",
+  "non_goals": [
+    "runtime or database schema",
+    "TypeScript or Web scaffold",
+    "live LLM or Agent analysis",
+    "private case import or publication",
+    "human product acceptance"
+  ],
+  "criteria": [
+    {
+      "id": "P0-01",
+      "requirement_refs": ["AC-09"],
+      "expected": "All P0 examples are explicitly synthetic and contain no private locator, case mapping, company detail, credential, or acquisition-tool marker.",
+      "evidence_paths": ["contracts/v0.2/synthetic-organizational-learning-record.json", "scripts/validate-p0-contract.ps1", "scripts/verify-repository.ps1"]
+    },
+    {
+      "id": "P0-02",
+      "requirement_refs": ["ADR-003", "ADR-006"],
+      "expected": "The candidate is exactly stockmesh.domain@0.2.0, declares its 0.1.0 predecessor, and leaves the normalized content of both 0.1.0 artifacts unchanged.",
+      "evidence_paths": ["contracts/v0.1/contract.json", "contracts/v0.1/synthetic-unfinished-record.json", "contracts/v0.2/contract.json", "scripts/validate-p0-contract.ps1"]
+    },
+    {
+      "id": "P0-03",
+      "requirement_refs": ["AC-17", "AC-22", "AC-25"],
+      "expected": "The contract separates branch purpose, world/trajectory mode, and later realization while freezing branch-root Position, profile, evidence cutoff, and analysis identity.",
+      "evidence_paths": ["contracts/v0.2/contract.json", "contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-04",
+      "requirement_refs": ["AC-18"],
+      "expected": "At least one reviewed Utterance is traceable through input evidence and Claim, before-Position, Event/Action, Transition, after-Position, mode, and Main Line membership.",
+      "evidence_paths": ["contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-05",
+      "requirement_refs": ["AC-20", "AC-22"],
+      "expected": "The same branch graph contains forecast, counterfactual, and exploratory Variations; a pinned branch and cache identity remain hypothetical and replayable.",
+      "evidence_paths": ["contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-06",
+      "requirement_refs": ["AC-17", "AC-22"],
+      "expected": "Append-only Forecast Assessments demonstrate matched, partially-matched, and diverged forecasts plus a realized unmatched-actual surprise without rewriting forecast or actual records.",
+      "evidence_paths": ["contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-07",
+      "requirement_refs": ["AC-24"],
+      "expected": "An expired-unobserved assessment has an elapsed horizon and adequate coverage, while inadequate coverage leaves another eligible forecast unknown.",
+      "evidence_paths": ["contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-08",
+      "requirement_refs": ["AC-23", "AC-25"],
+      "expected": "A realized reaction supports competing time-bounded profile-Claim revision hypotheses; human review accepts one append-only revision while the earlier Claim and branch-root profile snapshot remain reproducible.",
+      "evidence_paths": ["contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-09",
+      "requirement_refs": ["AC-26"],
+      "expected": "Provider/model, Method, and Search calibration references frozen runs and forecast residuals but is structurally separate from subject/profile Claim learning.",
+      "evidence_paths": ["contracts/v0.2/contract.json", "contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-10",
+      "requirement_refs": ["AC-11", "AC-12"],
+      "expected": "Every materialized Position has a traceable multi-party vector Evaluation with perspective, objectives, horizon, dimensions, weights, evidence cutoff, and uncertainty; unexpanded candidates are not represented as evaluated Positions.",
+      "evidence_paths": ["contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-11",
+      "requirement_refs": ["AC-08", "AC-13", "AC-19"],
+      "expected": "Context, profile, Method, analysis, search, projection, and cache identities are sufficient for cutoff-correct replay without sibling or hindsight leakage.",
+      "evidence_paths": ["contracts/v0.2/contract.json", "contracts/v0.2/synthetic-organizational-learning-record.json"]
+    },
+    {
+      "id": "P0-12",
+      "requirement_refs": ["P0 terminal"],
+      "expected": "The dedicated validator proves all frozen criteria, rejects deliberate semantic/privacy mutations, and is invoked by the complete repository gate.",
+      "evidence_paths": ["scripts/validate-p0-contract.ps1", "scripts/verify-repository.ps1", "docs/verification/README.md"]
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "contract_id": "stockmesh.domain",
+  "version": "0.2.0",
+  "status": "candidate-for-review",
+  "scope": "semantic-contract",
+  "description": "Transport-neutral domain contract for evidence-aware temporal network analysis, branch replay, forecast assessment, and reviewed profile learning.",
+  "compatibility": {
+    "predecessor": "stockmesh.domain@0.1.0",
+    "policy": "Independent additive minor-version snapshot; 0.1.0 records retain their original meaning and require explicit migration before being treated as 0.2.0.",
+    "predecessor_artifacts_immutable": true,
+    "predecessor_normalized_lf_sha256": {
+      "contracts/v0.1/contract.json": "25B880F0DE30849F0F7EF9598722A7AB6806F71FAE66D960582694CADBD6B5B6",
+      "contracts/v0.1/synthetic-unfinished-record.json": "9B649DBC5DD2FBC2164BF8E2DC55E85C437F07DF68677E04A7D45AE7B2E683BA"
+    },
+    "migration_rule": "A migrated record receives a new identity, exact target version, migration processor identity, source-record reference, and validation result; the source record is never rewritten."
+  },
+  "planes": ["world", "knowledge", "model", "possibility"],
+  "universal_types": {
+    "Playground": {
+      "required": ["id", "profile_id", "scope", "time_basis", "evidence_policy"],
+      "meaning": "Reusable bounded analytical world that may contain multiple Episodes."
+    },
+    "Node": {
+      "required": ["id", "node_type", "identity_scope"],
+      "meaning": "Distinguishable modeled element; identity does not imply personhood or agency."
+    },
+    "Relation": {
+      "required": ["id", "relation_type", "subject_id", "object_id", "valid_time", "claim_refs"],
+      "meaning": "Typed structural condition; it is not a Flow or proven cause by default."
+    },
+    "Flow": {
+      "required": ["id", "flow_type", "path", "valid_time", "claim_refs"],
+      "meaning": "Typed movement, exchange, propagation, or rate over Nodes or Relations."
+    },
+    "State": {
+      "required": ["id", "subject_id", "state_type", "value", "valid_time", "claim_refs"],
+      "meaning": "Value believed to hold over an interval, not a complete account of reality."
+    },
+    "Event": {
+      "required": ["id", "event_type", "mode", "occurred_time", "claim_refs"],
+      "meaning": "Represented occurrence situated in time; extraction alone does not make it certain."
+    },
+    "Mechanism": {
+      "required": ["id", "mechanism_type", "mode", "claim_refs", "transition_effect"],
+      "meaning": "Evidence-bound rule or hypothesis about how conditions may produce a Transition."
+    },
+    "Transition": {
+      "required": ["id", "from_position_id", "to_position_id", "mode", "cause_refs", "effect_summary"],
+      "meaning": "Modeled change between Positions; an Action is only one possible cause."
+    },
+    "Position": {
+      "required": ["id", "mode", "as_of", "playground_id", "projection", "evidence_cutoff", "profile_snapshot_id", "projection_identity"],
+      "meaning": "Reproducible question-bounded projection of relevant modeled State at a frozen evidence and profile cutoff."
+    },
+    "Timeline": {
+      "required": ["id", "playground_id", "ordered_item_refs", "ordering_basis"],
+      "meaning": "Time-indexed or partially ordered view of Events and State changes."
+    },
+    "Perspective": {
+      "required": ["id", "visibility_scope", "question"],
+      "meaning": "Declared observational or analytical vantage; it cannot rewrite history."
+    },
+    "Evaluation": {
+      "required": ["id", "target_position_id", "perspective_id", "party_scorecards", "horizon", "risk_policy", "evidence_cutoff", "evaluation_profile", "uncertainty"],
+      "meaning": "Profile-bound multi-party vector assessment with inspectable objectives, weights, assumptions, and unknowns."
+    },
+    "Action": {
+      "required": ["id", "actor_node_id", "mode", "target_position_id", "constraints"],
+      "meaning": "Optional intentional intervention where a profile declares agency and control."
+    },
+    "Trajectory": {
+      "required": ["id", "mode", "position_ids", "transition_ids", "assumptions"],
+      "meaning": "Realized, reconstructed, or simulated succession of Positions and Transitions."
+    }
+  },
+  "knowledge_types": {
+    "EvidenceItem": {
+      "required": ["id", "source_kind", "content_identity", "authority", "acquired_at", "integrity", "sensitivity"],
+      "rule": "Source evidence remains immutable and is never created from prediction text."
+    },
+    "Claim": {
+      "required": ["id", "subject_ref", "claim_kind", "epistemic_status", "valid_time", "observed_at", "recorded_at", "evidence_refs", "author", "revision"],
+      "rule": "Competing or superseding Claims append; accepted revision never edits the earlier Claim."
+    },
+    "ReviewDecision": {
+      "required": ["id", "target_ref", "decision", "reviewer", "reviewed_at", "rationale"],
+      "rule": "Only an attributable review decision may adopt a staged Claim revision into canonical model history."
+    },
+    "Assertion": {
+      "compatibility_alias_for": "Claim",
+      "rule": "Use Claim as the canonical neutral name; Assertion remains a strategy/game-record consumer alias."
+    },
+    "epistemic_statuses": ["observed", "reported", "interpreted", "hypothesis", "adopted", "disputed", "superseded", "unknown", "rejected"]
+  },
+  "derived_and_view_types": {
+    "Utterance": {
+      "required": ["id", "speaker_node_id", "audience_node_ids", "occurred_time", "evidence_ref", "claim_ref"],
+      "rule": "Words, inferred intent, communication Event, and modeled effect remain distinct."
+    },
+    "StrategyStep": {
+      "required": ["id", "before_position_id", "input_refs", "event_refs", "action_refs", "transition_id", "after_position_id", "mode", "evidence_refs", "branch_membership"],
+      "rule": "A step is a traceable transition view; it never turns an Utterance or proposed Action into an observed outcome."
+    },
+    "ProfileSnapshot": {
+      "required": ["id", "profile_id", "as_of", "evidence_cutoff", "claim_refs", "profile_version", "snapshot_identity"],
+      "rule": "A historical Position or forecast retains the exact profile Claims visible at its cutoff."
+    },
+    "ContextSnapshot": {
+      "required": ["id", "position_id", "evidence_cutoff", "branch_path", "profile_snapshot_id", "perspective_id", "objective_refs", "context_manifest", "projector_version", "snapshot_identity"],
+      "rule": "Replay uses this frozen context and cannot import later or sibling-branch material."
+    },
+    "Variation": {
+      "required": ["id", "anchor_position_id", "trajectory_id", "purpose", "state", "root_context_snapshot_id", "root_profile_snapshot_id", "horizon", "assumptions", "created_by_analysis_run_id"],
+      "rule": "Purpose is fixed at creation and independent from any later Forecast Assessment."
+    },
+    "ObservationCoverage": {
+      "required": ["id", "scope", "interval", "status", "evidence_refs", "limitations", "recorded_at"],
+      "rule": "Missing evidence is not adequate coverage and cannot prove non-occurrence."
+    },
+    "ForecastAssessment": {
+      "required": ["id", "forecast_variation_id", "forecast_transition_refs", "actual_event_refs", "actual_transition_refs", "status", "horizon", "rubric_id", "observation_coverage_id", "assessor", "assessed_at", "rationale"],
+      "rule": "Assessment is append-only, forecast-only, and many-to-many; it never rewrites either forecast or actual history."
+    },
+    "ActualForecastOutcome": {
+      "required": ["id", "actual_event_id", "forecast_set_id", "outcome", "assessment_refs", "recorded_at"],
+      "rule": "An actual Event may link to several assessments or remain an unmatched surprise relative to the declared eligible forecast set."
+    },
+    "ProfileClaimRevisionProposal": {
+      "required": ["id", "subject_node_id", "prior_claim_refs", "proposed_claim_id", "interpretation", "evidence_refs", "review_status", "review_decision_ref"],
+      "rule": "Alternative explanations coexist; only reviewed adoption can make a new Claim visible to later Positions."
+    },
+    "MethodRun": {
+      "required": ["id", "method_id", "method_version", "scale", "input_refs", "assumptions", "limitations", "uncertainty", "output_refs"],
+      "rule": "Method output remains attributable derived material and cannot mutate evidence."
+    },
+    "AnalysisRun": {
+      "required": ["id", "provider", "model", "configuration_identity", "context_snapshot_id", "method_run_ids", "output_refs", "started_at", "completed_at"],
+      "rule": "Analysis output is a proposal in the knowledge/model or possibility plane, never a direct canonical writer."
+    },
+    "SearchRun": {
+      "required": ["id", "root_position_id", "policy_id", "policy_version", "budgets", "selection_rationale", "materialized_position_ids", "unexpanded_candidate_count", "analysis_run_ids"],
+      "rule": "Branching is variable and bounded by explicit resources; only materialized Positions require Evaluation."
+    },
+    "CacheRecord": {
+      "required": ["id", "cache_identity", "context_snapshot_id", "profile_snapshot_id", "analysis_run_id", "search_run_id", "objective_refs", "evaluation_profile", "created_at", "state"],
+      "rule": "Reuse requires exact identity; changed governing inputs create a distinct record or visible supersession."
+    },
+    "CalibrationRecord": {
+      "required": ["id", "assessment_refs", "analysis_run_id", "method_run_ids", "search_run_id", "calibration_targets", "residual_summary", "recorded_at", "writer"],
+      "rule": "Calibration is derived and cannot create, accept, reject, or revise a subject/profile Claim."
+    }
+  },
+  "enums": {
+    "modes": {
+      "actual": "Observed or human-confirmed world occurrence.",
+      "reconstructed": "Derived from authorized historical evidence at a cutoff.",
+      "hypothetical": "Counterfactual or exploratory candidate development.",
+      "predicted": "Forecast development with uncertainty.",
+      "human-proposed": "Human-authored candidate intervention awaiting outcome."
+    },
+    "branch_purposes": ["forecast", "counterfactual", "exploratory"],
+    "variation_states": ["candidate", "pinned", "selected", "archived", "invalidated"],
+    "forecast_assessment_statuses": ["pending", "matched", "partially-matched", "diverged", "expired-unobserved", "unknown"],
+    "actual_forecast_set_outcomes": ["forecast-linked", "unmatched-actual", "not-evaluated"],
+    "observation_coverage_statuses": ["adequate", "inadequate", "unknown"],
+    "profile_revision_interpretations": ["actual-change", "prior-estimate-error", "context-specific-exception", "changed-constraints", "insufficient-evidence"],
+    "review_statuses": ["pending", "accepted", "rejected", "unresolved"],
+    "review_decisions": ["accept", "reject", "leave-unresolved"]
+  },
+  "time_fields": ["occurred_time", "valid_time", "observed_at", "recorded_at", "assessed_at", "reviewed_at"],
+  "identity_contracts": {
+    "position_projection": ["playground_id", "profile_version", "profile_snapshot_id", "evidence_cutoff", "as_of", "perspective_id", "question", "projector_version"],
+    "profile_snapshot": ["profile_id", "profile_version", "claim_refs", "evidence_cutoff", "as_of"],
+    "context_snapshot": ["position_id", "evidence_cutoff", "branch_path", "profile_snapshot_id", "perspective_id", "objective_refs", "context_manifest", "projector_version"],
+    "analysis_cache": ["context_snapshot_id", "profile_snapshot_id", "provider", "model", "configuration_identity", "method_run_ids", "objective_refs", "evaluation_profile", "search_policy_id", "search_policy_version"]
+  },
+  "strategy_view_aliases": {
+    "Node": "Pawn",
+    "Action": "Move",
+    "Trajectory": "Line",
+    "Evaluation": "Scorecard",
+    "Episode": "Game Record"
+  },
+  "game_record_view": {
+    "required": ["id", "playground_id", "perspective_id", "status", "main_line", "variations", "frontier", "forecast_assessment_refs", "profile_revision_proposal_refs"],
+    "status_values": ["not-started", "ongoing", "dormant", "concluded", "abandoned"],
+    "main_line_rule": "Only actual or reconstructed items confirmed by authorized evidence may enter Main Line.",
+    "variation_rule": "Every Variation declares forecast, counterfactual, or exploratory purpose and remains Position-bound possibility data.",
+    "frontier_rule": "Frontier is the latest confirmed Position plus unresolved candidates; it excludes hypothetical branch state.",
+    "realization_rule": "Later actual steps append independently; only forecast Variations receive Forecast Assessments, and unmatched actual Events remain visible.",
+    "promotion_rule": "Later confirmation appends actual history and trace links; it never rewrites a Variation, forecast, source, or frozen snapshot.",
+    "dormant_rule": "Dormant means processing is paused, not that the external episode concluded."
+  },
+  "learning_boundaries": {
+    "profile_learning_writer": "human-reviewed canonical reconciliation",
+    "calibration_writer": "validated derived calibration use case",
+    "profile_learning_evidence_rule": "Observed reaction evidence may support a proposal; forecast text and forecast error are not subject evidence.",
+    "calibration_rule": "Specific assessable residuals may calibrate provider/model, Method, or Search Policy without writing profile Claims.",
+    "historical_replay_rule": "Later accepted Claims affect only later profile snapshots and Positions; old forecasts replay with their original snapshot."
+  },
+  "invariants": [
+    "Every consequential Claim has provenance, epistemic status, author, valid time, observation time, record time, and revision identity.",
+    "A Position is a projection and never replaces Events, Claims, or source evidence.",
+    "Actual/reconstructed and hypothetical/predicted Trajectories cannot silently merge.",
+    "A Relation is not a Flow; a State is not an Event; an Action is not required for every Transition.",
+    "Every Strategy Step links before and after Positions, contextual inputs, Transition, mode, evidence, and branch membership.",
+    "Every Variation declares exactly one purpose independently from realization status.",
+    "Counterfactual and exploratory Variations are not assessed as failed forecasts.",
+    "Forecast Assessment is append-only and cannot rewrite forecast content, probability/rank, actual history, frozen context, or processor identity.",
+    "Expired-unobserved requires elapsed horizon and adequate observation coverage; otherwise status is pending or unknown.",
+    "A realized Event may match several forecasts; one forecast may match several realized Events.",
+    "Profile learning preserves competing explanations and requires review before adoption.",
+    "An accepted profile Claim revision appends a new Claim and later profile snapshot without changing earlier snapshots or Positions.",
+    "Prediction text and prediction residual are not evidence about a represented Node.",
+    "Profile learning and provider/Method/Search calibration use distinct record types and writers.",
+    "Every materialized Position has a multi-party vector Evaluation; unexpanded possibilities are not claimed as evaluated Positions.",
+    "Cache reuse requires exact frozen identity and never imports later or sibling-branch context.",
+    "Profiles may add types and terminology but cannot weaken provenance, uncertainty, time, correction, privacy, or possibility/history separation."
+  ]
+}

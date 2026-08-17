@@ -1,6 +1,6 @@
 # Documentation authority index
 
-StockMesh is in discovery / definition. This index identifies one primary authority for each role and the direction in which changes propagate.
+StockMesh is in definition / delivery foundation. This index identifies one primary authority for each role and the direction in which changes propagate.
 
 ```text
 direct wording / external sources
