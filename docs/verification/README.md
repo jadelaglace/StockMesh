@@ -46,6 +46,31 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 
 Terminal defect ledger: none. Human product acceptance: not claimed.
 
+## P1-001 evidence — 2026-08-18
+
+- The frozen [P1 acceptance matrix](p1-acceptance-matrix.json) defines ten criteria over `stockmesh.domain@0.2.0`. P1 remains limited to the TypeScript/Node application core; quantitative SNA Methods, LLM calls and branch search, Web, Skill/CLI, private data, and product acceptance are excluded.
+- The pinned runtime is Node `24.14.0` (`.node-version`) with npm `11.9.0`; direct dependencies are exact-versioned in `package.json` and resolved in `package-lock.json`. `npm ci` installed 94 packages with 0 vulnerabilities. The only install notice is the transitive `prebuild-install` deprecation warning.
+- `src/persistence/schema.ts` owns schema version 1 and creates staging, evidence, Playground, Node, Relation, Flow, Claim, review, profile snapshot, State, Event, Action, Transition, Utterance, Strategy Step, profile-revision proposal, derived Position, journal, and migration tables. `npm run migrate -- .tmp-p1.sqlite` produced `StockMesh schema ready: v1`; the temporary database was removed and is ignored by the repository policy.
+- The application use cases stage and review evidence before canonical insertion, retain evidence content identity and payload metadata, append canonical rows and writer/operation records to `change_journal`, and import only `actual`/`reconstructed` P0 material. Re-importing the same synthetic fixture leaves canonical counts and journal count unchanged.
+- `PositionProjector` deterministically scopes Nodes, Relations, and Flows to the selected Playground, applies valid-time intervals, profile-snapshot Claim visibility, and evidence-acquisition cutoff, and selects the latest visible State per subject/type. Its identity includes all position inputs, projector version, and projection content.
+- `StockMeshApp.replayPosition` verifies the stored derived identity/content, while `rebuildPosition` removes and reconstructs only a derived Position. Tests prove canonical row counts remain unchanged. A reviewed profile revision appends a new Claim, snapshot, and State; the old snapshot and old Position remain replayable and do not receive the later State.
+- The P1 test suite passed after clean install: `9` test files / `9` tests. `npm run typecheck`, `npm run build`, `scripts/validate-synthetic-contract.ps1`, `scripts/validate-p0-contract.ps1`, `scripts/verify-repository.ps1`, and `git diff --check` all passed. The repository gate also validates the P1 matrix and runtime evidence paths.
+
+| Criterion | Terminal result | Direct evidence |
+| --- | --- | --- |
+| P1-01 | passed | Exact package versions, lockfile, `.node-version`, clean `npm ci`, typecheck/build/test |
+| P1-02 | passed | Versioned SQLite schema/migration owner, migrate CLI, persistence test |
+| P1-03 | passed | Staging/review use case and accepted/rejected evidence test |
+| P1-04 | passed | Evidence identity, append-only re-import behavior, change journal test |
+| P1-05 | passed | Deterministic Position projector and cutoff/profile/playground boundary test |
+| P1-06 | passed | Replay identity check and derived-only rebuild test |
+| P1-07 | passed | Reviewed Claim revision, old snapshot, and later State test |
+| P1-08 | passed | Canonical mode filter and absence of P0 predicted/hypothetical Events |
+| P1-09 | passed | Synthetic P0 import -> project -> revise -> replay workflow test |
+| P1-10 | passed | Runtime tests, P0/`0.1.0` validators, repository/public-boundary gate, diff check |
+
+Terminal defect ledger: two implementation defects were found and repaired during the round (new-database migration-ledger initialization; a filtered profile-review transition still being referenced by a canonical Strategy Step). Final terminal has no known defects. Human product acceptance: not claimed.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

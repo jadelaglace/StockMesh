@@ -112,6 +112,33 @@ if (-not (Test-Path -LiteralPath $p0ContractValidator)) {
     }
 }
 
+$p1MatrixPath = Join-Path $RepositoryRoot 'docs\verification\p1-acceptance-matrix.json'
+if (-not (Test-Path -LiteralPath $p1MatrixPath)) {
+    $failures.Add('P1 acceptance matrix is missing.')
+} else {
+    try {
+        $p1Matrix = Get-Content -Raw -LiteralPath $p1MatrixPath | ConvertFrom-Json
+        if ($p1Matrix.phase_id -ne 'P1' -or $p1Matrix.status -ne 'frozen') {
+            $failures.Add('P1 acceptance matrix must be frozen and identify phase P1.')
+        }
+        foreach ($criterion in @($p1Matrix.criteria)) {
+            foreach ($evidencePath in @($criterion.evidence_paths)) {
+                if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $evidencePath))) {
+                    $failures.Add("P1 evidence path is missing for $($criterion.id): $evidencePath")
+                }
+            }
+        }
+    } catch {
+        $failures.Add("P1 acceptance matrix is not valid JSON: $($_.Exception.Message)")
+    }
+}
+
+foreach ($runtimePath in @('package.json', 'package-lock.json', '.node-version', 'tsconfig.json', 'vitest.config.ts', 'src', 'tests')) {
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $runtimePath))) {
+        $failures.Add("P1 runtime artifact is missing: $runtimePath")
+    }
+}
+
 if ($failures.Count -gt 0) {
     $failures | ForEach-Object { Write-Error $_ }
     exit 1

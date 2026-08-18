@@ -1,0 +1,67 @@
+{
+  "phase_id": "P1",
+  "title": "Replayable implementation backbone",
+  "status": "frozen",
+  "contract_input": "stockmesh.domain@0.2.0",
+  "scope": "A thin TypeScript/Node application core that stages and reviews synthetic evidence, persists append-only canonical history, projects deterministic Positions, reviews profile Claim revisions, and replays the same inputs.",
+  "non_goals": [
+    "Graphology or other quantitative SNA Methods",
+    "LLM provider calls, AnalysisPort, branch search, or ForecastMatcher",
+    "React/Vite Web workbench",
+    "Skill/CLI client",
+    "private or real company data",
+    "product acceptance"
+  ],
+  "criteria": [
+    {
+      "id": "P1-01",
+      "expected": "A pinned Node/TypeScript toolchain and lockfile can install and run the P1 tests without a global runtime dependency.",
+      "evidence_paths": ["package.json", "package-lock.json", ".node-version", "tsconfig.json", "src", "tests"]
+    },
+    {
+      "id": "P1-02",
+      "expected": "Persistence has explicit migrations/schema ownership for staging, evidence metadata, canonical Nodes/Relations/Flows/States/Events/Claims, revisions, and derived Positions.",
+      "evidence_paths": ["src/persistence", "src/cli/migrate.ts", "tests/persistence.test.ts"]
+    },
+    {
+      "id": "P1-03",
+      "expected": "Synthetic evidence enters staging, receives an explicit review decision, and only accepted material reaches canonical history.",
+      "evidence_paths": ["src/application", "tests/staging-review.test.ts"]
+    },
+    {
+      "id": "P1-04",
+      "expected": "Canonical writes are append-only, source evidence identity is retained, and a change journal identifies the writer and operation.",
+      "evidence_paths": ["src/domain", "src/persistence", "tests/append-only.test.ts"]
+    },
+    {
+      "id": "P1-05",
+      "expected": "The Position projector deterministically reconstructs a question-bounded as-of Position from canonical rows, valid time, evidence cutoff, and profile snapshot identity.",
+      "evidence_paths": ["src/projection", "tests/position-projector.test.ts"]
+    },
+    {
+      "id": "P1-06",
+      "expected": "The same evidence, projection identity, and cutoff reproduce the same Position; derived Position rows can be rebuilt without changing canonical history.",
+      "evidence_paths": ["src/projection", "tests/replay.test.ts"]
+    },
+    {
+      "id": "P1-07",
+      "expected": "A reviewed time-bounded profile Claim revision appends a new revision, preserves the prior Claim and old profile snapshot, and affects only later projections.",
+      "evidence_paths": ["src/application", "tests/profile-revision.test.ts"]
+    },
+    {
+      "id": "P1-08",
+      "expected": "Actual/reconstructed history and hypothetical/predicted records remain distinguishable at persistence and projection boundaries; P1 does not promote P0 Variations.",
+      "evidence_paths": ["src/domain", "tests/mode-separation.test.ts"]
+    },
+    {
+      "id": "P1-09",
+      "expected": "A synthetic P0 record can be imported, projected, revised, and replayed through the same application use cases used by future API clients.",
+      "evidence_paths": ["src/application", "tests/p0-workflow.test.ts"]
+    },
+    {
+      "id": "P1-10",
+      "expected": "P1 tests and the repository gate pass, with no private locator, case material, credential, or runtime artifact entering the public repository.",
+      "evidence_paths": ["scripts/verify-repository.ps1", "docs/verification/README.md"]
+    }
+  ]
+}

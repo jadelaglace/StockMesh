@@ -1,0 +1,28 @@
+{
+  "name": "stockmesh",
+  "version": "0.1.0",
+  "private": true,
+  "description": "StockMesh replayable network-analysis foundation",
+  "type": "module",
+  "packageManager": "npm@11.9.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "migrate": "tsx src/cli/migrate.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "12.11.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "24.13.3",
+    "tsx": "4.23.12",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  }
+}
