@@ -1,0 +1,67 @@
+{
+  "phase_id": "P2",
+  "title": "Quantitative Method layer",
+  "status": "frozen",
+  "input_boundary": "Verified P1 ProjectedPosition and canonical read model",
+  "scope": "A replaceable, attributable Graphology-backed Method registry and transparent structural-analysis pack whose outputs are derived, reproducible, time-bounded, and interpretation-guarded.",
+  "non_goals": [
+    "LLM provider calls or natural-language interpretation",
+    "PossibilityStore, branch search, replay frontier, or Forecast Assessment",
+    "Web workbench, Skill, CLI client, or HTTP API",
+    "private or real company data",
+    "diffusion simulation, opaque embeddings, GNN prediction, personality scoring, or one universal influence score",
+    "product acceptance"
+  ],
+  "criteria": [
+    {
+      "id": "P2-01",
+      "expected": "Exact-version Graphology dependencies install from the lockfile and the Method executor is replaceable behind typed registry/executor contracts.",
+      "evidence_paths": ["package.json", "package-lock.json", "src/methods", "tests/method-registry.test.ts"]
+    },
+    {
+      "id": "P2-02",
+      "expected": "Schema migration ownership persists immutable Method definitions, attributable Method runs, typed raw outputs, caveats, and deterministic output identities as derived data.",
+      "evidence_paths": ["src/persistence", "tests/method-persistence.test.ts"]
+    },
+    {
+      "id": "P2-03",
+      "expected": "A Position is converted to a typed directed graph using only its projected Nodes, Relations, and Flows, with edge provenance and declared weight semantics retained.",
+      "evidence_paths": ["src/methods", "tests/graph-adapter.test.ts"]
+    },
+    {
+      "id": "P2-04",
+      "expected": "The foundation pack computes typed k-hop context, directed degree/strength, components, reachability/shortest paths, density, reciprocity, local clustering, betweenness, and node-category mixing/assortativity with explicit scope and interpretation guards.",
+      "evidence_paths": ["src/methods", "tests/foundation-methods.test.ts"]
+    },
+    {
+      "id": "P2-05",
+      "expected": "Exploratory PageRank exposes direction, damping, weight semantics, convergence configuration, and a non-universal-influence caveat; Louvain exposes an undirected projection plus seed/resolution sensitivity runs and a non-faction caveat.",
+      "evidence_paths": ["src/methods", "tests/pagerank-method.test.ts", "tests/community-method.test.ts"]
+    },
+    {
+      "id": "P2-06",
+      "expected": "A Position-to-Position delta reports structural additions/removals and metric changes while distinguishing valid time, evidence cutoff, and profile snapshot inputs.",
+      "evidence_paths": ["src/methods", "tests/temporal-delta.test.ts"]
+    },
+    {
+      "id": "P2-07",
+      "expected": "Method output can carry explicit per-Party vector score structures with objective, horizon, dimensions, units, uncertainty, evidence/Method references, and no hidden scalar winner.",
+      "evidence_paths": ["src/methods", "tests/party-score.test.ts"]
+    },
+    {
+      "id": "P2-08",
+      "expected": "Identical Position identity, Method identity/version, configuration, and graph input reproduce the same run/output identity and raw output; changed configuration produces a different identity.",
+      "evidence_paths": ["src/methods", "tests/method-replay.test.ts"]
+    },
+    {
+      "id": "P2-09",
+      "expected": "Method execution and derived-result rebuild cannot mutate canonical tables; failures remain explicit and do not leave a successful partial result.",
+      "evidence_paths": ["src/methods", "tests/method-isolation.test.ts"]
+    },
+    {
+      "id": "P2-10",
+      "expected": "The synthetic P0/P1 workflow can project a Position, run and persist the selected P2 pack, read attributable results, and pass runtime, compatibility, repository, and public-boundary gates.",
+      "evidence_paths": ["tests/p2-workflow.test.ts", "scripts/verify-repository.ps1", "docs/verification/README.md"]
+    }
+  ]
+}

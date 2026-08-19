@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **P1 engineering terminal reached; P0 engineering terminal reached; P2-P7 remain queued**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
+Status: **P0-P2 engineering terminals reached; P3-P7 remain queued**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -26,7 +26,8 @@ first runtime phase.
 | R0-R2 | Definition history completed | Domain, contracts, and synthetic validation direction govern delivery. |
 | P0 | Engineering terminal reached | The semantic learning loop is frozen and validated before runtime scaffolding. |
 | P1 | Engineering terminal reached | Replayable canonical foundation over `0.2.0`. |
-| P2-P7 | Queued | Methods, analysis/branching, Web, clients, pilot, and hardening remain outside P1. |
+| P2 | Engineering terminal reached | Replaceable, attributable quantitative Method layer over P1 Positions. |
+| P3-P7 | Queued | LLM analysis/branching, Web, clients, pilot, and hardening remain outside P2. |
 
 ## Definition history — R0: Domain clarification
 
@@ -79,6 +80,8 @@ Implement the Method registry, the selected transparent Graphology SNA pack, tem
 
 Terminal: a synthetic Position can run the selected Method pack, expose typed inputs/raw metrics/caveats, and persist reproducible Method output without merging it into LLM interpretation or source evidence.
 
+Observed terminal: reached on 2026-08-19. Five exact-versioned MIT Graphology packages support a versioned registry/runner, provenance-preserving directed graph adapter, foundation metrics, exploratory PageRank/Louvain sensitivity, typed temporal delta, and non-aggregated Party score vectors. Schema v2 stores only attributable derived definitions/runs/results; 10/10 frozen criteria and the clean-install terminal gate passed. Human product acceptance remains separate.
+
 ## P3 — LLM-assisted analysis and branch replay
 
 Add the provider-neutral AnalysisPort, one structured-output LLM adapter plus deterministic fixtures, PossibilityStore, branch purpose, budgeted/resumable frontier, pin/fork/cache/replay, per-materialized-Position Evaluation, and cutoff-correct Forecast Assessment.
@@ -116,6 +119,6 @@ scope.
 
 ## Recommended next decision
 
-P1 is the latest engineering terminal. The next delivery phase is P2 only after
-an explicit new goal. Do not expand the completed P1 scope retroactively into
-P2 methods, P3 branch analysis, or P4 UI merely to show visible breadth.
+P2 is the latest engineering terminal. The next delivery phase is P3 only after
+an explicit new goal. Do not expand completed P2 scope retroactively into LLM
+analysis, possibility search/replay, Web, or clients merely to show visible breadth.

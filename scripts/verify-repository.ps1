@@ -52,11 +52,12 @@ if (Test-Path -LiteralPath $gitDirectory) {
 $forbiddenContentPatterns = @(
     'https?://(?:www\.)?kimi\.com/chat/',
     'ghp_[A-Za-z0-9_]{20,}',
+    'tvly-(?:dev-)?[A-Za-z0-9_-]{20,}',
     '-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----'
 )
 
 foreach ($file in $trackedCandidates) {
-    if ($file.Extension -notin @('.md', '.txt', '.json', '.yaml', '.yml', '.toml', '.ps1')) {
+    if ($file.Extension -notin @('.md', '.txt', '.json', '.yaml', '.yml', '.toml', '.ps1', '.ts', '.tsx', '.js', '.mjs', '.cjs')) {
         continue
     }
     $content = Get-Content -Raw -LiteralPath $file.FullName
@@ -139,9 +140,68 @@ foreach ($runtimePath in @('package.json', 'package-lock.json', '.node-version',
     }
 }
 
+$p2MatrixPath = Join-Path $RepositoryRoot 'docs\verification\p2-acceptance-matrix.json'
+if (-not (Test-Path -LiteralPath $p2MatrixPath)) {
+    $failures.Add('P2 acceptance matrix is missing.')
+} else {
+    try {
+        $p2Matrix = Get-Content -Raw -LiteralPath $p2MatrixPath | ConvertFrom-Json
+        if ($p2Matrix.phase_id -ne 'P2' -or $p2Matrix.status -ne 'frozen') {
+            $failures.Add('P2 acceptance matrix must be frozen and identify phase P2.')
+        }
+        $expectedP2Ids = 1..10 | ForEach-Object { 'P2-{0:D2}' -f $_ }
+        $actualP2Ids = @($p2Matrix.criteria | ForEach-Object { $_.id })
+        if (($actualP2Ids -join ',') -ne ($expectedP2Ids -join ',')) {
+            $failures.Add('P2 acceptance matrix must contain ordered criteria P2-01 through P2-10 exactly once.')
+        }
+        foreach ($criterion in @($p2Matrix.criteria)) {
+            foreach ($evidencePath in @($criterion.evidence_paths)) {
+                if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $evidencePath))) {
+                    $failures.Add("P2 evidence path is missing for $($criterion.id): $evidencePath")
+                }
+            }
+        }
+    } catch {
+        $failures.Add("P2 acceptance matrix is not valid JSON: $($_.Exception.Message)")
+    }
+}
+
+try {
+    $package = Get-Content -Raw -LiteralPath (Join-Path $RepositoryRoot 'package.json') | ConvertFrom-Json
+    $expectedGraphologyDependencies = @{
+        'graphology' = '0.26.0'
+        'graphology-components' = '1.5.4'
+        'graphology-shortest-path' = '2.1.0'
+        'graphology-metrics' = '2.4.0'
+        'graphology-communities-louvain' = '2.0.2'
+    }
+    foreach ($entry in $expectedGraphologyDependencies.GetEnumerator()) {
+        if ($package.dependencies.($entry.Key) -ne $entry.Value) {
+            $failures.Add("P2 dependency must be exact-versioned: $($entry.Key)=$($entry.Value)")
+        }
+    }
+} catch {
+    $failures.Add("Unable to validate P2 dependencies: $($_.Exception.Message)")
+}
+
+foreach ($p2RuntimePath in @(
+    'src\methods\identity.ts',
+    'src\methods\types.ts',
+    'src\methods\graph-adapter.ts',
+    'src\methods\registry.ts',
+    'src\methods\runner.ts',
+    'src\methods\metrics.ts',
+    'src\methods\builtins.ts',
+    'tests\p2-workflow.test.ts'
+)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $p2RuntimePath))) {
+        $failures.Add("P2 runtime artifact is missing: $p2RuntimePath")
+    }
+}
+
 if ($failures.Count -gt 0) {
     $failures | ForEach-Object { Write-Error $_ }
     exit 1
 }
 
-Write-Output "Repository documentation, public-content, 0.1.0 compatibility, and P0 contract checks passed ($($markdownFiles.Count) Markdown files)."
+Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2 delivery checks passed ($($markdownFiles.Count) Markdown files)."

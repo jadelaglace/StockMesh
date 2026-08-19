@@ -4,26 +4,24 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### P1-001
+None. P2-001 reached its engineering terminal. P3 requires a new explicit user goal and is not auto-promoted.
 
-- Source anchor: active Goal created from the user's explicit instruction on 2026-08-18: `完成P1`.
-- User goal: complete the first runnable replayable implementation backbone over the validated `stockmesh.domain@0.2.0` semantics.
-- Lifecycle mode: delivery / runtime foundation
-- Current state: engineering terminal reached on 2026-08-18. P1 is the normalized delivery name for the former roadmap R3 foundation slice; the roadmap explicitly defines P0-P7 while preserving R0-R2 as definition history.
-- Declared terminal: a thin TypeScript/Node core can ingest the fully synthetic P0 record through staging/review, append canonical history, build deterministic as-of Positions, append and review time-bounded profile Claim revisions, preserve actual/hypothetical separation, and replay the same inputs through tested API/use-case boundaries; P1 status, acceptance evidence, and public-boundary checks are terminal. No P2 quantitative Method, LLM branch search, Web workbench, private case, or product-acceptance claim is included.
-- Agent-attributed stage conclusion: P1 is a ten-criterion runtime-foundation gate. P2 owns quantitative Methods, P3 owns LLM/branch analysis, P4 owns Web, and P5-P7 own clients, pilot, and hardening; none may leak into P1.
-- Agent-attributed temporary subplan: inspect the existing environment/toolchain; scaffold the smallest replaceable TypeScript/Node core with SQLite-compatible persistence and synthetic-only tests; implement staging/review, canonical append-only records, Position projection, profile revisions, and replay; run targeted and repository-wide gates; update status/evidence and commit only after the terminal audit.
-- Protected boundaries: P0 contract and `0.1.0` remain unchanged; private Kimi material remains validation-only and outside Git; no Babata operation, credential, live company data, live LLM call, SNA expansion, or UI/client implementation enters P1; source evidence, Claims, projections, and possible branches remain distinct.
-- Terminal evidence: [P1-001 verification evidence](../verification/README.md#p1-001-evidence--2026-08-18), frozen [P1 acceptance matrix](../verification/p1-acceptance-matrix.json), clean `npm ci`, typecheck/build/Vitest, both contract validators, repository gate, public-boundary scan, and `git diff --check` all passed. The terminal defect ledger contains no remaining defect.
-- Next action: none within P1. Commit and push the verified P1 change set; P2 remains queued and requires a new explicit goal.
-- Evidence entry point: [P1 acceptance matrix](../verification/p1-acceptance-matrix.json) and [P1 roadmap](candidate-roadmap.md#p1--replayable-implementation-backbone).
-- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly instructed the Agent to complete P1.
+## Last terminal: P2-001
 
-### P1-001 terminal
+- Source anchor: active Goal created from the user's explicit instruction on 2026-08-19: `完成p2`.
+- Terminal: succeeded on 2026-08-19. A synthetic P1 Position runs five versioned transparent Graphology-backed Methods; attributable typed outputs, identities, caveats, time deltas, and multi-Party vectors persist only in derived schema v2 tables and rebuild without canonical writes.
+- Verification: 10/10 frozen P2 criteria have direct evidence; clean `npm ci` audited 108 packages with 0 vulnerabilities; 20 test files / 21 tests, typecheck, build, both compatibility validators, repository/public-boundary gate, and `git diff --check` passed.
+- Defect conclusion: three round defects were repaired before terminal: duplicate fixture projection identity, silent missing projected edge rows, and an overly broad temporal output type. No known terminal defect remains; the transitive `prebuild-install@7.1.3` deprecation is retained as a non-blocking maintenance risk.
+- Protected boundaries: P0/`0.1.0` and P1 semantics remain unchanged; no private material, Babata operation, credential, live company data, LLM/model call, branch search, Web, Skill/CLI, diffusion simulation, opaque embedding/GNN, personality score, universal influence score, or product-acceptance claim entered P2.
+- Evidence entry: [P2-001 verification evidence](../verification/README.md#p2-001-evidence--2026-08-19) and [frozen P2 matrix](../verification/p2-acceptance-matrix.json).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly instructed the Agent to complete P2.
+
+## Last terminal: P1-001
 
 - Terminal: succeeded on 2026-08-18. The thin TypeScript/Node core stages and reviews the synthetic P0 record, appends canonical history, builds cutoff/profile-scoped deterministic Positions, accepts reviewed Claim revisions, and replays or rebuilds derived Positions without changing canonical rows.
-- Verification: 10/10 frozen P1 criteria have direct evidence; 9/9 runtime tests passed after clean install; `npm run typecheck`, `npm run build`, `scripts/validate-synthetic-contract.ps1`, `scripts/validate-p0-contract.ps1`, `scripts/verify-repository.ps1`, and `git diff --check` passed.
-- Protected boundaries: P0 and `0.1.0` remain unchanged; no private Kimi material, Babata operation, credential, live company data, SNA Method, LLM call, Web/client implementation, or product-acceptance claim entered P1.
+- Verification: 10/10 frozen P1 criteria have direct evidence; 9/9 runtime tests passed after clean install; `npm run typecheck`, `npm run build`, both contract validators, repository gate, and `git diff --check` passed.
+- Protected boundaries: P0 and `0.1.0` remain unchanged; no private material, SNA Method, LLM call, Web/client implementation, or product-acceptance claim entered P1.
+- Evidence entry: [P1-001 verification evidence](../verification/README.md#p1-001-evidence--2026-08-18) and [frozen P1 matrix](../verification/p1-acceptance-matrix.json).
 
 ## Last terminal: P0-001
 
@@ -155,4 +153,4 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Next-start queue
 
-None. P1-001 is the explicitly started item.
+None. P2-001 is the explicitly started item.

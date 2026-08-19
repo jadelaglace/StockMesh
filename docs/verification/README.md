@@ -71,6 +71,33 @@ Terminal defect ledger: none. Human product acceptance: not claimed.
 
 Terminal defect ledger: two implementation defects were found and repaired during the round (new-database migration-ledger initialization; a filtered profile-review transition still being referenced by a canonical Strategy Step). Final terminal has no known defects. Human product acceptance: not claimed.
 
+## P2-001 evidence — 2026-08-19
+
+- The frozen [P2 acceptance matrix](p2-acceptance-matrix.json) defines ten criteria over the verified P1 Position/read model. P2 is limited to transparent quantitative Methods and derived results; LLM interpretation, possibility branches/search, Web, clients, private data, and product acceptance remain excluded.
+- Five direct Graphology dependencies are exact-versioned in `package.json` and the lockfile: core `0.26.0`, components `1.5.4`, shortest path `2.1.0`, metrics `2.4.0`, and Louvain `2.0.2`. Clean `npm ci` installed 107 packages and audited 108 with 0 vulnerabilities. Installed package metadata reports MIT for all five plus the existing `better-sqlite3`; the existing transitive `prebuild-install@7.1.3` maintenance deprecation remains a non-blocking maintenance risk.
+- SQLite schema v2 adds only `method_definitions`, `method_runs`, and `method_results`. Runs freeze Position projection, graph input, Method/version/implementation, normalized configuration, executor, output schema, raw output, caveats, and SHA-256 identities; failed runs retain explicit status without a partial result.
+- The replaceable registry/runner and graph adapter convert projected Nodes, Relations, and Flows into a directed weighted graph. Parallel sources aggregate as `unit-observed-edge-count`, retain sorted source provenance, and fail closed when a projected canonical row is missing.
+- `sna.foundation@1.0.0` provides outbound k-hop context, directed degree/strength, weak/strong components, reachability/shortest paths, density, reciprocity, local clustering, betweenness, and node-type mixing/assortativity. Every output retains scope and interpretation caveats.
+- `sna.pagerank@1.0.0` exposes source-to-target direction, damping/convergence configuration, weight semantics, and a non-universal-influence guard. `sna.community-louvain@1.0.0` exposes the weighted undirected projection and deterministic resolution/seed sensitivity runs, never established factions.
+- `sna.temporal-delta@1.0.0` reports typed structural and metric deltas while retaining both Positions' valid time, evidence cutoff, profile snapshot, and projection identity. `sna.party-structural-vector@1.0.0` emits objective/horizon-bound per-Party dimensions, units, uncertainty, Position/Method references, and `aggregateScore: null`.
+- Stable canonical JSON plus SHA-256 makes identical Position/Method/configuration inputs reuse the same run and output identities; changed normalized configuration creates a different run. Rebuild deletes and reconstructs only derived Method rows, leaving canonical counts unchanged.
+- The clean-install terminal round passed `20` test files / `21` tests, `npm run typecheck`, `npm run build`, both contract validators, `scripts/verify-repository.ps1`, and `git diff --check`. The repository gate validates the exact P2 criterion set, evidence paths, exact dependency versions, runtime artifacts, compatibility, and expanded public-content scan.
+
+| Criterion | Terminal result | Direct evidence |
+| --- | --- | --- |
+| P2-01 | passed | Exact package/lock versions; registry replacement contract; clean install; registry test |
+| P2-02 | passed | Schema v2 Method tables; explicit P1 v1-to-P2 v2 upgrade; definition/run/result identity and persistence tests |
+| P2-03 | passed | Directed graph adapter; provenance/weight semantics; missing-row negative test |
+| P2-04 | passed | Typed foundation output and scoped metric test |
+| P2-05 | passed | PageRank semantic/parameter guard test; Louvain sensitivity test |
+| P2-06 | passed | Typed two-Position temporal delta and dual-time-axis test |
+| P2-07 | passed | Objective/horizon/uncertainty-bound Party vectors and null aggregate test |
+| P2-08 | passed | Stable replay/output identities and changed-configuration test |
+| P2-09 | passed | Canonical count isolation, derived rebuild, and failed-run atomicity test |
+| P2-10 | passed | Synthetic P0/P1 projection-to-five-Method workflow plus all terminal gates |
+
+Terminal defect ledger: three defects were found and repaired during the round: the end-to-end test duplicated one P1 projection identity under two Position IDs; the graph adapter could silently omit a projected Relation/Flow missing from canonical storage; and the temporal delta output contract was wider than its actual structured shape. Final terminal has no known defects. Human product acceptance: not claimed.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

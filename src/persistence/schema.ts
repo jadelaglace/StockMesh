@@ -1,8 +1,8 @@
 import type Database from "better-sqlite3";
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 
-const migrationSql = `
+const migrationV1Sql = `
 CREATE TABLE IF NOT EXISTS staging_items (
   id TEXT PRIMARY KEY,
   content_identity TEXT NOT NULL,
@@ -205,20 +205,69 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 );
 `;
 
+const migrationV2Sql = `
+CREATE TABLE IF NOT EXISTS method_definitions (
+  method_id TEXT NOT NULL,
+  version TEXT NOT NULL,
+  title TEXT NOT NULL,
+  category TEXT NOT NULL,
+  executor TEXT NOT NULL,
+  implementation_identity TEXT NOT NULL,
+  output_schema TEXT NOT NULL,
+  caveats_json TEXT NOT NULL,
+  definition_identity TEXT NOT NULL UNIQUE,
+  registered_at TEXT NOT NULL,
+  PRIMARY KEY (method_id, version)
+);
+
+CREATE TABLE IF NOT EXISTS method_runs (
+  id TEXT PRIMARY KEY,
+  method_id TEXT NOT NULL,
+  method_version TEXT NOT NULL,
+  position_id TEXT NOT NULL REFERENCES positions(id),
+  position_projection_identity TEXT NOT NULL,
+  input_identity TEXT NOT NULL,
+  configuration_identity TEXT NOT NULL,
+  configuration_json TEXT NOT NULL,
+  executor TEXT NOT NULL,
+  implementation_identity TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('running', 'succeeded', 'failed')),
+  started_at TEXT NOT NULL,
+  completed_at TEXT,
+  error_json TEXT,
+  FOREIGN KEY (method_id, method_version) REFERENCES method_definitions(method_id, version)
+);
+
+CREATE TABLE IF NOT EXISTS method_results (
+  run_id TEXT PRIMARY KEY REFERENCES method_runs(id) ON DELETE CASCADE,
+  output_identity TEXT NOT NULL UNIQUE,
+  output_schema TEXT NOT NULL,
+  output_json TEXT NOT NULL,
+  caveats_json TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+`;
+
+const migrations = new Map<number, string>([
+  [1, migrationV1Sql],
+  [2, migrationV2Sql],
+]);
+
 export function migrateDatabase(db: Database.Database): void {
   // The migration ledger must exist before its version can be queried on a new database.
   db.exec("CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)");
   const current = db
     .prepare("SELECT COALESCE(MAX(version), 0) AS version FROM schema_migrations")
     .get() as { version: number };
-  if (current.version >= SCHEMA_VERSION) return;
-
-  const transaction = db.transaction(() => {
-    db.exec(migrationSql);
-    db.prepare("INSERT OR REPLACE INTO schema_migrations (version, applied_at) VALUES (?, ?)").run(
-      SCHEMA_VERSION,
-      new Date().toISOString(),
-    );
-  });
-  transaction();
+  for (let version = current.version + 1; version <= SCHEMA_VERSION; version += 1) {
+    const sql = migrations.get(version);
+    if (!sql) throw new Error(`missing migration: ${version}`);
+    db.transaction(() => {
+      db.exec(sql);
+      db.prepare("INSERT INTO schema_migrations (version, applied_at) VALUES (?, ?)").run(
+        version,
+        new Date().toISOString(),
+      );
+    })();
+  }
 }
