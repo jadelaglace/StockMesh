@@ -98,6 +98,17 @@ Terminal defect ledger: two implementation defects were found and repaired durin
 
 Terminal defect ledger: three defects were found and repaired during the round: the end-to-end test duplicated one P1 projection identity under two Position IDs; the graph adapter could silently omit a projected Relation/Flow missing from canonical storage; and the temporal delta output contract was wider than its actual structured shape. Final terminal has no known defects. Human product acceptance: not claimed.
 
+## FIX-001 evidence — 2026-08-20
+
+- A post-terminal review reproduced four defects not covered by the P2 round: Method-run foreign keys blocked Position deletion-based rebuild; re-projecting one Position ID could change its projection while older Method runs retained the former identity; canonical `INSERT OR IGNORE` paths silently accepted changed content under an existing ID; and Temporal Delta mixed complete Position structural change with metrics over a filtered graph.
+- Position persistence now inserts once, treats identical ID/projection input as idempotent, rejects changed reuse of a Position ID, and rejects one projection identity under a second ID. `rebuildPosition` recomputes and verifies the frozen identity without deleting the row, so persisted Method runs remain valid.
+- Canonical insertion checks the first accepted journal payload before treating an existing ID as idempotent. Changed content, missing provenance, duplicate evidence content identity, and non-materializing inserts fail closed; repeated unchanged fixture import still creates no new canonical row or journal fact.
+- `sna.temporal-delta@1.1.0` exposes `positionStructural` for complete projected Node/Relation/Flow/State changes and `analysisGraphStructural` plus metrics under the declared graph filter. The original `1.0.0` definition/executor remains registered and passed deterministic rebuild, preserving existing run reproducibility.
+- New regression cases cover Position idempotency/identity conflict, rebuild after a persisted Method run, canonical-content conflict with transaction rollback, filtered Temporal Delta scope, latest-version selection, and legacy Temporal Delta rebuild. The clean-install round passed 20 test files / 24 tests, typecheck, build, both contract validators, repository/public-boundary checks, and `git diff --check`; 108 installed packages audited with 0 vulnerabilities and only the previously recorded transitive `prebuild-install@7.1.3` deprecation warning.
+- GitHub Flow evidence: implementation commit `c45d9ba` was pushed on `codex/fix-p2-integrity`; [PR #1](https://github.com/jadelaglace/StockMesh/pull/1) read back as mergeable with no configured remote checks, then squash-merged to public `main` as `30c9fd7`. Local and `origin/main` matched after merge, and the remote repair branch was absent.
+
+Repair defect ledger: all four reproduced defects passed their direct regression tests; no additional defect was found in the full gate. Requirements, architecture direction, frozen P2 acceptance scope, private/public boundaries, and the P3-P7 queue were reviewed and left unchanged. Human product acceptance: not claimed.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

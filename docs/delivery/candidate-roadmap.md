@@ -82,6 +82,8 @@ Terminal: a synthetic Position can run the selected Method pack, expose typed in
 
 Observed terminal: reached on 2026-08-19. Five exact-versioned MIT Graphology packages support a versioned registry/runner, provenance-preserving directed graph adapter, foundation metrics, exploratory PageRank/Louvain sensitivity, typed temporal delta, and non-aggregated Party score vectors. Schema v2 stores only attributable derived definitions/runs/results; 10/10 frozen criteria and the clean-install terminal gate passed. Human product acceptance remains separate.
 
+Post-terminal repair: FIX-001 merged through GitHub PR #1 on 2026-08-20. Position and canonical identity are fail-closed, Position rebuild preserves Method attribution, and Temporal Delta `1.1.0` separates complete Position deltas from filtered analysis-graph deltas while retaining `1.0.0` reproducibility. The P2 scope and P3 boundary are unchanged.
+
 ## P3 — LLM-assisted analysis and branch replay
 
 Add the provider-neutral AnalysisPort, one structured-output LLM adapter plus deterministic fixtures, PossibilityStore, branch purpose, budgeted/resumable frontier, pin/fork/cache/replay, per-materialized-Position Evaluation, and cutoff-correct Forecast Assessment.

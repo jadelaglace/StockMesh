@@ -4,17 +4,16 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### FIX-001
+None. FIX-001 reached terminal. P3 requires a new explicit user goal and is not auto-promoted.
+
+## Last terminal: FIX-001
 
 - Source anchor: live user instruction on 2026-08-20 to repair the quick-review findings through GitHub Flow.
-- User goal: repair the reproduced P1/P2 integrity and delta-scope defects before starting P3, using a branch, pull request, verification, and merge rather than a direct push to `main`.
-- Lifecycle mode: delivery / post-terminal defect repair
-- Current state: active on `codex/fix-p2-integrity`.
-- Declared terminal: Position identity is immutable and same-input rebuild remains compatible with persisted Method runs; changed canonical IDs fail closed while unchanged input remains idempotent; Temporal Delta distinguishes complete Position projection change from selected analysis-graph change under a versioned output contract; recovery state is consistent; regression and full repository gates pass; the reviewed branch is merged and read back from public `origin/main`.
-- Agent-attributed stage conclusion: new executable evidence invalidated P2-001's “no known terminal defect” statement without changing product requirements or the P0-P7 route. Repair the shared Position/canonical identity root cause first, then the Temporal Delta contract and recovery wording; do not begin P3.
-- Protected boundaries: preserve P0/`0.1.0`, the P1/P2 product semantics, public/private separation, MIT posture, and the absence of LLM, search, Web, Skill/CLI, Babata, or private-case work.
-- Next action: implement fail-closed Position/canonical identity behavior and the versioned Temporal Delta scope split, then run targeted regressions and the full clean-install terminal gate before PR publication.
-- Evidence entry point: the post-terminal repair ledger will be appended to [verification evidence](../verification/README.md); the original [P2 matrix](../verification/p2-acceptance-matrix.json) remains frozen.
+- Terminal: succeeded on 2026-08-20. Position/canonical identities now fail closed on changed content and remain idempotent on identical content; Position rebuild preserves persisted Method attribution; Temporal Delta `1.1.0` separates complete Position change from filtered analysis-graph change while `1.0.0` remains executable/rebuildable.
+- Verification: clean `npm ci` audited 108 packages with 0 vulnerabilities; 20 test files / 24 tests, typecheck, build, both compatibility validators, repository/public-boundary gate, and `git diff --check` passed.
+- GitHub Flow: repair commit `c45d9ba` was pushed on `codex/fix-p2-integrity`; [PR #1](https://github.com/jadelaglace/StockMesh/pull/1) was mergeable, had no configured remote checks, and was squash-merged as `30c9fd7`; public `origin/main` readback matched and the remote repair branch was deleted.
+- Protected boundaries: P0/`0.1.0`, P1/P2 product semantics, public/private separation, MIT posture, and the absence of LLM, search, Web, Skill/CLI, Babata, private-case work, and product-acceptance claims were preserved.
+- Evidence entry: [FIX-001 verification evidence](../verification/README.md#fix-001-evidence--2026-08-20). The original [P2 matrix](../verification/p2-acceptance-matrix.json) remains frozen.
 - Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly instructed the Agent to repair the reviewed defects through GitHub Flow.
 
 ## Last terminal: P2-001
@@ -23,6 +22,7 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 - Terminal: succeeded on 2026-08-19. A synthetic P1 Position runs five versioned transparent Graphology-backed Methods; attributable typed outputs, identities, caveats, time deltas, and multi-Party vectors persist only in derived schema v2 tables and rebuild without canonical writes.
 - Verification: 10/10 frozen P2 criteria have direct evidence; clean `npm ci` audited 108 packages with 0 vulnerabilities; 20 test files / 21 tests, typecheck, build, both compatibility validators, repository/public-boundary gate, and `git diff --check` passed.
 - Defect conclusion: three round defects were repaired before terminal: duplicate fixture projection identity, silent missing projected edge rows, and an overly broad temporal output type. No known terminal defect remains; the transitive `prebuild-install@7.1.3` deprecation is retained as a non-blocking maintenance risk.
+- Post-terminal correction: the 2026-08-20 quick review found four additional defects that invalidated the “no known terminal defect” statement; [FIX-001](#last-terminal-fix-001) repaired and supersedes that defect conclusion without changing the frozen P2 scope.
 - Protected boundaries: P0/`0.1.0` and P1 semantics remain unchanged; no private material, Babata operation, credential, live company data, LLM/model call, branch search, Web, Skill/CLI, diffusion simulation, opaque embedding/GNN, personality score, universal influence score, or product-acceptance claim entered P2.
 - Evidence entry: [P2-001 verification evidence](../verification/README.md#p2-001-evidence--2026-08-19) and [frozen P2 matrix](../verification/p2-acceptance-matrix.json).
 - Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly instructed the Agent to complete P2.
