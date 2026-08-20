@@ -10,7 +10,9 @@ describe("P2 Method registry", () => {
       "sna.pagerank@1.0.0",
       "sna.party-structural-vector@1.0.0",
       "sna.temporal-delta@1.0.0",
+      "sna.temporal-delta@1.1.0",
     ]);
     expect(registry.get("sna.foundation").executor).toBe("graphology@0.26.0");
+    expect(registry.get("sna.temporal-delta").version).toBe("1.1.0");
   });
 });

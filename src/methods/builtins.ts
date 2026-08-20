@@ -1,4 +1,11 @@
-import type { MethodDefinition, PartyScoreOutput, PartyScoreVector } from "./types.js";
+import type {
+  AdaptedGraph,
+  MethodDefinition,
+  MethodExecutionContext,
+  PartyScoreOutput,
+  PartyScoreVector,
+  StoredPosition,
+} from "./types.js";
 import {
   buildPartyScoreVectors,
   computeCommunities,
@@ -15,6 +22,7 @@ import {
   type PageRankConfiguration,
   type PageRankOutput,
   type TemporalDeltaOutput,
+  type TemporalDeltaOutputV1,
 } from "./metrics.js";
 
 const executor = "graphology@0.26.0";
@@ -75,56 +83,140 @@ export const communityMethod: MethodDefinition<CommunityConfiguration, Community
 
 interface DeltaConfiguration { graph: ReturnType<typeof normalizeGraphConfiguration>; beforePositionId: string }
 
-export const temporalDeltaMethod: MethodDefinition<DeltaConfiguration, TemporalDeltaOutput> = {
+function normalizeDeltaConfiguration(value: unknown): DeltaConfiguration {
+  const raw = value !== null && typeof value === "object" ? value as Record<string, unknown> : {};
+  if (typeof raw.beforePositionId !== "string" || raw.beforePositionId.length === 0) throw new Error("beforePositionId is required");
+  return { graph: normalizeGraphConfiguration(raw.graph), beforePositionId: raw.beforePositionId };
+}
+
+function deltaInputDescriptor(context: MethodExecutionContext, configuration: DeltaConfiguration): unknown {
+  return {
+    before: context.loadGraph(configuration.beforePositionId, configuration.graph).inputDescriptor,
+    after: context.adaptedGraph.inputDescriptor,
+  };
+}
+
+function identifierDiff(left: string[], right: string[]): { added: string[]; removed: string[] } {
+  return {
+    added: right.filter((item) => !left.includes(item)).sort(),
+    removed: left.filter((item) => !right.includes(item)).sort(),
+  };
+}
+
+function graphSourceIds(adapted: AdaptedGraph, sourceKind: "relation" | "flow"): string[] {
+  const ids = new Set<string>();
+  for (const edge of adapted.graph.edges()) {
+    for (const source of adapted.graph.getEdgeAttribute(edge, "provenance")) {
+      if (source.sourceKind === sourceKind) ids.add(source.sourceId);
+    }
+  }
+  return [...ids].sort();
+}
+
+function temporalParts(context: MethodExecutionContext, configuration: DeltaConfiguration): {
+  beforePosition: StoredPosition;
+  beforeGraph: AdaptedGraph;
+  before: FoundationOutput;
+  after: FoundationOutput;
+  commonNodes: string[];
+} {
+  const beforePosition = context.loadPosition(configuration.beforePositionId);
+  const beforeGraph = context.loadGraph(configuration.beforePositionId, configuration.graph);
+  const before = computeFoundation(beforeGraph.graph, { graph: configuration.graph, egoRootNodeId: null, egoMaxHops: 2 });
+  const after = computeFoundation(context.adaptedGraph.graph, { graph: configuration.graph, egoRootNodeId: null, egoMaxHops: 2 });
+  return {
+    beforePosition,
+    beforeGraph,
+    before,
+    after,
+    commonNodes: Object.keys(before.nodes).filter((node) => node in after.nodes).sort(),
+  };
+}
+
+function temporalReferences(context: MethodExecutionContext, beforePosition: StoredPosition) {
+  return {
+    before: { positionId: beforePosition.id, asOf: beforePosition.asOf, evidenceCutoff: beforePosition.evidenceCutoff, profileSnapshotId: beforePosition.profileSnapshotId, projectionIdentity: beforePosition.projectionIdentity },
+    after: { positionId: context.position.id, asOf: context.position.asOf, evidenceCutoff: context.position.evidenceCutoff, profileSnapshotId: context.position.profileSnapshotId, projectionIdentity: context.position.projectionIdentity },
+  };
+}
+
+function temporalMetrics(before: FoundationOutput, after: FoundationOutput, commonNodes: string[]) {
+  return {
+    metrics: {
+      density: { before: before.graph.density, after: after.graph.density, delta: after.graph.density - before.graph.density },
+      reciprocity: { before: before.graph.reciprocity, after: after.graph.reciprocity, delta: after.graph.reciprocity - before.graph.reciprocity },
+      weakComponentCount: { before: before.graph.weakComponents.length, after: after.graph.weakComponents.length, delta: after.graph.weakComponents.length - before.graph.weakComponents.length },
+    },
+    nodeMetricDeltas: Object.fromEntries(commonNodes.map((node) => [node, {
+      totalDegree: after.nodes[node]!.totalDegree - before.nodes[node]!.totalDegree,
+      totalStrength: after.nodes[node]!.totalStrength - before.nodes[node]!.totalStrength,
+      betweenness: after.nodes[node]!.betweenness - before.nodes[node]!.betweenness,
+    }])),
+  };
+}
+
+const temporalCaveats = [
+  "A metric change may reflect valid-time change, newly acquired evidence, a profile revision, scope change, or correction rather than a real-world change.",
+  "Both Position time axes and profile snapshot identities must be inspected before interpretation.",
+];
+
+export const temporalDeltaMethodV1: MethodDefinition<DeltaConfiguration, TemporalDeltaOutputV1> = {
   id: "sna.temporal-delta",
   version: "1.0.0",
-  title: "Position-to-Position structural delta",
+  title: "Position-to-Position structural delta (legacy output)",
   category: "wrapper",
   executor,
   implementationIdentity: "stockmesh.sna.temporal-delta@1|foundation@1.0.0",
   outputSchema: "stockmesh.method.temporal-delta-output@1",
-  caveats: [
-    "A metric change may reflect valid-time change, newly acquired evidence, a profile revision, scope change, or correction rather than a real-world change.",
-    "Both Position time axes and profile snapshot identities must be inspected before interpretation.",
-  ],
-  normalizeConfiguration: (value) => {
-    const raw = value !== null && typeof value === "object" ? value as Record<string, unknown> : {};
-    if (typeof raw.beforePositionId !== "string" || raw.beforePositionId.length === 0) throw new Error("beforePositionId is required");
-    return { graph: normalizeGraphConfiguration(raw.graph), beforePositionId: raw.beforePositionId };
-  },
-  inputDescriptor: (context, configuration) => ({
-    before: context.loadGraph(configuration.beforePositionId, configuration.graph).inputDescriptor,
-    after: context.adaptedGraph.inputDescriptor,
-  }),
+  caveats: temporalCaveats,
+  normalizeConfiguration: normalizeDeltaConfiguration,
+  inputDescriptor: deltaInputDescriptor,
   execute: (context, configuration) => {
-    const beforePosition = context.loadPosition(configuration.beforePositionId);
-    const beforeGraph = context.loadGraph(configuration.beforePositionId, configuration.graph);
-    const before = computeFoundation(beforeGraph.graph, { graph: configuration.graph, egoRootNodeId: null, egoMaxHops: 2 });
-    const after = computeFoundation(context.adaptedGraph.graph, { graph: configuration.graph, egoRootNodeId: null, egoMaxHops: 2 });
-    const diff = (left: string[], right: string[]) => ({
-      added: right.filter((item) => !left.includes(item)).sort(),
-      removed: left.filter((item) => !right.includes(item)).sort(),
-    });
-    const commonNodes = Object.keys(before.nodes).filter((node) => node in after.nodes).sort();
+    const { beforePosition, before, after, commonNodes } = temporalParts(context, configuration);
     return {
-      before: { positionId: beforePosition.id, asOf: beforePosition.asOf, evidenceCutoff: beforePosition.evidenceCutoff, profileSnapshotId: beforePosition.profileSnapshotId, projectionIdentity: beforePosition.projectionIdentity },
-      after: { positionId: context.position.id, asOf: context.position.asOf, evidenceCutoff: context.position.evidenceCutoff, profileSnapshotId: context.position.profileSnapshotId, projectionIdentity: context.position.projectionIdentity },
+      ...temporalReferences(context, beforePosition),
       structural: {
-        nodes: diff(beforePosition.projection.active_node_ids, context.position.projection.active_node_ids),
-        relations: diff(beforePosition.projection.relation_ids, context.position.projection.relation_ids),
-        flows: diff(beforePosition.projection.flow_ids, context.position.projection.flow_ids),
-        states: diff(beforePosition.projection.state_ids, context.position.projection.state_ids),
+        nodes: identifierDiff(beforePosition.projection.active_node_ids, context.position.projection.active_node_ids),
+        relations: identifierDiff(beforePosition.projection.relation_ids, context.position.projection.relation_ids),
+        flows: identifierDiff(beforePosition.projection.flow_ids, context.position.projection.flow_ids),
+        states: identifierDiff(beforePosition.projection.state_ids, context.position.projection.state_ids),
       },
-      metrics: {
-        density: { before: before.graph.density, after: after.graph.density, delta: after.graph.density - before.graph.density },
-        reciprocity: { before: before.graph.reciprocity, after: after.graph.reciprocity, delta: after.graph.reciprocity - before.graph.reciprocity },
-        weakComponentCount: { before: before.graph.weakComponents.length, after: after.graph.weakComponents.length, delta: after.graph.weakComponents.length - before.graph.weakComponents.length },
+      ...temporalMetrics(before, after, commonNodes),
+    };
+  },
+};
+
+export const temporalDeltaMethod: MethodDefinition<DeltaConfiguration, TemporalDeltaOutput> = {
+  id: "sna.temporal-delta",
+  version: "1.1.0",
+  title: "Position-to-Position structural delta with explicit scopes",
+  category: "wrapper",
+  executor,
+  implementationIdentity: "stockmesh.sna.temporal-delta@2|foundation@1.0.0",
+  outputSchema: "stockmesh.method.temporal-delta-output@2",
+  caveats: [
+    ...temporalCaveats,
+    "Position projection deltas are complete; analysis-graph deltas and metrics honor the declared Relation/Flow filters.",
+  ],
+  normalizeConfiguration: normalizeDeltaConfiguration,
+  inputDescriptor: deltaInputDescriptor,
+  execute: (context, configuration) => {
+    const { beforePosition, beforeGraph, before, after, commonNodes } = temporalParts(context, configuration);
+    return {
+      ...temporalReferences(context, beforePosition),
+      analysisGraphConfiguration: configuration.graph,
+      positionStructural: {
+        nodes: identifierDiff(beforePosition.projection.active_node_ids, context.position.projection.active_node_ids),
+        relations: identifierDiff(beforePosition.projection.relation_ids, context.position.projection.relation_ids),
+        flows: identifierDiff(beforePosition.projection.flow_ids, context.position.projection.flow_ids),
+        states: identifierDiff(beforePosition.projection.state_ids, context.position.projection.state_ids),
       },
-      nodeMetricDeltas: Object.fromEntries(commonNodes.map((node) => [node, {
-        totalDegree: after.nodes[node]!.totalDegree - before.nodes[node]!.totalDegree,
-        totalStrength: after.nodes[node]!.totalStrength - before.nodes[node]!.totalStrength,
-        betweenness: after.nodes[node]!.betweenness - before.nodes[node]!.betweenness,
-      }])),
+      analysisGraphStructural: {
+        nodes: identifierDiff(beforeGraph.graph.nodes().sort(), context.adaptedGraph.graph.nodes().sort()),
+        relations: identifierDiff(graphSourceIds(beforeGraph, "relation"), graphSourceIds(context.adaptedGraph, "relation")),
+        flows: identifierDiff(graphSourceIds(beforeGraph, "flow"), graphSourceIds(context.adaptedGraph, "flow")),
+      },
+      ...temporalMetrics(before, after, commonNodes),
     };
   },
 };

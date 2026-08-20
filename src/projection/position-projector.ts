@@ -92,24 +92,27 @@ export class PositionProjector {
     });
   }
 
-  persist(position: ProjectedPosition): void {
+  persist(position: ProjectedPosition): boolean {
+    const projectionJson = JSON.stringify(position.projection);
+    const existingById = this.db.prepare("SELECT projection_identity, projection_json FROM positions WHERE id = ?").get(position.id) as {
+      projection_identity: string;
+      projection_json: string;
+    } | undefined;
+    if (existingById) {
+      if (existingById.projection_identity !== position.projectionIdentity || existingById.projection_json !== projectionJson) {
+        throw new Error(`Position identity conflict: ${position.id}`);
+      }
+      return false;
+    }
+    const existingByProjection = this.db.prepare("SELECT id FROM positions WHERE projection_identity = ?").get(position.projectionIdentity) as { id: string } | undefined;
+    if (existingByProjection) throw new Error(`Position projection already exists as ${existingByProjection.id}`);
+
     this.db.prepare(`
       INSERT INTO positions (
         id, mode, playground_id, as_of, evidence_cutoff, profile_snapshot_id,
         perspective_id, question, projector_version, projection_identity,
         projection_json, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      ON CONFLICT(id) DO UPDATE SET
-        mode = excluded.mode,
-        playground_id = excluded.playground_id,
-        as_of = excluded.as_of,
-        evidence_cutoff = excluded.evidence_cutoff,
-        profile_snapshot_id = excluded.profile_snapshot_id,
-        perspective_id = excluded.perspective_id,
-        question = excluded.question,
-        projector_version = excluded.projector_version,
-        projection_identity = excluded.projection_identity,
-        projection_json = excluded.projection_json
     `).run(
       position.id,
       position.mode,
@@ -121,8 +124,9 @@ export class PositionProjector {
       position.question ?? null,
       position.projectorVersion,
       position.projectionIdentity,
-      JSON.stringify(position.projection),
+      projectionJson,
       new Date().toISOString(),
     );
+    return true;
   }
 }

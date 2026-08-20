@@ -24,6 +24,23 @@ function parseJson<T>(value: string): T {
   return JSON.parse(value) as T;
 }
 
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .filter(([, item]) => item !== undefined)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, item]) => [key, canonicalize(item)]),
+    );
+  }
+  return value;
+}
+
+function equivalentJson(left: unknown, right: unknown): boolean {
+  return JSON.stringify(canonicalize(left)) === JSON.stringify(canonicalize(right));
+}
+
 function now(): string {
   return new Date().toISOString();
 }
@@ -52,7 +69,7 @@ export class StockMeshApp {
   stageEvidence(input: StageEvidenceInput): void {
     const existing = this.store.db.prepare("SELECT content_identity, payload_json, status FROM staging_items WHERE id = ?").get(input.id) as { content_identity: string; payload_json: string; status: StagingStatus } | undefined;
     if (existing) {
-      if (existing.content_identity !== input.contentIdentity || existing.payload_json !== json(input.payload)) {
+      if (existing.content_identity !== input.contentIdentity || !equivalentJson(parseJson(existing.payload_json), input.payload)) {
         throw new Error(`staging identity conflict: ${input.id}`);
       }
       return;
@@ -164,8 +181,15 @@ export class StockMeshApp {
       for (const priorClaimId of priorClaimIds) {
         if (!this.store.db.prepare("SELECT 1 FROM claims WHERE id = ?").get(priorClaimId)) throw new Error(`prior Claim is not canonical: ${priorClaimId}`);
       }
-      if (this.store.db.prepare("SELECT 1 FROM claims WHERE id = ?").get(proposal.proposed_claim_id)) return this.revisionResult(proposal);
       const claim = parseJson<Claim>(proposal.proposed_claim_json);
+      if (this.store.db.prepare("SELECT 1 FROM claims WHERE id = ?").get(proposal.proposed_claim_id)) {
+        this.insertClaim(claim);
+        const existingSnapshot = proposal.next_profile_snapshot_json ? parseJson<ProfileSnapshot>(proposal.next_profile_snapshot_json) : undefined;
+        if (!existingSnapshot) throw new Error(`accepted proposal has no next profile snapshot: ${proposalId}`);
+        this.insertProfileSnapshot(existingSnapshot);
+        for (const state of proposal.next_states_json ? parseJson<StateRecord[]>(proposal.next_states_json) : []) this.insertState(state);
+        return this.revisionResult(proposal);
+      }
       this.insertClaim(claim);
       const snapshot = proposal.next_profile_snapshot_json ? parseJson<ProfileSnapshot>(proposal.next_profile_snapshot_json) : undefined;
       if (!snapshot) throw new Error(`accepted proposal has no next profile snapshot: ${proposalId}`);
@@ -180,8 +204,7 @@ export class StockMeshApp {
   projectPosition(input: PositionInput): ReturnType<PositionProjector["project"]> {
     if (!this.store.db.prepare("SELECT 1 FROM profile_snapshots WHERE id = ?").get(input.profileSnapshotId)) throw new Error(`profile snapshot not found: ${input.profileSnapshotId}`);
     const projected = this.projector.project(input);
-    this.projector.persist(projected);
-    this.journal("position", projected.id, "project", projected);
+    if (this.projector.persist(projected)) this.journal("position", projected.id, "project", projected);
     return projected;
   }
 
@@ -195,8 +218,12 @@ export class StockMeshApp {
 
   rebuildPosition(input: PositionInput): ReturnType<PositionProjector["project"]> {
     return this.store.transaction(() => {
-      this.store.db.prepare("DELETE FROM positions WHERE id = ?").run(input.id);
       const rebuilt = this.projector.project(input);
+      const existing = this.getPosition(input.id);
+      if (!existing) throw new Error(`position not found for rebuild: ${input.id}`);
+      if (existing.projectionIdentity !== rebuilt.projectionIdentity || !equivalentJson(existing.projection, rebuilt.projection)) {
+        throw new Error(`rebuild mismatch: ${input.id}`);
+      }
       this.projector.persist(rebuilt);
       this.journal("position", rebuilt.id, "rebuild", rebuilt);
       return rebuilt;
@@ -236,8 +263,20 @@ export class StockMeshApp {
   }
 
   private insertEvidence(evidence: EvidenceItem): void {
+    const existingById = this.store.db.prepare("SELECT content_identity, payload_json FROM evidence_items WHERE id = ?").get(evidence.id) as {
+      content_identity: string;
+      payload_json: string;
+    } | undefined;
+    if (existingById) {
+      if (existingById.content_identity !== evidence.content_identity || !equivalentJson(parseJson(existingById.payload_json), evidence)) {
+        throw new Error(`evidence identity conflict: ${evidence.id}`);
+      }
+      return;
+    }
+    const existingByContent = this.store.db.prepare("SELECT id FROM evidence_items WHERE content_identity = ?").get(evidence.content_identity) as { id: string } | undefined;
+    if (existingByContent) throw new Error(`evidence content identity already belongs to ${existingByContent.id}`);
     this.store.db.prepare(`
-      INSERT OR IGNORE INTO evidence_items (id, source_kind, content_identity, authority, acquired_at, integrity, sensitivity, locator, payload_json)
+      INSERT INTO evidence_items (id, source_kind, content_identity, authority, acquired_at, integrity, sensitivity, locator, payload_json)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(evidence.id, evidence.source_kind, evidence.content_identity, evidence.authority, evidence.acquired_at, evidence.integrity, evidence.sensitivity, evidence.locator ?? null, json(evidence));
     this.journal("evidence_item", evidence.id, "accept", evidence);
@@ -264,8 +303,20 @@ export class StockMeshApp {
   }
 
   private insert(table: string, id: string, sql: string, params: unknown[], payload: unknown): void {
+    if (!/^[a-z_]+$/.test(table)) throw new Error("invalid table name");
+    const existingRow = this.store.db.prepare(`SELECT 1 FROM ${table} WHERE id = ?`).get(id);
+    if (existingRow) {
+      const provenance = this.store.db.prepare(`
+        SELECT payload_json FROM change_journal
+        WHERE entity_type = ? AND entity_id = ? AND operation = 'insert'
+        ORDER BY id LIMIT 1
+      `).get(table, id) as { payload_json: string } | undefined;
+      if (!provenance || !equivalentJson(parseJson(provenance.payload_json), payload)) throw new Error(`${table} identity conflict: ${id}`);
+      return;
+    }
     const result = this.store.db.prepare(sql).run(...params);
-    if (result.changes > 0) this.journal(table, id, "insert", payload);
+    if (result.changes !== 1) throw new Error(`${table} insert did not materialize: ${id}`);
+    this.journal(table, id, "insert", payload);
   }
 
   private journal(entityType: string, entityId: string, operation: string, payload: unknown): void {
