@@ -120,6 +120,7 @@ Repair defect ledger: all four reproduced defects passed their direct regression
 - Forecast Assessment accepts only forecast Variations and canonical actual/reconstructed references. Match links are many-to-many and append-only; `expired-unobserved` requires an elapsed frozen horizon plus adequate coverage spanning the anchor-to-horizon interval. Forecast, actual history, and profile Claims remain unchanged.
 - The synthetic end-to-end test uses a P1 Position and a frozen P2 foundation Method output, generates three root purposes and three second-level forecasts under a configurable frontier, materializes and evaluates six Positions, then compares one frozen forecast with a separate actual surprise. No private case or live provider is used.
 - Clean `npm ci` installed 107 packages and audited 108 with 0 vulnerabilities. The existing transitive `prebuild-install@7.1.3` deprecation remains the only install warning. The terminal round passed 27 test files / 35 tests, typecheck, build, both compatibility validators, the P3-aware repository/public-boundary gate, and `git diff --check`.
+- GitHub Flow evidence: implementation commit `9d6fa6f` was pushed on `codex/p3-analysis-branch-replay`; [PR #3](https://github.com/jadelaglace/StockMesh/pull/3) read back as `MERGEABLE/CLEAN` with no configured remote checks, then squash-merged to public `main` as `eb6358b`. Local and `origin/main` matched after merge, and the remote implementation branch was absent.
 
 | Criterion | Terminal result | Direct evidence |
 | --- | --- | --- |

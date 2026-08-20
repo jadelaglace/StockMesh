@@ -91,7 +91,7 @@ Add the provider-neutral AnalysisPort, one structured-output LLM adapter plus de
 
 Terminal: analysis can generate, validate, evaluate, retain, compare, and replay traceable branches under explicit budgets; forecasts, counterfactuals, and exploratory branches remain distinct.
 
-Observed terminal: reached locally on 2026-08-20. Schema v3, the provider-neutral AnalysisPort, deterministic and mocked structured-output adapters, frozen full context, transactional PossibilityStore, configurable persisted frontier, exact cache/pin/fork/replay, and cutoff-correct Forecast Assessment pass all 12 frozen criteria and the clean-install terminal gate. No real provider, Web, client, private case, product usefulness, or human acceptance is claimed.
+Observed terminal: reached and merged through GitHub Flow on 2026-08-20. Schema v3, the provider-neutral AnalysisPort, deterministic and mocked structured-output adapters, frozen full context, transactional PossibilityStore, configurable persisted frontier, exact cache/pin/fork/replay, and cutoff-correct Forecast Assessment pass all 12 frozen criteria and the clean-install terminal gate. No real provider, Web, client, private case, product usefulness, or human acceptance is claimed.
 
 ## P4 — Evidence-first Web workbench
 
