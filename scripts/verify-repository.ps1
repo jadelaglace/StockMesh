@@ -199,9 +199,50 @@ foreach ($p2RuntimePath in @(
     }
 }
 
+$p3MatrixPath = Join-Path $RepositoryRoot 'docs\verification\p3-acceptance-matrix.json'
+if (-not (Test-Path -LiteralPath $p3MatrixPath)) {
+    $failures.Add('P3 acceptance matrix is missing.')
+} else {
+    try {
+        $p3Matrix = Get-Content -Raw -LiteralPath $p3MatrixPath | ConvertFrom-Json
+        if ($p3Matrix.phase_id -ne 'P3' -or $p3Matrix.status -ne 'frozen') {
+            $failures.Add('P3 acceptance matrix must be frozen and identify phase P3.')
+        }
+        $expectedP3Ids = 1..12 | ForEach-Object { 'P3-{0:D2}' -f $_ }
+        $actualP3Ids = @($p3Matrix.criteria | ForEach-Object { $_.id })
+        if (($actualP3Ids -join ',') -ne ($expectedP3Ids -join ',')) {
+            $failures.Add('P3 acceptance matrix must contain ordered criteria P3-01 through P3-12 exactly once.')
+        }
+        foreach ($criterion in @($p3Matrix.criteria)) {
+            foreach ($evidencePath in @($criterion.evidence_paths)) {
+                if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $evidencePath))) {
+                    $failures.Add("P3 evidence path is missing for $($criterion.id): $evidencePath")
+                }
+            }
+        }
+    } catch {
+        $failures.Add("P3 acceptance matrix is not valid JSON: $($_.Exception.Message)")
+    }
+}
+
+foreach ($p3RuntimePath in @(
+    'src\analysis\types.ts',
+    'src\analysis\validation.ts',
+    'src\analysis\deterministic-adapter.ts',
+    'src\analysis\structured-llm-adapter.ts',
+    'src\possibilities\store.ts',
+    'src\search\coordinator.ts',
+    'src\forecasting\service.ts',
+    'tests\p3-workflow.test.ts'
+)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $p3RuntimePath))) {
+        $failures.Add("P3 runtime artifact is missing: $p3RuntimePath")
+    }
+}
+
 if ($failures.Count -gt 0) {
     $failures | ForEach-Object { Write-Error $_ }
     exit 1
 }
 
-Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2 delivery checks passed ($($markdownFiles.Count) Markdown files)."
+Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3 delivery checks passed ($($markdownFiles.Count) Markdown files)."

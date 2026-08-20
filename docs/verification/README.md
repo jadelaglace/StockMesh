@@ -109,6 +109,35 @@ Terminal defect ledger: three defects were found and repaired during the round: 
 
 Repair defect ledger: all four reproduced defects passed their direct regression tests; no additional defect was found in the full gate. Requirements, architecture direction, frozen P2 acceptance scope, private/public boundaries, and the P3-P7 queue were reviewed and left unchanged. Human product acceptance: not claimed.
 
+## P3-001 evidence - 2026-08-20
+
+- The frozen [P3 acceptance matrix](p3-acceptance-matrix.json) defines twelve criteria over verified P1 Positions/canonical reads and attributable P2 Method outputs. P3 excludes Web, Skill/CLI clients, private or real company data, automatic canonical promotion, fixed branch/depth limits, provider-quality claims, and product acceptance.
+- SQLite schema v3 adds only derived analysis/possibility records: frozen Context Snapshots, Analysis runs, retained candidates, possibility Transitions/Trajectories, purpose-typed Variations, per-Position Evaluations, Search runs/frontier, cache records, Observation Coverage, and Forecast Assessments. The existing staging/review application boundary remains the canonical writer.
+- `AnalysisPort` is asynchronous and provider-neutral. The deterministic adapter runs fully offline; the configurable OpenAI-compatible adapter sends the same frozen request under a strict JSON schema, keeps credentials runtime-only, and is verified with a mocked HTTP boundary rather than a real provider call.
+- Context identity includes the complete Position projection, cutoff/profile/perspective, ordered branch path, Objectives, horizon/risk/evaluation profile, unknowns, complete attributable Method outputs, projector, and caller manifest. Changed context produces a different identity; dangling projection references and semantic policy drift fail closed.
+- Search accepts variable candidate counts and explicit depth, materialized-Position, analysis-call, elapsed-time, token, and cost budgets. It persists partial candidates/frontier, resumes without repeating completed analysis, honors in-flight pause, reattaches exact cached branches, and keeps selection rationale visible.
+- Each selected candidate transactionally materializes one possibility Transition, Trajectory, Variation, predicted/hypothetical Position, and multi-Party Evaluation. Pin, checkout, fork, and replay preserve parents/siblings and hypothetical mode; replay verifies Position, Evaluation, Transition, and Trajectory identities.
+- Forecast Assessment accepts only forecast Variations and canonical actual/reconstructed references. Match links are many-to-many and append-only; `expired-unobserved` requires an elapsed frozen horizon plus adequate coverage spanning the anchor-to-horizon interval. Forecast, actual history, and profile Claims remain unchanged.
+- The synthetic end-to-end test uses a P1 Position and a frozen P2 foundation Method output, generates three root purposes and three second-level forecasts under a configurable frontier, materializes and evaluates six Positions, then compares one frozen forecast with a separate actual surprise. No private case or live provider is used.
+- Clean `npm ci` installed 107 packages and audited 108 with 0 vulnerabilities. The existing transitive `prebuild-install@7.1.3` deprecation remains the only install warning. The terminal round passed 27 test files / 35 tests, typecheck, build, both compatibility validators, the P3-aware repository/public-boundary gate, and `git diff --check`.
+
+| Criterion | Terminal result | Direct evidence |
+| --- | --- | --- |
+| P3-01 | passed | Shared AnalysisPort types; deterministic adapter; mocked structured-output adapter tests |
+| P3-02 | passed | Complete frozen context identity and changed-unknown invalidation test |
+| P3-03 | passed | Policy-drift and dangling-projection rejection with canonical-table isolation |
+| P3-04 | passed | Schema v3 derived tables plus persistence/end-to-end counts |
+| P3-05 | passed | Forecast/counterfactual/exploratory branches; pin/fork and non-forecast assessment rejection |
+| P3-06 | passed | Configurable multi-axis budgets and variable three-candidate root fixture |
+| P3-07 | passed | Partial frontier resume and in-flight user-pause tests |
+| P3-08 | passed | Transactional six-Position/six-Evaluation end-to-end proof and invalid-output rollback |
+| P3-09 | passed | Exact cache reuse, pin/checkout/fork, and four-identity replay checks |
+| P3-10 | passed | Match, many-to-many actual links, expired-coverage negative/positive tests |
+| P3-11 | passed | Offline P1 -> P2 -> P3 multi-level synthetic workflow |
+| P3-12 | passed | Clean install, 35 tests, typecheck/build, compatibility/public gates, diff check |
+
+Terminal defect ledger: the round repaired obsolete schema-version assertions, one misplaced v3 column, an incomplete context payload that initially omitted Position/Method bodies, and four review defects covering dangling projection identities, in-flight pause/cancel, remaining-depth reporting, and incomplete replay verification. All direct regressions and the fresh terminal round pass; no known terminal defect remains. Real provider availability/usefulness and human product acceptance are not claimed.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

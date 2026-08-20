@@ -1,0 +1,77 @@
+{
+  "phase_id": "P3",
+  "title": "LLM-assisted analysis and branch replay",
+  "status": "frozen",
+  "input_boundary": "Verified P1 Positions and canonical read model plus attributable P2 Method results",
+  "scope": "A provider-neutral natural-language analysis boundary and framework-owned possibility graph that can validate, materialize, evaluate, retain, resume, compare, and assess traceable branches under explicit resource budgets.",
+  "non_goals": [
+    "Web workbench or HTTP host",
+    "Agent Skill or CLI clients",
+    "private, Kimi, Babata, or real company data",
+    "automatic canonical promotion of model output or forecast realization",
+    "a fixed branching factor, fixed search depth, or one required search algorithm",
+    "provider quality claims, real-provider availability claims, or product acceptance"
+  ],
+  "criteria": [
+    {
+      "id": "P3-01",
+      "expected": "A provider-neutral asynchronous AnalysisPort accepts a frozen structured context and returns validated proposals; a deterministic offline adapter and one configurable structured-output LLM adapter implement the same contract.",
+      "evidence_paths": ["src/analysis", "tests/analysis-port.test.ts"]
+    },
+    {
+      "id": "P3-02",
+      "expected": "Every analysis run binds the exact root/current Position projection, evidence cutoff, branch path, profile snapshot, perspective, objectives, Method runs, provider/model configuration, and context manifest in a deterministic identity.",
+      "evidence_paths": ["src/analysis", "src/possibilities", "tests/context-snapshot.test.ts"]
+    },
+    {
+      "id": "P3-03",
+      "expected": "Malformed, dangling, mode-invalid, or identity-conflicting model output fails closed and cannot write evidence, Claims, Events, Relations, Flows, States, or human review records.",
+      "evidence_paths": ["src/analysis", "src/possibilities", "tests/analysis-isolation.test.ts"]
+    },
+    {
+      "id": "P3-04",
+      "expected": "Schema migration ownership stores Analysis runs, frozen contexts, Variations, derived Positions, Evaluations, search runs/frontier, cache identities, observation coverage, and Forecast Assessments as attributable possibility/derived data.",
+      "evidence_paths": ["src/persistence", "src/possibilities", "tests/context-snapshot.test.ts", "tests/p3-workflow.test.ts"]
+    },
+    {
+      "id": "P3-05",
+      "expected": "Every Variation has exactly one immutable purpose: forecast, counterfactual, or exploratory. Hypothetical/predicted branches remain separate from canonical Main Line history through pin, fork, resume, and later assessment.",
+      "evidence_paths": ["src/possibilities", "tests/branch-replay-cache.test.ts", "tests/forecast-assessment.test.ts"]
+    },
+    {
+      "id": "P3-06",
+      "expected": "Search uses configurable depth, materialized-Position, analysis-call, elapsed-time, token, and monetary-cost budgets. Candidate count is context-dependent, and selection/pruning rationale remains inspectable.",
+      "evidence_paths": ["src/search", "tests/search-budget-resume.test.ts"]
+    },
+    {
+      "id": "P3-07",
+      "expected": "The search frontier is persisted. A budget-stopped or explicitly paused run can resume without repeating completed expansions, while cancellation and exhaustion remain explicit terminal states.",
+      "evidence_paths": ["src/search", "src/possibilities", "tests/search-budget-resume.test.ts"]
+    },
+    {
+      "id": "P3-08",
+      "expected": "Every materialized branch Position receives a traceable multi-Party vector Evaluation in the same transaction; unexpanded proposals are retained only as unevaluated candidates and are not called Positions.",
+      "evidence_paths": ["src/possibilities", "src/search", "tests/analysis-isolation.test.ts", "tests/p3-workflow.test.ts"]
+    },
+    {
+      "id": "P3-09",
+      "expected": "Checkout is read-only; pin preserves hypothetical mode; fork retains the selected parent and siblings; exact cache identity reuses unchanged analysis; a changed cutoff, path, profile, objective, Method, provider configuration, or policy does not reuse stale output.",
+      "evidence_paths": ["src/possibilities", "src/search", "tests/branch-replay-cache.test.ts"]
+    },
+    {
+      "id": "P3-10",
+      "expected": "Forecast Assessment is append-only, forecast-only, many-to-many, and bound to the frozen forecast, actual evidence, horizon, rubric, and observation coverage. Expired-unobserved requires elapsed horizon plus adequate coverage; silence remains pending or unknown.",
+      "evidence_paths": ["src/forecasting", "tests/forecast-assessment.test.ts"]
+    },
+    {
+      "id": "P3-11",
+      "expected": "A fully synthetic offline workflow projects a P1 Position, uses attributable P2 results, explores and resumes a multi-level P3 branch graph, pins/forks/replays it, appends a separate actual outcome, and assesses an eligible forecast without hidden state.",
+      "evidence_paths": ["tests/p3-workflow.test.ts"]
+    },
+    {
+      "id": "P3-12",
+      "expected": "P0-P2 behavior remains compatible and the clean install, runtime tests, typecheck, build, contract validators, repository/public-boundary gate, and diff checks pass without private data or credentials.",
+      "evidence_paths": ["tests", "scripts/verify-repository.ps1", "docs/verification/README.md"]
+    }
+  ]
+}

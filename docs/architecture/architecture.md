@@ -1,6 +1,6 @@
 # Architecture and data governance direction
 
-Purpose: describe durable ownership and information-flow boundaries that enable [acceptance](../product/acceptance.md), plus the requirement-rooted runnable v0 direction adopted in [ADR-005](../decisions/README.md#adr-005--llm-analysis-with-framework-owned-state-and-shared-clients). The direction is replaceable and implementation remains unstarted.
+Purpose: describe durable ownership and information-flow boundaries that enable [acceptance](../product/acceptance.md), plus the requirement-rooted runnable v0 direction adopted in [ADR-005](../decisions/README.md#adr-005--llm-analysis-with-framework-owned-state-and-shared-clients). P0-P2 implement the replayable foundation and quantitative Method layer; the P3 design below governs the next implementation slice without changing product authority.
 
 ```text
 authorized sources (read-only)
@@ -142,6 +142,107 @@ review path, where an LLM or Method may propose that the Pawn changed, the prior
 estimate was wrong, the behavior was context-specific, constraints changed, or
 evidence remains insufficient. Accepted Claim revisions create a new Position;
 forecast assessments and calibration remain derived records.
+
+### P3 implementation architecture
+
+The [frozen P3 matrix](../verification/p3-acceptance-matrix.json) narrows this
+architecture to one engineering slice. It does not add a Web, Agent/CLI, real
+provider availability, private-data, or product-acceptance claim.
+
+#### Module and call boundary
+
+```text
+SearchCoordinator
+  -> ContextAssembler -> immutable ContextSnapshot
+  -> AnalysisPort.analyze(request) -> untrusted structured AnalysisProposal
+  -> proposal validator -> retained candidates
+  -> PossibilityStore.materialize(candidate + Position + Evaluation) [one transaction]
+  -> persisted frontier selection -> repeat, pause, resume, or terminate by budget
+
+ForecastAssessmentService
+  -> frozen forecast Variation + reviewed actual Event/Transition
+  -> horizon/rubric/ObservationCoverage validation
+  -> append-only ForecastAssessment
+```
+
+`AnalysisPort` is asynchronous and transport-neutral. The foundation adapter is
+deterministic and offline. The configured LLM adapter uses an OpenAI-compatible
+structured-output HTTP contract, so a Qwen/Bailian-compatible or other reviewed
+endpoint can be supplied through runtime configuration without storing an API
+key, endpoint, prompt body, or response in Git. Provider output crosses exactly
+one runtime validator before any possibility record is written. The adapter is
+never a canonical writer.
+
+The analysis request contains only a frozen `ContextSnapshot`, declared
+Objectives and horizon, attributable Method-run references/results, explicit
+unknowns, and remaining search budget. The validated response may propose
+Actions, modeled responses, complete resulting projections, assumptions,
+uncertainty, replan triggers, and qualitative multi-Party Evaluation vectors.
+It cannot submit canonical Evidence, Events, Claims, Relations, Flows, States,
+or review decisions.
+
+#### Derived storage and identities
+
+Schema v3 adds only derived/possibility tables:
+
+| Record | Identity and invariant |
+| --- | --- |
+| `context_snapshot` | Hash of Position projection identity, evidence cutoff, ordered branch path, profile snapshot, perspective, Objectives, Method runs, projector version, and manifest. Immutable after insert. |
+| `analysis_run` and output | Hash of context plus provider/model/configuration and request schema. Status and measured token/cost usage are explicit; output is retained only after validation. |
+| `variation_candidate` | Attributed proposal under one analysis run. It is not a Position until selected and materialized. |
+| `variation` | Immutable parent/path, one purpose, frozen root context/profile, horizon, assumptions, and producing run. Pin/archive state may change; purpose and lineage may not. |
+| derived `position` + `evaluation` | Inserted with the Variation in one transaction. A materialized Position without Evaluation is invalid. Profile snapshot remains the branch-root snapshot unless an explicit hypothetical profile transition is present. |
+| `search_run` + `search_frontier` | Policy/version, root, complete budgets and consumption, visible selection rationale, queued/expanded/pruned state, and pause/completion reason. Persisted state is the resume authority. |
+| `cache_record` | Exact identity over context, profile, provider/model/configuration, Methods, Objectives/evaluation profile, and Search Policy. Near matches are misses, never stale reuse. |
+| `observation_coverage` + `forecast_assessment` | Append-only actual-versus-frozen-forecast comparison. Only a forecast is eligible; many-to-many references remain explicit. |
+
+Canonical and possibility tables have different permitted writers. The existing
+review/application boundary remains the sole canonical writer. P3 services may
+read canonical rows and append derived rows; tests snapshot canonical table
+counts and contents around successful and rejected analysis runs.
+
+#### Search and replay state machine
+
+```text
+running -> paused-budget -> running (resume)
+running -> paused-user   -> running (resume)
+running -> completed
+running -> cancelled
+running -> failed
+```
+
+The reference policy is a deterministic priority frontier over user pins,
+declared objective score, uncertainty, diversity, and stable identity. It is a
+replaceable baseline, not a claim that this ordering is universally optimal.
+Each expansion asks `AnalysisPort` for a context-dependent candidate set. The
+coordinator may retain unexpanded candidates, but only selected candidates
+consume the materialized-Position budget and must receive Evaluation.
+
+Every run declares optional `maxDepth`, `maxMaterializedPositions`,
+`maxAnalysisCalls`, `maxElapsedMs`, `maxTokens`, and `maxCost`. At least one
+finite stopping budget is required. The first exhausted limit pauses the run
+with its frontier intact and a reason. Resume applies an explicit additional or
+replacement budget envelope; it does not repeat an already succeeded analysis
+run or expanded frontier entry. Cancellation is terminal.
+
+Checkout returns the frozen Position, context, lineage, and Evaluation without
+writing. Pinning changes preference state only. Forking creates a new search
+root whose context path ends at the selected historical or hypothetical
+Position; the original parent, descendants, siblings, purpose, and mode remain
+unchanged. Replay recomputes identities and fails closed on drift. A separate
+hindsight request may use later context, but receives a new identity and label.
+
+#### Forecast assessment rules
+
+Assessment accepts only a `forecast` Variation and reviewed actual or
+reconstructed Events/Transitions. `matched`, `partially-matched`, and `diverged`
+retain explicit actual references and rubric rationale. `expired-unobserved`
+also requires that the forecast horizon elapsed at assessment time and linked
+ObservationCoverage is `adequate`; otherwise the only valid non-match outcomes
+are `pending` or `unknown`. No assessment updates the Variation, forecast
+Position, original probability/rank, root profile/context, actual history, or
+subject Claims. Calibration and reviewed profile learning remain later,
+separate writers even when they consume the same assessment evidence.
 
 ### Requirement trace
 

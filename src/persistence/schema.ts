@@ -1,6 +1,6 @@
 import type Database from "better-sqlite3";
 
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;
 
 const migrationV1Sql = `
 CREATE TABLE IF NOT EXISTS staging_items (
@@ -248,9 +248,199 @@ CREATE TABLE IF NOT EXISTS method_results (
 );
 `;
 
+const migrationV3Sql = `
+CREATE TABLE IF NOT EXISTS context_snapshots (
+  id TEXT PRIMARY KEY,
+  position_id TEXT NOT NULL REFERENCES positions(id),
+  position_projection_identity TEXT NOT NULL,
+  position_projection_json TEXT NOT NULL,
+  evidence_cutoff TEXT NOT NULL,
+  branch_path_json TEXT NOT NULL,
+  profile_snapshot_id TEXT NOT NULL REFERENCES profile_snapshots(id),
+  perspective_id TEXT NOT NULL,
+  objectives_json TEXT NOT NULL,
+  horizon TEXT NOT NULL,
+  risk_policy TEXT NOT NULL,
+  evaluation_profile TEXT NOT NULL,
+  method_run_ids_json TEXT NOT NULL,
+  unknowns_json TEXT NOT NULL,
+  context_manifest_json TEXT NOT NULL,
+  projector_version TEXT NOT NULL,
+  snapshot_identity TEXT NOT NULL UNIQUE,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS analysis_runs (
+  id TEXT PRIMARY KEY,
+  context_snapshot_id TEXT NOT NULL REFERENCES context_snapshots(id),
+  provider TEXT NOT NULL,
+  model TEXT NOT NULL,
+  adapter_version TEXT NOT NULL,
+  configuration_identity TEXT NOT NULL,
+  request_schema TEXT NOT NULL,
+  request_identity TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('running', 'succeeded', 'failed')),
+  started_at TEXT NOT NULL,
+  completed_at TEXT,
+  usage_tokens INTEGER NOT NULL DEFAULT 0,
+  usage_cost REAL NOT NULL DEFAULT 0,
+  output_identity TEXT,
+  output_json TEXT,
+  error_json TEXT
+);
+
+CREATE TABLE IF NOT EXISTS variation_candidates (
+  id TEXT PRIMARY KEY,
+  analysis_run_id TEXT NOT NULL REFERENCES analysis_runs(id),
+  candidate_key TEXT NOT NULL,
+  candidate_identity TEXT NOT NULL UNIQUE,
+  purpose TEXT NOT NULL CHECK (purpose IN ('forecast', 'counterfactual', 'exploratory')),
+  proposal_json TEXT NOT NULL,
+  materialized_variation_id TEXT,
+  retained_at TEXT NOT NULL,
+  UNIQUE (analysis_run_id, candidate_key)
+);
+
+CREATE TABLE IF NOT EXISTS possibility_transitions (
+  id TEXT PRIMARY KEY,
+  candidate_id TEXT NOT NULL UNIQUE REFERENCES variation_candidates(id),
+  from_position_id TEXT NOT NULL REFERENCES positions(id),
+  to_position_id TEXT NOT NULL REFERENCES positions(id),
+  mode TEXT NOT NULL CHECK (mode IN ('hypothetical', 'predicted')),
+  action_json TEXT NOT NULL,
+  modeled_response TEXT NOT NULL,
+  assumptions_json TEXT NOT NULL,
+  replan_trigger TEXT NOT NULL,
+  analysis_run_id TEXT NOT NULL REFERENCES analysis_runs(id),
+  transition_identity TEXT NOT NULL UNIQUE,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS trajectories (
+  id TEXT PRIMARY KEY,
+  mode TEXT NOT NULL CHECK (mode IN ('hypothetical', 'predicted')),
+  position_ids_json TEXT NOT NULL,
+  transition_ids_json TEXT NOT NULL,
+  assumptions_json TEXT NOT NULL,
+  trajectory_identity TEXT NOT NULL UNIQUE,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS variations (
+  id TEXT PRIMARY KEY,
+  candidate_id TEXT NOT NULL UNIQUE REFERENCES variation_candidates(id),
+  parent_variation_id TEXT REFERENCES variations(id),
+  anchor_position_id TEXT NOT NULL REFERENCES positions(id),
+  position_id TEXT NOT NULL UNIQUE REFERENCES positions(id),
+  trajectory_id TEXT NOT NULL REFERENCES trajectories(id),
+  purpose TEXT NOT NULL CHECK (purpose IN ('forecast', 'counterfactual', 'exploratory')),
+  state TEXT NOT NULL CHECK (state IN ('candidate', 'pinned', 'selected', 'archived', 'invalidated')),
+  root_context_snapshot_id TEXT NOT NULL REFERENCES context_snapshots(id),
+  root_profile_snapshot_id TEXT NOT NULL REFERENCES profile_snapshots(id),
+  horizon TEXT NOT NULL,
+  assumptions_json TEXT NOT NULL,
+  created_by_analysis_run_id TEXT NOT NULL REFERENCES analysis_runs(id),
+  depth INTEGER NOT NULL CHECK (depth > 0),
+  mode TEXT NOT NULL CHECK (mode IN ('hypothetical', 'predicted')),
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS evaluations (
+  id TEXT PRIMARY KEY,
+  target_position_id TEXT NOT NULL UNIQUE REFERENCES positions(id),
+  perspective_id TEXT NOT NULL,
+  party_scorecards_json TEXT NOT NULL,
+  horizon TEXT NOT NULL,
+  risk_policy TEXT NOT NULL,
+  evidence_cutoff TEXT NOT NULL,
+  evaluation_profile TEXT NOT NULL,
+  uncertainty_json TEXT NOT NULL,
+  analysis_run_id TEXT NOT NULL REFERENCES analysis_runs(id),
+  method_run_ids_json TEXT NOT NULL,
+  evaluation_identity TEXT NOT NULL UNIQUE,
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS search_runs (
+  id TEXT PRIMARY KEY,
+  root_position_id TEXT NOT NULL REFERENCES positions(id),
+  root_context_snapshot_id TEXT NOT NULL REFERENCES context_snapshots(id),
+  policy_id TEXT NOT NULL,
+  policy_version TEXT NOT NULL,
+  budgets_json TEXT NOT NULL,
+  usage_json TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('running', 'paused-budget', 'paused-user', 'completed', 'cancelled', 'failed')),
+  stop_reason TEXT,
+  selection_rationale_json TEXT NOT NULL,
+  started_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS search_frontier (
+  search_run_id TEXT NOT NULL REFERENCES search_runs(id) ON DELETE CASCADE,
+  position_id TEXT NOT NULL REFERENCES positions(id),
+  variation_id TEXT REFERENCES variations(id),
+  depth INTEGER NOT NULL CHECK (depth >= 0),
+  branch_path_json TEXT NOT NULL,
+  state TEXT NOT NULL CHECK (state IN ('queued', 'partial', 'expanded', 'depth-limited', 'pruned')),
+  priority REAL NOT NULL,
+  rationale TEXT NOT NULL,
+  context_snapshot_id TEXT REFERENCES context_snapshots(id),
+  analysis_run_id TEXT REFERENCES analysis_runs(id),
+  PRIMARY KEY (search_run_id, position_id)
+);
+
+CREATE TABLE IF NOT EXISTS cache_records (
+  id TEXT PRIMARY KEY,
+  cache_identity TEXT NOT NULL UNIQUE,
+  context_snapshot_id TEXT NOT NULL REFERENCES context_snapshots(id),
+  profile_snapshot_id TEXT NOT NULL REFERENCES profile_snapshots(id),
+  analysis_run_id TEXT NOT NULL REFERENCES analysis_runs(id),
+  objective_refs_json TEXT NOT NULL,
+  evaluation_profile TEXT NOT NULL,
+  search_policy_id TEXT NOT NULL,
+  search_policy_version TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  state TEXT NOT NULL CHECK (state IN ('active', 'superseded', 'invalidated'))
+);
+
+CREATE TABLE IF NOT EXISTS observation_coverages (
+  id TEXT PRIMARY KEY,
+  scope TEXT NOT NULL,
+  interval_from TEXT NOT NULL,
+  interval_to TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('adequate', 'inadequate', 'unknown')),
+  evidence_refs_json TEXT NOT NULL,
+  limitations_json TEXT NOT NULL,
+  recorded_at TEXT NOT NULL,
+  coverage_identity TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS forecast_assessments (
+  id TEXT PRIMARY KEY,
+  forecast_variation_id TEXT NOT NULL REFERENCES variations(id),
+  forecast_transition_refs_json TEXT NOT NULL,
+  actual_event_refs_json TEXT NOT NULL,
+  actual_transition_refs_json TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('pending', 'matched', 'partially-matched', 'diverged', 'expired-unobserved', 'unknown')),
+  horizon TEXT NOT NULL,
+  rubric_id TEXT NOT NULL,
+  observation_coverage_id TEXT REFERENCES observation_coverages(id),
+  assessor TEXT NOT NULL,
+  assessed_at TEXT NOT NULL,
+  rationale TEXT NOT NULL,
+  assessment_identity TEXT NOT NULL UNIQUE
+);
+
+CREATE INDEX IF NOT EXISTS idx_variations_parent ON variations(parent_variation_id);
+CREATE INDEX IF NOT EXISTS idx_frontier_state ON search_frontier(search_run_id, state, priority DESC);
+CREATE INDEX IF NOT EXISTS idx_forecast_assessments_variation ON forecast_assessments(forecast_variation_id);
+`;
+
 const migrations = new Map<number, string>([
   [1, migrationV1Sql],
   [2, migrationV2Sql],
+  [3, migrationV3Sql],
 ]);
 
 export function migrateDatabase(db: Database.Database): void {

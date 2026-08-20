@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **P0-P2 engineering terminals reached; P3-P7 remain queued**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
+Status: **P0-P3 engineering terminals reached; P4-P7 remain queued**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -27,7 +27,8 @@ first runtime phase.
 | P0 | Engineering terminal reached | The semantic learning loop is frozen and validated before runtime scaffolding. |
 | P1 | Engineering terminal reached | Replayable canonical foundation over `0.2.0`. |
 | P2 | Engineering terminal reached | Replaceable, attributable quantitative Method layer over P1 Positions. |
-| P3-P7 | Queued | LLM analysis/branching, Web, clients, pilot, and hardening remain outside P2. |
+| P3 | Engineering terminal reached | Provider-neutral analysis and framework-owned possibility search/replay over frozen P1/P2 context. |
+| P4-P7 | Queued | Web, clients, private pilot, and measured hardening remain outside P3. |
 
 ## Definition history — R0: Domain clarification
 
@@ -90,6 +91,8 @@ Add the provider-neutral AnalysisPort, one structured-output LLM adapter plus de
 
 Terminal: analysis can generate, validate, evaluate, retain, compare, and replay traceable branches under explicit budgets; forecasts, counterfactuals, and exploratory branches remain distinct.
 
+Observed terminal: reached locally on 2026-08-20. Schema v3, the provider-neutral AnalysisPort, deterministic and mocked structured-output adapters, frozen full context, transactional PossibilityStore, configurable persisted frontier, exact cache/pin/fork/replay, and cutoff-correct Forecast Assessment pass all 12 frozen criteria and the clean-install terminal gate. No real provider, Web, client, private case, product usefulness, or human acceptance is claimed.
+
 ## P4 — Evidence-first Web workbench
 
 Implement the universal timeline, Position/network board, Node detail/profile history, source trace, before/after comparison, and correction workflow. Let profiles supply labels and panels such as Pawn, stance, resource flow, or machine load.
@@ -121,6 +124,6 @@ scope.
 
 ## Recommended next decision
 
-P2 is the latest engineering terminal. The next delivery phase is P3 only after
-an explicit new goal. Do not expand completed P2 scope retroactively into LLM
-analysis, possibility search/replay, Web, or clients merely to show visible breadth.
+P3 is the latest engineering terminal. The next delivery phase is P4 only after
+an explicit new goal. Do not expand completed P3 scope retroactively into Web,
+Skill/CLI clients, private pilots, or measured hardening merely to show visible breadth.
