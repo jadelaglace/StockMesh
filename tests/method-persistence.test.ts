@@ -7,7 +7,7 @@ describe("P2 Method persistence", () => {
   it("owns schema v2 and persists attributable definitions, runs, and results", () => {
     const { runner, app, store } = createMethodFixture();
     expect((store.db.prepare("SELECT MAX(version) AS version FROM schema_migrations").get() as { version: number }).version).toBe(2);
-    expect(app.count("method_definitions")).toBe(5);
+    expect(app.count("method_definitions")).toBe(6);
     const run = runner.run({ positionId: "position-method-after", methodId: "sna.foundation" });
     expect(run.status).toBe("succeeded");
     expect(run.implementationIdentity).toContain("graphology@0.26.0");

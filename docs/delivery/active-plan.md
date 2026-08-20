@@ -4,7 +4,18 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. P2-001 reached its engineering terminal. P3 requires a new explicit user goal and is not auto-promoted.
+### FIX-001
+
+- Source anchor: live user instruction on 2026-08-20 to repair the quick-review findings through GitHub Flow.
+- User goal: repair the reproduced P1/P2 integrity and delta-scope defects before starting P3, using a branch, pull request, verification, and merge rather than a direct push to `main`.
+- Lifecycle mode: delivery / post-terminal defect repair
+- Current state: active on `codex/fix-p2-integrity`.
+- Declared terminal: Position identity is immutable and same-input rebuild remains compatible with persisted Method runs; changed canonical IDs fail closed while unchanged input remains idempotent; Temporal Delta distinguishes complete Position projection change from selected analysis-graph change under a versioned output contract; recovery state is consistent; regression and full repository gates pass; the reviewed branch is merged and read back from public `origin/main`.
+- Agent-attributed stage conclusion: new executable evidence invalidated P2-001's “no known terminal defect” statement without changing product requirements or the P0-P7 route. Repair the shared Position/canonical identity root cause first, then the Temporal Delta contract and recovery wording; do not begin P3.
+- Protected boundaries: preserve P0/`0.1.0`, the P1/P2 product semantics, public/private separation, MIT posture, and the absence of LLM, search, Web, Skill/CLI, Babata, or private-case work.
+- Next action: implement fail-closed Position/canonical identity behavior and the versioned Temporal Delta scope split, then run targeted regressions and the full clean-install terminal gate before PR publication.
+- Evidence entry point: the post-terminal repair ledger will be appended to [verification evidence](../verification/README.md); the original [P2 matrix](../verification/p2-acceptance-matrix.json) remains frozen.
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly instructed the Agent to repair the reviewed defects through GitHub Flow.
 
 ## Last terminal: P2-001
 
@@ -153,4 +164,4 @@ None. P2-001 reached its engineering terminal. P3 requires a new explicit user g
 
 ## Next-start queue
 
-None. P2-001 is the explicitly started item.
+None. P3 still requires a new explicit user goal after FIX-001 reaches terminal.

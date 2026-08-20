@@ -121,7 +121,7 @@ interface MetricDelta {
   delta: number;
 }
 
-export interface TemporalDeltaOutput {
+export interface TemporalDeltaOutputV1 {
   before: PositionTimeReference;
   after: PositionTimeReference;
   structural: {
@@ -129,6 +129,33 @@ export interface TemporalDeltaOutput {
     relations: IdentifierDelta;
     flows: IdentifierDelta;
     states: IdentifierDelta;
+  };
+  metrics: {
+    density: MetricDelta;
+    reciprocity: MetricDelta;
+    weakComponentCount: MetricDelta;
+  };
+  nodeMetricDeltas: Record<string, {
+    totalDegree: number;
+    totalStrength: number;
+    betweenness: number;
+  }>;
+}
+
+export interface TemporalDeltaOutput {
+  before: PositionTimeReference;
+  after: PositionTimeReference;
+  analysisGraphConfiguration: GraphAdapterConfiguration;
+  positionStructural: {
+    nodes: IdentifierDelta;
+    relations: IdentifierDelta;
+    flows: IdentifierDelta;
+    states: IdentifierDelta;
+  };
+  analysisGraphStructural: {
+    nodes: IdentifierDelta;
+    relations: IdentifierDelta;
+    flows: IdentifierDelta;
   };
   metrics: {
     density: MetricDelta;

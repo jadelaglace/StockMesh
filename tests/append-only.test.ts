@@ -16,4 +16,16 @@ describe("P1 append-only canonical history", () => {
     expect(app.count("change_journal")).toBe(journalCount);
     store.close();
   });
+
+  it("rejects changed canonical content that reuses an existing ID", () => {
+    const { app, fixture, store } = createFixtureApp();
+    const changed = structuredClone(fixture);
+    changed.nodes[0]!.node_type = "changed-type";
+    const journalCount = app.count("change_journal");
+
+    expect(() => app.importSyntheticFixture(changed)).toThrow(/nodes identity conflict/);
+    expect(app.count("change_journal")).toBe(journalCount);
+    expect((store.db.prepare("SELECT node_type FROM nodes WHERE id = ?").get(changed.nodes[0]!.id) as { node_type: string }).node_type).not.toBe("changed-type");
+    store.close();
+  });
 });
