@@ -4,7 +4,19 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. FIX-001 reached terminal. P3 requires a new explicit user goal and is not auto-promoted.
+### P3-001 - Analysis, possibility search, and branch replay
+
+- Source anchor: active Goal created from the user's explicit instruction to complete P3 with requirements authoritative, architecture before implementation, and test cases after implementation; the latest instruction requires repair/delivery through GitHub Flow.
+- User goal: complete the P3 analysis and possibility layer without narrowing StockMesh to the chess analogy or a private case.
+- Current state: all 12 frozen P3 criteria and the clean local engineering terminal pass; GitHub Flow publication/review/merge and terminal readback/writeback are the only remaining stage.
+- Declared terminal: a frozen P3 acceptance matrix is traced to authoritative requirements; the reviewed architecture defines provider-neutral natural-language analysis, possibility storage, budget-bounded resumable search, branch purpose and replay semantics, Position evaluation, and cutoff-correct forecast assessment; implementation and tests pass the repository's clean public gates; the branch is reviewed and merged through GitHub Flow with terminal evidence written back.
+- Stage order: (1) freeze requirement and acceptance scope; (2) write and review detailed architecture; (3) implement the accepted boundary; (4) add and run test cases and terminal gates.
+- Protected boundaries: canonical reality remains separate from hypothetical/predicted branches; predictions never become facts automatically; no Web UI, Skill/CLI client, private pilot data, Kimi locator/content, Babata operation, credential, or product-acceptance claim enters P3.
+- Agent stage conclusion: P3 will add schema v3 derived/possibility tables, an asynchronous provider-neutral `AnalysisPort`, deterministic and structured-output adapters, transactional Variation/Position/Evaluation materialization, a budgeted persisted frontier, exact cache/replay operations, and append-only cutoff-correct forecast assessment. The existing review/application boundary remains the sole canonical writer.
+- Test-stage entry: the first P0-P2 regression run passed 21/24 tests; the three failures are obsolete assertions that the latest database schema must remain v2 after P3 adds v3, not runtime behavior failures.
+- Terminal-round result: clean `npm ci` audited 108 packages with 0 vulnerabilities; 27 test files / 35 tests, typecheck, build, both compatibility validators, the P3-aware repository/public-boundary gate, and `git diff --check` passed. The defect ledger is recorded in P3 verification evidence.
+- Next action: commit and push the P3 branch, open/review/merge a GitHub PR, verify public `main`, then perform terminal documentation writeback without auto-starting P4.
+- Goal transition: `user-explicit-goal-start` - user-explicit-goal-start: the user explicitly instructed the Agent to complete P3 and later required the work to be repaired/delivered through GitHub Flow.
 
 ## Last terminal: FIX-001
 

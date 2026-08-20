@@ -231,7 +231,7 @@ export class StockMeshApp {
   }
 
   getPosition(id: string): ReturnType<PositionProjector["project"]> | undefined {
-    const row = this.store.db.prepare("SELECT * FROM positions WHERE id = ?").get(id) as {
+    const row = this.store.db.prepare("SELECT * FROM positions WHERE id = ? AND mode IN ('actual', 'reconstructed')").get(id) as {
       id: string; mode: "actual" | "reconstructed"; playground_id: string; as_of: string; evidence_cutoff: string;
       profile_snapshot_id: string; perspective_id: string | null; question: string | null; projector_version: string;
       projection_identity: string; projection_json: string;
