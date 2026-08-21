@@ -93,6 +93,8 @@ Terminal: analysis can generate, validate, evaluate, retain, compare, and replay
 
 Observed terminal: reached and merged through GitHub Flow on 2026-08-20. Schema v3, the provider-neutral AnalysisPort, deterministic and mocked structured-output adapters, frozen full context, transactional PossibilityStore, configurable persisted frontier, exact cache/pin/fork/replay, and cutoff-correct Forecast Assessment pass all 12 frozen criteria and the clean-install terminal gate. No real provider, Web, client, private case, product usefulness, or human acceptance is claimed.
 
+Post-terminal repair: FIX-002 merged through GitHub PRs #5 and #6 on 2026-08-21. Exact concurrent local analysis now shares one in-process execution while persisted attempts and successful cache identity remain separate; failed retries retain history. Forecast Assessment enforces the frozen anchor-to-horizon interval and order-independent reference-set identity. The P3 scope, frozen matrix, P4 boundary, and human-acceptance gap are unchanged.
+
 ## P4 — Evidence-first Web workbench
 
 Implement the universal timeline, Position/network board, Node detail/profile history, source trace, before/after comparison, and correction workflow. Let profiles supply labels and panels such as Pawn, stance, resource flow, or machine load.
