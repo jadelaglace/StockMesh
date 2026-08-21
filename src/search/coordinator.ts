@@ -18,7 +18,13 @@ interface FrontierRow {
   analysis_run_id: string | null;
 }
 
+interface InFlightAnalysis {
+  runId: string;
+  result: AnalysisResult;
+}
+
 const DEFAULT_POLICY: SearchPolicyIdentity = { id: "stockmesh.priority-frontier", version: "1.0.0" };
+const inFlightByStore = new WeakMap<SqliteStore, Map<string, Promise<InFlightAnalysis>>>();
 
 function now(): string {
   return new Date().toISOString();
@@ -29,11 +35,21 @@ function parse<T>(value: string): T {
 }
 
 export class SearchCoordinator {
+  private readonly inFlight: Map<string, Promise<InFlightAnalysis>>;
+
   constructor(
     private readonly store: SqliteStore,
     private readonly possibilities: PossibilityStore,
     private readonly analysis: AnalysisPort,
-  ) {}
+  ) {
+    const existing = inFlightByStore.get(store);
+    if (existing) {
+      this.inFlight = existing;
+    } else {
+      this.inFlight = new Map();
+      inFlightByStore.set(store, this.inFlight);
+    }
+  }
 
   start(input: StartSearchInput): SearchRunRecord {
     const budgets = validateSearchBudget(input.budgets);
@@ -122,24 +138,33 @@ export class SearchCoordinator {
             const remainingBudget = this.remainingBudget(run, frontier.depth);
             const request = { context, remainingBudget };
             const requestIdentity = stableHash(request);
-            const claim = this.possibilities.beginAnalysis(context, this.analysis.descriptor, requestIdentity);
-            analysisRunId = claim.runId;
-            if (claim.acquired) {
-              try {
-                const result = validateAnalysisResult(await this.analysis.analyze(request));
-                this.validateResultAgainstContext(result, context);
-                this.possibilities.succeedAnalysis(analysisRunId, result, { identity: cacheIdentity, context, policy: run.policy });
-                run.usage.analysisCalls += 1;
-                run.usage.tokens += result.usage.tokens;
-                run.usage.cost += result.usage.cost;
-                this.persistUsage(runId, run.usage);
-              } catch (error) {
-                this.possibilities.failAnalysis(analysisRunId, error);
-                throw error;
-              }
+            const shared = this.inFlight.get(cacheIdentity);
+            if (shared) {
+              analysisRunId = (await shared).runId;
             } else {
-              const shared = await this.possibilities.waitForAnalysis(analysisRunId);
-              if (shared.status !== "succeeded") throw new Error(`shared analysis failed: ${analysisRunId}`);
+              const execution = (async (): Promise<InFlightAnalysis> => {
+                const ownedRunId = this.possibilities.beginAnalysis(context, this.analysis.descriptor, requestIdentity);
+                try {
+                  const result = validateAnalysisResult(await this.analysis.analyze(request));
+                  this.validateResultAgainstContext(result, context);
+                  this.possibilities.succeedAnalysis(ownedRunId, result, { identity: cacheIdentity, context, policy: run.policy });
+                  return { runId: ownedRunId, result };
+                } catch (error) {
+                  this.possibilities.failAnalysis(ownedRunId, error);
+                  throw error;
+                }
+              })();
+              this.inFlight.set(cacheIdentity, execution);
+              try {
+                const completed = await execution;
+                analysisRunId = completed.runId;
+                run.usage.analysisCalls += 1;
+                run.usage.tokens += completed.result.usage.tokens;
+                run.usage.cost += completed.result.usage.cost;
+                this.persistUsage(runId, run.usage);
+              } finally {
+                if (this.inFlight.get(cacheIdentity) === execution) this.inFlight.delete(cacheIdentity);
+              }
             }
           }
           this.store.db.prepare(`

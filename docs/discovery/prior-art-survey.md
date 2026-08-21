@@ -90,6 +90,38 @@ novelty claim.
 | [SOTOPIA](https://github.com/sotopia-lab/sotopia) | Open-ended social interaction environments and social-intelligence evaluation | MIT | Strong micro interpersonal interaction and evaluator precedent | `P1` - candidate evaluation/reference environment for micro Methods, not a truth model of people |
 | [Pol.is](https://github.com/compdemocracy/polis) | Large-scale open-ended feedback and opinion-group mapping | AGPL-3.0 | Useful precedent for clustering viewpoints and finding consensus/minority structure without pretending one score fits all | `R` - product/method reference; seek permissive clustering components for implementation |
 
+### Stockfish architecture comparison
+
+Agent interpretation from a read-only review of the official `master` tree on
+2026-08-21; this is independent from the name-only tribute and does not adopt or
+copy GPL source:
+
+- `UCIEngine` is a thin command/protocol surface while `Engine` owns position,
+  options, search start/stop/wait, threads, evaluation network, and the
+  transposition table. StockMesh should likewise keep Web/Skill/CLI thin and
+  give application use cases one explicit run lifecycle.
+- `Position` and its reversible `StateInfo` stack are distinct from per-worker
+  search stack/history. StockMesh keeps the same separation of modeled Position
+  from search state, but uses immutable persisted Positions and appended
+  Transitions because real evidence and social context cannot be safely undone
+  like a chess move.
+- Search workers retain local traversal state while the search manager owns
+  limits/time and reports iterative principal variations. StockMesh should keep
+  per-run frontier/usage state separate from policy and expose progressively
+  improving, resumable candidate lines rather than one opaque final answer.
+- The transposition table is a performance cache with explicit probe/write and
+  aging behavior; it is not the authoritative search-run ledger. StockMesh must
+  keep in-flight execution ownership, persisted AnalysisRun attempts, and exact
+  successful-result cache identities separate. A cached result may be reused;
+  a crashed `running` attempt must not become a permanent lock.
+- Stockfish deliberately tolerates some racy cache reads for playing strength.
+  That tradeoff does not transfer to StockMesh's evidence, forecast assessment,
+  or human-review records, which remain transactional and fail closed.
+
+These points are boundary checks, not a decision to adopt Stockfish's two-party
+zero-sum evaluation, full-observation assumptions, move-generation machinery,
+NNUE implementation, pruning formulas, threading model, or source code.
+
 ## Social-network, diffusion, and statistical methods
 
 | Candidate | Verified scope | License | StockMesh fit | Recommendation |

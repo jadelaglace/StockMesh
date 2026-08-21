@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type { SqliteStore } from "../persistence/database.js";
 import type {
   AnalysisPortDescriptor,
@@ -12,7 +13,6 @@ import type {
 import { stableHash, stableJson } from "../methods/identity.js";
 import type {
   BranchCheckout,
-  AnalysisRunClaim,
   EvaluationRecord,
   MaterializeCandidateInput,
   PositionView,
@@ -169,39 +169,15 @@ export class PossibilityStore {
     return row ? this.analysisRow(row) : undefined;
   }
 
-  beginAnalysis(context: ContextSnapshot, descriptor: AnalysisPortDescriptor, requestIdentity: string): AnalysisRunClaim {
-    const id = `analysis-${stableHash({ context: context.snapshotIdentity, descriptor, requestIdentity })}`;
-    const inserted = this.store.db.prepare(`
-      INSERT OR IGNORE INTO analysis_runs (
+  beginAnalysis(context: ContextSnapshot, descriptor: AnalysisPortDescriptor, requestIdentity: string): string {
+    const id = `analysis-${stableHash({ context: context.snapshotIdentity, descriptor, requestIdentity, attempt: randomUUID() })}`;
+    this.store.db.prepare(`
+      INSERT INTO analysis_runs (
         id, context_snapshot_id, provider, model, adapter_version, configuration_identity,
         request_schema, request_identity, status, started_at
       ) VALUES (?, ?, ?, ?, ?, ?, 'stockmesh.analysis-request@0.1.0', ?, 'running', ?)
     `).run(id, context.id, descriptor.provider, descriptor.model, descriptor.adapterVersion, descriptor.configurationIdentity, requestIdentity, now());
-    if (inserted.changes === 1) return { runId: id, acquired: true };
-
-    const existing = this.requireAnalysis(id);
-    if (existing.contextSnapshotId !== context.id || existing.requestIdentity !== requestIdentity
-      || existing.provider !== descriptor.provider || existing.model !== descriptor.model
-      || existing.adapterVersion !== descriptor.adapterVersion
-      || existing.configurationIdentity !== descriptor.configurationIdentity) {
-      throw new Error(`analysis run identity conflict: ${id}`);
-    }
-    if (existing.status !== "failed") return { runId: id, acquired: false };
-
-    const reclaimed = this.store.db.prepare(`
-      UPDATE analysis_runs SET status = 'running', started_at = ?, completed_at = NULL,
-        usage_tokens = 0, usage_cost = 0, output_identity = NULL, output_json = NULL,
-        error_json = NULL WHERE id = ? AND status = 'failed'
-    `).run(now(), id);
-    return { runId: id, acquired: reclaimed.changes === 1 };
-  }
-
-  async waitForAnalysis(runId: string): Promise<StoredAnalysisRun> {
-    while (true) {
-      const run = this.requireAnalysis(runId);
-      if (run.status !== "running") return run;
-      await new Promise<void>((resolve) => setTimeout(resolve, 5));
-    }
+    return id;
   }
 
   succeedAnalysis(runId: string, result: AnalysisResult, cache: {
