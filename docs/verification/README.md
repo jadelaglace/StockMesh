@@ -150,6 +150,35 @@ Terminal defect ledger: the round repaired obsolete schema-version assertions, o
 
 Repair defect ledger: all three reproduced defects and the post-repair liveness risk have direct passing regressions. Requirements, frozen P3 acceptance, canonical/possibility ownership, public/private boundaries, and the held P4-P7 route remain unchanged. Real provider behavior, product usefulness, and human acceptance are not claimed.
 
+## P4-001 evidence - 2026-08-21
+
+- The [frozen P4 acceptance matrix](p4-acceptance-matrix.json) defines twelve criteria over the public synthetic organizational learning record and the verified P1-P3 foundation. P4 is limited to one local responsive Web workbench; live-provider quality, Skill/CLI clients, private data, shared deployment, extraction, and human product acceptance remain excluded.
+- One React/Vite workbench now exposes the complete synthetic stage-to-inspect-to-analyze-to-branch-to-correct workflow. A thin Fastify host serves the production assets and named HTTP commands over `WorkbenchService`; the browser receives a presentation-safe snapshot and has no SQL, database path, arbitrary table, private-source-body, or direct canonical-writer access.
+- Timeline reconstructs the selected cutoff and separates available Main Line, later hindsight, and Variations. The Position board renders question-bounded Nodes, typed Relations, Flows, and States; graph selection and the Node/Pawn drawer expose source/Claim trace, relations/flows, timeline, role/stance fields, and profile-snapshot history without adding profile fields to the universal contract.
+- The deterministic provider-neutral analysis path exposes provider/model/configuration and frozen context, keeps separately attributed Method/version output and caveats, materializes forecast/counterfactual/exploratory branches, and shows assumptions, uncertainty, replan triggers, explicit search budgets, and multi-Party vector Evaluation context.
+- The branch graph supports checkout, pin, comparison, fork, budgeted resume, and replay. Purpose and realization remain separate; replay visibly checks out the frozen Position, siblings and Main Line remain unchanged, and an accepted profile-revision proposal appends through the existing review/canonical boundary while older Position/profile identities remain stable.
+- Visible initial/loading/success/empty/recoverable-error states, semantic buttons and selects, status text independent of color, and keyboard-reachable Node shortcuts cover the primary operations. Playwright passed at desktop and mobile sizes; manual 1440x900 and 390x844 inspection found no page-level horizontal overflow, overlap, blank graph/timeline canvas, or inaccessible branch/score control. The compact Pawn shortcut strip intentionally scrolls within its own boundary.
+- The requirement-led review repaired historical Claim/State leakage, Timeline mode mixing, missing Flow/trace interaction, incomplete Pawn detail, missing analysis/evaluation context, replay/branch-tree interaction gaps, command-state failures, draft loss, internal-error disclosure, silent invalid-Position fallback, and structured action rendering. The same round repaired PowerShell 5/7 hash compatibility without changing the P0 contract.
+- Supply-chain controls pin npm `11.19.0`, exact direct versions, repository `min-release-age=20160`, and `save-exact=true`; normalize lockfile URLs to the official registry; reject retained temporary mirror hosts; and verify direct dependency licenses. The direct dependency set reports MIT=20, Apache-2.0=3, and ISC=1. The existing transitive `prebuild-install@7.1.3` deprecation remains a non-blocking maintenance notice.
+- Fresh clean terminal: `npm ci` installed 236 packages and audited 237 with 0 vulnerabilities; `npm run verify:licenses`, 29 Vitest files / 45 tests, core/Web typechecks, production build, and 2/2 desktop/mobile Playwright projects passed. The P0 validator passed 12/12 and rejected all four deliberate mutations; the independent `0.1.0` validator, P4-aware repository/public-boundary gate, and `git diff --check` passed.
+
+| Criterion | Terminal result | Direct evidence |
+| --- | --- | --- |
+| P4-01 | passed | Seeded synthetic scope/context snapshot, responsive shell, service and desktop/mobile browser tests |
+| P4-02 | passed | Named stage/review use cases, idempotent identity and fail-closed tests, safe HTTP command boundary |
+| P4-03 | passed | Cutoff-correct snapshot reconstruction, three explicit Timeline groups, unit and browser checks |
+| P4-04 | passed | Cytoscape Node/Relation/Flow rendering, element trace interaction, non-scalar display guards |
+| P4-05 | passed | Node/Pawn drawer identity, States/Claims, Relations/Flows, Timeline, stance, profile history, and trace |
+| P4-06 | passed | Deterministic AnalysisPort/SearchCoordinator route plus visible provider, frozen context, Method, caveat, assumption, uncertainty, and replan fields |
+| P4-07 | passed | Purpose-typed branch tree and checkout/pin/compare/fork/resume/replay regressions |
+| P4-08 | passed | Position/branch projection diff and complete multi-Party scorecard context including weights, horizon, risk, cutoff, and uncertainty |
+| P4-09 | passed | Reviewed append-only profile correction and unchanged historical Position/profile replay assertions |
+| P4-10 | passed | Explicit command states, semantic controls, desktop/mobile Playwright, and manual overflow/canvas inspection |
+| P4-11 | passed | Production static host, validated shared API, safe snapshot, named commands, and redacted unexpected-error regression |
+| P4-12 | passed | Clean install/audit/license/test/typecheck/build/browser/contract/repository/diff terminal round |
+
+Terminal defect ledger: the bounded review defects above were repaired and the fresh complete round passed with no known P4 terminal defect. Engineering terminal: reached locally. GitHub Flow delivery and human product acceptance: still open at this evidence point.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

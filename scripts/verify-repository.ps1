@@ -240,9 +240,103 @@ foreach ($p3RuntimePath in @(
     }
 }
 
+$p4MatrixPath = Join-Path $RepositoryRoot 'docs\verification\p4-acceptance-matrix.json'
+if (-not (Test-Path -LiteralPath $p4MatrixPath)) {
+    $failures.Add('P4 acceptance matrix is missing.')
+} else {
+    try {
+        $p4Matrix = Get-Content -Raw -LiteralPath $p4MatrixPath | ConvertFrom-Json
+        if ($p4Matrix.phase_id -ne 'P4' -or $p4Matrix.status -ne 'frozen') {
+            $failures.Add('P4 acceptance matrix must be frozen and identify phase P4.')
+        }
+        $expectedP4Ids = 1..12 | ForEach-Object { 'P4-{0:D2}' -f $_ }
+        $actualP4Ids = @($p4Matrix.criteria | ForEach-Object { $_.id })
+        if (($actualP4Ids -join ',') -ne ($expectedP4Ids -join ',')) {
+            $failures.Add('P4 acceptance matrix must contain ordered criteria P4-01 through P4-12 exactly once.')
+        }
+        foreach ($criterion in @($p4Matrix.criteria)) {
+            foreach ($evidencePath in @($criterion.evidence_paths)) {
+                if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $evidencePath))) {
+                    $failures.Add("P4 evidence path is missing for $($criterion.id): $evidencePath")
+                }
+            }
+        }
+    } catch {
+        $failures.Add("P4 acceptance matrix is not valid JSON: $($_.Exception.Message)")
+    }
+}
+
+foreach ($p4RuntimePath in @(
+    'src\workbench\service.ts',
+    'src\workbench\types.ts',
+    'src\server\app.ts',
+    'web\src\App.tsx',
+    'web\src\components\GraphBoard.tsx',
+    'web\src\components\TimelineChart.tsx',
+    'web\src\components\ScoreView.tsx',
+    'tests\p4-workbench.test.ts',
+    'tests\p4-http.test.ts',
+    'tests\e2e\p4-workflow.spec.ts',
+    'scripts\verify-dependency-licenses.mjs',
+    'scripts\normalize-lockfile-registry.mjs',
+    'playwright.config.ts',
+    'vite.config.ts'
+)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $p4RuntimePath))) {
+        $failures.Add("P4 runtime artifact is missing: $p4RuntimePath")
+    }
+}
+
+try {
+    $package = Get-Content -Raw -LiteralPath (Join-Path $RepositoryRoot 'package.json') | ConvertFrom-Json
+    $expectedP4Dependencies = @{
+        '@fastify/static' = '10.1.3'
+        'cytoscape' = '3.33.1'
+        'echarts' = '6.1.0'
+        'fastify' = '5.10.0'
+        'lucide-react' = '0.468.0'
+        'react' = '19.2.0'
+        'react-dom' = '19.2.0'
+    }
+    foreach ($entry in $expectedP4Dependencies.GetEnumerator()) {
+        if ($package.dependencies.($entry.Key) -ne $entry.Value) {
+            $failures.Add("P4 dependency must be exact-versioned: $($entry.Key)=$($entry.Value)")
+        }
+    }
+    if ($package.packageManager -ne 'npm@11.19.0') {
+        $failures.Add('P4 packageManager must pin npm@11.19.0.')
+    }
+    if ($package.scripts.'verify:licenses' -ne 'node scripts/verify-dependency-licenses.mjs') {
+        $failures.Add('P4 must expose the direct dependency license gate.')
+    }
+    if ($package.scripts.'normalize:lock-registry' -ne 'node scripts/normalize-lockfile-registry.mjs') {
+        $failures.Add('P4 must expose the lockfile registry normalization command.')
+    }
+} catch {
+    $failures.Add("Unable to validate P4 dependencies: $($_.Exception.Message)")
+}
+
+$npmConfigPath = Join-Path $RepositoryRoot '.npmrc'
+if (-not (Test-Path -LiteralPath $npmConfigPath)) {
+    $failures.Add('Repository npm security configuration is missing.')
+} else {
+    $npmConfig = Get-Content -LiteralPath $npmConfigPath
+    if ($npmConfig -notcontains 'min-release-age=20160') {
+        $failures.Add('Repository npm release-age policy must enforce 14 days (20160 minutes).')
+    }
+    if ($npmConfig -notcontains 'save-exact=true') {
+        $failures.Add('Repository npm configuration must save exact versions.')
+    }
+}
+
+$lockfileContent = Get-Content -Raw -LiteralPath (Join-Path $RepositoryRoot 'package-lock.json')
+if ($lockfileContent -match 'registry\.npmmirror\.com|registry\.npm\.taobao\.org') {
+    $failures.Add('Temporary npm mirror hosts must not be retained in package-lock.json.')
+}
+
 if ($failures.Count -gt 0) {
     $failures | ForEach-Object { Write-Error $_ }
     exit 1
 }
 
-Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3 delivery checks passed ($($markdownFiles.Count) Markdown files)."
+Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3/P4 delivery checks passed ($($markdownFiles.Count) Markdown files)."

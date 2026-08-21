@@ -20,7 +20,7 @@ function Get-NormalizedLfSha256 {
     $utf8 = [System.Text.UTF8Encoding]::new($false)
     $sha256 = [System.Security.Cryptography.SHA256]::Create()
     try {
-        return [Convert]::ToHexString($sha256.ComputeHash($utf8.GetBytes($text)))
+        return ([System.BitConverter]::ToString($sha256.ComputeHash($utf8.GetBytes($text))) -replace '-', '')
     } finally {
         $sha256.Dispose()
     }
