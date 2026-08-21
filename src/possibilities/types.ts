@@ -27,6 +27,11 @@ export interface StoredAnalysisRun {
   result?: AnalysisResult;
 }
 
+export interface AnalysisRunClaim {
+  runId: string;
+  acquired: boolean;
+}
+
 export interface StoredCandidate {
   id: string;
   analysisRunId: string;
