@@ -161,6 +161,7 @@ Repair defect ledger: all three reproduced defects and the post-repair liveness 
 - The requirement-led review repaired historical Claim/State leakage, Timeline mode mixing, missing Flow/trace interaction, incomplete Pawn detail, missing analysis/evaluation context, replay/branch-tree interaction gaps, command-state failures, draft loss, internal-error disclosure, silent invalid-Position fallback, and structured action rendering. The same round repaired PowerShell 5/7 hash compatibility without changing the P0 contract.
 - Supply-chain controls pin npm `11.19.0`, exact direct versions, repository `min-release-age=20160`, and `save-exact=true`; normalize lockfile URLs to the official registry; reject retained temporary mirror hosts; and verify direct dependency licenses. The direct dependency set reports MIT=20, Apache-2.0=3, and ISC=1. The existing transitive `prebuild-install@7.1.3` deprecation remains a non-blocking maintenance notice.
 - Fresh clean terminal: `npm ci` installed 236 packages and audited 237 with 0 vulnerabilities; `npm run verify:licenses`, 29 Vitest files / 45 tests, core/Web typechecks, production build, and 2/2 desktop/mobile Playwright projects passed. The P0 validator passed 12/12 and rejected all four deliberate mutations; the independent `0.1.0` validator, P4-aware repository/public-boundary gate, and `git diff --check` passed.
+- GitHub Flow terminal: implementation commit `b10829c` was pushed on `codex/p4-web-workbench`; [PR #8](https://github.com/jadelaglace/StockMesh/pull/8) read back as `MERGEABLE/CLEAN` with no configured remote checks and was squash-merged as `e383d5d`. Local `main` and `origin/main` matched after merge, and the remote implementation branch was absent.
 
 | Criterion | Terminal result | Direct evidence |
 | --- | --- | --- |
@@ -177,7 +178,7 @@ Repair defect ledger: all three reproduced defects and the post-repair liveness 
 | P4-11 | passed | Production static host, validated shared API, safe snapshot, named commands, and redacted unexpected-error regression |
 | P4-12 | passed | Clean install/audit/license/test/typecheck/build/browser/contract/repository/diff terminal round |
 
-Terminal defect ledger: the bounded review defects above were repaired and the fresh complete round passed with no known P4 terminal defect. Engineering terminal: reached locally. GitHub Flow delivery and human product acceptance: still open at this evidence point.
+Terminal defect ledger: the bounded review defects above were repaired and the fresh complete round passed with no known P4 terminal defect. Engineering and GitHub Flow terminals: reached. Human product acceptance: still open.
 
 ## INIT-001 evidence — 2026-08-16
 
