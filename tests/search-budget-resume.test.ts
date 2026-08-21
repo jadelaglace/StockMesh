@@ -71,11 +71,12 @@ describe("P3 budgeted resumable frontier", () => {
         return { proposal: defaultProposal(request), usage: { tokens: 1, cost: 0 } };
       },
     };
-    const search = new SearchCoordinator(harness.store, new PossibilityStore(harness.store), port);
+    const firstSearch = new SearchCoordinator(harness.store, new PossibilityStore(harness.store), port);
+    const secondSearch = new SearchCoordinator(harness.store, new PossibilityStore(harness.store), port);
     const budgets = { maxDepth: 1, maxMaterializedPositions: 3, maxAnalysisCalls: 2 };
-    const first = startP3Search({ ...harness, search }, "concurrent-first", budgets);
-    const second = startP3Search({ ...harness, search }, "concurrent-second", budgets);
-    const executions = [search.execute(first.id), search.execute(second.id)];
+    const first = startP3Search({ ...harness, search: firstSearch }, "concurrent-first", budgets);
+    const second = startP3Search({ ...harness, search: secondSearch }, "concurrent-second", budgets);
+    const executions = [firstSearch.execute(first.id), secondSearch.execute(second.id)];
     await new Promise<void>((resolve) => setImmediate(resolve));
     const callsWhileInFlight = calls;
     release();
@@ -86,6 +87,30 @@ describe("P3 budgeted resumable frontier", () => {
     expect(results.map((result) => result.status)).toEqual(["paused-budget", "paused-budget"]);
     expect(harness.store.db.prepare("SELECT status FROM analysis_runs").all()).toEqual([{ status: "succeeded" }]);
     expect(harness.app.count("variations")).toBe(3);
+    harness.store.close();
+  });
+
+  it("keeps persisted analysis attempts separate from execution locking", () => {
+    const harness = createP3Harness();
+    const possibilities = new PossibilityStore(harness.store);
+    const seed = startP3Search(harness, "separate-analysis-attempts", {
+      maxDepth: 1, maxMaterializedPositions: 3, maxAnalysisCalls: 2,
+    });
+    const context = possibilities.getContext(seed.rootContextSnapshotId)!;
+    const descriptor = {
+      provider: "attempt-test",
+      model: "fixture",
+      adapterVersion: "1",
+      configurationIdentity: "attempt-test-v1",
+    };
+    const firstId = possibilities.beginAnalysis(context, descriptor, "same-request");
+    const secondId = possibilities.beginAnalysis(context, descriptor, "same-request");
+
+    expect(secondId).not.toBe(firstId);
+    expect(harness.store.db.prepare("SELECT status FROM analysis_runs ORDER BY id").all()).toEqual([
+      { status: "running" },
+      { status: "running" },
+    ]);
     harness.store.close();
   });
 
@@ -114,7 +139,10 @@ describe("P3 budgeted resumable frontier", () => {
     const retried = await search.resume(first.id);
     expect(calls).toBe(2);
     expect(retried.status).toBe("paused-budget");
-    expect(harness.store.db.prepare("SELECT status FROM analysis_runs").all()).toEqual([{ status: "succeeded" }]);
+    expect(harness.store.db.prepare("SELECT status FROM analysis_runs ORDER BY started_at").all()).toEqual([
+      { status: "failed" },
+      { status: "succeeded" },
+    ]);
     harness.store.close();
   });
 });

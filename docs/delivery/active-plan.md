@@ -8,13 +8,13 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 - Source anchor: live user instruction on 2026-08-21 to repair the defects from the completed quick bug review.
 - User goal: repair the reviewed defects through the previously required GitHub Flow without starting P4.
-- Current state: implementation and clean-install verification succeeded locally; GitHub review/merge and terminal evidence writeback remain.
+- Current state: PR #5 merged the initial repair; the bounded lifecycle follow-up and clean-install gate now pass locally, while follow-up GitHub review/merge and terminal writeback remain.
 - Declared terminal: concurrent identical analysis is single-owner/idempotent without corrupting successful runs; Forecast Assessment accepts only canonical actual evidence within the forecast anchor-to-horizon interval; reordered many-to-many reference sets reuse one identity; direct regressions and the full P0-P3 gate pass; the repair is merged to public `main` through a reviewed PR and read back.
-- Agent subplan: direct concurrency, temporal-eligibility, transition-timing, set-identity, and failed-run retry regressions pass after the bounded P3 repair; publish the verified implementation through GitHub Flow, then record durable evidence and terminal status from public readback.
+- Agent subplan: the passing forecast repairs remain; in-process single-flight execution, persisted AnalysisRun attempts, and exact successful-result cache are separate; concurrent local callers share work, crashed attempts cannot lock a later process, and failed attempts survive retry. Publish the clean-gated follow-up through GitHub Flow before terminal writeback.
 - Protected boundaries: P0-P3 product semantics and frozen matrices remain unchanged; P4, pin-priority policy, hard-budget semantics, Web, Skill/CLI, private/Kimi case data, Babata operation, credentials, live-provider claims, product usefulness, and human product acceptance remain outside this repair.
 - Evidence entry: pending in [verification evidence](../verification/README.md).
 - Goal transition: `user-explicit-goal-start` - user-explicit-goal-start: the user explicitly instructed the Agent to repair the reviewed defects.
-- Next action: commit and open the verified repair PR from `codex/fix-p3-integrity`.
+- Next action: commit and open the verified lifecycle follow-up PR from `codex/fix-p3-run-lifecycle`.
 
 ## Last terminal: P3-001
 
