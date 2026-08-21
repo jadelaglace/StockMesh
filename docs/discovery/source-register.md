@@ -22,6 +22,7 @@ copied and no project, algorithm, dependency, or claim was adopted.
 
 | Candidate | Locator status | Current evidence status | Authority |
 | --- | --- | --- | --- |
+| Stockfish | <https://github.com/official-stockfish/Stockfish> | Official current `master` module boundaries reviewed read-only on 2026-08-21; GPL-3.0 repository | External architecture reference only; name tribute remains separate and no source reuse is permitted |
 | CAMEL-AI OASIS | <https://github.com/camel-ai/oasis> | Official repository/README reviewed; Apache-2.0 repository | External reference, not a product decision |
 | MiroFish | <https://github.com/666ghj/MiroFish> | Official repository/README reviewed; AGPL-3.0 repository; declares OASIS as its simulation engine | External reference only; no source reuse |
 | UCINET | <https://sites.google.com/site/ucinetsoftware/home> | User's `ucient` identified as UCINET; official product page reviewed | External SNA reference, not a selected dependency |

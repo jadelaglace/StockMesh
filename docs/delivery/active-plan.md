@@ -4,17 +4,18 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### FIX-002 - P3 analysis and forecast integrity repair
+None. FIX-002 reached terminal. P4 requires a new explicit user goal and is not auto-promoted.
 
-- Source anchor: live user instruction on 2026-08-21 to repair the defects from the completed quick bug review.
-- User goal: repair the reviewed defects through the previously required GitHub Flow without starting P4.
-- Current state: PR #5 merged the initial repair; the bounded lifecycle follow-up and clean-install gate now pass locally, while follow-up GitHub review/merge and terminal writeback remain.
-- Declared terminal: concurrent identical analysis is single-owner/idempotent without corrupting successful runs; Forecast Assessment accepts only canonical actual evidence within the forecast anchor-to-horizon interval; reordered many-to-many reference sets reuse one identity; direct regressions and the full P0-P3 gate pass; the repair is merged to public `main` through a reviewed PR and read back.
-- Agent subplan: the passing forecast repairs remain; in-process single-flight execution, persisted AnalysisRun attempts, and exact successful-result cache are separate; concurrent local callers share work, crashed attempts cannot lock a later process, and failed attempts survive retry. Publish the clean-gated follow-up through GitHub Flow before terminal writeback.
-- Protected boundaries: P0-P3 product semantics and frozen matrices remain unchanged; P4, pin-priority policy, hard-budget semantics, Web, Skill/CLI, private/Kimi case data, Babata operation, credentials, live-provider claims, product usefulness, and human product acceptance remain outside this repair.
-- Evidence entry: pending in [verification evidence](../verification/README.md).
+## Last terminal: FIX-002
+
+- Source anchor: live user instruction on 2026-08-21 to repair the completed quick-review findings through GitHub Flow, followed by the user's request to check Stockfish architecture for avoidable pitfalls.
+- Terminal: succeeded on 2026-08-21. Forecast Assessment now rejects canonical actual evidence outside its frozen anchor-to-horizon interval and canonicalizes many-to-many reference sets. Exact concurrent local analysis uses one in-process single-flight execution, while persisted AnalysisRun attempts and successful cache records remain separate; failed attempts survive retry and a crashed `running` record cannot lock later work.
+- Verification: clean `npm ci` audited 108 packages with 0 vulnerabilities; 27 test files / 40 tests, typecheck, build, both compatibility validators, repository/public-boundary gate, and `git diff --check` passed.
+- GitHub Flow: [PR #5](https://github.com/jadelaglace/StockMesh/pull/5) merged the initial integrity repair as `2e9572e`; the read-only official Stockfish comparison exposed a persisted-lock liveness risk, and [PR #6](https://github.com/jadelaglace/StockMesh/pull/6) merged the bounded executor/cache separation as `e0c3932`. Both were `MERGEABLE/CLEAN`, had no configured remote checks, and their remote branches were deleted; local/public `origin/main` matched after each merge.
+- Stockfish boundary: the official GPL-3.0 tree informed only an Agent-attributed architecture comparison. The tribute remains name-only and no Stockfish source, NNUE, pruning formula, or implementation was copied or adopted.
+- Protected boundaries: P0-P3 semantics and frozen matrices remain unchanged; P4, pin-priority policy, hard-budget semantics, Web, Skill/CLI, private/Kimi case data, Babata operation, credentials, live-provider claims, product usefulness, and human product acceptance remain outside the repair.
+- Evidence entry: [FIX-002 verification evidence](../verification/README.md#fix-002-evidence---2026-08-21).
 - Goal transition: `user-explicit-goal-start` - user-explicit-goal-start: the user explicitly instructed the Agent to repair the reviewed defects.
-- Next action: commit and open the verified lifecycle follow-up PR from `codex/fix-p3-run-lifecycle`.
 
 ## Last terminal: P3-001
 
