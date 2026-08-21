@@ -122,18 +122,24 @@ export class SearchCoordinator {
             const remainingBudget = this.remainingBudget(run, frontier.depth);
             const request = { context, remainingBudget };
             const requestIdentity = stableHash(request);
-            analysisRunId = this.possibilities.beginAnalysis(context, this.analysis.descriptor, requestIdentity);
-            try {
-              const result = validateAnalysisResult(await this.analysis.analyze(request));
-              this.validateResultAgainstContext(result, context);
-              this.possibilities.succeedAnalysis(analysisRunId, result, { identity: cacheIdentity, context, policy: run.policy });
-              run.usage.analysisCalls += 1;
-              run.usage.tokens += result.usage.tokens;
-              run.usage.cost += result.usage.cost;
-              this.persistUsage(runId, run.usage);
-            } catch (error) {
-              this.possibilities.failAnalysis(analysisRunId, error);
-              throw error;
+            const claim = this.possibilities.beginAnalysis(context, this.analysis.descriptor, requestIdentity);
+            analysisRunId = claim.runId;
+            if (claim.acquired) {
+              try {
+                const result = validateAnalysisResult(await this.analysis.analyze(request));
+                this.validateResultAgainstContext(result, context);
+                this.possibilities.succeedAnalysis(analysisRunId, result, { identity: cacheIdentity, context, policy: run.policy });
+                run.usage.analysisCalls += 1;
+                run.usage.tokens += result.usage.tokens;
+                run.usage.cost += result.usage.cost;
+                this.persistUsage(runId, run.usage);
+              } catch (error) {
+                this.possibilities.failAnalysis(analysisRunId, error);
+                throw error;
+              }
+            } else {
+              const shared = await this.possibilities.waitForAnalysis(analysisRunId);
+              if (shared.status !== "succeeded") throw new Error(`shared analysis failed: ${analysisRunId}`);
             }
           }
           this.store.db.prepare(`

@@ -56,42 +56,59 @@ export class ForecastAssessmentService {
     if (!variation) throw new Error(`forecast Variation not found: ${input.forecastVariationId}`);
     if (variation.purpose !== "forecast") throw new Error("only forecast Variations may receive Forecast Assessments");
     if (!input.rubricId || !input.assessor || !input.rationale) throw new Error("assessment rubric, assessor, and rationale are required");
-    instant(input.assessedAt, "assessedAt");
-    instant(variation.horizon, "forecast horizon");
+    const assessedAt = instant(input.assessedAt, "assessedAt");
+    const forecastAnchor = instant(variation.anchor_as_of, "forecast anchor");
+    const forecastHorizon = instant(variation.horizon, "forecast horizon");
+    if (assessedAt < forecastAnchor) throw new Error("assessedAt is before the forecast anchor");
+    const normalized = {
+      ...input,
+      forecastTransitionRefs: [...input.forecastTransitionRefs].sort(),
+      actualEventRefs: [...input.actualEventRefs].sort(),
+      actualTransitionRefs: [...input.actualTransitionRefs].sort(),
+    };
     const forecastTransitions = parse<string[]>(variation.transition_ids_json);
-    if (input.forecastTransitionRefs.length === 0 || input.forecastTransitionRefs.some((id) => !forecastTransitions.includes(id))) {
+    if (normalized.forecastTransitionRefs.length === 0 || normalized.forecastTransitionRefs.some((id) => !forecastTransitions.includes(id))) {
       throw new Error("forecast Transition refs must belong to the frozen forecast Trajectory");
     }
-    for (const refs of [input.forecastTransitionRefs, input.actualEventRefs, input.actualTransitionRefs]) {
+    for (const refs of [normalized.forecastTransitionRefs, normalized.actualEventRefs, normalized.actualTransitionRefs]) {
       if (new Set(refs).size !== refs.length) throw new Error("assessment references must not contain duplicates");
     }
     const realizedStatuses = new Set(["matched", "partially-matched", "diverged"]);
-    if (realizedStatuses.has(input.status) && input.actualEventRefs.length + input.actualTransitionRefs.length === 0) {
-      throw new Error(`${input.status} requires actual evidence`);
+    if (realizedStatuses.has(normalized.status) && normalized.actualEventRefs.length + normalized.actualTransitionRefs.length === 0) {
+      throw new Error(`${normalized.status} requires actual evidence`);
     }
-    for (const eventId of input.actualEventRefs) {
+    const requireEligibleEvent = (eventId: string): void => {
       const event = this.store.db.prepare("SELECT mode, occurred_time FROM events WHERE id = ?").get(eventId) as { mode: string; occurred_time: string } | undefined;
       if (!event || (event.mode !== "actual" && event.mode !== "reconstructed")) throw new Error(`actual Event is missing or non-canonical: ${eventId}`);
-      if (instant(event.occurred_time, `actual Event ${eventId}`) > instant(input.assessedAt, "assessedAt")) throw new Error(`actual Event occurs after assessment cutoff: ${eventId}`);
+      const occurredAt = instant(event.occurred_time, `actual Event ${eventId}`);
+      if (occurredAt <= forecastAnchor) throw new Error(`actual Event does not occur after the forecast anchor: ${eventId}`);
+      if (occurredAt > forecastHorizon) throw new Error(`actual Event occurs after the forecast horizon: ${eventId}`);
+      if (occurredAt > assessedAt) throw new Error(`actual Event occurs after assessment cutoff: ${eventId}`);
+    };
+    for (const eventId of normalized.actualEventRefs) {
+      requireEligibleEvent(eventId);
     }
-    for (const transitionId of input.actualTransitionRefs) {
-      const transition = this.store.db.prepare("SELECT mode FROM transitions WHERE id = ?").get(transitionId) as { mode: string } | undefined;
+    for (const transitionId of normalized.actualTransitionRefs) {
+      const transition = this.store.db.prepare("SELECT mode, cause_refs_json FROM transitions WHERE id = ?").get(transitionId) as { mode: string; cause_refs_json: string } | undefined;
       if (!transition || (transition.mode !== "actual" && transition.mode !== "reconstructed")) throw new Error(`actual Transition is missing or non-canonical: ${transitionId}`);
+      const eventRefs = parse<string[]>(transition.cause_refs_json).filter((ref) => this.store.db.prepare("SELECT 1 FROM events WHERE id = ?").get(ref));
+      if (eventRefs.length === 0) throw new Error(`actual Transition has no Event timing evidence: ${transitionId}`);
+      for (const eventId of eventRefs) requireEligibleEvent(eventId);
     }
-    const coverage = input.observationCoverageId === undefined ? undefined : this.requireCoverage(input.observationCoverageId);
-    if (input.status === "expired-unobserved") {
-      if (input.actualEventRefs.length > 0 || input.actualTransitionRefs.length > 0) throw new Error("expired-unobserved cannot cite a realized match");
+    const coverage = normalized.observationCoverageId === undefined ? undefined : this.requireCoverage(normalized.observationCoverageId);
+    if (normalized.status === "expired-unobserved") {
+      if (normalized.actualEventRefs.length > 0 || normalized.actualTransitionRefs.length > 0) throw new Error("expired-unobserved cannot cite a realized match");
       if (!coverage || coverage.status !== "adequate") throw new Error("expired-unobserved requires adequate Observation Coverage");
-      if (instant(input.assessedAt, "assessedAt") < instant(variation.horizon, "forecast horizon")) throw new Error("forecast horizon has not elapsed");
-      if (instant(coverage.interval.to, "coverage interval.to") < instant(variation.horizon, "forecast horizon")) throw new Error("Observation Coverage does not reach the forecast horizon");
-      if (instant(coverage.interval.from, "coverage interval.from") > instant(variation.anchor_as_of, "forecast anchor")) throw new Error("Observation Coverage starts after the forecast anchor");
+      if (assessedAt < forecastHorizon) throw new Error("forecast horizon has not elapsed");
+      if (instant(coverage.interval.to, "coverage interval.to") < forecastHorizon) throw new Error("Observation Coverage does not reach the forecast horizon");
+      if (instant(coverage.interval.from, "coverage interval.from") > forecastAnchor) throw new Error("Observation Coverage starts after the forecast anchor");
     }
-    if (input.status === "pending" && instant(input.assessedAt, "assessedAt") >= instant(variation.horizon, "forecast horizon") && coverage?.status === "adequate") {
+    if (normalized.status === "pending" && assessedAt >= forecastHorizon && coverage?.status === "adequate") {
       throw new Error("pending is invalid after the horizon with adequate coverage");
     }
     const identityPayload = {
-      ...input,
-      observationCoverageId: input.observationCoverageId ?? null,
+      ...normalized,
+      observationCoverageId: normalized.observationCoverageId ?? null,
       horizon: variation.horizon,
     };
     const assessmentIdentity = stableHash(identityPayload);
@@ -103,11 +120,11 @@ export class ForecastAssessmentService {
         assessor, assessed_at, rationale, assessment_identity
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
-      id, input.forecastVariationId, stableJson(input.forecastTransitionRefs),
-      stableJson(input.actualEventRefs), stableJson(input.actualTransitionRefs),
-      input.status, variation.horizon, input.rubricId,
-      input.observationCoverageId ?? null, input.assessor, input.assessedAt,
-      input.rationale, assessmentIdentity,
+      id, normalized.forecastVariationId, stableJson(normalized.forecastTransitionRefs),
+      stableJson(normalized.actualEventRefs), stableJson(normalized.actualTransitionRefs),
+      normalized.status, variation.horizon, normalized.rubricId,
+      normalized.observationCoverageId ?? null, normalized.assessor, normalized.assessedAt,
+      normalized.rationale, assessmentIdentity,
     );
     return this.requireAssessment(id);
   }

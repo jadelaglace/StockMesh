@@ -57,4 +57,64 @@ describe("P3 budgeted resumable frontier", () => {
     expect(harness.app.count("variation_candidates")).toBe(3);
     harness.store.close();
   });
+
+  it("shares one exact in-flight analysis across concurrent search runs", async () => {
+    const harness = createP3Harness();
+    let calls = 0;
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+    const port: AnalysisPort = {
+      descriptor: { provider: "concurrent", model: "fixture", adapterVersion: "1", configurationIdentity: "concurrent-v1" },
+      async analyze(request) {
+        calls += 1;
+        await gate;
+        return { proposal: defaultProposal(request), usage: { tokens: 1, cost: 0 } };
+      },
+    };
+    const search = new SearchCoordinator(harness.store, new PossibilityStore(harness.store), port);
+    const budgets = { maxDepth: 1, maxMaterializedPositions: 3, maxAnalysisCalls: 2 };
+    const first = startP3Search({ ...harness, search }, "concurrent-first", budgets);
+    const second = startP3Search({ ...harness, search }, "concurrent-second", budgets);
+    const executions = [search.execute(first.id), search.execute(second.id)];
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    const callsWhileInFlight = calls;
+    release();
+    const results = await Promise.all(executions);
+
+    expect(callsWhileInFlight).toBe(1);
+    expect(calls).toBe(1);
+    expect(results.map((result) => result.status)).toEqual(["paused-budget", "paused-budget"]);
+    expect(harness.store.db.prepare("SELECT status FROM analysis_runs").all()).toEqual([{ status: "succeeded" }]);
+    expect(harness.app.count("variations")).toBe(3);
+    harness.store.close();
+  });
+
+  it("shares failure state and reclaims a failed exact analysis once", async () => {
+    const harness = createP3Harness();
+    let calls = 0;
+    const port: AnalysisPort = {
+      descriptor: { provider: "retry", model: "fixture", adapterVersion: "1", configurationIdentity: "retry-v1" },
+      async analyze(request) {
+        calls += 1;
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        if (calls === 1) throw new Error("synthetic provider failure");
+        return { proposal: defaultProposal(request), usage: { tokens: 1, cost: 0 } };
+      },
+    };
+    const search = new SearchCoordinator(harness.store, new PossibilityStore(harness.store), port);
+    const budgets = { maxDepth: 1, maxMaterializedPositions: 3, maxAnalysisCalls: 2 };
+    const first = startP3Search({ ...harness, search }, "retry-first", budgets);
+    const second = startP3Search({ ...harness, search }, "retry-second", budgets);
+    const failed = await Promise.allSettled([search.execute(first.id), search.execute(second.id)]);
+
+    expect(calls).toBe(1);
+    expect(failed.map((result) => result.status)).toEqual(["rejected", "rejected"]);
+    expect(harness.store.db.prepare("SELECT status FROM analysis_runs").all()).toEqual([{ status: "failed" }]);
+
+    const retried = await search.resume(first.id);
+    expect(calls).toBe(2);
+    expect(retried.status).toBe("paused-budget");
+    expect(harness.store.db.prepare("SELECT status FROM analysis_runs").all()).toEqual([{ status: "succeeded" }]);
+    harness.store.close();
+  });
 });
