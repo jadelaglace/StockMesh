@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **P0-P4 engineering terminals reached and merged; P5-P7 remain held for explicit goals**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
+Status: **P0-P4 plus FIX-003 engineering terminals reached and merged; P5 is authorized and in progress; P6-P7 remain held**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -29,7 +29,8 @@ first runtime phase.
 | P2 | Engineering terminal reached | Replaceable, attributable quantitative Method layer over P1 Positions. |
 | P3 | Engineering terminal reached | Provider-neutral analysis and framework-owned possibility search/replay over frozen P1/P2 context. |
 | P4 | Engineering terminal reached and merged | Responsive Web workflow over the public synthetic record; PR #8 merged as `e383d5d`. |
-| P5-P7 | Held for explicit goals | Skill/CLI clients, private pilot, and measured hardening remain outside P4. |
+| P5 | Engineering terminal verified locally; GitHub Flow pending | Thin capability facade, CLI, and repository Skill over the public synthetic workflow pass the frozen matrix. |
+| P6-P7 | Held for explicit goals | Private pilot and measured hardening remain outside P5. |
 
 ## Definition history — R0: Domain clarification
 
@@ -109,6 +110,12 @@ Observed engineering terminal: reached and merged through GitHub Flow on 2026-08
 Expose the validated application and LLM-analysis capabilities through thin Skill and CLI clients. Keep evidence writes in staging and corrections in review; no external canonical writer or second analysis authority.
 
 Terminal: an Agent or CLI user can inspect, ask analysis, compare, evaluate, explore, pin, fork, resume, and replay a synthetic profile scenario through the same stable contracts as the Web workbench.
+
+Observed local terminal: one shared capability facade, dependency-free CLI, and
+validated repository Skill expose the frozen executable subset for exact
+Position/context inspection, typed comparison, analysis, branch navigation,
+search continuation, and synthetic staging. Full P0-P5 and browser gates pass;
+GitHub Flow remains before the engineering terminal is merged.
 
 ## P6 — Private organizational pilot
 

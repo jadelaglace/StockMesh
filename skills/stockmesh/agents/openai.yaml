@@ -1,0 +1,4 @@
+interface:
+  display_name: "StockMesh"
+  short_description: "Inspect and replay StockMesh network strategy"
+  default_prompt: "Use $stockmesh to inspect the current Position and explain the most relevant retained branches."

@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { StockMeshApp } from "../application/stockmesh-app.js";
+import { StockMeshCapabilities } from "../clients/capabilities.js";
 import { DeterministicAnalysisAdapter } from "../analysis/index.js";
 import type { SyntheticFixture } from "../domain/types.js";
 import { createBuiltinMethodRegistry, MethodRunner } from "../methods/index.js";
@@ -13,6 +14,7 @@ import { syntheticWorkbenchProposal } from "./synthetic-analysis.js";
 export interface WorkbenchRuntime {
   store: SqliteStore;
   service: WorkbenchService;
+  capabilities: StockMeshCapabilities;
   close(): void;
 }
 
@@ -29,5 +31,6 @@ export function createWorkbenchRuntime(filename = ":memory:", fixturePath = reso
   const search = new SearchCoordinator(store, possibilities, analysis);
   const service = new WorkbenchService(store, app, methods, possibilities, search, fixture);
   service.initialize();
-  return { store, service, close: () => store.close() };
+  const capabilities = new StockMeshCapabilities(service);
+  return { store, service, capabilities, close: () => store.close() };
 }

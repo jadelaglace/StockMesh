@@ -1,0 +1,20 @@
+{
+  "phase_id": "P5",
+  "status": "frozen",
+  "frozen_at": "2026-08-22T00:00:00+08:00",
+  "scope": "Thin CLI and StockMesh Skill clients over the shared public synthetic application capability facade.",
+  "criteria": [
+    { "id": "P5-01", "expected": "One transport-neutral capability facade owns P5 command validation and envelopes; Fastify and CLI delegate to existing application/search services rather than reimplementing domain logic.", "evidence_paths": ["src/clients/capabilities.ts", "tests/p5-capabilities.test.ts"] },
+    { "id": "P5-02", "expected": "CLI returns one machine-readable JSON envelope on stdout, sends diagnostics to stderr, and uses stable exit codes without exposing SQL or database paths.", "evidence_paths": ["src/cli/stockmesh.ts", "tests/p5-cli.test.ts"] },
+    { "id": "P5-03", "expected": "CLI and Web capability routes return the same selected Position, evidence cutoff, profile, Method, Analysis, branch, and Evaluation identities for equivalent synthetic requests.", "evidence_paths": ["src/server/app.ts", "tests/p5-capabilities.test.ts"] },
+    { "id": "P5-04", "expected": "An explicit historical or hypothetical Position can be inspected and analyzed without later Evidence, sibling branches, or current-profile state leaking into its context.", "evidence_paths": ["src/clients/capabilities.ts", "tests/p5-capabilities.test.ts"] },
+    { "id": "P5-05", "expected": "CLI can list, pin, fork, replay, and resume retained branches while preserving purpose, realization, frozen context, Main Line, parents, and siblings.", "evidence_paths": ["src/cli/stockmesh.ts", "tests/p5-cli.test.ts"] },
+    { "id": "P5-06", "expected": "Position comparison returns explicit Node, Relation, Flow, and State identifier deltas and never invents a universal scalar score.", "evidence_paths": ["src/clients/capabilities.ts", "tests/p5-capabilities.test.ts"] },
+    { "id": "P5-07", "expected": "Contributor access can stage one synthetic Evidence item idempotently but exposes no review, accept, profile-apply, arbitrary SQL, or direct canonical-write capability.", "evidence_paths": ["src/clients/capabilities.ts", "tests/p5-capabilities.test.ts", "skills/stockmesh/SKILL.md"] },
+    { "id": "P5-08", "expected": "The StockMesh Skill routes supported intents to the CLI, requires explicit Position/branch identities where relevant, and instructs the Agent not to read SQLite or supply a second analysis authority.", "evidence_paths": ["skills/stockmesh/SKILL.md"] },
+    { "id": "P5-09", "expected": "The repository Skill validates as a Codex skill and contains no credential, private locator, case material, raw dossier, or autonomous action instruction.", "evidence_paths": ["skills/stockmesh/SKILL.md", "scripts/verify-repository.ps1"] },
+    { "id": "P5-10", "expected": "Unknown capabilities, malformed JSON, missing identifiers, invalid times, and inaccessible identities fail closed with bounded errors and no partial canonical mutation.", "evidence_paths": ["src/clients/capabilities.ts", "tests/p5-cli.test.ts"] },
+    { "id": "P5-11", "expected": "The P5 clients add no runtime dependency or service boundary and preserve exact-version, release-age, license, public/private, and provider-neutral architecture controls.", "evidence_paths": ["package.json", ".npmrc", "docs/architecture/architecture.md"] },
+    { "id": "P5-12", "expected": "Full P0-P5 tests, typecheck, build, license, Skill validation, compatibility validators, repository/public-boundary gate, browser workflow, and diff check pass before GitHub Flow merge.", "evidence_paths": ["docs/verification/README.md", "scripts/verify-repository.ps1"] }
+  ]
+}

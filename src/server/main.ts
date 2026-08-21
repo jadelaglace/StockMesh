@@ -1,11 +1,8 @@
-import { mkdirSync } from "node:fs";
-import { resolve } from "node:path";
 import { createServer } from "./app.js";
 import { createWorkbenchRuntime } from "../workbench/runtime.js";
+import { defaultRuntimeDatabasePath } from "../workbench/paths.js";
 
-const runtimeRoot = resolve(process.cwd(), "runtime");
-mkdirSync(runtimeRoot, { recursive: true });
-const databasePath = process.env.STOCKMESH_DB ?? resolve(runtimeRoot, "stockmesh-p4.sqlite");
+const databasePath = process.env.STOCKMESH_DB ?? defaultRuntimeDatabasePath();
 const runtime = createWorkbenchRuntime(databasePath);
 const app = await createServer(runtime);
 const port = Number(process.env.PORT ?? 4310);

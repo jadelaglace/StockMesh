@@ -191,6 +191,33 @@ Terminal defect ledger: the bounded review defects above were repaired and the f
 
 Repair defect ledger: the nine reproduced P4 semantic defects have direct passing regressions. FIX-003 supersedes the original P4-001 “no known P4 terminal defect” statement without changing P0-P3 contracts, public/private boundaries, the provider-neutral analysis boundary, or the held P5 scope.
 
+## P5-001 evidence - 2026-08-22
+
+- The [frozen P5 acceptance matrix](p5-acceptance-matrix.json) selects twelve criteria for one real thin-client slice. It does not manufacture placeholder commands for the broader candidate catalog and excludes private pilot data, live-provider claims, client-side review/acceptance, autonomous action, product usefulness, and human acceptance.
+- `StockMeshCapabilities` is the one transport-neutral client facade. Existing Web read/stage/analysis/branch/resume routes and the new generic capability route delegate through it; the CLI uses the same in-process runtime and default SQLite path. Workbench, application, AnalysisPort, Method, Possibility, and Search owners remain unchanged.
+- The CLI supports exact Position/context inspection, Position comparison, analysis, branch list/pin/fork/replay, search continuation, and synthetic Evidence staging. It emits one JSON envelope on stdout, bounded diagnostics on stderr, and stable success/rejected/internal exit codes. Real subprocess tests use the exact documented `npm run --silent stockmesh -- ...` form and retain state across calls.
+- Contributor access stops at `evidence.stage`: repeated identity is idempotent, the item remains staged, and canonical Evidence counts do not change. There is no CLI/Skill capability for review, acceptance, profile application, arbitrary SQL, private ingestion, message sending, or action on represented people.
+- The repository [StockMesh Skill](../../skills/stockmesh/SKILL.md) routes conversational intents to the CLI, requires relevant Position/Variation/Search identities, preserves mode and trace distinctions, and explicitly forbids SQLite access or a second unattributed analysis authority. The skill-creator validator passed its frontmatter, naming, metadata, and scaffold checks.
+- P5 regressions prove HTTP/facade identity parity, historical Position cutoff isolation, typed Node/Relation/Flow/State comparison without a scalar, branch persistence, staging-only mutation, unknown/malformed/missing/invalid-time input rejection without partial writes, internal error redaction, and one-line CLI output. The established P4 browser workflow remains green through the shared facade.
+- Fresh clean terminal: `npm ci` installed 236 packages and audited 237 with 0 vulnerabilities; 31 Vitest files / 51 tests, Core/Web typechecks, production build, direct-license gate, Skill validation, P0 and `0.1.0` validators, P5-aware repository/public-boundary gate, `git diff --check`, and 2/2 desktop/mobile Playwright projects passed. No runtime dependency was added. The existing `prebuild-install@7.1.3` deprecation and approximately 737 KB main Web chunk remain non-blocking maintenance items.
+
+| Criterion | Terminal result | Direct evidence |
+| --- | --- | --- |
+| P5-01 | passed | Shared facade plus HTTP/in-process parity tests |
+| P5-02 | passed | Real CLI subprocess, stdout/stderr, and exit-code tests |
+| P5-03 | passed | Exact Position/context/Method/Analysis/branch identity parity |
+| P5-04 | passed | Historical Position analysis and cutoff-isolation regression |
+| P5-05 | passed | Cross-process list/pin/fork/replay/resume regression |
+| P5-06 | passed | Typed projection delta with Flow addition and no scalar |
+| P5-07 | passed | Idempotent staging-only test and absent review/accept capability |
+| P5-08 | passed | Skill intent routes and explicit identity/authority constraints |
+| P5-09 | passed | Skill validation and public-content gate |
+| P5-10 | passed | Malformed/unknown/missing/invalid-time rejection, zero-write assertion, and internal-error subprocess regressions |
+| P5-11 | passed | No new dependency/service; existing supply-chain gates preserved |
+| P5-12 | passed | Clean install plus full test/type/build/license/Skill/contract/repository/browser/diff terminal round |
+
+Engineering terminal: verified locally and ready for GitHub Flow. Human product acceptance remains open.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

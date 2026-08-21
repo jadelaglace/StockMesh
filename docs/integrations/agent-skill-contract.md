@@ -1,6 +1,6 @@
 # Candidate Agent Skill and CLI client contract
 
-Status: **client role adopted; capability details remain candidate**. This is a contract, not an implemented Skill, CLI, MCP server, or API.
+Status: **client role adopted; P5 initial slice frozen below; broader capability catalog remains candidate**.
 
 Purpose: give Agents and command-line users lightweight access to the same evidence-aware temporal-network, LLM-analysis, branch, and replay capabilities used by the primary Web workbench, without bypassing canonical data ownership or privacy boundaries.
 
@@ -41,6 +41,33 @@ Purpose: give Agents and command-line users lightweight access to the same evide
 | `evidence.stage` | Submit private candidate evidence for validation | Staging only; never canonical directly |
 | `correction.propose` | Propose identity, event, assertion, or scoring corrections | Review queue only |
 | `trace.explain` | Return evidence and processing lineage for a claim/output | Read-only |
+
+## P5 frozen initial slice
+
+P5 implements a deliberately smaller executable surface through one shared
+application capability facade:
+
+| Capability | Initial behavior |
+| --- | --- |
+| `workbench.get` / `context.get` | Read the presentation-safe exact Position snapshot, trace, Methods, branches, objectives, cutoff, and profile identity. |
+| `position.compare` | Return identifier deltas between two materialized Positions. |
+| `analysis.run` | Run the existing validated provider-neutral analysis/search path for an explicit Position. |
+| `branch.list` / `branch.pin` / `branch.fork` / `decision.replay` | Inspect and navigate retained possibilities without changing Main Line. |
+| `search.continue` | Resume one persisted search with the existing explicit budget expansion policy. |
+| `evidence.stage` | Stage synthetic candidate Evidence only; it cannot accept, reject, or canonicalize the item. |
+
+The broader catalog above remains the target vocabulary, not permission to
+publish placeholder commands. Capabilities enter a client only after the
+corresponding application use case exists behind the shared facade.
+
+The P5 CLI and Skill share these rules:
+
+- input and output are JSON objects with stable operation/status fields;
+- Position identity is explicit for context-sensitive operations;
+- ordinary result data goes to stdout; diagnostics go to stderr;
+- rejected input uses a stable nonzero exit code and never exposes database paths or SQL;
+- the Skill invokes the CLI rather than reading SQLite or reimplementing StockMesh reasoning;
+- P5 has no review/accept command and no canonical-writer trust tier.
 
 ## Common request envelope
 
@@ -131,9 +158,15 @@ propose a correction
 
 It should call the narrow capability contract rather than teach an Agent to read private databases or edit graph files. The Skill may ask StockMesh's configured LLM analysis service to reason, or an Agent may contribute a separately attributed proposal. In both cases the Skill remains a client; StockMesh core owns validation, canonical records, cache identity, and readback.
 
-## Decisions for user review
+## Resolved P5 implementation decisions
 
-1. Should implementation ship the CLI before the StockMesh Skill, or build the Skill directly over the same CLI commands?
-2. Should external Agents be allowed to stage evidence in v1, or remain read/analysis-only?
-3. Which capabilities must support streaming for long scenario searches?
-4. Does a recommendation require explicit human confirmation before it can be exported to another Agent?
+1. Build the Skill over the same CLI/capability facade so both routes remain thin.
+2. Permit synthetic Evidence staging in P5; keep review/acceptance exclusively in the human Web route.
+3. Keep long search explicit and resumable; defer streaming until measured need.
+4. Do not export or execute recommendations through another Agent in P5.
+
+## Later decisions for user review
+
+1. Which additional candidate capabilities have earned implementation after P5 use?
+2. Which capabilities, if any, need streaming after measured long-search use?
+3. Does a recommendation require explicit human confirmation before it can be exported to another Agent?
