@@ -4,17 +4,18 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### P4-001 — Evidence-first Web workbench
+None. P5 and later phases require an explicit new goal.
+
+## Last terminal: P4-001
 
 - Source anchor: [DW-028](../discovery/direct-wording.md#dw-028--continue-with-requirements-first-p4-delivery), following the terminal P0-P3 foundation and FIX-002 integrity repair.
-- User goal: continue by focusing on the real StockMesh requirement, thinking through the architecture, then developing and testing the first Web workbench.
-- Current state: requirements, architecture, and the 12-item P4 matrix are frozen. The Workbench application boundary, HTTP host, responsive React UI, and service/HTTP/browser coverage are implemented; the requirement-led review repairs and fresh clean P0-P4 terminal round passed. Engineering evidence is recorded while GitHub Flow delivery and human acceptance remain open.
-- Declared terminal: a user can complete the frozen synthetic P4 workflow through the Web workbench without editing internal storage, with direct evidence for every frozen acceptance item and no protected-boundary violation.
-- Protected boundaries: preserve P0-P3 semantics, canonical/derived/possibility separation, human review before canonical promotion, provider-neutral analysis ownership, and the public/private boundary. Do not publish private/Kimi material or credentials, operate Babata, start P5 Skill/CLI or later phases, claim a live provider, or claim human product acceptance.
-- Agent-attributed stage conclusion: the unchanged requirement is an evidence-first strategy workbench, not a graph viewer or generic chatbot. P4 therefore uses one local React/Vite client over a thin Fastify host and named Workbench query/command use cases; the browser has no SQLite or canonical-writer access, and existing P1-P3 ownership remains intact. The public synthetic organizational record is the frozen input; the Web terminal is the complete stage-to-inspect-to-analyze-to-branch-to-correct workflow in the 12-item matrix.
-- Agent-attributed temporary subplan: the frozen 12/12 matrix has direct evidence and the bounded defect set plus PowerShell compatibility repair passed a fresh clean terminal round. Remaining route: (1) validate the evidence/status writeback and public boundary; (2) commit, open, inspect, and merge the P4 GitHub PR; (3) record the actual GitHub terminal through a small closure PR if needed; (4) synchronize `main`, start the production trial host, and report the still-open human acceptance decision.
-- Next action: run the final documentation/public-boundary/diff gates over the evidence writeback, then deliver P4 through GitHub Flow.
-- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly instructed the Agent to continue with requirements-first architecture, development, and testing.
+- Terminal: succeeded on 2026-08-21. A user can complete the frozen public synthetic stage-to-inspect-to-analyze-to-branch-to-correct workflow through one responsive React/Vite workbench and thin Fastify host without editing internal storage.
+- Verification: 12/12 frozen P4 criteria have direct evidence; clean `npm ci` installed 236 packages and audited 237 with 0 vulnerabilities; the license gate, 29 test files / 45 tests, core/Web typecheck and production build, 2/2 desktop/mobile Playwright projects, both compatibility validators, P4 repository/public-boundary gate, and diff check passed.
+- GitHub Flow: implementation commit `b10829c` was pushed on `codex/p4-web-workbench`; [PR #8](https://github.com/jadelaglace/StockMesh/pull/8) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `e383d5d`; local/public `origin/main` matched and the remote branch was deleted.
+- Protected boundaries: P0-P3 semantics, canonical/derived/possibility separation, reviewed canonical writes, provider-neutral analysis ownership, public/private separation, MIT posture, and name-only Stockfish tribute remain unchanged. No private/Kimi case, credential, Babata operation, live-provider claim, P5 Skill/CLI work, real-usefulness result, or human product-acceptance claim entered P4.
+- Residuals: the Vite main chunk is about 737 KB (about 245 KB gzip) and `prebuild-install@7.1.3` is deprecated; both are recorded non-blocking maintenance risks rather than hidden terminal defects.
+- Evidence entry: [P4-001 verification evidence](../verification/README.md#p4-001-evidence---2026-08-21) and [frozen P4 matrix](../verification/p4-acceptance-matrix.json).
+- Goal transition: `user-explicit-goal-start` - user-explicit-goal-start: the user explicitly instructed the Agent to continue with requirements-first architecture, development, and testing.
 
 ## Last terminal: FIX-002
 

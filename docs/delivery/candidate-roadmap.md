@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **P0-P4 engineering terminals reached locally; P5-P7 remain held for explicit goals**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
+Status: **P0-P4 engineering terminals reached and merged; P5-P7 remain held for explicit goals**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -28,7 +28,7 @@ first runtime phase.
 | P1 | Engineering terminal reached | Replayable canonical foundation over `0.2.0`. |
 | P2 | Engineering terminal reached | Replaceable, attributable quantitative Method layer over P1 Positions. |
 | P3 | Engineering terminal reached | Provider-neutral analysis and framework-owned possibility search/replay over frozen P1/P2 context. |
-| P4 | Engineering terminal reached locally | Responsive Web workflow over the public synthetic record; GitHub Flow delivery is still pending at this status point. |
+| P4 | Engineering terminal reached and merged | Responsive Web workflow over the public synthetic record; PR #8 merged as `e383d5d`. |
 | P5-P7 | Held for explicit goals | Skill/CLI clients, private pilot, and measured hardening remain outside P4. |
 
 ## Definition history — R0: Domain clarification
@@ -102,7 +102,7 @@ Implement the universal timeline, Position/network board, Node detail/profile hi
 
 Terminal: a user can complete the selected synthetic workflow without editing internal storage, and profile-specific UI does not contaminate universal semantics.
 
-Observed engineering terminal: reached locally on 2026-08-21. One React/Vite workbench over a thin Fastify host completes the public synthetic stage, review, Timeline/Position/trace inspection, deterministic analysis, multi-Party comparison, purpose-typed branch navigation, pin/checkout/fork/resume/replay, and reviewed append-only profile correction workflow. The clean P0-P4 terminal round and desktop/mobile browser evidence pass. No live provider, Skill/CLI, private case, real-usefulness result, or human acceptance is claimed; GitHub Flow delivery remains pending at this status point.
+Observed engineering terminal: reached and merged through GitHub Flow on 2026-08-21. One React/Vite workbench over a thin Fastify host completes the public synthetic stage, review, Timeline/Position/trace inspection, deterministic analysis, multi-Party comparison, purpose-typed branch navigation, pin/checkout/fork/resume/replay, and reviewed append-only profile correction workflow. The clean P0-P4 terminal round and desktop/mobile browser evidence pass; PR #8 merged as `e383d5d`. No live provider, Skill/CLI, private case, real-usefulness result, or human acceptance is claimed.
 
 ## P5 — Agent Skill and CLI clients
 
@@ -129,6 +129,5 @@ scope.
 
 ## Recommended next decision
 
-Finish P4 GitHub Flow delivery without widening the frozen slice. P5 is the next
-candidate only after an explicit new goal; do not silently expand P4 into
+P5 is the next candidate only after an explicit new goal; do not silently expand P4 into
 Skill/CLI clients, private pilots, live-provider claims, or measured hardening.
