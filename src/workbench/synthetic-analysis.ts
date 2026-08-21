@@ -9,13 +9,29 @@ function candidate(
   action: string,
   response: string,
 ): AnalysisCandidate {
+  const resultingProjection = structuredClone(context.positionProjection);
+  if (key === "clarify") {
+    resultingProjection.state_ids = resultingProjection.state_ids.filter((id) => id !== "state-syn-decision-open");
+  } else if (key === "private-check") {
+    resultingProjection.state_ids = resultingProjection.state_ids.filter((id) => id !== "state-syn-style-root" && id !== "state-syn-style-current");
+  } else if (key === "broaden" && Date.parse(context.evidenceCutoff) >= Date.parse("2026-08-17T10:21:00Z")) {
+    resultingProjection.flow_ids = [...new Set([...resultingProjection.flow_ids, "flow-syn-shared-channel"])].sort();
+  } else if (key === "broaden") {
+    resultingProjection.relation_ids = resultingProjection.relation_ids.filter((id) => id !== "relation-syn-authority");
+  } else if (resultingProjection.state_ids.length > 0) {
+    resultingProjection.state_ids = resultingProjection.state_ids.slice(1);
+  } else if (resultingProjection.relation_ids.length > 0) {
+    resultingProjection.relation_ids = resultingProjection.relation_ids.slice(1);
+  } else {
+    resultingProjection.flow_ids = resultingProjection.flow_ids.slice(1);
+  }
   return {
     key,
     purpose,
     title: action,
     action,
     modeledResponse: response,
-    resultingProjection: structuredClone(context.positionProjection),
+    resultingProjection,
     evaluation: {
       riskPolicy: context.riskPolicy,
       evaluationProfile: context.evaluationProfile,
@@ -43,7 +59,7 @@ function candidate(
       })),
       uncertainty: { level: "medium", basis: ["No real-world evidence is used."] },
     },
-    assumptions: ["Profile Claims remain frozen at the branch root.", "No unrecorded private context is available."],
+    assumptions: ["Profile Claims remain frozen at the branch root.", "The projection delta is hypothetical until separately observed and reviewed.", "No unrecorded private context is available."],
     uncertainty: { level: "medium", basis: ["Deterministic P4 demonstration"] },
     replanTrigger: "A reviewed actual Event contradicts the modeled response.",
     horizon: context.horizon,

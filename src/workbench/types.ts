@@ -105,6 +105,7 @@ export interface WorkbenchSnapshot {
     uncertainty: unknown;
     evaluation: WorkbenchEvaluation;
     contextSnapshotId: string;
+    assessmentHistory: Array<{ id: string; status: string; assessedAt: string; rationale: string }>;
   }>;
   searchRuns: Array<{
     id: string;

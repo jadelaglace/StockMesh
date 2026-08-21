@@ -14,7 +14,7 @@ export const api = {
   snapshot: (positionId?: string) => request<WorkbenchSnapshot>(`/api/workbench${positionId ? `?positionId=${encodeURIComponent(positionId)}` : ""}`),
   stage: (input: StageEvidenceCommand) => request<OperationResult & { stageId: string }>("/api/evidence/stage", { method: "POST", body: JSON.stringify(input) }),
   review: (stageId: string, decision: "accept" | "reject") => request<OperationResult>(`/api/evidence/${encodeURIComponent(stageId)}/review`, { method: "POST", body: JSON.stringify({ decision }) }),
-  analyze: () => request<OperationResult>("/api/analysis/run", { method: "POST", body: "{}" }),
+  analyze: (positionId: string) => request<OperationResult>("/api/analysis/run", { method: "POST", body: JSON.stringify({ positionId }) }),
   pin: (id: string) => request<OperationResult>(`/api/variations/${encodeURIComponent(id)}/pin`, { method: "POST", body: "{}" }),
   replay: (id: string) => request<OperationResult>(`/api/variations/${encodeURIComponent(id)}/replay`, { method: "POST", body: "{}" }),
   fork: (id: string) => request<OperationResult>(`/api/variations/${encodeURIComponent(id)}/fork`, { method: "POST", body: "{}" }),

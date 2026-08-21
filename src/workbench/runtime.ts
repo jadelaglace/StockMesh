@@ -19,15 +19,15 @@ export interface WorkbenchRuntime {
 export function createWorkbenchRuntime(filename = ":memory:", fixturePath = resolve(process.cwd(), "contracts/v0.2/synthetic-organizational-learning-record.json")): WorkbenchRuntime {
   const store = new SqliteStore(filename);
   const app = new StockMeshApp(store, "stockmesh-p4-workbench");
+  const fixture = JSON.parse(readFileSync(fixturePath, "utf8")) as SyntheticFixture;
   if (app.count("playgrounds") === 0) {
-    const fixture = JSON.parse(readFileSync(fixturePath, "utf8")) as SyntheticFixture;
     app.importSyntheticFixture(fixture);
   }
   const methods = new MethodRunner(store, createBuiltinMethodRegistry());
   const possibilities = new PossibilityStore(store);
   const analysis = new DeterministicAnalysisAdapter(syntheticWorkbenchProposal, "p4-workbench", { tokens: 24, cost: 0 });
   const search = new SearchCoordinator(store, possibilities, analysis);
-  const service = new WorkbenchService(store, app, methods, possibilities, search);
+  const service = new WorkbenchService(store, app, methods, possibilities, search, fixture);
   service.initialize();
   return { store, service, close: () => store.close() };
 }

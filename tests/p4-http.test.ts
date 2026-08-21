@@ -28,7 +28,8 @@ describe("P4 HTTP boundary", () => {
     expect(reviewed.statusCode).toBe(200);
     expect(reviewed.json().snapshot.staging.find((item: { id: string }) => item.id === stageId).status).toBe("accepted");
 
-    const analyzed = await app.inject({ method: "POST", url: "/api/analysis/run", payload: {} });
+    const selectedPositionId = reviewed.json().snapshot.selectedPositionId as string;
+    const analyzed = await app.inject({ method: "POST", url: "/api/analysis/run", payload: { positionId: selectedPositionId } });
     expect(analyzed.statusCode).toBe(200);
     expect(analyzed.json().snapshot.branches.length).toBe(6);
     const forecastId = analyzed.json().snapshot.branches.find((item: { purpose: string }) => item.purpose === "forecast").id as string;
@@ -44,6 +45,10 @@ describe("P4 HTTP boundary", () => {
     expect(response.statusCode).toBe(400);
     expect(response.json()).toEqual({ error: "workbench-command-rejected", message: "text is required" });
     expect(response.body).not.toContain("sqlite");
+
+    const missingAnalysisPosition = await app.inject({ method: "POST", url: "/api/analysis/run", payload: {} });
+    expect(missingAnalysisPosition.statusCode).toBe(400);
+    expect(missingAnalysisPosition.json()).toEqual({ error: "workbench-command-rejected", message: "positionId is required" });
 
     const missingPosition = await app.inject({ method: "GET", url: "/api/workbench?positionId=missing" });
     expect(missingPosition.statusCode).toBe(400);

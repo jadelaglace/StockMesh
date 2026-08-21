@@ -32,9 +32,10 @@ export async function createServer(runtime: WorkbenchRuntime, options: { serveWe
     return { operation: "review-evidence", message: `Evidence ${decision}ed.`, snapshot: runtime.service.snapshot() };
   });
 
-  app.post("/api/analysis/run", async () => {
-    const runId = await runtime.service.analyze();
-    return { operation: "run-analysis", message: "Analysis and bounded branch search completed.", runId, snapshot: runtime.service.snapshot() };
+  app.post<{ Body: { positionId?: unknown } }>("/api/analysis/run", async (request) => {
+    const positionId = requiredString(request.body?.positionId, "positionId");
+    const runId = await runtime.service.analyze(positionId);
+    return { operation: "run-analysis", message: "Analysis and bounded branch search completed.", runId, snapshot: runtime.service.snapshot(positionId) };
   });
 
   app.post<{ Params: { variationId: string } }>("/api/variations/:variationId/pin", async (request) => {
