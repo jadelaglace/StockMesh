@@ -4,17 +4,26 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### FIX-003 — Repair the disconnected P4 semantic loop
+### P5-001 — Agent Skill and CLI clients
 
-- Source anchor: [DW-029](../discovery/direct-wording.md#dw-029--repair-the-reviewed-p4-defects-before-completing-p5), following the post-terminal 2026-08-22 bug/requirement-drift review.
-- User goal: repair the reviewed P4 defects completely before beginning P5.
-- Current state: started. The review invalidated the earlier claim that all P4 workflow semantics were directly proven: selected-Position analysis, evidence-to-Position progression, current-profile advancement, cutoff-correct trace/replay, Timeline Position reconstruction, Assessment history projection, world-time filtering, modeled Position deltas, and visible Flow coverage require repair.
-- Declared terminal: the bounded defect set has regression tests; the synthetic Web workflow proves real Position transitions and cutoff isolation; all P0-P4 compatibility, repository/public-boundary, typecheck, build, and browser gates pass; the repair is delivered through the repository's established GitHub Flow.
-- Protected boundary: preserve the universal Domain, canonical/derived/possibility separation, append-only reviewed writes, frozen old Positions, provider-neutral analysis ownership, public/private isolation, MIT posture, and name-only Stockfish tribute. Do not add P5 clients, private/Kimi data, Babata operations, credentials, live-provider claims, or human product-acceptance claims during FIX-003.
-- Temporary subplan (Agent-attributed): freeze tests for the nine reviewed gaps; repair application/Position ownership before UI projection; rerun the full P4 terminal matrix from clean staging; record the superseding defect evidence and merge the repair; then automatically promote P5-001.
-- Next action: inspect the P1-P4 application, projection, possibility, HTTP, fixture, and test ownership paths and choose the smallest coherent repair architecture.
-- Evidence entry point: [verification evidence](../verification/README.md).
-- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly ordered the reviewed defects repaired before P5 and then authorized P5 requirements-first architecture, development, and testing.
+- Source anchor: [DW-029](../discovery/direct-wording.md#dw-029--repair-the-reviewed-p4-defects-before-completing-p5), automatically promoted after the valid FIX-003 terminal.
+- User goal: complete P5 requirements-first: settle the architecture, then implement and test thin Skill/CLI clients over StockMesh's existing application capabilities.
+- Current state: requirements and architecture are frozen; the shared capability facade, thin Fastify/CLI/Skill adapters, focused parity and misuse tests, and P5 evidence are implemented on `codex/p5-skill-cli`. Final diff review repaired one CLI invalid-time classification gap; the full local P0-P5 and desktop/mobile verification set passes. GitHub Flow publication remains.
+- Declared terminal: CLI and repository Skill can inspect exact Position context, run and navigate bounded analysis branches, compare Positions, and stage synthetic Evidence through one shared application capability facade; they produce stable structured envelopes, cannot accept/canonicalize Evidence, and pass full P0-P5 gates before GitHub Flow merge.
+- Architecture conclusion (Agent-attributed): add one in-process `StockMeshCapabilities` facade as the sole client contract. Fastify, CLI, and Skill are adapters; none owns analysis or storage. The CLI uses JSON stdout and stable exit codes. The Skill calls the CLI and never reads SQLite. P5 Contributor access stops at staging; review remains Web/human-owned. Search remains explicit start/resume rather than adding streaming.
+- Protected boundary: preserve Web as the primary human route, exact Position/context identity, provider-neutral AnalysisPort, reviewed canonical writes, public/private isolation, MIT posture, and name-only Stockfish tribute. No private/Kimi data, Babata operation, credential, live-provider claim, direct client canonical writer, autonomous action, product-usefulness claim, or human acceptance enters P5.
+- Temporary subplan (Agent-attributed): commit the reviewed P5 implementation and evidence; push and merge a clean GitHub Flow PR; then write back the merge evidence through a bounded closure PR and reconcile local/public `main`.
+- Next action: commit P5 and open its GitHub Flow PR against `main`.
+- Evidence entry point: [P5 matrix](../verification/p5-acceptance-matrix.json) and [verification evidence](../verification/README.md).
+- Goal transition: `legal-terminal-auto-promote` — legal-terminal-auto-promote: FIX-003 met its declared terminal and the user's numbered instruction explicitly authorized P5 as the next item.
+
+## Last terminal: FIX-003
+
+- Terminal: succeeded on 2026-08-22. The nine reproduced P4 semantic defects now have direct regressions; Position-specific analysis, reviewed Evidence-to-Position progression, current-profile advancement, cutoff/asOf replay, exact Timeline Position checkout, Assessment history aggregation, modeled projection deltas, and Flow rendering are connected.
+- Verification: 29 test files / 46 tests, Core/Web typecheck, build, licenses, P0/0.1.0 validators, repository/public-boundary gate, diff check, and 2/2 desktop/mobile Playwright passed.
+- GitHub Flow: implementation commit `6b2b575` was pushed on `codex/fix-p4-semantic-loop`; [PR #10](https://github.com/jadelaglace/StockMesh/pull/10) was `MERGEABLE/CLEAN` and squash-merged as `656ad6a`; local/public `origin/main` matched and the remote branch was deleted.
+- Protected boundaries: P0-P3 contracts, canonical/derived/possibility separation, reviewed canonical writes, public/private separation, provider neutrality, MIT posture, and the name-only tribute remained unchanged.
+- Evidence entry: [FIX-003 evidence](../verification/README.md#fix-003-evidence---2026-08-22).
 
 ## Last terminal: P4-001
 
@@ -206,9 +215,4 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Next-start queue
 
-1. **P5-001 — Agent Skill and CLI clients**
-   - Source: [DW-029](../discovery/direct-wording.md#dw-029--repair-the-reviewed-p4-defects-before-completing-p5).
-   - Goal: complete P5 by deriving a frozen acceptance scope from current requirements, then choosing the architecture, implementing, testing, and delivering thin Skill/CLI clients over the same application capabilities as Web.
-   - Promotion policy: `legal-terminal-auto-promote` after FIX-003 reaches its declared terminal; the user's numbered instruction explicitly establishes this order.
-   - Protected boundary: clients do not become an analysis authority or canonical writer; no private pilot, credential, real-provider claim, product-usefulness claim, or human product acceptance enters P5.
-   - Next action after promotion: reconcile P5 requirements, PRD, acceptance, integration contract, and current application/API surface; freeze a P5 acceptance matrix before architecture or implementation changes.
+None. P6 and later phases require explicit authorization.

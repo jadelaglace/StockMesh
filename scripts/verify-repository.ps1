@@ -287,6 +287,45 @@ foreach ($p4RuntimePath in @(
     }
 }
 
+$p5MatrixPath = Join-Path $RepositoryRoot 'docs\verification\p5-acceptance-matrix.json'
+if (-not (Test-Path -LiteralPath $p5MatrixPath)) {
+    $failures.Add('P5 acceptance matrix is missing.')
+} else {
+    try {
+        $p5Matrix = Get-Content -Raw -LiteralPath $p5MatrixPath | ConvertFrom-Json
+        if ($p5Matrix.phase_id -ne 'P5' -or $p5Matrix.status -ne 'frozen') {
+            $failures.Add('P5 acceptance matrix must be frozen and identify phase P5.')
+        }
+        $expectedP5Ids = 1..12 | ForEach-Object { 'P5-{0:D2}' -f $_ }
+        $actualP5Ids = @($p5Matrix.criteria | ForEach-Object { $_.id })
+        if (($actualP5Ids -join ',') -ne ($expectedP5Ids -join ',')) {
+            $failures.Add('P5 acceptance matrix must contain ordered criteria P5-01 through P5-12 exactly once.')
+        }
+        foreach ($criterion in @($p5Matrix.criteria)) {
+            foreach ($evidencePath in @($criterion.evidence_paths)) {
+                if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $evidencePath))) {
+                    $failures.Add("P5 evidence path is missing for $($criterion.id): $evidencePath")
+                }
+            }
+        }
+    } catch {
+        $failures.Add("P5 acceptance matrix is not valid JSON: $($_.Exception.Message)")
+    }
+}
+
+foreach ($p5RuntimePath in @(
+    'src\clients\capabilities.ts',
+    'src\cli\stockmesh.ts',
+    'skills\stockmesh\SKILL.md',
+    'skills\stockmesh\agents\openai.yaml',
+    'tests\p5-capabilities.test.ts',
+    'tests\p5-cli.test.ts'
+)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $p5RuntimePath))) {
+        $failures.Add("P5 runtime artifact is missing: $p5RuntimePath")
+    }
+}
+
 try {
     $package = Get-Content -Raw -LiteralPath (Join-Path $RepositoryRoot 'package.json') | ConvertFrom-Json
     $expectedP4Dependencies = @{
@@ -311,6 +350,9 @@ try {
     }
     if ($package.scripts.'normalize:lock-registry' -ne 'node scripts/normalize-lockfile-registry.mjs') {
         $failures.Add('P4 must expose the lockfile registry normalization command.')
+    }
+    if ($package.scripts.stockmesh -ne 'tsx src/cli/stockmesh.ts') {
+        $failures.Add('P5 must expose the StockMesh CLI through the pinned local tsx runtime.')
     }
 } catch {
     $failures.Add("Unable to validate P4 dependencies: $($_.Exception.Message)")
@@ -339,4 +381,4 @@ if ($failures.Count -gt 0) {
     exit 1
 }
 
-Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3/P4 delivery checks passed ($($markdownFiles.Count) Markdown files)."
+Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3/P4/P5 delivery checks passed ($($markdownFiles.Count) Markdown files)."

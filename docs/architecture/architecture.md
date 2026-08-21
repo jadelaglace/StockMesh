@@ -288,6 +288,26 @@ separate writers even when they consume the same assessment evidence.
 3. **Analysis and branch slice:** provider-neutral AnalysisPort, one configured structured-output LLM adapter plus deterministic fixtures, PossibilityStore, branch purpose, budgeted/resumable frontier, pin/fork/cache/replay, per-materialized-Position Evaluation, and cutoff-correct Forecast Assessment.
 4. **Workbench slice:** local React UI completes stage -> review -> Position/Timeline -> ask analysis -> explore/pin/fork Variations -> enter realized reaction -> compare forecast/reality -> review profile revisions -> correction/replay.
 5. **Client slice:** expose the already-tested application API through the narrow CLI and StockMesh Skill adapter; no new analysis or data authority.
+
+### P5 client architecture
+
+P5 adds a single in-process `StockMeshCapabilities` facade above existing
+Workbench, Search, Possibility, and application services. It owns transport-
+neutral command validation and structured result envelopes, not business state.
+Fastify, the CLI, and the repository `stockmesh` Skill call this same facade.
+
+The CLI opens the same local runtime database, executes exactly one named
+capability, prints one JSON result to stdout, and closes cleanly. It has no
+dependency on the Web server and no alternate analysis implementation. The
+Skill supplies concise intent routing and invokes the CLI; it never teaches an
+Agent SQL, storage paths, or canonical mutation. This keeps client parity
+testable without adding a daemon, MCP server, streaming protocol, or second
+backend before real use demonstrates that boundary.
+
+P5 exposes a Contributor boundary only for staging synthetic Evidence. Human
+review and canonical acceptance remain outside CLI/Skill. Runtime errors are
+mapped to stable client errors so internal SQL and paths do not cross the
+transport boundary.
 6. **Learning slice:** run synthetic and explicitly authorized pilots, measure errors/latency/usefulness, and replace only the components that fail their acceptance target.
 
 ### Upgrade triggers
