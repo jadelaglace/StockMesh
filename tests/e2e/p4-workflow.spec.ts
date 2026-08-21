@@ -9,7 +9,9 @@ test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) =
 
   if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "timeline", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Main Line at cutoff" })).toBeVisible();
+  await page.getByLabel("As-of position").selectOption("position-syn-001");
   await expect(page.getByRole("heading", { name: "Later Main Line · hindsight" })).toBeVisible();
+  await page.getByLabel("As-of position").selectOption("position-syn-004");
 
   if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "analysis", exact: true }).click();
   await page.route("**/api/evidence/stage", async (route) => { await new Promise((resolve) => setTimeout(resolve, 150)); await route.continue(); }, { times: 1 });
@@ -52,7 +54,7 @@ test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) =
   if (await apply.isEnabled()) {
     await apply.click();
     await expect(page.getByText("Reviewed Claim revision appended; historical snapshots remain unchanged.")).toBeVisible();
-    await expect(page.getByText("Later or alternate snapshot")).toBeVisible();
+    await expect(page.getByText("Later or alternate snapshot").first()).toBeVisible();
   }
   await expect(acceptedRevision.getByRole("button", { name: "Applied append-only" })).toBeDisabled();
   await expect(page.getByRole("button", { name: "Awaiting review" }).first()).toBeDisabled();

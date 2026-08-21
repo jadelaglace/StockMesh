@@ -4,6 +4,7 @@ import { PositionProjector } from "../projection/position-projector.js";
 import type {
   Claim,
   EvidenceItem,
+  EventRecord,
   ImportSummary,
   PositionInput,
   ProfileClaimRevisionProposal,
@@ -57,6 +58,20 @@ export interface RevisionAcceptanceResult {
   claimId: string;
   profileSnapshotId: string;
   stateIds: string[];
+  positionId?: string;
+}
+
+export interface ReviewedRealityStepInput {
+  claim: Claim;
+  profileSnapshot: ProfileSnapshot;
+  position: PositionInput;
+  event: EventRecord;
+}
+
+export interface ProfileRevisionContinuation {
+  profileSnapshot: ProfileSnapshot;
+  position: PositionInput;
+  event: EventRecord;
 }
 
 export class StockMeshApp {
@@ -82,6 +97,24 @@ export class StockMeshApp {
   }
 
   reviewEvidence(id: string, decision: "accept" | "reject", reviewer: string, reason: string): void {
+    this.store.transaction(() => this.reviewEvidenceInTransaction(id, decision, reviewer, reason));
+  }
+
+  reviewEvidenceAndAppend(id: string, decision: "accept" | "reject", reviewer: string, reason: string, step?: ReviewedRealityStepInput): void {
+    this.store.transaction(() => {
+      this.reviewEvidenceInTransaction(id, decision, reviewer, reason);
+      if (decision === "accept" && step) {
+        this.validateRealityStep(step);
+        this.insertClaim(step.claim);
+        this.insertProfileSnapshot(step.profileSnapshot);
+        const position = this.projectPosition(step.position);
+        this.insertEvent(step.event);
+        this.journal("reality_step", step.event.id, "append", { reviewer, claimId: step.claim.id, positionId: position.id });
+      }
+    });
+  }
+
+  private reviewEvidenceInTransaction(id: string, decision: "accept" | "reject", reviewer: string, reason: string): void {
     const row = this.store.db.prepare("SELECT payload_json, status FROM staging_items WHERE id = ?").get(id) as { payload_json: string; status: StagingStatus } | undefined;
     if (!row) throw new Error(`staging item not found: ${id}`);
     const terminalStatus = decision === "accept" ? "accepted" : "rejected";
@@ -168,7 +201,19 @@ export class StockMeshApp {
     });
   }
 
-  acceptProfileClaimRevision(proposalId: string, reviewer: string): RevisionAcceptanceResult {
+  appendReviewedRealityStep(input: ReviewedRealityStepInput, reviewer: string): ReturnType<PositionProjector["project"]> {
+    return this.store.transaction(() => {
+      this.validateRealityStep(input);
+      this.insertClaim(input.claim);
+      this.insertProfileSnapshot(input.profileSnapshot);
+      const position = this.projectPosition(input.position);
+      this.insertEvent(input.event);
+      this.journal("reality_step", input.event.id, "append", { reviewer, claimId: input.claim.id, positionId: position.id });
+      return position;
+    });
+  }
+
+  acceptProfileClaimRevision(proposalId: string, reviewer: string, continuation?: ProfileRevisionContinuation): RevisionAcceptanceResult {
     return this.store.transaction(() => {
       const proposal = this.store.db.prepare("SELECT * FROM profile_claim_revision_proposals WHERE id = ?").get(proposalId) as {
         id: string; proposed_claim_id: string; proposed_claim_json: string; prior_claim_refs_json: string;
@@ -182,22 +227,34 @@ export class StockMeshApp {
         if (!this.store.db.prepare("SELECT 1 FROM claims WHERE id = ?").get(priorClaimId)) throw new Error(`prior Claim is not canonical: ${priorClaimId}`);
       }
       const claim = parseJson<Claim>(proposal.proposed_claim_json);
-      if (this.store.db.prepare("SELECT 1 FROM claims WHERE id = ?").get(proposal.proposed_claim_id)) {
+      const alreadyApplied = Boolean(this.store.db.prepare("SELECT 1 FROM claims WHERE id = ?").get(proposal.proposed_claim_id));
+      if (alreadyApplied) {
         this.insertClaim(claim);
         const existingSnapshot = proposal.next_profile_snapshot_json ? parseJson<ProfileSnapshot>(proposal.next_profile_snapshot_json) : undefined;
         if (!existingSnapshot) throw new Error(`accepted proposal has no next profile snapshot: ${proposalId}`);
         this.insertProfileSnapshot(existingSnapshot);
         for (const state of proposal.next_states_json ? parseJson<StateRecord[]>(proposal.next_states_json) : []) this.insertState(state);
-        return this.revisionResult(proposal);
+      } else {
+        this.insertClaim(claim);
+        const snapshot = proposal.next_profile_snapshot_json ? parseJson<ProfileSnapshot>(proposal.next_profile_snapshot_json) : undefined;
+        if (!snapshot) throw new Error(`accepted proposal has no next profile snapshot: ${proposalId}`);
+        this.insertProfileSnapshot(snapshot);
+        const states = proposal.next_states_json ? parseJson<StateRecord[]>(proposal.next_states_json) : [];
+        for (const state of states) this.insertState(state);
+        this.journal("profile_claim_revision_proposal", proposalId, "accept", { reviewer, claimId: claim.id, profileSnapshotId: snapshot.id });
       }
-      this.insertClaim(claim);
-      const snapshot = proposal.next_profile_snapshot_json ? parseJson<ProfileSnapshot>(proposal.next_profile_snapshot_json) : undefined;
-      if (!snapshot) throw new Error(`accepted proposal has no next profile snapshot: ${proposalId}`);
-      this.insertProfileSnapshot(snapshot);
-      const states = proposal.next_states_json ? parseJson<StateRecord[]>(proposal.next_states_json) : [];
-      for (const state of states) this.insertState(state);
-      this.journal("profile_claim_revision_proposal", proposalId, "accept", { reviewer, claimId: claim.id, profileSnapshotId: snapshot.id });
-      return { proposalId, claimId: claim.id, profileSnapshotId: snapshot.id, stateIds: states.map((state) => state.id) };
+      const result = this.revisionResult(proposal);
+      if (!continuation) return result;
+      if (!continuation.profileSnapshot.claim_refs.includes(result.claimId)) throw new Error("revision continuation profile must include the accepted Claim");
+      if (continuation.position.profileSnapshotId !== continuation.profileSnapshot.id) throw new Error("revision continuation Position/profile mismatch");
+      if (continuation.event.resulting_position_id !== continuation.position.id || !continuation.event.claim_refs.includes(result.claimId)) {
+        throw new Error("revision continuation Event must link the accepted Claim and resulting Position");
+      }
+      this.insertProfileSnapshot(continuation.profileSnapshot);
+      const position = this.projectPosition(continuation.position);
+      this.insertEvent(continuation.event);
+      this.journal("profile_claim_revision_proposal", proposalId, "advance-position", { reviewer, positionId: position.id, eventId: continuation.event.id });
+      return { ...result, positionId: position.id };
     });
   }
 
@@ -298,8 +355,23 @@ export class StockMeshApp {
     this.insert("states", state.id, `INSERT OR IGNORE INTO states (id, subject_id, state_type, value_json, valid_from, valid_to, claim_refs_json) VALUES (?, ?, ?, ?, ?, ?, ?)`, [state.id, state.subject_id, state.state_type, json(state.value), state.valid_time.from, state.valid_time.to, json(state.claim_refs)], state);
   }
 
-  private insertEvent(event: SyntheticFixture["events"][number]): void {
+  private insertEvent(event: EventRecord): void {
     this.insert("events", event.id, `INSERT OR IGNORE INTO events (id, event_type, mode, occurred_time, observed_at, recorded_at, claim_refs_json, resulting_position_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [event.id, event.event_type, event.mode, event.occurred_time, event.observed_at ?? null, event.recorded_at ?? null, json(event.claim_refs), event.resulting_position_id ?? null], event);
+  }
+
+  private validateRealityStep(input: ReviewedRealityStepInput): void {
+    if (!canonicalModes.has(input.event.mode)) throw new Error("reviewed reality Event must be canonical");
+    if (input.claim.evidence_refs.length === 0) throw new Error("reviewed reality Claim requires Evidence");
+    for (const evidenceId of input.claim.evidence_refs) {
+      if (!this.store.db.prepare("SELECT 1 FROM evidence_items WHERE id = ?").get(evidenceId)) throw new Error(`reviewed Evidence is not canonical: ${evidenceId}`);
+    }
+    if (!input.profileSnapshot.claim_refs.includes(input.claim.id)) throw new Error("reviewed reality profile must include its Claim");
+    if (input.position.profileSnapshotId !== input.profileSnapshot.id) throw new Error("reviewed reality Position/profile mismatch");
+    if (input.event.resulting_position_id !== input.position.id || !input.event.claim_refs.includes(input.claim.id)) {
+      throw new Error("reviewed reality Event must link its Claim and resulting Position");
+    }
+    if (input.event.occurred_time !== input.position.asOf) throw new Error("reviewed reality Event/Position time mismatch");
+    if ((input.event.recorded_at ?? input.event.occurred_time) > input.position.evidenceCutoff) throw new Error("reviewed reality exceeds the Position cutoff");
   }
 
   private insert(table: string, id: string, sql: string, params: unknown[], payload: unknown): void {

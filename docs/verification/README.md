@@ -180,6 +180,17 @@ Repair defect ledger: all three reproduced defects and the post-repair liveness 
 
 Terminal defect ledger: the bounded review defects above were repaired and the fresh complete round passed with no known P4 terminal defect. Engineering and GitHub Flow terminals: reached. Human product acceptance: still open.
 
+## FIX-003 evidence - 2026-08-22
+
+- The post-P4 review reproduced nine semantic gaps that the original narrow Web checks did not cover: analysis ignored the selected Position; accepted Evidence did not advance the model; profile correction did not advance the current Position; historical trace exposed later Evidence/Analysis; Timeline selection silently fell back from missing Position identities; multiple Assessments duplicated a Variation; Timeline cutoff ignored world-time `asOf`; synthetic branches did not change their projection; and no P4 path rendered a Flow.
+- The repair makes Main Line Position identities explicit by materializing the synthetic record's canonical Positions. Workbench analysis, Method runs, Search roots, context snapshots, branch filters, trace, and replay now use the selected Position ID. Timeline events require exact resulting Positions and classify actual Events using both `occurred_time <= asOf` and `recorded_at <= evidence cutoff`.
+- Accepted Web Evidence now uses one reviewed application transaction to append a Claim, Profile snapshot, actual Event, and next Position. Accepted profile revisions append a merged current snapshot and resulting Position/Event while preserving the earlier Position/profile identity. Historical snapshots filter Evidence, Method runs, Analysis runs, and branch searches to their own cutoff/root.
+- Forecast Assessments are aggregated as append-only history on one Variation. The deterministic synthetic adapter now produces distinct modeled projection deltas and adds a clearly hypothetical Flow only when its evidence cutoff permits the synthetic consultation scenario. No canonical fact is inferred from that branch.
+- Direct regressions cover selected/historical analysis isolation, Evidence-to-Position counts and idempotency, current-profile advancement, exact Timeline Position materialization, world-time cutoff, Assessment aggregation, branch projection deltas and Flow rendering, and the HTTP Position-specific analysis contract.
+- Fresh terminal: `npm test` passed 29 test files / 46 tests; Core/Web typechecks, production build, `npm run verify:licenses`, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, and desktop/mobile Playwright (2/2) passed. Human product acceptance remains separate.
+
+Repair defect ledger: the nine reproduced P4 semantic defects have direct passing regressions. FIX-003 supersedes the original P4-001 “no known P4 terminal defect” statement without changing P0-P3 contracts, public/private boundaries, the provider-neutral analysis boundary, or the held P5 scope.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

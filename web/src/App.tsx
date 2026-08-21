@@ -49,7 +49,7 @@ export function App() {
   const [selectedTrace, setSelectedTrace] = useState<GraphSelection>();
   const [selectedBranchId, setSelectedBranchId] = useState<string>();
   const [compareBranchId, setCompareBranchId] = useState<string>();
-  const [comparePositionId, setComparePositionId] = useState("position-web-before");
+  const [comparePositionId, setComparePositionId] = useState("");
   const [mobileTab, setMobileTab] = useState<MobileTab>("board");
   const [draft, setDraft] = useState("");
 
@@ -158,10 +158,9 @@ export function App() {
               const items = snapshot.timeline.filter((event) => event.cutoffStatus === group);
               if (!items.length) return null;
               const title = group === "available" ? "Main Line at cutoff" : group === "hindsight" ? "Later Main Line · hindsight" : "Variation overlay";
-              return <section className="timeline-group" key={group}><h3>{title}</h3>{items.map((event) => <button className="timeline-event" key={event.id} onClick={() => {
+              return <section className="timeline-group" key={group}><h3>{title}</h3>{items.map((event) => <button className="timeline-event" key={event.id} disabled={!event.resultingPositionId || !snapshot.positions.some((position) => position.id === event.resultingPositionId)} onClick={() => {
                 const exact = event.resultingPositionId ? snapshot.positions.find((position) => position.id === event.resultingPositionId) : undefined;
-                const nearest = [...snapshot.positions].filter((position) => position.mode === "reconstructed" && Date.parse(position.asOf) <= Date.parse(event.occurredAt)).at(-1) ?? snapshot.positions[0];
-                if (exact ?? nearest) void refresh((exact ?? nearest)!.id);
+                if (exact) void refresh(exact.id);
               }}>
                 <span className={`event-dot mode-${event.mode} cutoff-${event.cutoffStatus}`} />
                 <span className="event-body"><strong>{event.summary}</strong><small>{shortTime(event.occurredAt)} · {statusLabel(event.mode)} · {statusLabel(event.cutoffStatus)}</small></span>
@@ -191,7 +190,7 @@ export function App() {
             <h3>Multi-party objectives</h3>
             {snapshot.context.objectives.map((objective) => <div className="objective" key={objective.partyNodeId}><div><strong>{objective.partyLabel}</strong><span>{objective.objective}</span></div><b>{Math.round(objective.weight * 100)}%</b></div>)}
           </div>
-          <button className="primary-command" aria-label="Run position analysis" aria-busy={busy === "analysis"} disabled={Boolean(busy)} onClick={() => void command("analysis", api.analyze)}>{busy === "analysis" ? <RefreshCw className="spin" size={16} /> : <Play size={16} />}{busy === "analysis" ? "Analyzing..." : snapshot.branches.length ? "Refresh branch view" : "Analyze position"}</button>
+          <button className="primary-command" aria-label="Run position analysis" aria-busy={busy === "analysis"} disabled={Boolean(busy)} onClick={() => void command("analysis", () => api.analyze(snapshot.selectedPositionId))}>{busy === "analysis" ? <RefreshCw className="spin" size={16} /> : <Play size={16} />}{busy === "analysis" ? "Analyzing..." : snapshot.branches.length ? "Refresh branch view" : "Analyze position"}</button>
           {snapshot.trace.analyses.map((analysis) => <details className="trace-detail" key={analysis.id}><summary><span><Activity size={14} />{analysis.provider} / {analysis.model}</span><b>{analysis.status}</b></summary><dl><dt>Frozen context</dt><dd>{analysis.contextSnapshotId}</dd><dt>Configuration</dt><dd>{analysis.configurationIdentity}</dd><dt>Usage</dt><dd>{analysis.tokens} tokens · {analysis.cost} cost</dd></dl></details>)}
           {snapshot.trace.methods.map((method) => <details className="trace-detail" key={method.runId}><summary><span><Info size={14} />{method.methodId}</span><b>{method.version}</b></summary><pre>{JSON.stringify(method.output, null, 2)}</pre><ul>{method.caveats.map((item) => <li key={item}>{item}</li>)}</ul></details>)}
           <form className="evidence-form" onSubmit={(event) => void submitEvidence(event)}>
@@ -209,7 +208,7 @@ export function App() {
           <div className="panel-heading"><div><GitBranch size={16} /><h2>Main Line + Variations</h2></div><span>{snapshot.branches.length ? `${snapshot.branches.length} materialized` : "analysis not run"}</span></div>
           {!snapshot.branches.length ? <div className="empty-state"><GitBranch /><strong>No Variations yet</strong><span>Run analysis to create forecast, counterfactual, and exploratory branches.</span></div> : <div className="branch-layout">
             <div className="branch-tree" role="tree">
-              <button className="branch-root" aria-label="Checkout Main Line root" onClick={() => void refresh("position-web-current")}><span className="branch-marker main" /><div><strong>Main Line</strong><small>position-web-current</small></div></button>
+              <button className="branch-root" aria-label="Checkout Main Line root" onClick={() => void refresh()}><span className="branch-marker main" /><div><strong>Main Line</strong><small>current reviewed Position</small></div></button>
               {branchTree.map((branch) => <button role="treeitem" aria-selected={selectedBranchId === branch.id} className={`branch-row ${selectedBranchId === branch.id ? "selected" : ""}`} style={{ paddingLeft: `${18 + branch.depth * 18}px` }} key={branch.id} onClick={() => setSelectedBranchId(branch.id)}><span className={`branch-marker purpose-${branch.purpose}`} /><div><strong>{branch.title}</strong><small>{branch.purpose} · {branch.realization} · depth {branch.depth}{branch.parentId ? " · child" : ""}</small></div>{branch.state === "pinned" && <Pin size={13} />}</button>)}
             </div>
             {selectedBranch && <div className="branch-detail">

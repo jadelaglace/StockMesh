@@ -4,7 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. P5 and later phases require an explicit new goal.
+### FIX-003 — Repair the disconnected P4 semantic loop
+
+- Source anchor: [DW-029](../discovery/direct-wording.md#dw-029--repair-the-reviewed-p4-defects-before-completing-p5), following the post-terminal 2026-08-22 bug/requirement-drift review.
+- User goal: repair the reviewed P4 defects completely before beginning P5.
+- Current state: started. The review invalidated the earlier claim that all P4 workflow semantics were directly proven: selected-Position analysis, evidence-to-Position progression, current-profile advancement, cutoff-correct trace/replay, Timeline Position reconstruction, Assessment history projection, world-time filtering, modeled Position deltas, and visible Flow coverage require repair.
+- Declared terminal: the bounded defect set has regression tests; the synthetic Web workflow proves real Position transitions and cutoff isolation; all P0-P4 compatibility, repository/public-boundary, typecheck, build, and browser gates pass; the repair is delivered through the repository's established GitHub Flow.
+- Protected boundary: preserve the universal Domain, canonical/derived/possibility separation, append-only reviewed writes, frozen old Positions, provider-neutral analysis ownership, public/private isolation, MIT posture, and name-only Stockfish tribute. Do not add P5 clients, private/Kimi data, Babata operations, credentials, live-provider claims, or human product-acceptance claims during FIX-003.
+- Temporary subplan (Agent-attributed): freeze tests for the nine reviewed gaps; repair application/Position ownership before UI projection; rerun the full P4 terminal matrix from clean staging; record the superseding defect evidence and merge the repair; then automatically promote P5-001.
+- Next action: inspect the P1-P4 application, projection, possibility, HTTP, fixture, and test ownership paths and choose the smallest coherent repair architecture.
+- Evidence entry point: [verification evidence](../verification/README.md).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly ordered the reviewed defects repaired before P5 and then authorized P5 requirements-first architecture, development, and testing.
 
 ## Last terminal: P4-001
 
@@ -196,4 +206,9 @@ None. P5 and later phases require an explicit new goal.
 
 ## Next-start queue
 
-None. P5 and later phases remain outside P4-001 and require their own governing transition.
+1. **P5-001 — Agent Skill and CLI clients**
+   - Source: [DW-029](../discovery/direct-wording.md#dw-029--repair-the-reviewed-p4-defects-before-completing-p5).
+   - Goal: complete P5 by deriving a frozen acceptance scope from current requirements, then choosing the architecture, implementing, testing, and delivering thin Skill/CLI clients over the same application capabilities as Web.
+   - Promotion policy: `legal-terminal-auto-promote` after FIX-003 reaches its declared terminal; the user's numbered instruction explicitly establishes this order.
+   - Protected boundary: clients do not become an analysis authority or canonical writer; no private pilot, credential, real-provider claim, product-usefulness claim, or human product acceptance enters P5.
+   - Next action after promotion: reconcile P5 requirements, PRD, acceptance, integration contract, and current application/API surface; freeze a P5 acceptance matrix before architecture or implementation changes.

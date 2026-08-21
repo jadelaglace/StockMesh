@@ -157,6 +157,16 @@ export interface SyntheticFixture {
   transitions: Array<Record<string, unknown>>;
   strategy_steps: Array<Record<string, unknown>>;
   profile_claim_revision_proposals: ProfileClaimRevisionProposal[];
+  positions: Array<{
+    id: string;
+    mode: Mode;
+    playground_id: string;
+    as_of: string;
+    evidence_cutoff: string;
+    profile_snapshot_id: string;
+    perspective_id?: string;
+    question?: string;
+  }>;
 }
 
 export interface ImportSummary {

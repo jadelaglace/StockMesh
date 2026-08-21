@@ -323,4 +323,16 @@ The external conversations supplied with the same instruction are governed by th
 
 > 继续 先聚焦需求 思考好架构 然后开发 测试
 
+## DW-029 — Repair the reviewed P4 defects before completing P5
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-22, Asia/Shanghai
+- Status: active; reopens the defective P4 workflow as a bounded repair and authorizes P5 only after that repair reaches terminal
+- Retrieval phrases: “修复，做完之后再”, “完成p5”, “先聚焦需求”, “思考好架构”, “然后开发 测试”
+
+> 1. 修复，做完之后再
+> 2. 完成p5 先聚焦需求 思考好架构 然后开发 测试
+
+- Interpretation boundary: item 1 means the review findings must be repaired and reverified before item 2 starts. Item 2 authorizes requirements-first P5 architecture, implementation, and testing; it does not authorize private-case use, a second analysis authority, direct canonical writes from clients, or a product-acceptance claim.
+
 - Interpretation boundary: this authorizes the P4 delivery round in the stated order: reconfirm the user workflow and freeze observable acceptance, reconcile the Web architecture against that workflow, then implement and test. It does not authorize P5 Skill/CLI delivery, private-case publication, real-provider claims, or human product-acceptance claims.
