@@ -1,6 +1,19 @@
 # Acceptance criteria
 
-Purpose: define observable results for the first validated StockMesh capability. These criteria are provisional until the user selects a concrete pilot workflow.
+Purpose: define observable results for the first validated StockMesh capability. The broad product criteria remain provisional until a real pilot is selected; the synthetic P4 engineering workflow below is frozen only as the first Web proof.
+
+## Selected P4 synthetic workflow
+
+The P4 engineering slice uses only the public synthetic organizational learning record. An individual analyst can open the local workbench and, without database or internal-file edits:
+
+1. review the authorized synthetic scope, perspective, objective, horizon, and evidence cutoff;
+2. stage and accept or reject one additional synthetic evidence note;
+3. inspect the Main Line Timeline, question-bounded network Position, before/after changes, Node/Pawn Claims and profile history, and source/processor trace;
+4. run the deterministic provider-neutral analysis path, inspect separately attributed Method and analysis results, and compare multi-Party score vectors;
+5. navigate forecast, counterfactual, and exploratory Variations, then pin, checkout, fork, resume, compare, and replay without changing Main Line history;
+6. apply one reviewed profile-Claim correction through the canonical review use case and verify that current profile history advances while the earlier Position and forecast context remain replayable.
+
+The executable [P4 acceptance matrix](../verification/p4-acceptance-matrix.json) narrows these behaviors into engineering evidence. It does not prove real-provider quality, private-case usefulness, human product acceptance, or the later Skill/CLI route.
 
 | ID | Observable criterion | Failure condition |
 | --- | --- | --- |

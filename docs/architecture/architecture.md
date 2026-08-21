@@ -1,6 +1,6 @@
 # Architecture and data governance direction
 
-Purpose: describe durable ownership and information-flow boundaries that enable [acceptance](../product/acceptance.md), plus the requirement-rooted runnable v0 direction adopted in [ADR-005](../decisions/README.md#adr-005--llm-analysis-with-framework-owned-state-and-shared-clients). P0-P2 implement the replayable foundation and quantitative Method layer; the P3 design below governs the next implementation slice without changing product authority.
+Purpose: describe durable ownership and information-flow boundaries that enable [acceptance](../product/acceptance.md), plus the requirement-rooted runnable v0 direction adopted in [ADR-005](../decisions/README.md#adr-005--llm-analysis-with-framework-owned-state-and-shared-clients). P0-P3 implement the replayable foundation, quantitative Methods, and possibility engine; the P4 design below adds one thin Web route without changing product authority.
 
 ```text
 authorized sources (read-only)
@@ -148,6 +148,28 @@ forecast assessments and calibration remain derived records.
 The [frozen P3 matrix](../verification/p3-acceptance-matrix.json) narrows this
 architecture to one engineering slice. It does not add a Web, Agent/CLI, real
 provider availability, private-data, or product-acceptance claim.
+
+### P4 implementation architecture
+
+The [frozen P4 matrix](../verification/p4-acceptance-matrix.json) selects the public synthetic organizational workflow as the first user-visible proof. P4 adds four concrete boundaries and no new semantic authority:
+
+```text
+React/Vite workbench
+  -> typed HTTP client
+  -> thin Fastify route validation
+  -> WorkbenchQuery / WorkbenchCommand application use cases
+  -> existing StockMeshApp, MethodRunner, SearchCoordinator, PossibilityStore
+  -> SQLite canonical and derived stores
+```
+
+- `WorkbenchQuery` produces one presentation-safe snapshot for Timeline, Position/network, Node/profile trace, Method provenance, branch graph, comparison, and correction status. It may join canonical and derived rows but cannot mutate either.
+- `WorkbenchCommand` exposes only named use cases: stage/review synthetic Evidence, run deterministic analysis/search, pin/checkout/fork/resume/replay a Variation, and apply a reviewed profile revision. It delegates canonical writes to `StockMeshApp`; the HTTP and React layers never issue SQL.
+- The local Fastify host owns runtime lifecycle and serves the Vite build in production. Development keeps Vite as a separate asset server with `/api` proxying to the same host; this is tooling separation, not a second backend or analysis service.
+- The seeded demo imports the public synthetic fixture through the existing ingestion/review boundary and materializes required Positions/Methods through existing use cases. Tests use isolated in-memory SQLite; the local server uses a Git-ignored runtime database and an explicit reset command.
+- Cytoscape.js and ECharts consume view-model JSON only. Profile terminology such as Pawn, stance, or role is supplied as display metadata; universal Node, Relation, Flow, Event, Position, and Claim semantics remain unchanged.
+- Command responses return a refreshed snapshot plus an attributable operation result. Invalid identities, illegal state transitions, or stale selections fail closed with a recoverable error; no arbitrary record patch endpoint exists.
+
+P4 deliberately does not add authentication, shared multi-user deployment, live provider credentials, file/screenshot extraction, Skill/CLI transport, private-case ingestion, or autonomous action. Those require later authority and measured need.
 
 #### Module and call boundary
 

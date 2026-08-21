@@ -24,7 +24,10 @@ Thumbs.db
 .vscode/
 node_modules/
 dist/
+dist-web/
 build/
+test-results/
+playwright-report/
 __pycache__/
 .pytest_cache/
 .venv/

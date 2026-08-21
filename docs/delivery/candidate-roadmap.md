@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **P0-P3 engineering terminals reached; P4-P7 remain queued**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
+Status: **P0-P4 engineering terminals reached locally; P5-P7 remain held for explicit goals**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -28,7 +28,8 @@ first runtime phase.
 | P1 | Engineering terminal reached | Replayable canonical foundation over `0.2.0`. |
 | P2 | Engineering terminal reached | Replaceable, attributable quantitative Method layer over P1 Positions. |
 | P3 | Engineering terminal reached | Provider-neutral analysis and framework-owned possibility search/replay over frozen P1/P2 context. |
-| P4-P7 | Queued | Web, clients, private pilot, and measured hardening remain outside P3. |
+| P4 | Engineering terminal reached locally | Responsive Web workflow over the public synthetic record; GitHub Flow delivery is still pending at this status point. |
+| P5-P7 | Held for explicit goals | Skill/CLI clients, private pilot, and measured hardening remain outside P4. |
 
 ## Definition history — R0: Domain clarification
 
@@ -101,6 +102,8 @@ Implement the universal timeline, Position/network board, Node detail/profile hi
 
 Terminal: a user can complete the selected synthetic workflow without editing internal storage, and profile-specific UI does not contaminate universal semantics.
 
+Observed engineering terminal: reached locally on 2026-08-21. One React/Vite workbench over a thin Fastify host completes the public synthetic stage, review, Timeline/Position/trace inspection, deterministic analysis, multi-Party comparison, purpose-typed branch navigation, pin/checkout/fork/resume/replay, and reviewed append-only profile correction workflow. The clean P0-P4 terminal round and desktop/mobile browser evidence pass. No live provider, Skill/CLI, private case, real-usefulness result, or human acceptance is claimed; GitHub Flow delivery remains pending at this status point.
+
 ## P5 — Agent Skill and CLI clients
 
 Expose the validated application and LLM-analysis capabilities through thin Skill and CLI clients. Keep evidence writes in staging and corrections in review; no external canonical writer or second analysis authority.
@@ -126,6 +129,6 @@ scope.
 
 ## Recommended next decision
 
-P3 is the latest engineering terminal. The next delivery phase is P4 only after
-an explicit new goal. Do not expand completed P3 scope retroactively into Web,
-Skill/CLI clients, private pilots, or measured hardening merely to show visible breadth.
+Finish P4 GitHub Flow delivery without widening the frozen slice. P5 is the next
+candidate only after an explicit new goal; do not silently expand P4 into
+Skill/CLI clients, private pilots, live-provider claims, or measured hardening.

@@ -1,0 +1,78 @@
+{
+  "phase_id": "P4",
+  "title": "Evidence-first Web workbench",
+  "status": "frozen",
+  "input_boundary": "The public synthetic organizational learning record plus the verified P1-P3 application, Method, analysis, possibility, search, replay, and forecast foundations",
+  "scope": "One local responsive Web workbench through which an individual analyst completes the selected synthetic evidence-to-position-to-branch-to-correction workflow without internal storage edits.",
+  "non_goals": [
+    "private, Kimi, Babata, credential, or real company data",
+    "live-provider availability or analysis-quality claims",
+    "Agent Skill or CLI client delivery",
+    "shared multi-user deployment, authentication, or enterprise permissions",
+    "automatic canonical promotion of model or Method output",
+    "file, screenshot, OCR, or conversation-export extraction",
+    "human product acceptance or real-pilot usefulness"
+  ],
+  "criteria": [
+    {
+      "id": "P4-01",
+      "expected": "A local user can open one responsive workbench already bound to a clearly labeled public synthetic Playground, perspective, objectives, horizon, evidence cutoff, and profile terminology; no private material or locator is required.",
+      "evidence_paths": ["src/workbench", "web/src", "tests/p4-workbench.test.ts", "tests/e2e/p4-workflow.spec.ts"]
+    },
+    {
+      "id": "P4-02",
+      "expected": "The user can stage a synthetic text Evidence item and accept or reject it through named review commands. The UI cannot access arbitrary SQL or canonical write primitives, and invalid or repeated identities fail closed or remain idempotent.",
+      "evidence_paths": ["src/workbench", "src/server", "tests/p4-workbench.test.ts", "tests/p4-http.test.ts"]
+    },
+    {
+      "id": "P4-03",
+      "expected": "Timeline selection reconstructs the applicable Position and shows actual/reconstructed Main Line separately from overlaid Variations, with time, mode, evidence status, and before/after changes visible.",
+      "evidence_paths": ["src/workbench", "web/src", "tests/p4-workbench.test.ts", "tests/e2e/p4-workflow.spec.ts"]
+    },
+    {
+      "id": "P4-04",
+      "expected": "The Position board renders the question-bounded Node, typed Relation, Flow, and State subset. Selecting an element exposes source and Claim trace; the board does not invent a universal social score or collapse uncertainty into color alone.",
+      "evidence_paths": ["src/workbench", "web/src/components", "tests/e2e/p4-workflow.spec.ts"]
+    },
+    {
+      "id": "P4-05",
+      "expected": "Node detail exposes universal identity, current State/Claims, Relations/Flows, Timeline, and trace, while the organizational profile adds Pawn labels, role, stance, and profile history only as profile-owned display fields.",
+      "evidence_paths": ["src/workbench", "web/src/components", "tests/p4-workbench.test.ts"]
+    },
+    {
+      "id": "P4-06",
+      "expected": "The user can run the deterministic provider-neutral analysis/search path and inspect provider/model identity, frozen context, assumptions, uncertainty, replan triggers, and separately attributed Method/version output and caveats.",
+      "evidence_paths": ["src/workbench", "src/analysis", "src/methods", "web/src", "tests/p4-workbench.test.ts"]
+    },
+    {
+      "id": "P4-07",
+      "expected": "Main Line and Variations form one navigable branch graph. Forecast, counterfactual, and exploratory purpose remains distinct from realization status while the user checks out, pins, compares, forks, resumes, and replays without changing siblings or history.",
+      "evidence_paths": ["src/workbench", "web/src/components", "tests/p4-workbench.test.ts", "tests/e2e/p4-workflow.spec.ts"]
+    },
+    {
+      "id": "P4-08",
+      "expected": "Before/after and branch comparison show changed graph/state identifiers plus multi-Party vector scorecards, weights, horizon, risk policy, evidence cutoff, and uncertainty without hiding them behind one scalar.",
+      "evidence_paths": ["src/workbench", "web/src/components", "tests/p4-workbench.test.ts"]
+    },
+    {
+      "id": "P4-09",
+      "expected": "The user can apply one reviewed profile-Claim correction through the canonical application boundary. The new Claim/profile snapshot appends once, alternatives remain visible, and replay of the earlier Position and branch-root profile is unchanged.",
+      "evidence_paths": ["src/workbench", "src/application", "web/src/components", "tests/p4-workbench.test.ts", "tests/e2e/p4-workflow.spec.ts"]
+    },
+    {
+      "id": "P4-10",
+      "expected": "Every command has visible loading, success, empty, and recoverable error behavior; primary operations are keyboard accessible, statuses are not color-only, and desktop/mobile layouts do not overlap or lose controls.",
+      "evidence_paths": ["web/src", "tests/e2e/p4-workflow.spec.ts", "docs/verification/README.md"]
+    },
+    {
+      "id": "P4-11",
+      "expected": "The production host serves static Web assets and the same validated API used in development. Browser payloads exclude database paths, credentials, private source bodies, arbitrary table access, and unreviewed canonical mutation commands.",
+      "evidence_paths": ["src/server", "src/workbench", "tests/p4-http.test.ts"]
+    },
+    {
+      "id": "P4-12",
+      "expected": "Clean install, P0-P4 runtime and browser tests, server/Web typechecks and builds, both contract validators, repository/public-boundary gate, dependency/license review, and diff checks pass; human acceptance remains explicitly open.",
+      "evidence_paths": ["tests", "web", "scripts/verify-repository.ps1", "docs/verification/README.md"]
+    }
+  ]
+}

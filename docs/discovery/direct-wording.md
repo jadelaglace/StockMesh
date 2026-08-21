@@ -313,3 +313,14 @@ The external conversations supplied with the same instruction are governed by th
 > 同时，每次用户新输入的现实发生的棋谱，每一方的反应，也是实时反向增量更新这个人或节点的属性的重要语料，也就是说，默认 AI 推测的是基于棋子属性不变推测的棋谱， 而现实世界，真人选择的棋谱，可以一定程度反应他的潜变化，或者修正之前对他的判断，所以为了这一点，还要区分事实发声还是预测推演发生，不是对立的，可能也预测到了，现实也发生了，或者预测了没发生，或者发生了没预测，也可能纯假想的幻想分支没预测也没发生。
 
 - Interpretation boundary: newly observed reactions are evidence for append-only, time-bounded revisions to Node/Pawn profile Claims and for forecast calibration; they do not rewrite the profile, context, or predictions that existed at the earlier cutoff. Prediction purpose and later realization/match are separate axes so a Transition may be both predicted and later observed. Non-occurrence requires an elapsed horizon and adequate observation coverage; a purely counterfactual/exploratory branch makes no prediction claim.
+
+## DW-028 — Continue with requirements-first P4 delivery
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-21, Asia/Shanghai
+- Status: active; explicitly starts P4-001
+- Retrieval phrases: “继续”, “先聚焦需求”, “思考好架构”, “然后开发”, “测试”
+
+> 继续 先聚焦需求 思考好架构 然后开发 测试
+
+- Interpretation boundary: this authorizes the P4 delivery round in the stated order: reconfirm the user workflow and freeze observable acceptance, reconcile the Web architecture against that workflow, then implement and test. It does not authorize P5 Skill/CLI delivery, private-case publication, real-provider claims, or human product-acceptance claims.
