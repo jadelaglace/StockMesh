@@ -216,7 +216,13 @@ Repair defect ledger: the nine reproduced P4 semantic defects have direct passin
 | P5-11 | passed | No new dependency/service; existing supply-chain gates preserved |
 | P5-12 | passed | Clean install plus full test/type/build/license/Skill/contract/repository/browser/diff terminal round |
 
-Engineering terminal: verified locally and ready for GitHub Flow. Human product acceptance remains open.
+GitHub Flow: implementation commit `6d23b9f` was pushed on
+`codex/p5-skill-cli`; [PR #11](https://github.com/jadelaglace/StockMesh/pull/11)
+was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as
+`8ab1b40`. Local and public `main` matched after merge, and the remote
+implementation branch was deleted.
+
+Engineering terminal: reached and merged. Human product acceptance remains open.
 
 ## INIT-001 evidence — 2026-08-16
 

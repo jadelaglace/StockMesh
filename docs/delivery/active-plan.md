@@ -4,17 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### P5-001 — Agent Skill and CLI clients
+None. P6 and later phases require explicit authorization.
+
+## Last terminal: P5-001
 
 - Source anchor: [DW-029](../discovery/direct-wording.md#dw-029--repair-the-reviewed-p4-defects-before-completing-p5), automatically promoted after the valid FIX-003 terminal.
-- User goal: complete P5 requirements-first: settle the architecture, then implement and test thin Skill/CLI clients over StockMesh's existing application capabilities.
-- Current state: requirements and architecture are frozen; the shared capability facade, thin Fastify/CLI/Skill adapters, focused parity and misuse tests, and P5 evidence are implemented on `codex/p5-skill-cli`. Final diff review repaired one CLI invalid-time classification gap; the full local P0-P5 and desktop/mobile verification set passes. GitHub Flow publication remains.
-- Declared terminal: CLI and repository Skill can inspect exact Position context, run and navigate bounded analysis branches, compare Positions, and stage synthetic Evidence through one shared application capability facade; they produce stable structured envelopes, cannot accept/canonicalize Evidence, and pass full P0-P5 gates before GitHub Flow merge.
-- Architecture conclusion (Agent-attributed): add one in-process `StockMeshCapabilities` facade as the sole client contract. Fastify, CLI, and Skill are adapters; none owns analysis or storage. The CLI uses JSON stdout and stable exit codes. The Skill calls the CLI and never reads SQLite. P5 Contributor access stops at staging; review remains Web/human-owned. Search remains explicit start/resume rather than adding streaming.
-- Protected boundary: preserve Web as the primary human route, exact Position/context identity, provider-neutral AnalysisPort, reviewed canonical writes, public/private isolation, MIT posture, and name-only Stockfish tribute. No private/Kimi data, Babata operation, credential, live-provider claim, direct client canonical writer, autonomous action, product-usefulness claim, or human acceptance enters P5.
-- Temporary subplan (Agent-attributed): commit the reviewed P5 implementation and evidence; push and merge a clean GitHub Flow PR; then write back the merge evidence through a bounded closure PR and reconcile local/public `main`.
-- Next action: commit P5 and open its GitHub Flow PR against `main`.
-- Evidence entry point: [P5 matrix](../verification/p5-acceptance-matrix.json) and [verification evidence](../verification/README.md).
+- Terminal: succeeded on 2026-08-22. CLI and repository Skill inspect exact Position context, run and navigate bounded analysis branches, compare Positions, and stage synthetic Evidence through one shared application capability facade; external clients cannot accept or canonicalize Evidence.
+- Verification: 12/12 frozen P5 criteria passed; clean `npm ci` audited 237 packages with 0 vulnerabilities; 31 test files / 51 tests, Core/Web typecheck and build, direct-license gate, Skill and contract validation, repository/public-boundary gate, diff check, and 2/2 desktop/mobile Playwright passed.
+- GitHub Flow: implementation commit `6d23b9f` was pushed on `codex/p5-skill-cli`; [PR #11](https://github.com/jadelaglace/StockMesh/pull/11) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `8ab1b40`; local/public `origin/main` matched and the remote branch was deleted.
+- Protected boundaries: Web remains the primary human route; application/AnalysisPort/Method/Possibility/Search ownership, reviewed canonical writes, public/private isolation, MIT posture, and name-only Stockfish tribute remain unchanged. No private/Kimi data, Babata operation, credential, live provider, direct client canonical writer, autonomous action, product-usefulness result, or human acceptance entered P5.
+- Residuals: the Vite main chunk remains about 737 KB (about 245 KB gzip) and transitive `prebuild-install@7.1.3` remains deprecated; both are non-blocking maintenance risks.
+- Evidence entry: [P5-001 evidence](../verification/README.md#p5-001-evidence---2026-08-22) and [frozen P5 matrix](../verification/p5-acceptance-matrix.json).
 - Goal transition: `legal-terminal-auto-promote` — legal-terminal-auto-promote: FIX-003 met its declared terminal and the user's numbered instruction explicitly authorized P5 as the next item.
 
 ## Last terminal: FIX-003
