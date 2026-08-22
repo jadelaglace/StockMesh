@@ -64,6 +64,7 @@ export interface MetricObservation {
 }
 
 export interface ComponentMeasurement {
+  componentIdentity: string;
   runIdentity: string;
   observedAt: string;
   metrics: MetricObservation[];

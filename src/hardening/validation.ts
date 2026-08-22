@@ -117,14 +117,18 @@ function observation(value: unknown, label: string): MetricObservation {
   return { metric, status: "observed", value: valueNumber, unit: definition.unit, ...(definition.humanAttributed ? { assessor: "user" as const } : {}) };
 }
 
-function measurement(value: unknown, label: string, policyTime: number): ComponentMeasurement {
-  const item = record(value, label, ["runIdentity", "observedAt", "metrics"]);
+function measurement(value: unknown, label: string, policyTime: number, expectedComponent: ComponentIdentity): ComponentMeasurement {
+  const item = record(value, label, ["componentIdentity", "runIdentity", "observedAt", "metrics"]);
+  const componentIdentity = sha256(item.componentIdentity, `${label}.componentIdentity`);
+  if (componentIdentity !== computeHardeningComponentIdentity(expectedComponent)) {
+    throw new HardeningInputError(`${label}.componentIdentity does not match the declared component`);
+  }
   const observedAt = instant(item.observedAt, `${label}.observedAt`);
-  if (Date.parse(observedAt) < policyTime) throw new HardeningInputError(`${label} predates the frozen target policy`);
+  if (Date.parse(observedAt) <= policyTime) throw new HardeningInputError(`${label} must follow the frozen target policy`);
   if (!Array.isArray(item.metrics)) throw new HardeningInputError(`${label}.metrics must be an array`);
   const metrics = item.metrics.map((entry, index) => observation(entry, `${label}.metrics[${index}]`)).sort((left, right) => left.metric.localeCompare(right.metric));
   if (new Set(metrics.map((entry) => entry.metric)).size !== metrics.length) throw new HardeningInputError(`${label}.metrics must be unique`);
-  return { runIdentity: sha256(item.runIdentity, `${label}.runIdentity`), observedAt, metrics };
+  return { componentIdentity, runIdentity: sha256(item.runIdentity, `${label}.runIdentity`), observedAt, metrics };
 }
 
 export interface HardeningPolicyIdentityInput {
@@ -135,13 +139,19 @@ export interface HardeningPolicyIdentityInput {
   targets: HardeningTarget[];
 }
 
+export function computeHardeningComponentIdentity(input: ComponentIdentity): string {
+  return stableHash(input);
+}
+
 export function computeHardeningPolicyIdentity(input: HardeningPolicyIdentityInput): string {
   return stableHash({
     currencyCode: input.currencyCode,
     baseline: input.baseline,
     candidate: input.candidate ?? null,
     establishedAt: input.establishedAt,
-    targets: [...input.targets].sort((left, right) => left.metric.localeCompare(right.metric)),
+    targets: input.targets
+      .map((target) => ({ ...target, requiredScopes: [...target.requiredScopes].sort() }))
+      .sort((left, right) => left.metric.localeCompare(right.metric)),
   });
 }
 
@@ -167,8 +177,10 @@ export function validateHardeningSuite(value: unknown): HardeningSuite {
     const label = `scenarios[${index}]`;
     const item = record(value, label, ["id", "scope", "baseline", "candidate"]);
     if (item.candidate !== undefined && !candidate) throw new HardeningInputError(`${label} cannot contain candidate measurements without a candidate component`);
-    const baselineMeasurement = measurement(item.baseline, `${label}.baseline`, policyTime);
-    const candidateMeasurement = item.candidate === undefined ? undefined : measurement(item.candidate, `${label}.candidate`, policyTime);
+    const baselineMeasurement = measurement(item.baseline, `${label}.baseline`, policyTime, baseline);
+    const candidateMeasurement = item.candidate === undefined || candidate === undefined
+      ? undefined
+      : measurement(item.candidate, `${label}.candidate`, policyTime, candidate);
     if (candidateMeasurement?.runIdentity === baselineMeasurement.runIdentity) throw new HardeningInputError(`${label} baseline and candidate must use distinct runs`);
     return {
       id: opaqueId(item.id, `${label}.id`, "scenario"),
