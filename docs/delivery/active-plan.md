@@ -4,17 +4,16 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### FIX-004 — Repair P5 capability integrity
+None. P6 and later phases require explicit authorization.
 
-- Source anchor: the 2026-08-22 post-P5 user-requested bug and requirement-drift review, followed by the user's explicit instruction to repair the findings.
-- User goal: repair the five reproduced P5 defects without entering P6 or expanding the client capability surface.
-- Current state: implementation and full local terminal verification complete; GitHub Flow delivery pending. The review disproved the prior no-known-defect implication: historical `context.get` exposes later Position/Event metadata; optional response-Position validation can happen after staging, pin, or resume mutations; failed SearchRuns can be wrapped as succeeded; unknown/misnamed input fields are silently ignored; and CLI diagnostics are not actually bounded.
-- Declared terminal: exact context contains only information available at the selected Position cutoff; every capability has a strict operation-specific request schema; rejected requests make no state change; `analysis.run` never reports a failed run as succeeded; diagnostics have a tested fixed bound; direct regressions and the full P0-P5/browser/public-boundary gates pass; the repair is merged through GitHub Flow.
-- Architecture conclusion (Agent-attributed): preserve the one-facade modular monolith. Add a dedicated frozen context projection, validate and normalize the complete request before dispatch, preflight all caller-supplied identities before mutation, propagate SearchRun terminal state honestly, and centralize bounded safe diagnostics. No schema, service, dependency, provider, Domain, or capability-catalog change is required.
-- Protected boundary: preserve Web as the primary human route, the provider-neutral AnalysisPort, reviewed canonical writes, possibility/canonical separation, public/private isolation, MIT posture, and name-only Stockfish tribute. Do not enter P6, use private/Kimi data, operate Babata, add a live provider, or claim product acceptance.
-- Temporary subplan (Agent-attributed): add failing regressions for all reproduced paths; implement the smallest facade/service/CLI corrections; rerun focused tests and the complete clean P0-P5 terminal round; record superseding evidence and deliver through GitHub Flow.
-- Next action: commit the verified bounded repair, open and inspect its GitHub PR, squash-merge it, then record the merge identity and clear the active item without promoting P6.
-- Evidence entry point: [P5 matrix](../verification/p5-acceptance-matrix.json) and [verification evidence](../verification/README.md).
+## Last terminal: FIX-004
+
+- Source anchor: the 2026-08-22 post-P5 user-requested bug and requirement-drift review, followed by the user's explicit instruction to repair the five reproduced findings.
+- Terminal: succeeded on 2026-08-22. Exact client context is cutoff- and lineage-isolated; strict operation-specific camelCase schemas reject unknown fields before dispatch; invalid optional response Positions cannot trigger staging, pin, fork, or search mutations; failed SearchRuns cannot be wrapped as succeeded; and CLI stderr is bounded to 512 UTF-8 bytes.
+- Verification: clean install and independent audit reported 0 vulnerabilities; 31 test files / 53 tests, Core/Web typecheck, build, licenses, Skill and contract validation, both compatibility validators, repository/public-boundary gate, diff check, and 2/2 desktop/mobile Playwright passed.
+- GitHub Flow: implementation commit `3214712` was pushed on `codex/fix-p5-capability-integrity`; [PR #13](https://github.com/jadelaglace/StockMesh/pull/13) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `1128b56`; local/public `origin/main` matched and the remote implementation branch was deleted.
+- Protected boundaries: Web remains the primary human route; the one-facade modular monolith, provider-neutral AnalysisPort, reviewed canonical writes, possibility/canonical separation, public/private isolation, MIT posture, and name-only Stockfish tribute remain unchanged. No private/Kimi data, Babata operation, new dependency/provider, P6 scope, product-usefulness result, or human acceptance entered the repair.
+- Evidence entry: [FIX-004 evidence](../verification/README.md#fix-004-evidence---2026-08-22). The original [P5 matrix](../verification/p5-acceptance-matrix.json) remains frozen.
 - Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: after the review reproduced five P5 defects, the user explicitly instructed the Agent to repair them.
 
 ## Last terminal: P5-001

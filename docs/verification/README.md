@@ -260,8 +260,13 @@ Engineering terminal: reached and merged. Human product acceptance remains open.
 Repair defect ledger: the five reproduced P5 defects have direct passing
 regressions and the fresh full gate found no further FIX-004 defect. No schema,
 dependency, provider, Domain, capability catalog, canonical-writer boundary, or
-product scope changed. GitHub Flow delivery remains pending at this evidence
-write. Human product acceptance remains open.
+product scope changed.
+
+GitHub Flow: implementation commit `3214712` was pushed on
+`codex/fix-p5-capability-integrity`; [PR #13](https://github.com/jadelaglace/StockMesh/pull/13)
+was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as
+`1128b56`. Local and public `main` matched after merge, and the remote
+implementation branch was deleted. Human product acceptance remains open.
 
 ## INIT-001 evidence — 2026-08-16
 
