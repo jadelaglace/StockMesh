@@ -10,6 +10,7 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - Direct regressions cover the default and migrated locale, explicit English persistence, synthetic-only translation gating, state-value presentation, complete Main Line/Position/objective/Method-tip/branch/score surfaces, English workflow continuity, and the earlier Position-panel clipping bounds.
 - Fresh terminal: 35 Vitest files / 73 tests, Core/Web typechecks, production build, direct-license gate, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, independent 0-vulnerability audit, and desktop/mobile Playwright (4/4) passed. The existing approximately 757 KB main Web chunk warning remains non-blocking.
 - Live Browser inspection at `390x844` confirmed the Chinese Main Line, Position question/Pawns, objectives, branch process and scores, Pawn profile/revisions/trace, complete Position delta, and no horizontal overflow. An English-residual scan found only the brand/language control, protected IDs, versions, provider/model/Method identities, and the P4 stage identifier.
+- Implementation commit `e4a8143` was pushed on `codex/web-default-zh-content`; [PR #27](https://github.com/jadelaglace/StockMesh/pull/27) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `9b43ece`. Local `main` matched `origin/main`, and the remote implementation branch was deleted before documentation closure.
 
 ## FIX-WEB-I18N-001 evidence - 2026-08-23
 
