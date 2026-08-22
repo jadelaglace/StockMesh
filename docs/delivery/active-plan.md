@@ -4,15 +4,15 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-**WEB-I18N-CONTENT-001 — Complete default Simplified Chinese presentation.**
+None.
+
+## Last terminal: WEB-I18N-CONTENT-001
 
 - Source anchor: [DW-034](../discovery/direct-wording.md#dw-034--default-the-workbench-and-public-synthetic-example-to-simplified-chinese).
-- User goal: default the whole workbench to Simplified Chinese and remove remaining English from Position tips, branch goals/workflow, and the repository-owned synthetic Main Line.
-- Current state: implementation and fresh local terminal pass on `codex/web-default-zh-content`; prior FIX-WEB-I18N-001 is terminal and remains preserved.
-- Declared terminal: a fresh profile opens in Simplified Chinese; every Web-owned label/hint/status is localized; the public synthetic scenario has reviewed Chinese presentation copy across Timeline, Position, Analysis, Branch, and Pawn surfaces; English remains selectable; imported/user/private content and canonical Domain records remain verbatim; tests and GitHub Flow pass.
-- Protected boundary: do not translate or mutate imported evidence, user input, private/real records, identifiers, stored Domain data, API/storage contracts, analysis semantics, dependencies, providers, or product-acceptance state.
-- Agent temporary subplan: inventory found that Web vocabulary was localized but the public synthetic context, Main Line, Pawns, objectives, branch steps/responses/assumptions, score labels, and Method caveats were rendered directly from Domain fields. A `playground-syn-orchard`-gated presentation map now covers those fields without changing API/storage values; fresh or invalid preferences default to Simplified Chinese while an explicit English preference persists. Focused unit/type checks, live full-surface inspection, and 4/4 desktop/mobile workflow tests pass.
-- Next action: commit, push, verify, and merge the implementation PR; then reconcile `main` and publish terminal delivery evidence.
+- Terminal: succeeded on 2026-08-23. Fresh and legacy profiles open in Simplified Chinese; the complete Web-owned interface and public synthetic scenario present reviewed Chinese copy across Timeline, Position, Analysis, Branch, and Pawn surfaces, while English remains selectable and persistent.
+- Verification: 35 test files / 73 tests, Core/Web typecheck, production build, licenses, P0 and `0.1.0` validators, repository/public-boundary gate, diff check, independent 0-vulnerability audit, and 4/4 desktop/mobile Playwright passed; live mobile Browser inspection found complete localized surfaces and no horizontal overflow.
+- GitHub Flow: implementation commit `e4a8143` was pushed on `codex/web-default-zh-content`; [PR #27](https://github.com/jadelaglace/StockMesh/pull/27) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `9b43ece`; local/public `origin/main` matched and the remote implementation branch was deleted.
+- Protected boundaries: imported evidence, user input, private/real records, identifiers, stored Domain data, API/storage contracts, raw Method output, analysis semantics, dependencies, providers, product-usefulness conclusions, and human acceptance remain unchanged.
 - Evidence entry: [WEB-I18N-CONTENT-001 evidence](../verification/README.md#web-i18n-content-001-evidence---2026-08-23).
 - Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly requested global default Simplified Chinese and Chinese presentation of the public synthetic Main Line, tips, objectives, workflow, and branches.
 

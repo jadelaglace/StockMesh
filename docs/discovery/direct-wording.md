@@ -385,7 +385,7 @@ The external conversations supplied with the same instruction are governed by th
 
 - Source: direct user instruction in Codex task
 - Captured: 2026-08-23, Asia/Shanghai
-- Status: active; authorizes completion of default Simplified Chinese presentation
+- Status: resolved by WEB-I18N-CONTENT-001 and merged through PR #27
 - Retrieval phrases: “那些tip”, “分支 目标 流程”, “正谱内容最好默认中文”, “全局都默认中文”
 
 > 局势里面 那些tip啊 还有一些分支 目标 流程 还是没汉化 还有正谱内容最好默认中文 全局都默认中文
