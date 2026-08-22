@@ -4,17 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-### P6-001 — Complete the first authorized real-use phase
+None. P7 requires explicit authorization.
+
+## Last terminal: P6-001
 
 - Source anchor: the user's 2026-08-22 explicit Codex Goal instruction to complete P6, with requirements first, architecture considered before development, and testing after implementation.
-- User goal: complete P6 without allowing phase mechanics or local implementation convenience to displace the StockMesh product need.
-- Current state: requirements/matrix/architecture frozen; implementation, one authorized private structural pilot run, and the full clean local terminal round complete; GitHub Flow delivery pending.
-- Declared terminal: the requirements-rooted P6 scope and acceptance matrix are frozen; the architecture is reviewed before implementation; the authorized implementation and direct tests are complete; the full applicable public/private, compatibility, browser, supply-chain, and repository gates pass; delivery is merged through GitHub Flow; human product acceptance remains a separate user decision.
-- Protected boundary: preserve canonical/derived/possibility separation, reviewed canonical writes, Web as the primary human route, Skill/CLI as thin clients, provider neutrality, public/private isolation, MIT posture, and the name-only Stockfish tribute. Do not publish private material, operate Babata, silently choose a live provider, promote model output to fact, enter P7, or claim human acceptance.
-- Architecture conclusion (Agent-attributed): add one dependency-free local pilot evaluator behind a strict body-free bundle contract and Git-ignore path guard. Keep real adapters, bundles, and full reports private; do not modify the canonical application, Web workbench, AnalysisPort, universal Domain, or provider route.
-- Temporary subplan (Agent-attributed): implement strict validation, deterministic transparent metrics, private-path CLI enforcement, and synthetic negative/direct regressions; create a private local adapter for the authorized dormant record; run one fresh pilot round; record only generalized public consequences; then run the complete terminal gate and deliver through GitHub Flow.
-- Next action: commit the verified P6 slice, open and inspect its GitHub PR, squash-merge it, then record the merge identity and clear the active item without promoting P7.
-- Evidence entry point: [frozen P6 matrix](../verification/p6-acceptance-matrix.json), [candidate roadmap](candidate-roadmap.md), and [verification evidence](../verification/README.md).
+- Terminal: succeeded on 2026-08-22. A dependency-free local pilot evaluator enforces an explicitly authorized, body-free, private-only bundle; transparent measurements preserve denominators and `not-observed` gaps; the CLI requires Git-ignored input/output, bounds diagnostics, and rejects path/link/overwrite escapes without touching canonical or possibility state.
+- Private run observation: the authorized dormant organizational record produced 82 opaque source identities, 12 roles, 18 confirmed structural steps, 41 exploratory branches, 154/154 resolved structural references, and 3 unresolved items. Forecast specificity/calibration and three human usefulness/learning outcomes remain `not-observed`; no product-usefulness claim follows from structural coverage.
+- Verification: clean install and independent audit reported 0 vulnerabilities; 33 test files / 60 tests, Core/Web typecheck, build, licenses, Skill and contract validation, both compatibility validators, P6 repository/public-boundary gate, diff check, and 2/2 desktop/mobile Playwright passed.
+- GitHub Flow: implementation commit `922915b` was pushed on `codex/p6-private-pilot`; [PR #15](https://github.com/jadelaglace/StockMesh/pull/15) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `5943274`; local/public `origin/main` matched and the remote implementation branch was deleted.
+- Protected boundaries: canonical/derived/possibility separation, reviewed canonical writes, Web as the primary human route, Skill/CLI as thin clients, provider neutrality, public/private isolation, MIT posture, and the name-only Stockfish tribute remain unchanged. The real adapter/bundle/report remain ignored/private. No Babata operation, private publication, live provider, new dependency/service, P7 hardening, product-usefulness conclusion, or human acceptance entered P6.
+- Evidence entry: [P6-001 evidence](../verification/README.md#p6-001-evidence---2026-08-22) and [frozen P6 matrix](../verification/p6-acceptance-matrix.json).
 - Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly created a Codex Goal to complete P6 with requirements-first architecture, implementation, and testing.
 
 ## Last terminal: FIX-004

@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **P0-P5 engineering terminals reached and merged; P6 explicitly authorized and active; P7 remains held**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
+Status: **P0-P6 engineering terminals reached and merged; P7 remains held**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -30,7 +30,7 @@ first runtime phase.
 | P3 | Engineering terminal reached | Provider-neutral analysis and framework-owned possibility search/replay over frozen P1/P2 context. |
 | P4 | Engineering terminal reached and merged | Responsive Web workflow over the public synthetic record; PR #8 merged as `e383d5d`. |
 | P5 | Engineering terminal reached and merged | Thin capability facade, CLI, and repository Skill over the public synthetic workflow pass the frozen matrix; PR #11 merged as `8ab1b40`. |
-| P6 | Authorized and active | Run one local private organizational validation round; keep complete inputs/reports outside Git and publish only generalized gaps. |
+| P6 | Engineering terminal reached | One local private organizational structural-validation round ran; complete inputs/reports remain outside Git and generalized gaps remain visible. |
 | P7 | Held for explicit goal | Measured component hardening remains outside P6. |
 
 ## Definition history — R0: Domain clarification

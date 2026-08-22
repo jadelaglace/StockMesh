@@ -311,8 +311,13 @@ migration was added.
 Terminal defect ledger: no known P6 implementation defect remains after the
 direct and fresh full round. The five `not-observed` measurement gaps remain
 real pilot results, not engineering failures to hide or synthetic values to
-invent. GitHub Flow delivery remains pending at this evidence write. Human
-product acceptance remains open.
+invent.
+
+GitHub Flow: implementation commit `922915b` was pushed on
+`codex/p6-private-pilot`; [PR #15](https://github.com/jadelaglace/StockMesh/pull/15)
+was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as
+`5943274`. Local and public `main` matched after merge, and the remote
+implementation branch was deleted. Human product acceptance remains open.
 
 ## INIT-001 evidence — 2026-08-16
 
