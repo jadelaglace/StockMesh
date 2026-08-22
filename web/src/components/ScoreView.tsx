@@ -1,8 +1,9 @@
 import { echarts } from "../charts";
 import { useEffect, useRef } from "react";
 import type { WorkbenchPartyScorecard } from "../../../src/workbench/types";
+import { translate, type Locale } from "../i18n";
 
-export function ScoreView({ scorecards, label = "Selected branch" }: { scorecards: WorkbenchPartyScorecard[]; label?: string }) {
+export function ScoreView({ scorecards, locale, label }: { scorecards: WorkbenchPartyScorecard[]; locale: Locale; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current || scorecards.length === 0) return;
@@ -19,8 +20,8 @@ export function ScoreView({ scorecards, label = "Selected branch" }: { scorecard
     const resize = new ResizeObserver(() => chart.resize()); resize.observe(ref.current);
     return () => { resize.disconnect(); chart.dispose(); };
   }, [scorecards]);
-  return <section className="score-view" aria-label={`${label} multi-party vector scorecard`}>
-    <div className="score-chart" ref={ref} role="img" aria-label={`${label} score chart`} />
+  return <section className="score-view" aria-label={translate(locale, "selectedScorecard", { label })}>
+    <div className="score-chart" ref={ref} role="img" aria-label={translate(locale, "scoreChart", { label })} />
     <div className="score-values">
       {scorecards.flatMap((card) => card.dimensions.map((dimension) => <div key={`${card.partyNodeId}-${dimension.id}`}>
         <span>{card.partyNodeId.replace("node-syn-", "")} · {dimension.label}</span><strong>{dimension.value.toFixed(2)}</strong>

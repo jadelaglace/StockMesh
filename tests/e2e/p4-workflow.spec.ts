@@ -1,5 +1,19 @@
 import { expect, test } from "@playwright/test";
 
+test("switches and retains Simplified Chinese without translating domain content", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "简中", exact: true }).click();
+  await expect(page.getByRole("button", { name: "简中", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByText("推演时限 / 证据截止")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "局势", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sponsor", exact: true })).toBeVisible();
+  await expect(page.getByText("Which response best improves decision clarity without unnecessary escalation?", { exact: true })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("stockmesh.locale"))).toBe("zh-CN");
+  await page.reload();
+  await expect(page.getByRole("button", { name: "简中", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
+});
+
 test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) => {
   await page.goto("/");
   await expect(page.getByText("StockMesh", { exact: true })).toBeVisible();
@@ -7,13 +21,13 @@ test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) =
   await expect(page.getByText("Horizon / evidence cutoff")).toBeVisible();
   await expect(page.getByTestId("graph-board")).toBeVisible();
 
-  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "timeline", exact: true }).click();
+  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "Timeline", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Main Line at cutoff" })).toBeVisible();
   await page.getByLabel("As-of position").selectOption("position-syn-001");
   await expect(page.getByRole("heading", { name: "Later Main Line · hindsight" })).toBeVisible();
   await page.getByLabel("As-of position").selectOption("position-syn-004");
 
-  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "analysis", exact: true }).click();
+  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "Analysis", exact: true }).click();
   await page.route("**/api/evidence/stage", async (route) => { await new Promise((resolve) => setTimeout(resolve, 150)); await route.continue(); }, { times: 1 });
   await page.getByPlaceholder("Record what happened next...").fill(`A synthetic decision checkpoint was confirmed by ${testInfo.project.name}.`);
   await page.getByRole("button", { name: "Stage for review" }).click();
@@ -25,7 +39,7 @@ test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) =
   await page.getByRole("button", { name: "Run position analysis" }).click();
   await expect(page.getByText("Analysis and bounded branch search completed.")).toBeVisible();
   await expect(page.getByText("deterministic-offline / p4-workbench").first()).toBeVisible();
-  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "branches", exact: true }).click();
+  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "Branches", exact: true }).click();
   await expect(page.getByText("purpose: forecast").first()).toBeVisible();
   await expect(page.getByText("Score uncertainty")).toBeVisible();
   await expect(page.getByLabel("Compare branch")).toBeVisible();
@@ -42,7 +56,7 @@ test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) =
     await expect(page.getByText("completed", { exact: true })).toBeVisible();
   }
 
-  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "board", exact: true }).click();
+  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "Board", exact: true }).click();
   await page.getByRole("button", { name: "Sponsor" }).click();
   await expect(page.getByRole("heading", { name: "Sponsor" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Relations & flows" })).toBeVisible();
