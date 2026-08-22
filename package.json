@@ -24,7 +24,8 @@
     "verify:licenses": "node scripts/verify-dependency-licenses.mjs",
     "normalize:lock-registry": "node scripts/normalize-lockfile-registry.mjs",
     "migrate": "tsx src/cli/migrate.ts",
-    "stockmesh": "tsx src/cli/stockmesh.ts"
+    "stockmesh": "tsx src/cli/stockmesh.ts",
+    "pilot": "tsx src/cli/pilot.ts"
   },
   "dependencies": {
     "@fastify/static": "10.1.3",

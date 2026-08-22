@@ -268,6 +268,52 @@ was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as
 `1128b56`. Local and public `main` matched after merge, and the remote
 implementation branch was deleted. Human product acceptance remains open.
 
+## P6-001 evidence - 2026-08-22
+
+- The [frozen P6 matrix](p6-acceptance-matrix.json) selects ten criteria for one
+  explicitly authorized local private organizational validation round. It does
+  not authorize case publication, a live provider, canonical ingestion,
+  collaborative deployment, P7 hardening, or a human-acceptance claim.
+- The dependency-free pilot boundary accepts a strict body-free bundle with
+  explicit purpose, authorization time, retention/deletion rules, private-only
+  publication, opaque source/role/step/branch identities, declared denominators,
+  unresolved-item identities, eligible forecast markers, and optional attributed
+  user ratings. Unknown body/locator-style fields and dangling references fail
+  closed.
+- The CLI verifies both input and output through Git ignore before reading or
+  writing, resolves existing paths to prevent boundary escape, refuses to
+  overwrite its input, redacts malformed JSON, and bounds diagnostics to 512
+  UTF-8 bytes. It does not open SQLite or write canonical/possibility state.
+- StockMesh locally adapted the already authorized dormant organizational
+  record without copying source bodies, summaries, labels, locators, aliases, or
+  the case-specific preparation format into Git. The complete bundle, adapter,
+  and report remain under the ignored private tree.
+- Generalized run observation: 82 opaque source identities support 12 role
+  records, 18 confirmed structural steps, and 41 exploratory branches. All 154
+  structural source references resolved; prepared reconstruction coverage was
+  18/18 and role structural coverage was 12/12. Three unresolved structural
+  items remain, or 3/18 items per reconstructed step; this ratio does not
+  measure human correction time or claim correctness.
+- The 41 retained branches were correctly treated as exploratory material, not
+  retroactively promoted to forecasts with invented horizons or match criteria.
+  Forecast specificity/calibration therefore remain `not-observed`. Contextual
+  usefulness, profile-revision usefulness, and user learning also remain
+  `not-observed` until the user supplies attributed judgments after use.
+
+Fresh local terminal: `npm ci` installed 236 packages and audited 237 with 0
+vulnerabilities; independent `npm audit --audit-level=low` also reported 0.
+All 33 Vitest files / 60 tests, Core/Web typechecks, production build,
+direct-license gate, Skill validation, P0 and `0.1.0` validators, P6-aware
+repository/public-boundary gate, `git diff --check`, and 2/2 desktop/mobile
+Playwright projects passed. No dependency, provider, service, or schema
+migration was added.
+
+Terminal defect ledger: no known P6 implementation defect remains after the
+direct and fresh full round. The five `not-observed` measurement gaps remain
+real pilot results, not engineering failures to hide or synthetic values to
+invent. GitHub Flow delivery remains pending at this evidence write. Human
+product acceptance remains open.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

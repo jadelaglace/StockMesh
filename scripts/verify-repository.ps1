@@ -326,6 +326,45 @@ foreach ($p5RuntimePath in @(
     }
 }
 
+$p6MatrixPath = Join-Path $RepositoryRoot 'docs\verification\p6-acceptance-matrix.json'
+if (-not (Test-Path -LiteralPath $p6MatrixPath)) {
+    $failures.Add('P6 acceptance matrix is missing.')
+} else {
+    try {
+        $p6Matrix = Get-Content -Raw -LiteralPath $p6MatrixPath | ConvertFrom-Json
+        if ($p6Matrix.phase_id -ne 'P6' -or $p6Matrix.status -ne 'frozen') {
+            $failures.Add('P6 acceptance matrix must be frozen and identify phase P6.')
+        }
+        $expectedP6Ids = 1..10 | ForEach-Object { 'P6-{0:D2}' -f $_ }
+        $actualP6Ids = @($p6Matrix.criteria | ForEach-Object { $_.id })
+        if (($actualP6Ids -join ',') -ne ($expectedP6Ids -join ',')) {
+            $failures.Add('P6 acceptance matrix must contain ordered criteria P6-01 through P6-10 exactly once.')
+        }
+        foreach ($criterion in @($p6Matrix.criteria)) {
+            foreach ($evidencePath in @($criterion.evidence_paths)) {
+                if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $evidencePath))) {
+                    $failures.Add("P6 evidence path is missing for $($criterion.id): $evidencePath")
+                }
+            }
+        }
+    } catch {
+        $failures.Add("P6 acceptance matrix is not valid JSON: $($_.Exception.Message)")
+    }
+}
+
+foreach ($p6RuntimePath in @(
+    'src\pilot\types.ts',
+    'src\pilot\validation.ts',
+    'src\pilot\evaluator.ts',
+    'src\cli\pilot.ts',
+    'tests\p6-private-pilot.test.ts',
+    'tests\p6-pilot-cli.test.ts'
+)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $p6RuntimePath))) {
+        $failures.Add("P6 runtime artifact is missing: $p6RuntimePath")
+    }
+}
+
 try {
     $package = Get-Content -Raw -LiteralPath (Join-Path $RepositoryRoot 'package.json') | ConvertFrom-Json
     $expectedP4Dependencies = @{
@@ -354,6 +393,9 @@ try {
     if ($package.scripts.stockmesh -ne 'tsx src/cli/stockmesh.ts') {
         $failures.Add('P5 must expose the StockMesh CLI through the pinned local tsx runtime.')
     }
+    if ($package.scripts.pilot -ne 'tsx src/cli/pilot.ts') {
+        $failures.Add('P6 must expose the private pilot evaluator through the pinned local tsx runtime.')
+    }
 } catch {
     $failures.Add("Unable to validate P4 dependencies: $($_.Exception.Message)")
 }
@@ -381,4 +423,4 @@ if ($failures.Count -gt 0) {
     exit 1
 }
 
-Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3/P4/P5 delivery checks passed ($($markdownFiles.Count) Markdown files)."
+Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3/P4/P5/P6 delivery checks passed ($($markdownFiles.Count) Markdown files)."

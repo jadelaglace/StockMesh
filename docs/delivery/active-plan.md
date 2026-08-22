@@ -4,7 +4,18 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. P6 and later phases require explicit authorization.
+### P6-001 — Complete the first authorized real-use phase
+
+- Source anchor: the user's 2026-08-22 explicit Codex Goal instruction to complete P6, with requirements first, architecture considered before development, and testing after implementation.
+- User goal: complete P6 without allowing phase mechanics or local implementation convenience to displace the StockMesh product need.
+- Current state: requirements/matrix/architecture frozen; implementation, one authorized private structural pilot run, and the full clean local terminal round complete; GitHub Flow delivery pending.
+- Declared terminal: the requirements-rooted P6 scope and acceptance matrix are frozen; the architecture is reviewed before implementation; the authorized implementation and direct tests are complete; the full applicable public/private, compatibility, browser, supply-chain, and repository gates pass; delivery is merged through GitHub Flow; human product acceptance remains a separate user decision.
+- Protected boundary: preserve canonical/derived/possibility separation, reviewed canonical writes, Web as the primary human route, Skill/CLI as thin clients, provider neutrality, public/private isolation, MIT posture, and the name-only Stockfish tribute. Do not publish private material, operate Babata, silently choose a live provider, promote model output to fact, enter P7, or claim human acceptance.
+- Architecture conclusion (Agent-attributed): add one dependency-free local pilot evaluator behind a strict body-free bundle contract and Git-ignore path guard. Keep real adapters, bundles, and full reports private; do not modify the canonical application, Web workbench, AnalysisPort, universal Domain, or provider route.
+- Temporary subplan (Agent-attributed): implement strict validation, deterministic transparent metrics, private-path CLI enforcement, and synthetic negative/direct regressions; create a private local adapter for the authorized dormant record; run one fresh pilot round; record only generalized public consequences; then run the complete terminal gate and deliver through GitHub Flow.
+- Next action: commit the verified P6 slice, open and inspect its GitHub PR, squash-merge it, then record the merge identity and clear the active item without promoting P7.
+- Evidence entry point: [frozen P6 matrix](../verification/p6-acceptance-matrix.json), [candidate roadmap](candidate-roadmap.md), and [verification evidence](../verification/README.md).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly created a Codex Goal to complete P6 with requirements-first architecture, implementation, and testing.
 
 ## Last terminal: FIX-004
 
