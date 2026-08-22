@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
-test("switches and retains Simplified Chinese without translating domain content", async ({ page }) => {
+test("switches and retains complete Simplified Chinese chrome without clipping the Position panel", async ({ page }, testInfo) => {
+  if (testInfo.project.name.startsWith("desktop")) await page.setViewportSize({ width: 1366, height: 768 });
   await page.goto("/");
   await page.getByRole("button", { name: "简中", exact: true }).click();
   await expect(page.getByRole("button", { name: "简中", exact: true })).toHaveAttribute("aria-pressed", "true");
@@ -8,6 +9,28 @@ test("switches and retains Simplified Chinese without translating domain content
   await expect(page.getByRole("heading", { name: "局势", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Sponsor", exact: true })).toBeVisible();
   await expect(page.getByText("Which response best improves decision clarity without unnecessary escalation?", { exact: true })).toBeVisible();
+  if (testInfo.project.name.startsWith("desktop")) {
+    for (const viewport of [{ width: 1366, height: 768 }, { width: 1024, height: 720 }]) {
+      await page.setViewportSize(viewport);
+      const layout = await page.locator(".board-panel").evaluate((panel) => {
+        const delta = panel.querySelector<HTMLElement>(".comparison-strip")!;
+        const panelRect = panel.getBoundingClientRect();
+        const deltaRect = delta.getBoundingClientRect();
+        return { panelBottom: panelRect.bottom, deltaBottom: deltaRect.bottom, panelClientHeight: panel.clientHeight, panelScrollHeight: panel.scrollHeight };
+      });
+      expect(layout.deltaBottom).toBeLessThanOrEqual(layout.panelBottom + 1);
+      expect(layout.panelScrollHeight).toBeLessThanOrEqual(layout.panelClientHeight + 1);
+    }
+  }
+  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "分析", exact: true }).click();
+  await page.getByRole("button", { name: "运行局势分析", exact: true }).click();
+  await expect(page.getByText("分析和有界分支搜索已完成。")).toBeVisible();
+  await expect(page.getByText("已成功", { exact: true })).toBeVisible();
+  if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "分支", exact: true }).click();
+  await expect(page.getByText("不适用", { exact: false }).first()).toBeVisible();
+  await expect(page.getByText("候选", { exact: false }).first()).toBeVisible();
+  await expect(page.getByText("达到最大深度", { exact: true })).toBeVisible();
+  await expect(page.locator(".branch-panel").getByText("Clarify the decision boundary", { exact: true }).first()).toBeVisible();
   await expect.poll(() => page.evaluate(() => localStorage.getItem("stockmesh.locale"))).toBe("zh-CN");
   await page.reload();
   await expect(page.getByRole("button", { name: "简中", exact: true })).toHaveAttribute("aria-pressed", "true");

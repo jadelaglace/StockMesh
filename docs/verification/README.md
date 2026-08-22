@@ -2,6 +2,15 @@
 
 Purpose: define how documentation and delivery claims are checked. Product acceptance criteria live in [product/acceptance.md](../product/acceptance.md).
 
+## FIX-WEB-I18N-001 evidence - 2026-08-23
+
+- Live `1366x768` inspection reproduced the reported Position-panel defect: the panel was about 416px tall but required 458px, `overflow: hidden` silently clipped about 42px from the Position-delta strip, and flex shrinking compressed its heading.
+- Fixed-height controls now retain their bounds, the graph canvas absorbs available height down to a stable desktop minimum, and the workbench scrolls when two rows cannot fit a short viewport. Browser measurements at `1366x768` and `1024x720` show `panel.scrollHeight === panel.clientHeight` and the complete Position-delta bottom inside the panel; `390x844` mobile shows the complete panel in normal page flow with no horizontal overflow.
+- The reviewed interface vocabulary now covers run/branch/realization/Claim/uncertainty/trace status, search-stop reasons, and projection-field labels. Direct checks cover `succeeded`, `candidate`, `not-applicable`, `adopted`, uncertainty levels, relation/flow trace kinds, all known search-budget stops, and localized projection identifiers.
+- Synthetic evidence/questions, Node/Pawn labels, objectives, branch titles/actions/responses, assumptions, identifiers, Method output, and stored Domain content remain verbatim. Browser checks explicitly retain the English synthetic question and `Clarify the decision boundary` branch title while their surrounding controls and statuses are Chinese.
+- Fresh local terminal: all 35 Vitest files / 72 tests, Core/Web typechecks, production build, direct-license gate, Skill validation, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, and desktop/mobile Playwright (4/4) passed. Independent `npm audit --audit-level=low` reported 0 vulnerabilities.
+- Manual desktop and mobile Browser screenshots and geometry readback found no clipping, horizontal page overflow, or console errors. No dependency, API/storage contract, Domain record, private data, provider, product-usefulness conclusion, or human acceptance entered this repair; the existing large Web chunk warning remains non-blocking.
+
 ## WEB-I18N-001 evidence - 2026-08-22
 
 - The workbench now exposes an accessible `EN` / `简中` segmented control, defaults to English, persists the selected locale when browser storage is available, tolerates blocked storage, and updates the document language.

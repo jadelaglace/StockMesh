@@ -7,7 +7,7 @@ import {
 import type { WorkbenchSnapshot } from "../../src/workbench/types";
 import { api } from "./api";
 import { GraphBoard, type GraphSelection } from "./components/GraphBoard";
-import { formatTime, localizeMessage, localizeTerm, readStoredLocale, translate, type Locale, type MessageKey } from "./i18n";
+import { formatTime, localizeMessage, localizeSearchStopReason, localizeTerm, readStoredLocale, translate, type Locale, type MessageKey } from "./i18n";
 import { ScoreView } from "./components/ScoreView";
 import { TimelineChart } from "./components/TimelineChart";
 
@@ -25,8 +25,14 @@ function projectionDiff(
 ) {
   if (!current || !previous) return [];
   const groups = ["active_node_ids", "relation_ids", "flow_ids", "state_ids"] as const;
+  const labelKeys: Record<(typeof groups)[number], MessageKey> = {
+    active_node_ids: "activeNodeIds",
+    relation_ids: "relationIds",
+    flow_ids: "flowIds",
+    state_ids: "stateIds",
+  };
   return groups.map((key) => ({
-    label: key.replaceAll("_", " "),
+    labelKey: labelKeys[key],
     added: current.projection[key].filter((id) => !previous.projection[key].includes(id)),
     removed: previous.projection[key].filter((id) => !current.projection[key].includes(id)),
   })).filter((item) => item.added.length || item.removed.length);
@@ -192,7 +198,7 @@ export function App() {
           {selectedTrace && <div className="element-trace" role="status"><div><strong>{statusLabel(selectedTrace.kind)}: {selectedTrace.label || selectedTrace.id}</strong><span>{selectedTrace.id}</span></div><p>{t("claims")}: {selectedTrace.claimRefs.join(", ") || t("none")}<br />{t("evidence")}: {selectedTrace.evidenceRefs.join(", ") || t("none")}</p><button aria-label={t("closeTrace")} onClick={() => setSelectedTrace(undefined)}><X size={13} /></button></div>}
           <section className="comparison-strip">
             <div><SlidersHorizontal size={15} /><strong>{t("positionDelta")}</strong><span>{comparedPosition?.id} <ArrowRight size={12} /> {selectedPosition?.id}</span></div>
-            {diff.length === 0 ? <p>{t("noProjectedChanges")}</p> : diff.map((item) => <p key={item.label}><b>{item.label}</b> {item.added.length ? `+${item.added.join(", ")}` : ""} {item.removed.length ? `-${item.removed.join(", ")}` : ""}</p>)}
+            {diff.length === 0 ? <p>{t("noProjectedChanges")}</p> : diff.map((item) => <p key={item.labelKey}><b>{t(item.labelKey)}</b> {item.added.length ? `+${item.added.join(", ")}` : ""} {item.removed.length ? `-${item.removed.join(", ")}` : ""}</p>)}
           </section>
         </section>
 
@@ -229,11 +235,11 @@ export function App() {
               <h3>{selectedBranch.title}</h3><p><b>{t("move")}:</b> {selectedBranch.action}</p><p><b>{t("modeledResponse")}:</b> {selectedBranch.modeledResponse}</p>
               <dl><dt>{t("assumptions")}</dt><dd>{selectedBranch.assumptions.join(" ")}</dd><dt>{t("uncertainty")}</dt><dd>{uncertaintyLabel(locale, selectedBranch.uncertainty)}</dd><dt>{t("replanTrigger")}</dt><dd>{selectedBranch.replanTrigger}</dd><dt>{t("frozenContext")}</dt><dd>{selectedBranch.contextSnapshotId}</dd><dt>{t("evidenceCutoff")}</dt><dd>{shortTime(selectedBranch.evaluation.evidenceCutoff)}</dd><dt>{t("horizon")}</dt><dd>{shortTime(selectedBranch.evaluation.horizon)}</dd><dt>{t("riskPolicy")}</dt><dd>{selectedBranch.evaluation.riskPolicy}</dd><dt>{t("evaluationProfile")}</dt><dd>{selectedBranch.evaluation.evaluationProfile}</dd><dt>{t("objectiveWeights")}</dt><dd>{snapshot.context.objectives.map((item) => `${item.partyLabel} ${Math.round(item.weight * 100)}%`).join(" · ")}</dd><dt>{t("scoreUncertainty")}</dt><dd>{uncertaintyLabel(locale, selectedBranch.evaluation.uncertainty)}</dd></dl>
               <ScoreView scorecards={selectedBranch.evaluation.partyScorecards} locale={locale} label={t("selectedBranch")} />
-              <section className="branch-compare" aria-label={t("branchComparison")}><label><span>{t("compareBranch")}</span><select value={compareBranchId ?? ""} onChange={(event) => setCompareBranchId(event.target.value)}>{snapshot.branches.filter((branch) => branch.id !== selectedBranch.id).map((branch) => <option value={branch.id} key={branch.id}>{branch.title} · {statusLabel(branch.purpose)}</option>)}</select></label>{comparedBranch && <><p><b>{comparedBranch.title}</b> · {statusLabel(comparedBranch.purpose)} · {statusLabel(comparedBranch.realization)}</p>{branchDiff.length === 0 ? <p>{t("noProjectedBranchDifferences")}</p> : branchDiff.map((item) => <p key={item.label}><b>{item.label}</b> {item.added.length ? `+${item.added.join(", ")}` : ""} {item.removed.length ? `-${item.removed.join(", ")}` : ""}</p>)}<ScoreView label={t("comparedBranch")} locale={locale} scorecards={comparedBranch.evaluation.partyScorecards} /></>}</section>
+              <section className="branch-compare" aria-label={t("branchComparison")}><label><span>{t("compareBranch")}</span><select value={compareBranchId ?? ""} onChange={(event) => setCompareBranchId(event.target.value)}>{snapshot.branches.filter((branch) => branch.id !== selectedBranch.id).map((branch) => <option value={branch.id} key={branch.id}>{branch.title} · {statusLabel(branch.purpose)}</option>)}</select></label>{comparedBranch && <><p><b>{comparedBranch.title}</b> · {statusLabel(comparedBranch.purpose)} · {statusLabel(comparedBranch.realization)}</p>{branchDiff.length === 0 ? <p>{t("noProjectedBranchDifferences")}</p> : branchDiff.map((item) => <p key={item.labelKey}><b>{t(item.labelKey)}</b> {item.added.length ? `+${item.added.join(", ")}` : ""} {item.removed.length ? `-${item.removed.join(", ")}` : ""}</p>)}<ScoreView label={t("comparedBranch")} locale={locale} scorecards={comparedBranch.evaluation.partyScorecards} /></>}</section>
               <div className="branch-actions"><button title={t("checkoutVariation")} disabled={Boolean(busy) || snapshot.selectedPositionId === selectedBranch.positionId} onClick={() => void refresh(selectedBranch.positionId)}><ChevronRight size={15} /> {snapshot.selectedPositionId === selectedBranch.positionId ? t("checkedOut") : t("checkout")}</button><button title={t("pinVariation")} disabled={Boolean(busy)} onClick={() => void command("pin", () => api.pin(selectedBranch.id))}>{busy === "pin" ? <RefreshCw className="spin" size={15} /> : <Pin size={15} />} {busy === "pin" ? t("pinning") : t("pin")}</button><button title={t("replayFrozenContext")} disabled={Boolean(busy)} onClick={() => void command("replay", () => api.replay(selectedBranch.id))}>{busy === "replay" ? <RefreshCw className="spin" size={15} /> : <ArchiveRestore size={15} />} {busy === "replay" ? t("replaying") : t("replay")}</button><button title={t("forkVariation")} disabled={Boolean(busy)} onClick={() => void command("fork", () => api.fork(selectedBranch.id))}>{busy === "fork" ? <RefreshCw className="spin" size={15} /> : <Split size={15} />} {busy === "fork" ? t("forking") : t("fork")}</button></div>
             </div>}
           </div>}
-          {snapshot.searchRuns[0] && <div className="search-budget"><div><strong>{statusLabel(snapshot.searchRuns[0].status)}</strong><span>{snapshot.searchRuns[0].stopReason ?? t("policyTerminal")}</span></div><span>{t("searchUsage", { positions: snapshot.searchRuns[0].usage.materializedPositions ?? 0, calls: snapshot.searchRuns[0].usage.analysisCalls ?? 0, depth: snapshot.searchRuns[0].budgets.maxDepth ?? t("open") })}</span>{["paused-budget", "paused-user", "failed"].includes(snapshot.searchRuns[0].status) && <button disabled={Boolean(busy)} onClick={() => void command("resume", () => api.resume(snapshot.searchRuns[0]!.id))}>{busy === "resume" ? <RefreshCw className="spin" size={14} /> : <Play size={14} />} {busy === "resume" ? t("resuming") : t("resumeBudget")}</button>}</div>}
+          {snapshot.searchRuns[0] && <div className="search-budget"><div><strong>{statusLabel(snapshot.searchRuns[0].status)}</strong><span>{localizeSearchStopReason(locale, snapshot.searchRuns[0].stopReason, t("policyTerminal"))}</span></div><span>{t("searchUsage", { positions: snapshot.searchRuns[0].usage.materializedPositions ?? 0, calls: snapshot.searchRuns[0].usage.analysisCalls ?? 0, depth: snapshot.searchRuns[0].budgets.maxDepth ?? t("open") })}</span>{["paused-budget", "paused-user", "failed"].includes(snapshot.searchRuns[0].status) && <button disabled={Boolean(busy)} onClick={() => void command("resume", () => api.resume(snapshot.searchRuns[0]!.id))}>{busy === "resume" ? <RefreshCw className="spin" size={14} /> : <Play size={14} />} {busy === "resume" ? t("resuming") : t("resumeBudget")}</button>}</div>}
         </section>
       </main>
 
