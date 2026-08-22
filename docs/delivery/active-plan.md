@@ -237,4 +237,4 @@ None. P7 requires explicit authorization.
 
 ## Next-start queue
 
-None. P6 and later phases require explicit authorization.
+None. P7 requires explicit authorization.
