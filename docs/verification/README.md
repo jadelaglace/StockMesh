@@ -268,6 +268,40 @@ was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as
 `1128b56`. Local and public `main` matched after merge, and the remote
 implementation branch was deleted. Human product acceptance remains open.
 
+## FIX-005 evidence - 2026-08-22
+
+- The post-P6 review reproduced five defects: body-capable strings passed the
+  purported body-free contract; terminal-assessment coverage was mislabeled as
+  calibration; reference closure and self-declared denominators overstated
+  reconstruction evidence; report publication used a racy truncating write; and
+  the public entry/roadmap/status text predated delivered phases.
+- `stockmesh.private-pilot-bundle/v2` accepts only namespace-qualified SHA-256
+  identities and private policy references. It records an authorized inventory
+  identity and denominator basis established before preparation. URLs, prose,
+  credential-shaped strings, unknown fields, dangling references, late bases,
+  duplicate forecast criteria, and calibration samples attached to ineligible
+  branches fail closed.
+- The v2 report labels prepared step/role coverage and reference closure for what
+  they prove. Forecast scorable coverage and terminal-assessment coverage are
+  separate; calibration remains `not-observed` without criterion-level
+  probabilities and covered binary outcomes, then reports a Brier score rather
+  than treating every assessed forecast as correct.
+- The CLI validates input through an open regular-file handle, creates and syncs
+  a same-directory exclusive temporary report, and atomically publishes it
+  without replacing an existing destination. Malformed input and diagnostics
+  remain body-free and bounded.
+- Fresh repair terminal before GitHub publication: `npm ci` installed 236
+  packages and audited 237 with 0 vulnerabilities; independent `npm audit
+  --audit-level=low` also reported 0. All 33 Vitest files / 62 tests, Core/Web
+  typechecks, production build, direct-license gate, Skill validation, P0 and
+  `0.1.0` validators, repository/public-boundary gate, `git diff --check`, and
+  2/2 desktop/mobile Playwright projects passed. No dependency, provider,
+  service, database migration, private-data read, or private-case publication
+  entered the repair.
+- The original private v1 observation remains historical evidence; it was not
+  silently reinterpreted as a v2 run. A future authorized private v2 preparation
+  must create its coverage basis before preparation and remains outside Git.
+
 ## P6-001 evidence - 2026-08-22
 
 - The [frozen P6 matrix](p6-acceptance-matrix.json) selects ten criteria for one
@@ -312,6 +346,11 @@ Terminal defect ledger: no known P6 implementation defect remains after the
 direct and fresh full round. The five `not-observed` measurement gaps remain
 real pilot results, not engineering failures to hide or synthetic values to
 invent.
+
+Post-terminal correction: the later review reproduced five defects that
+invalidate the original “no known P6 implementation defect” statement.
+[FIX-005](#fix-005-evidence---2026-08-22) repairs the public evaluator and claim
+boundary without rewriting the historical private v1 observation.
 
 GitHub Flow: implementation commit `922915b` was pushed on
 `codex/p6-private-pilot`; [PR #15](https://github.com/jadelaglace/StockMesh/pull/15)

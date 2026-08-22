@@ -312,17 +312,22 @@ transport boundary.
 ### P6 private-pilot evaluation architecture
 
 P6 adds one local evaluation boundary, not another product backend or ingestion
-authority. A private adapter prepares a body-free bundle containing explicit
-authorization, opaque structural identities and references, expected counts,
-unresolved correction items, eligible forecast/assessment markers, and optional
-attributed human ratings. The adapter and real bundle remain outside Git.
+authority. Its repaired v2 contract uses namespaced opaque identities and
+private policy references rather than body-capable free text. A private adapter
+freezes an authorized source-inventory identity and expected counts before
+preparation, then emits only structural references, unresolved-item identities,
+eligible forecast/assessment markers, optional criterion-level calibration
+samples, and optional attributed human ratings. The adapter, inventory, and real
+bundle remain outside Git.
 
-The public `pilot` module strictly validates that bundle, computes transparent
-measurements with numerators and denominators, and writes a complete report only
-to a Git-ignored private path. Missing human judgment, forecast criteria, or
-assessment evidence remains `not-observed`; record volume cannot stand in for
-usefulness or calibration. The CLI verifies both paths through Git ignore before
-reading or writing and emits only a body-free execution envelope.
+The public `pilot` module strictly validates that bundle and reports prepared
+coverage against the frozen inventory basis. Reference closure is a validation
+invariant, not extraction quality. Forecast assessment coverage remains distinct
+from calibration; calibration requires criterion-level probabilities and
+covered binary outcomes and uses a Brier score. Missing human judgment or
+calibration evidence remains `not-observed`. The CLI reads through a validated
+file handle and exclusively publishes a synced temporary report through an
+atomic same-directory link, so existing output is never truncated or replaced.
 
 This boundary does not read SQLite, append canonical or possibility records,
 call an LLM provider, teach the universal Domain a case-specific schema, or make

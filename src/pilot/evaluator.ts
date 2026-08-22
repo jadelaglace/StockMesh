@@ -1,5 +1,5 @@
 import { stableHash } from "../methods/identity.js";
-import type { PilotHumanRating, PilotMetric, PrivatePilotBundle, PrivatePilotReport } from "./types.js";
+import type { PilotHumanRating, PilotMetric, PrivatePilotReport } from "./types.js";
 import { validatePrivatePilotBundle } from "./validation.js";
 
 function ratio(numerator: number, denominator: number, limitation: string): PilotMetric {
@@ -17,29 +17,38 @@ function human(rating: PilotHumanRating | undefined, limitation: string): PilotM
 export function evaluatePrivatePilot(input: unknown): PrivatePilotReport {
   const bundle = validatePrivatePilotBundle(input);
   const referenced = [...bundle.roles.flatMap((item) => item.sourceRefs), ...bundle.steps.flatMap((item) => item.sourceRefs), ...bundle.branches.flatMap((item) => item.sourceRefs)];
-  const sourceSet = new Set(bundle.sourceRefs);
-  const resolved = referenced.filter((id) => sourceSet.has(id)).length;
   const forecastOnly = bundle.branches.filter((item) => item.purpose === "forecast");
-  const specificForecasts = forecastOnly.filter((item) => item.criteriaCount > 0 && item.horizonDeclared);
+  const scorableForecasts = forecastOnly.filter((item) => item.criteriaCount > 0 && item.horizonDeclared);
   const assessedForecasts = forecastOnly.filter((item) => item.assessment !== undefined && item.assessment !== "pending" && item.assessment !== "unknown");
+  const samples = bundle.calibrationSamples ?? [];
+  const brierSum = samples.reduce((sum, sample) => sum + ((sample.predictedProbability - sample.observedOutcome) ** 2), 0);
   const ratings = bundle.humanRatings;
   const metrics = {
-    sourceReferenceIntegrity: ratio(resolved, referenced.length, "Measures structural reference resolution, not source-body truth."),
-    reconstructionCoverage: ratio(bundle.steps.length, bundle.expectedSteps, "Expected-step denominator is supplied by the authorized private preparation boundary."),
-    profileCoverage: ratio(bundle.roles.filter((item) => item.claimCount > 0).length, bundle.expectedRoles, "A role with a claim is covered structurally; claim correctness still requires review."),
-    correctionBurden: bundle.steps.length === 0
-      ? { status: "not-observed" as const, limitation: "No reconstructed steps exist for a correction-burden denominator." }
-      : { status: "observed" as const, numerator: bundle.unresolvedItems.length, denominator: bundle.steps.length, value: bundle.unresolvedItems.length / bundle.steps.length, unit: "unresolved-items-per-step", limitation: "Counts unresolved structural items; it does not estimate correction time or cognitive effort." },
-    forecastSpecificity: ratio(specificForecasts.length, forecastOnly.length, "Only purpose-typed forecasts with explicit criteria and horizon are eligible."),
-    forecastCalibration: ratio(assessedForecasts.length, forecastOnly.length, "Coverage of eligible terminal assessments only; no accuracy score is inferred from missing or pending outcomes."),
+    sourceReferenceClosure: ratio(referenced.length, referenced.length, "Validation invariant over reference occurrences; it does not measure source truth or extraction completeness."),
+    preparedStepCoverage: ratio(bundle.steps.length, bundle.coverageBasis.expectedSteps, "Denominator is frozen before preparation and traced to an authorized private inventory; the evaluator cannot inspect source bodies to prove extraction quality."),
+    preparedRoleCoverage: ratio(bundle.roles.filter((item) => item.claimCount > 0).length, bundle.coverageBasis.expectedRoles, "A role with at least one claim is structurally covered; claim correctness and completeness still require review."),
+    unresolvedItemDensity: bundle.steps.length === 0
+      ? { status: "not-observed" as const, limitation: "No prepared steps exist for an unresolved-item denominator." }
+      : { status: "observed" as const, numerator: bundle.unresolvedItems.length, denominator: bundle.steps.length, value: bundle.unresolvedItems.length / bundle.steps.length, unit: "unresolved-items-per-prepared-step", limitation: "Counts opaque unresolved-item identities; it does not estimate correction time or cognitive effort." },
+    forecastScorableCoverage: ratio(scorableForecasts.length, forecastOnly.length, "Structural readiness only: criteria count and horizon are declared without exposing forecast bodies or proving semantic specificity."),
+    forecastAssessmentCoverage: ratio(assessedForecasts.length, forecastOnly.length, "Coverage of eligible terminal assessments; this is not forecast quality or calibration."),
+    forecastCalibration: samples.length === 0
+      ? { status: "not-observed" as const, limitation: "Requires criterion-level predicted probabilities and covered binary outcomes; categorical assessment coverage is not calibration." }
+      : { status: "observed" as const, numerator: brierSum, denominator: samples.length, value: brierSum / samples.length, unit: "brier-score-0-best", limitation: "Criterion-level Brier score over supplied covered outcomes; sample size and representativeness remain visible." },
     contextualUsefulness: human(ratings?.contextualUsefulness, "Requires an attributed user rating after using the reconstructed context."),
     profileRevisionUsefulness: human(ratings?.profileRevisionUsefulness, "Requires an attributed user rating after reviewing profile revisions."),
     userLearning: human(ratings?.userLearning, "Requires an attributed user judgment; record volume cannot prove learning."),
   };
   const gaps = Object.entries(metrics).filter(([, metric]) => metric.status === "not-observed").map(([name]) => name).sort();
   return {
-    schema: "stockmesh.private-pilot-report/v1",
+    schema: "stockmesh.private-pilot-report/v2",
     inputIdentity: stableHash(bundle),
+    coverageBasis: {
+      identity: bundle.coverageBasis.identity,
+      authority: bundle.coverageBasis.authority,
+      expectedRoles: bundle.coverageBasis.expectedRoles,
+      expectedSteps: bundle.coverageBasis.expectedSteps,
+    },
     privacy: { bodyFree: true, privateOnly: true, canonicalWrites: 0, possibilityWrites: 0 },
     inventory: {
       sourceRefs: bundle.sourceRefs.length,
@@ -47,6 +56,7 @@ export function evaluatePrivatePilot(input: unknown): PrivatePilotReport {
       steps: bundle.steps.length,
       unresolvedItems: bundle.unresolvedItems.length,
       branches: bundle.branches.length,
+      calibrationSamples: samples.length,
     },
     metrics,
     gaps,
