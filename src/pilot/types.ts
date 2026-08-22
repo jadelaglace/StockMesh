@@ -7,17 +7,23 @@ export interface PilotHumanRating {
 }
 
 export interface PrivatePilotBundle {
-  schema: "stockmesh.private-pilot-bundle/v1";
+  schema: "stockmesh.private-pilot-bundle/v2";
   authorization: {
     explicitlyAuthorized: true;
-    purpose: string;
+    purposeRef: string;
     authorizedAt: string;
-    retentionRule: string;
-    deletionRule: string;
+    retentionPolicyRef: string;
+    deletionPolicyRef: string;
     publication: "private-only";
   };
-  expectedRoles: number;
-  expectedSteps: number;
+  coverageBasis: {
+    identity: string;
+    authority: "authorized-source-inventory";
+    establishedAt: string;
+    expectedRoles: number;
+    expectedSteps: number;
+  };
+  preparedAt: string;
   sourceRefs: string[];
   roles: Array<{ id: string; sourceRefs: string[]; claimCount: number }>;
   steps: Array<{ id: string; sourceRefs: string[] }>;
@@ -29,6 +35,14 @@ export interface PrivatePilotBundle {
     criteriaCount: number;
     horizonDeclared: boolean;
     assessment?: "matched" | "partial" | "diverged" | "expired-unobserved" | "pending" | "unknown";
+  }>;
+  calibrationSamples?: Array<{
+    id: string;
+    forecastId: string;
+    criterionId: string;
+    assessmentId: string;
+    predictedProbability: number;
+    observedOutcome: 0 | 1;
   }>;
   humanRatings?: {
     contextualUsefulness?: PilotHumanRating;
@@ -47,8 +61,14 @@ export interface PilotMetric {
 }
 
 export interface PrivatePilotReport {
-  schema: "stockmesh.private-pilot-report/v1";
+  schema: "stockmesh.private-pilot-report/v2";
   inputIdentity: string;
+  coverageBasis: {
+    identity: string;
+    authority: "authorized-source-inventory";
+    expectedRoles: number;
+    expectedSteps: number;
+  };
   privacy: {
     bodyFree: true;
     privateOnly: true;
@@ -61,13 +81,15 @@ export interface PrivatePilotReport {
     steps: number;
     unresolvedItems: number;
     branches: number;
+    calibrationSamples: number;
   };
   metrics: {
-    sourceReferenceIntegrity: PilotMetric;
-    reconstructionCoverage: PilotMetric;
-    profileCoverage: PilotMetric;
-    correctionBurden: PilotMetric;
-    forecastSpecificity: PilotMetric;
+    sourceReferenceClosure: PilotMetric;
+    preparedStepCoverage: PilotMetric;
+    preparedRoleCoverage: PilotMetric;
+    unresolvedItemDensity: PilotMetric;
+    forecastScorableCoverage: PilotMetric;
+    forecastAssessmentCoverage: PilotMetric;
     forecastCalibration: PilotMetric;
     contextualUsefulness: PilotMetric;
     profileRevisionUsefulness: PilotMetric;

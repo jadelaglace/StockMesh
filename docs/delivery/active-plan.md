@@ -4,7 +4,16 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. P7 requires explicit authorization.
+**FIX-005 — Repair reviewed P6 integrity and claim defects.**
+
+- Source anchor: [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7).
+- User goal: repair the five reproduced P6 defects, then complete P7 with requirements first, architecture considered before development, and testing after implementation.
+- Current state: fresh repair gate passed on `codex/fix-p6-pilot-integrity`; GitHub publication remains. The v2 contract, honest metric names/limits, criterion-level Brier calibration, atomic exclusive report publication, and current public status text have direct regressions.
+- Declared terminal: strict structural identities reject bodies/locators/credentials; forecast quality and assessment coverage are distinct; reconstruction claims expose independent-denominator provenance and validation limits; report publication is atomic and preserves existing output on failure; public entry/status/roadmap language is current; direct regressions and the full repository gate pass; the repair is merged through GitHub Flow.
+- Protected boundary: no private case body, locator, alias, credential, or dossier is inspected or published; the P6 run remains a prepared structural observation rather than a proven real product workflow; canonical/possibility authority, Web primacy, provider neutrality, and P0-P5 compatibility remain unchanged.
+- Agent temporary subplan: freeze the corrected P6 contract and regressions, implement the smallest dependency-free repair, run a fresh full gate, merge the repair, then auto-promote the already authorized P7 item.
+- Next action: commit, push, review, and merge FIX-005 through GitHub Flow; then auto-promote P7.
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly created a Codex Goal to repair the reviewed P6 defects and then complete P7.
 
 ## Last terminal: P6-001
 
@@ -237,4 +246,8 @@ None. P7 requires explicit authorization.
 
 ## Next-start queue
 
-None. P7 requires explicit authorization.
+1. **P7-001 — Learning and replaceable-component hardening**
+   - Source: [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7).
+   - Promotion policy: `legal-terminal-auto-promote` after FIX-005 reaches its declared terminal.
+   - Required order: requirements and measurable target -> architecture and ownership -> implementation -> tests and evidence.
+   - Protected boundary: component replacement requires a measured target and traceable evidence; fixture volume cannot prove usefulness, real-provider quality, or human acceptance.

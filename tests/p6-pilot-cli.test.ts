@@ -5,6 +5,10 @@ import { afterEach, describe, expect, it } from "vitest";
 
 const roots: string[] = [];
 
+function opaque(namespace: string, digit: string): string {
+  return `${namespace}-${digit.repeat(64)}`;
+}
+
 function privateRoot(): string {
   const root = mkdtempSync(join(process.cwd(), "private", "p6-cli-test-"));
   roots.push(root);
@@ -13,20 +17,22 @@ function privateRoot(): string {
 
 function input(): object {
   return {
-    schema: "stockmesh.private-pilot-bundle/v1",
+    schema: "stockmesh.private-pilot-bundle/v2",
     authorization: {
       explicitlyAuthorized: true,
-      purpose: "Synthetic CLI test",
+      purposeRef: opaque("purpose", "1"),
       authorizedAt: "2026-08-22T00:00:00Z",
-      retentionRule: "Test lifetime",
-      deletionRule: "Delete after test",
+      retentionPolicyRef: opaque("retention", "2"),
+      deletionPolicyRef: opaque("deletion", "3"),
       publication: "private-only",
     },
-    expectedRoles: 1,
-    expectedSteps: 1,
-    sourceRefs: ["source-1"],
-    roles: [{ id: "role-1", sourceRefs: ["source-1"], claimCount: 1 }],
-    steps: [{ id: "step-1", sourceRefs: ["source-1"] }],
+    coverageBasis: {
+      identity: "b".repeat(64), authority: "authorized-source-inventory", establishedAt: "2026-08-22T00:01:00Z", expectedRoles: 1, expectedSteps: 1,
+    },
+    preparedAt: "2026-08-22T00:02:00Z",
+    sourceRefs: [opaque("source", "1")],
+    roles: [{ id: opaque("role", "1"), sourceRefs: [opaque("source", "1")], claimCount: 1 }],
+    steps: [{ id: opaque("step", "1"), sourceRefs: [opaque("source", "1")] }],
     unresolvedItems: [],
     branches: [],
   };
@@ -37,9 +43,7 @@ function run(inputPath: string, outputPath: string) {
   const args = process.platform === "win32"
     ? ["/d", "/s", "/c", "npm.cmd", "run", "--silent", "pilot", "--", "--input", inputPath, "--output", outputPath]
     : ["run", "--silent", "pilot", "--", "--input", inputPath, "--output", outputPath];
-  return spawnSync(command, args, {
-    cwd: process.cwd(), encoding: "utf8", timeout: 20_000,
-  });
+  return spawnSync(command, args, { cwd: process.cwd(), encoding: "utf8", timeout: 20_000 });
 }
 
 afterEach(() => {
@@ -48,7 +52,7 @@ afterEach(() => {
 });
 
 describe("P6 private pilot CLI", () => {
-  it("writes only to ignored paths and emits a body-free envelope", () => {
+  it("atomically creates a body-free report only at an ignored path", () => {
     const root = privateRoot();
     const source = join(root, "input.json");
     const report = join(root, "report.json");
@@ -57,8 +61,8 @@ describe("P6 private pilot CLI", () => {
     const result = run(relative(process.cwd(), source), relative(process.cwd(), report));
     expect(result.status).toBe(0);
     expect(result.stderr).toBe("");
-    expect(JSON.parse(result.stdout)).toMatchObject({ status: "succeeded", processor: { name: "stockmesh-private-pilot", version: "1" } });
-    expect(JSON.parse(readFileSync(report, "utf8"))).toMatchObject({ privacy: { bodyFree: true, privateOnly: true, canonicalWrites: 0 } });
+    expect(JSON.parse(result.stdout)).toMatchObject({ status: "succeeded", processor: { name: "stockmesh-private-pilot", version: "2" } });
+    expect(JSON.parse(readFileSync(report, "utf8"))).toMatchObject({ schema: "stockmesh.private-pilot-report/v2", privacy: { bodyFree: true, privateOnly: true, canonicalWrites: 0 } });
     expect(result.stdout).not.toContain(root);
   });
 
@@ -66,7 +70,6 @@ describe("P6 private pilot CLI", () => {
     const root = privateRoot();
     const source = join(root, "input.json");
     writeFileSync(source, JSON.stringify(input()), "utf8");
-
     const result = run(relative(process.cwd(), source), "p6-public-report.json");
     expect(result.status).toBe(2);
     expect(result.stdout).toBe("");
@@ -90,17 +93,23 @@ describe("P6 private pilot CLI", () => {
     expect(JSON.parse(oversized.stderr)).toMatchObject({ error: expect.stringMatching(/\.\.\.$/) });
   });
 
-  it("never overwrites its private input bundle", () => {
+  it("preserves its input and every pre-existing output", () => {
     const root = privateRoot();
     const source = join(root, "input.json");
+    const report = join(root, "report.json");
     writeFileSync(source, JSON.stringify(input()), "utf8");
-    const result = run(relative(process.cwd(), source), relative(process.cwd(), source));
-    expect(result.status).toBe(2);
-    expect(JSON.parse(result.stderr)).toEqual({ status: "rejected", error: "pilot input and output must differ" });
-    expect(JSON.parse(readFileSync(source, "utf8"))).toMatchObject({ schema: "stockmesh.private-pilot-bundle/v1" });
+    const same = run(relative(process.cwd(), source), relative(process.cwd(), source));
+    expect(same.status).toBe(2);
+    expect(JSON.parse(readFileSync(source, "utf8"))).toMatchObject({ schema: "stockmesh.private-pilot-bundle/v2" });
+
+    writeFileSync(report, "preserve-existing-report", "utf8");
+    const existing = run(relative(process.cwd(), source), relative(process.cwd(), report));
+    expect(existing.status).toBe(2);
+    expect(JSON.parse(existing.stderr)).toEqual({ status: "rejected", error: "pilot output must not already exist" });
+    expect(readFileSync(report, "utf8")).toBe("preserve-existing-report");
   });
 
-  it("rejects a linked report target", () => {
+  it("rejects a linked report target without changing its target", () => {
     const root = privateRoot();
     const source = join(root, "input.json");
     const target = join(root, "target.json");
@@ -108,10 +117,9 @@ describe("P6 private pilot CLI", () => {
     writeFileSync(source, JSON.stringify(input()), "utf8");
     writeFileSync(target, "preserve", "utf8");
     linkSync(target, report);
-
     const result = run(relative(process.cwd(), source), relative(process.cwd(), report));
     expect(result.status).toBe(2);
-    expect(JSON.parse(result.stderr)).toEqual({ status: "rejected", error: "pilot output must be an unshared regular file" });
+    expect(JSON.parse(result.stderr)).toEqual({ status: "rejected", error: "pilot output must not already exist" });
     expect(readFileSync(target, "utf8")).toBe("preserve");
   });
 });

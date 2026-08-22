@@ -137,5 +137,4 @@ scope.
 
 ## Recommended next decision
 
-P5 is the next candidate only after an explicit new goal; do not silently expand P4 into
-Skill/CLI clients, private pilots, live-provider claims, or measured hardening.
+Repair the reviewed P6 integrity and claim defects first. [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7) then explicitly authorizes P7: freeze measurable component targets, preserve missing real-use evidence, and record the smallest evidence-backed replacement or retention decision. Do not turn P7 into a live-provider, private-publication, or product-acceptance claim.

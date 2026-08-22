@@ -4,7 +4,7 @@ StockMesh is an early-stage, context-aware network analysis project. Its first p
 
 The name StockMesh is a tribute to Stockfish; StockMesh does not use Stockfish source code.
 
-The project is currently in **definition / delivery foundation**. A TypeScript/Node local-first architecture direction is adopted, while product implementation remains unstarted.
+The project is currently in **delivery foundation / measured hardening**. A TypeScript/Node local-first modular monolith implements the synthetic canonical, analysis, branch/replay, Web, Skill/CLI, and private structural-evaluation slices. Real-provider quality, real workflow usefulness, and human product acceptance remain open.
 
 ## Start here
 
@@ -27,7 +27,7 @@ The project is currently in **definition / delivery foundation**. A TypeScript/N
 
 ## Repository state
 
-The repository now includes candidate `stockmesh.domain@0.2.0` and a fully synthetic organizational learning-loop proof. Runtime, Web, live LLM, Skill/CLI, private-pilot, and human-acceptance work remain later milestones.
+The repository now includes candidate `stockmesh.domain@0.2.0`, a fully synthetic organizational learning loop, a responsive Web workbench, thin Skill/CLI clients, and a body-free private-pilot evaluation boundary. The private pilot proves prepared structural consistency only; it does not prove source-to-model reconstruction quality, live LLM quality, usefulness, or human acceptance. P7 adds evidence-backed component measurement and replacement/retention decisions without changing those boundaries.
 
 ## License
 

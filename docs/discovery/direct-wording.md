@@ -336,3 +336,14 @@ The external conversations supplied with the same instruction are governed by th
 - Interpretation boundary: item 1 means the review findings must be repaired and reverified before item 2 starts. Item 2 authorizes requirements-first P5 architecture, implementation, and testing; it does not authorize private-case use, a second analysis authority, direct canonical writes from clients, or a product-acceptance claim.
 
 - Interpretation boundary: this authorizes the P4 delivery round in the stated order: reconfirm the user workflow and freeze observable acceptance, reconcile the Web architecture against that workflow, then implement and test. It does not authorize P5 Skill/CLI delivery, private-case publication, real-provider claims, or human product-acceptance claims.
+
+## DW-030 — Repair the reviewed P6 defects before completing P7
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-22, Asia/Shanghai
+- Status: active; reopens only the reviewed P6 guarantees and explicitly authorizes P7 after a valid repair terminal
+- Retrieval phrases: “codex目标”, “修复上述”, “然后完成p7”, “先聚焦需求”, “思考好架构”, “然后开发”, “测试”
+
+> codex目标，修复上述，然后完成p7 先聚焦需求 思考好架构 然后开发 测试
+
+- Interpretation boundary: the five reproduced review findings must be repaired and reverified before P7 starts. After that terminal, P7 is authorized in the stated order: requirements first, architecture second, implementation third, and testing last. This instruction does not authorize private-source publication, Babata mutation, a case-defined universal Domain, a live-provider quality claim, or human product acceptance.
