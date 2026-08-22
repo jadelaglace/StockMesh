@@ -363,7 +363,7 @@ The external conversations supplied with the same instruction are governed by th
 
 - Source: direct user instruction in Codex task
 - Captured: 2026-08-22, Asia/Shanghai
-- Status: active; authorizes a Web interface localization control
+- Status: resolved by WEB-I18N-001 and merged through PR #23
 - Retrieval phrases: “切简中功能”
 
 > 还有 你加个切简中功能

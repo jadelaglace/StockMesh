@@ -10,6 +10,7 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - Fresh local terminal: all 35 Vitest files / 72 tests, Core/Web typechecks, production build, direct-license gate, Skill validation, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, and desktop/mobile Playwright (4/4) passed. Independent `npm audit --audit-level=low` reported 0 vulnerabilities.
 - Manual in-app Browser readback at `http://127.0.0.1:5173/` showed Simplified Chinese chrome with original synthetic evidence/question/Pawn labels intact and no console errors. The stray `4310` page is no longer open; the backend remains an internal API dependency of the displayed Web app.
 - No dependency, API or persistence contract, canonical/possibility record, provider, private data, component replacement, product-usefulness conclusion, or human acceptance entered this change. The existing large Web chunk warning remains a non-blocking maintenance risk.
+- Implementation commit `77a90ff` was pushed on `codex/web-simplified-chinese`. [PR #23](https://github.com/jadelaglace/StockMesh/pull/23) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `2b00248`; `main` and `origin/main` matched afterward and the remote implementation branch was deleted.
 
 ## REVIEW-006 evidence - 2026-08-22
 

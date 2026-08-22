@@ -4,15 +4,15 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-**WEB-I18N-001 — Add an English/Simplified Chinese workbench switch.**
+None.
+
+## Last terminal: WEB-I18N-001
 
 - Source anchor: [DW-032](../discovery/direct-wording.md#dw-032--add-a-simplified-chinese-interface-switch).
-- User goal: close the stray `4310` browser page and let the visible Web workbench switch to Simplified Chinese.
-- Current state: implementation and the fresh local terminal are verified on `codex/web-simplified-chinese`; `main` matched `origin/main` before work.
-- Declared terminal: the workbench exposes an accessible English/简中 language switch, translates all owned interface chrome and date/status presentation, preserves the selection locally, leaves evidence and Domain content untouched, passes unit/type/build and desktop/mobile browser checks, and is delivered through GitHub Flow.
-- Protected boundary: no source evidence, user text, Pawn/Node label, branch content, identifier, canonical/possibility record, API contract, dependency, private data, provider, or product-acceptance claim changes.
-- Agent temporary subplan: the typed dependency-free locale catalog, chart locale inputs, guarded local preference, direct regressions, and desktop/mobile checks are complete. Deliver the verified change through GitHub Flow, then write back the terminal without claiming human product acceptance.
-- Next action: commit, push, verify and merge the implementation PR; then reconcile `main` and publish terminal delivery evidence.
+- Terminal: succeeded on 2026-08-22. The Web workbench exposes an accessible, locally persistent `EN` / `简中` switch; owned chrome, dates, known statuses, charts, and command messages localize while evidence and Domain content remain verbatim. The visible Browser is on `5173`, and the stray `4310` page is closed while its API service remains available to the Web app.
+- Verification: 35 test files / 72 tests, Core/Web typecheck, build, licenses, Skill and contract validation, repository/public-boundary gate, diff check, independent 0-vulnerability audit, and 4/4 desktop/mobile Playwright passed; manual Browser readback found no console errors.
+- GitHub Flow: implementation commit `77a90ff` was pushed on `codex/web-simplified-chinese`; [PR #23](https://github.com/jadelaglace/StockMesh/pull/23) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `2b00248`; local/public `origin/main` matched and the remote implementation branch was deleted.
+- Protected boundaries: no evidence, user text, Node/Pawn label, modeled branch content, identifier, Method output, Domain record, API/storage contract, dependency, private data, provider, product-usefulness conclusion, or human acceptance changed.
 - Evidence entry: [WEB-I18N-001 evidence](../verification/README.md#web-i18n-001-evidence---2026-08-22).
 - Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly requested a Simplified Chinese switching capability in the current Web workbench.
 
