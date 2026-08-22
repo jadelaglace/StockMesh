@@ -336,6 +336,32 @@ non-linkable outcomes and gaps. A later product ingestion adapter must still use
 the existing staging/review/canonical writer and requires its own demonstrated
 need.
 
+### P7 measured-hardening architecture
+
+P7 adds a pure decision boundary above existing run reports; it is not a model
+router, package updater, benchmark executor, or deployment service. A body-free
+suite identifies baseline and optional candidate components by kind, version,
+and configuration hash. Its target policy is immutable input established before
+every observation and declares closed metric names, units, direction, absolute
+thresholds, minimum paired-scenario improvement, required scopes, sample counts,
+and allowed regression.
+
+Observations are paired by opaque scenario identity and `synthetic` or
+`authorized-private` scope. Each metric is explicitly `observed` or
+`not-observed`; contextual usefulness, profile-revision usefulness, and user
+learning require an attributed user assessor. The evaluator aggregates only
+compatible paired observations and returns transparent per-target numerators,
+denominators, baseline/candidate means, blockers, and one closed decision:
+`replace-candidate` only when every required target passes,
+`retain-baseline` when complete evidence proves a target or regression failure,
+or `defer-replacement` when a candidate/evidence/scope is absent.
+
+The output is advisory and derived. It cannot change package manifests, provider
+configuration, Method registration, Search Policy, canonical records, or
+possibility state. Component execution and measurement collection remain with
+their existing owners; a later authorized change still requires its own review,
+implementation, and regression gate.
+
 6. **Learning slice:** run synthetic and explicitly authorized pilots, measure errors/latency/usefulness, and replace only the components that fail their acceptance target.
 
 ### Upgrade triggers

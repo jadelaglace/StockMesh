@@ -31,7 +31,7 @@ first runtime phase.
 | P4 | Engineering terminal reached and merged | Responsive Web workflow over the public synthetic record; PR #8 merged as `e383d5d`. |
 | P5 | Engineering terminal reached and merged | Thin capability facade, CLI, and repository Skill over the public synthetic workflow pass the frozen matrix; PR #11 merged as `8ab1b40`. |
 | P6 | Engineering terminal reached | One local private organizational structural-validation round ran; complete inputs/reports remain outside Git and generalized gaps remain visible. |
-| P7 | Held for explicit goal | Measured component hardening remains outside P6. |
+| P7 | Active under DW-030 | Freeze body-free measurement targets and make the smallest evidence-backed replace/retain/defer decision without executing a replacement. |
 
 ## Definition history — R0: Domain clarification
 
@@ -137,4 +137,4 @@ scope.
 
 ## Recommended next decision
 
-Repair the reviewed P6 integrity and claim defects first. [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7) then explicitly authorizes P7: freeze measurable component targets, preserve missing real-use evidence, and record the smallest evidence-backed replacement or retention decision. Do not turn P7 into a live-provider, private-publication, or product-acceptance claim.
+P7 is active under [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7). Freeze measurable component targets before observations, preserve missing real-use evidence, and record the smallest evidence-backed replace, retain, or defer decision. Do not turn P7 into a live-provider, private-publication, or product-acceptance claim.

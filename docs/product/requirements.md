@@ -67,6 +67,7 @@ The underlying model must not assume that every node is a person, every edge is 
 32. Matching later reality to an earlier forecast appends a traceable assessment link; it never changes the forecast's original content, probability/rank, context, profile snapshot, or provider/Method identity. One realized Event may match several forecasts and one forecast may match several realized Events.
 33. “Did not happen” is not inferred from missing data alone. A no-match/expired assessment requires the declared horizon to have elapsed and sufficient observation coverage; otherwise the status remains pending or unknown.
 34. Realized reactions support two separately attributable learning paths: revision of subject/network Claims and calibration of the AnalysisPort, Methods, or Search Policy. Forecast text or model self-consistency alone is not evidence about the represented person or world.
+35. A component upgrade or replacement recommendation must identify the exact baseline and candidate configurations, freeze metrics and targets before observations, compare paired scenarios under declared scopes, and expose missing evidence, sample counts, improvement, and regressions. Insufficient evidence yields defer rather than an invented winner, and a recommendation cannot automatically mutate provider, Method, Search Policy, package, canonical, or possibility state.
 
 ## Current priorities
 

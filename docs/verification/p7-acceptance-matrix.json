@@ -1,0 +1,19 @@
+{
+  "phase_id": "P7",
+  "status": "frozen",
+  "frozen_at": "2026-08-22T00:00:00+08:00",
+  "scope": "One dependency-free body-free decision boundary for evidence-backed component replace, retain, or defer recommendations; no component replacement is executed.",
+  "criteria": [
+    { "id": "P7-01", "expected": "Every suite identifies exact baseline and optional candidate component kind, id, version, and configuration hash without accepting prompts, labels, endpoints, credentials, or case bodies.", "evidence_paths": ["src/hardening/types.ts", "src/hardening/validation.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-02", "expected": "The target policy has a stable identity and establishment time that precedes every observation; targets cannot be selected after results are known.", "evidence_paths": ["src/hardening/validation.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-03", "expected": "A closed metric catalog fixes direction and unit for structural coverage, correction density, forecast readiness/assessment/calibration, human usefulness/learning, latency, tokens, and monetary cost.", "evidence_paths": ["src/hardening/types.ts", "src/hardening/validation.ts"] },
+    { "id": "P7-04", "expected": "Every target declares threshold, minimum paired improvement, allowed regression, required scopes, and minimum paired scenarios with range validation.", "evidence_paths": ["src/hardening/types.ts", "src/hardening/validation.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-05", "expected": "Observations remain paired by opaque scenario and scope; duplicate metrics, duplicate scenarios, mismatched units, and unpaired candidate data fail closed.", "evidence_paths": ["src/hardening/validation.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-06", "expected": "Missing observations remain not-observed, and contextual usefulness, profile-revision usefulness, and user learning count only when attributed to the user.", "evidence_paths": ["src/hardening/validation.ts", "src/hardening/evaluator.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-07", "expected": "Each target reports scope/sample denominators, baseline and candidate means when observed, target/improvement/regression checks, limitations, and blockers.", "evidence_paths": ["src/hardening/evaluator.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-08", "expected": "Replacement is recommended only when every required target passes; complete failed evidence retains the baseline and incomplete evidence defers replacement.", "evidence_paths": ["src/hardening/evaluator.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-09", "expected": "The same normalized suite produces a deterministic identity and report without canonical, possibility, provider, package, or runtime-database writes.", "evidence_paths": ["src/hardening/evaluator.ts", "tests/p7-hardening.test.ts"] },
+    { "id": "P7-10", "expected": "P7 records the current evidence-backed retain/defer outcome and open human/real-use gaps without claiming a live-provider benchmark, executed replacement, usefulness, or human acceptance.", "evidence_paths": ["docs/delivery/status.md", "docs/verification/README.md"] },
+    { "id": "P7-11", "expected": "P0-P6 contracts, Web primacy, thin clients, data authority, provider neutrality, public/private isolation, and supply-chain/browser gates remain unchanged.", "evidence_paths": ["docs/architecture/architecture.md", "scripts/verify-repository.ps1"] }
+  ]
+}

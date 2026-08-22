@@ -4,16 +4,26 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-**FIX-005 — Repair reviewed P6 integrity and claim defects.**
+**P7-001 — Learning and replaceable-component hardening.**
 
-- Source anchor: [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7).
-- User goal: repair the five reproduced P6 defects, then complete P7 with requirements first, architecture considered before development, and testing after implementation.
-- Current state: fresh repair gate passed on `codex/fix-p6-pilot-integrity`; GitHub publication remains. The v2 contract, honest metric names/limits, criterion-level Brier calibration, atomic exclusive report publication, and current public status text have direct regressions.
-- Declared terminal: strict structural identities reject bodies/locators/credentials; forecast quality and assessment coverage are distinct; reconstruction claims expose independent-denominator provenance and validation limits; report publication is atomic and preserves existing output on failure; public entry/status/roadmap language is current; direct regressions and the full repository gate pass; the repair is merged through GitHub Flow.
-- Protected boundary: no private case body, locator, alias, credential, or dossier is inspected or published; the P6 run remains a prepared structural observation rather than a proven real product workflow; canonical/possibility authority, Web primacy, provider neutrality, and P0-P5 compatibility remain unchanged.
-- Agent temporary subplan: freeze the corrected P6 contract and regressions, implement the smallest dependency-free repair, run a fresh full gate, merge the repair, then auto-promote the already authorized P7 item.
-- Next action: commit, push, review, and merge FIX-005 through GitHub Flow; then auto-promote P7.
-- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly created a Codex Goal to repair the reviewed P6 defects and then complete P7.
+- Source anchor: [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7), legally promoted after the valid FIX-005 terminal.
+- User goal: complete P7 with requirements first, architecture considered before development, and testing after implementation while keeping the original StockMesh need primary.
+- Current state: the frozen 11-criterion matrix, architecture, strict evaluator, replace/retain/defer regressions, and fresh full terminal gate pass on `codex/p7-measured-hardening`; GitHub publication remains.
+- Declared terminal: a dependency-free, body-free hardening evaluator compares exact baseline/candidate component identities over predeclared metrics and paired scenarios; target policy is frozen before observations; missing evidence remains visible; replacement is recommended only when required scopes, sample counts, absolute targets, minimum improvement, and regression guards all pass; current components receive an evidence-backed retain/defer result without automatic replacement; direct regressions and the full repository gate pass; P7 is merged through GitHub Flow.
+- Protected boundary: P7 does not call a live provider, read or publish the private case, alter canonical/possibility authority, execute a component replacement, select a universal social score, or claim usefulness/human acceptance from synthetic measurements.
+- Agent temporary subplan: freeze the P7 metric/decision contract and architecture, implement a pure evaluator and strict validation, prove replace/retain/defer branches with synthetic observations, record the actual evidence gap, then run and publish the full terminal gate.
+- Next action: commit, push, review, and merge P7 through GitHub Flow, then perform terminal status/Goal closure.
+- Goal transition: `legal-terminal-auto-promote` — legal-terminal-auto-promote: FIX-005 met its declared terminal and DW-030 explicitly authorized P7 as the next stage.
+
+## Last terminal: FIX-005
+
+- Source anchor: [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7), following the post-P6 review.
+- Terminal: succeeded on 2026-08-22. The strict v2 pilot contract uses opaque namespaced hashes and a pre-preparation coverage basis; assessment coverage is separate from criterion-level Brier calibration; prepared coverage no longer claims extraction quality; report publication is exclusive and atomic; stale public state is corrected.
+- Verification: clean install and independent audit reported 0 vulnerabilities; 33 test files / 62 tests, Core/Web typecheck, build, licenses, Skill and contract validation, repository/public-boundary gate, diff check, and 2/2 desktop/mobile Playwright passed.
+- GitHub Flow: implementation commit `986edd2` was pushed on `codex/fix-p6-pilot-integrity`; [PR #18](https://github.com/jadelaglace/StockMesh/pull/18) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `a3c8b54`; local/public `origin/main` matched and the remote branch was deleted.
+- Protected boundaries: no private case was read or published; the historical private v1 observation was not reinterpreted as v2; canonical/possibility authority, Web primacy, provider neutrality, P0-P5 compatibility, MIT posture, and the name-only tribute remain unchanged.
+- Evidence entry: [FIX-005 evidence](../verification/README.md#fix-005-evidence---2026-08-22).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly created a Codex Goal to repair the reviewed P6 defects before P7.
 
 ## Last terminal: P6-001
 
@@ -246,8 +256,4 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Next-start queue
 
-1. **P7-001 — Learning and replaceable-component hardening**
-   - Source: [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7).
-   - Promotion policy: `legal-terminal-auto-promote` after FIX-005 reaches its declared terminal.
-   - Required order: requirements and measurable target -> architecture and ownership -> implementation -> tests and evidence.
-   - Protected boundary: component replacement requires a measured target and traceable evidence; fixture volume cannot prove usefulness, real-provider quality, or human acceptance.
+None.

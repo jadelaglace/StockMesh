@@ -15,6 +15,18 @@ The P4 engineering slice uses only the public synthetic organizational learning 
 
 The executable [P4 acceptance matrix](../verification/p4-acceptance-matrix.json) narrows these behaviors into engineering evidence. It does not prove real-provider quality, private-case usefulness, human product acceptance, or the later Skill/CLI route.
 
+## Selected P7 measured-hardening slice
+
+The executable [P7 acceptance matrix](../verification/p7-acceptance-matrix.json)
+selects a narrow engineering control for component upgrades. A body-free suite
+freezes metric targets before observations, identifies exact baseline and
+candidate configurations, pairs measurements by scenario and scope, and emits
+only `replace-candidate`, `retain-baseline`, or `defer-replacement` with explicit
+evidence counts and blockers. Human-outcome metrics require attributed user
+observations. Missing private, usefulness, calibration, latency, or cost evidence
+cannot be filled from fixture volume, and an evaluator decision never performs
+the replacement itself.
+
 | ID | Observable criterion | Failure condition |
 | --- | --- | --- |
 | AC-01 | A synthetic or explicitly authorized corpus can be ingested with stable source identity, timestamps, and provenance retained. | A canonical or derived record cannot be traced to its source. |
