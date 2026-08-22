@@ -28,6 +28,17 @@ describe("P5 shared capability facade", () => {
     expect(remote.result.trace.evidence.map((item: { id: string }) => item.id)).toEqual(["evidence-syn-scope", "evidence-syn-ask"]);
     expect(remote.result.trace.analyses).toEqual([]);
     expect(remote.result.branches).toEqual([]);
+    expect(remote.result.positions.map((position: { id: string }) => position.id)).toEqual(["position-syn-001"]);
+    expect(remote.result.timeline.every((item: { cutoffStatus: string }) => item.cutoffStatus !== "hindsight")).toBe(true);
+    expect(remote.result.profileHistory.map((profile: { id: string }) => profile.id)).toEqual(["profile-snapshot-syn-root"]);
+    expect(remote.result.staging).toEqual([]);
+    expect(remote.result.revisionProposals).toEqual([]);
+
+    const earliest = (await runtime.capabilities.execute("context.get", { positionId: "position-syn-000" })).result as WorkbenchSnapshot & {
+      profileHistory: Array<{ asOf: string; evidenceCutoff: string }>;
+    };
+    expect(earliest.profileHistory.every((profile) => Date.parse(profile.asOf) <= Date.parse("2026-08-17T09:00:00Z")
+      && Date.parse(profile.evidenceCutoff) <= Date.parse("2026-08-17T09:00:00Z"))).toBe(true);
 
     const analysis = await runtime.capabilities.execute("analysis.run", { positionId: "position-syn-001" });
     const result = analysis.result as { runId: string; snapshot: { selectedPositionId: string; trace: { analyses: unknown[] } } };
@@ -35,6 +46,14 @@ describe("P5 shared capability facade", () => {
     expect(result.snapshot.trace.analyses).toHaveLength(1);
     expect((runtime.store.db.prepare("SELECT root_position_id FROM search_runs WHERE id = ?").get(result.runId) as { root_position_id: string }).root_position_id).toBe("position-syn-001");
     expect((await runtime.capabilities.execute("context.get", { positionId: "position-syn-004" })).result).toMatchObject({ trace: { analyses: [] } });
+
+    const currentAnalysis = await runtime.capabilities.execute("analysis.run", { positionId: "position-syn-004" });
+    const currentSnapshot = (currentAnalysis.result as { snapshot: WorkbenchSnapshot }).snapshot;
+    const selectedBranch = currentSnapshot.branches[0]!;
+    const branchContext = (await runtime.capabilities.execute("context.get", { positionId: selectedBranch.positionId })).result as WorkbenchSnapshot;
+    expect(branchContext.positions.map((position) => position.id)).toEqual([selectedBranch.positionId]);
+    expect(branchContext.branches.map((branch) => branch.id)).toEqual([selectedBranch.id]);
+    expect(branchContext.timeline.filter((item) => item.cutoffStatus === "variation").map((item) => item.resultingPositionId)).toEqual([selectedBranch.positionId]);
   });
 
   it("compares typed projection identities without a scalar and stages without canonical writes", async () => {
@@ -70,6 +89,7 @@ describe("P5 shared capability facade", () => {
     await expect(runtime.capabilities.execute("evidence.accept", {})).rejects.toThrow("unsupported capability");
     await expect(runtime.capabilities.execute("analysis.run", {})).rejects.toThrow("positionId is required");
     await expect(runtime.capabilities.execute("workbench.get", [])).rejects.toThrow("JSON object");
+    await expect(runtime.capabilities.execute("context.get", { position_id: "position-syn-001" })).rejects.toThrow("unsupported input field");
     await expect(runtime.capabilities.execute("evidence.stage", { text: "synthetic", observedAt: "not-a-time" })).rejects.toThrow("valid timestamp");
     expect((runtime.store.db.prepare("SELECT COUNT(*) AS count FROM staging_items").get() as { count: number }).count).toBe(stagingBefore);
     expect((runtime.store.db.prepare("SELECT COUNT(*) AS count FROM evidence_items").get() as { count: number }).count).toBe(evidenceBefore);
@@ -77,8 +97,45 @@ describe("P5 shared capability facade", () => {
     expect(response.statusCode).toBe(400);
     expect(response.json()).toEqual({ error: "workbench-command-rejected", message: "unsupported capability: evidence.accept" });
   });
+
+  it("validates complete mutation requests before changing staging, branches, or search", async () => {
+    runtime = createWorkbenchRuntime(":memory:");
+    const analyzed = await runtime.capabilities.execute("analysis.run", { positionId: "position-syn-004" });
+    const result = analyzed.result as { runId: string; snapshot: WorkbenchSnapshot };
+    const variation = result.snapshot.branches[0]!;
+    const variationBefore = runtime.store.db.prepare("SELECT state FROM variations WHERE id = ?").get(variation.id) as { state: string };
+    const searchBefore = runtime.store.db.prepare("SELECT budgets_json FROM search_runs WHERE id = ?").get(result.runId) as { budgets_json: string };
+    const stagingBefore = (runtime.store.db.prepare("SELECT COUNT(*) AS count FROM staging_items").get() as { count: number }).count;
+    const runsBefore = (runtime.store.db.prepare("SELECT COUNT(*) AS count FROM search_runs").get() as { count: number }).count;
+
+    await expect(runtime.capabilities.execute("branch.pin", { variationId: variation.id, positionId: "missing-position" })).rejects.toThrow("Position not found");
+    await expect(runtime.capabilities.execute("branch.fork", { variationId: variation.id, positionId: "missing-position" })).rejects.toThrow("Position not found");
+    await expect(runtime.capabilities.execute("search.continue", { searchRunId: result.runId, positionId: "missing-position" })).rejects.toThrow("Position not found");
+    await expect(runtime.capabilities.execute("evidence.stage", { text: "must not stage", observedAt: "2026-08-17T10:30:00Z", positionId: "missing-position" })).rejects.toThrow("Position not found");
+    await expect(runtime.capabilities.execute("branch.pin", { variationId: variation.id, unexpected: true })).rejects.toThrow("unsupported input field");
+
+    expect(runtime.store.db.prepare("SELECT state FROM variations WHERE id = ?").get(variation.id)).toEqual(variationBefore);
+    expect(runtime.store.db.prepare("SELECT budgets_json FROM search_runs WHERE id = ?").get(result.runId)).toEqual(searchBefore);
+    expect((runtime.store.db.prepare("SELECT COUNT(*) AS count FROM staging_items").get() as { count: number }).count).toBe(stagingBefore);
+    expect((runtime.store.db.prepare("SELECT COUNT(*) AS count FROM search_runs").get() as { count: number }).count).toBe(runsBefore);
+  });
+
+  it("retries an existing failed search instead of wrapping it as succeeded", async () => {
+    runtime = createWorkbenchRuntime(":memory:");
+    const first = await runtime.capabilities.execute("analysis.run", { positionId: "position-syn-004" });
+    const runId = (first.result as { runId: string }).runId;
+    runtime.store.db.prepare("UPDATE search_runs SET status = 'failed' WHERE id = ?").run(runId);
+
+    const retried = await runtime.capabilities.execute("analysis.run", { positionId: "position-syn-004" });
+    const retriedResult = retried.result as { runId: string; snapshot: WorkbenchSnapshot };
+    expect(retriedResult.runId).toBe(runId);
+    expect(retriedResult.snapshot.searchRuns.find((run) => run.id === runId)?.status).not.toBe("failed");
+  });
 });
 
 interface WorkbenchSnapshot {
-  branches: Array<{ title: string; positionId: string }>;
+  positions: Array<{ id: string }>;
+  timeline: Array<{ cutoffStatus: string; resultingPositionId?: string }>;
+  branches: Array<{ id: string; title: string; positionId: string }>;
+  searchRuns: Array<{ id: string; status: string }>;
 }
