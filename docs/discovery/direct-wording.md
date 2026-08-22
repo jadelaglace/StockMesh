@@ -380,3 +380,14 @@ The external conversations supplied with the same instruction are governed by th
 > 局势 局势变化这个窗口显示不全 还有正谱 啊 一些地方啊 汉化文本不全 都看看怎么回事 走流程修
 
 - Interpretation boundary: reproduce and repair layout clipping around the Position/Position-delta surface and systematically inspect all Web-owned Simplified Chinese copy, including Main Line and branch surfaces. Preserve the existing boundary that evidence, user input, Node/Pawn labels, modeled branch content, identifiers, Method output, and stored Domain records remain verbatim. Deliver verified repairs through GitHub Flow without claiming human product acceptance.
+
+## DW-034 — Default the workbench and public synthetic example to Simplified Chinese
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-23, Asia/Shanghai
+- Status: active; authorizes completion of default Simplified Chinese presentation
+- Retrieval phrases: “那些tip”, “分支 目标 流程”, “正谱内容最好默认中文”, “全局都默认中文”
+
+> 局势里面 那些tip啊 还有一些分支 目标 流程 还是没汉化 还有正谱内容最好默认中文 全局都默认中文
+
+- Interpretation boundary: make Simplified Chinese the first-run default; localize all Web-owned hints, objectives, workflow labels, and branch presentation; and provide Chinese presentation copy for the repository-owned public synthetic scenario, including its Main Line. Preserve imported evidence, user input, private/real records, identifiers, and canonical Domain storage verbatim; selecting English must remain possible.

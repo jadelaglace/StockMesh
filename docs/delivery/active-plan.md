@@ -4,7 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None.
+**WEB-I18N-CONTENT-001 — Complete default Simplified Chinese presentation.**
+
+- Source anchor: [DW-034](../discovery/direct-wording.md#dw-034--default-the-workbench-and-public-synthetic-example-to-simplified-chinese).
+- User goal: default the whole workbench to Simplified Chinese and remove remaining English from Position tips, branch goals/workflow, and the repository-owned synthetic Main Line.
+- Current state: implementation and fresh local terminal pass on `codex/web-default-zh-content`; prior FIX-WEB-I18N-001 is terminal and remains preserved.
+- Declared terminal: a fresh profile opens in Simplified Chinese; every Web-owned label/hint/status is localized; the public synthetic scenario has reviewed Chinese presentation copy across Timeline, Position, Analysis, Branch, and Pawn surfaces; English remains selectable; imported/user/private content and canonical Domain records remain verbatim; tests and GitHub Flow pass.
+- Protected boundary: do not translate or mutate imported evidence, user input, private/real records, identifiers, stored Domain data, API/storage contracts, analysis semantics, dependencies, providers, or product-acceptance state.
+- Agent temporary subplan: inventory found that Web vocabulary was localized but the public synthetic context, Main Line, Pawns, objectives, branch steps/responses/assumptions, score labels, and Method caveats were rendered directly from Domain fields. A `playground-syn-orchard`-gated presentation map now covers those fields without changing API/storage values; fresh or invalid preferences default to Simplified Chinese while an explicit English preference persists. Focused unit/type checks, live full-surface inspection, and 4/4 desktop/mobile workflow tests pass.
+- Next action: commit, push, verify, and merge the implementation PR; then reconcile `main` and publish terminal delivery evidence.
+- Evidence entry: [WEB-I18N-CONTENT-001 evidence](../verification/README.md#web-i18n-content-001-evidence---2026-08-23).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly requested global default Simplified Chinese and Chinese presentation of the public synthetic Main Line, tips, objectives, workflow, and branches.
 
 ## Last terminal: FIX-WEB-I18N-001
 

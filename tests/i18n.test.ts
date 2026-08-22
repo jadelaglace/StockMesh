@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatTime, localizeMessage, localizeSearchStopReason, localizeTerm, readStoredLocale, translate } from "../web/src/i18n";
+import { formatTime, LOCALE_PREFERENCE_VERSION_KEY, localizeMessage, localizeSearchStopReason, localizeSyntheticText, localizeSyntheticValue, localizeTerm, PUBLIC_SYNTHETIC_PLAYGROUND_ID, readStoredLocale, translate } from "../web/src/i18n";
 
 describe("workbench localization", () => {
   it("renders complete Simplified Chinese chrome without changing unknown domain content", () => {
@@ -15,16 +15,27 @@ describe("workbench localization", () => {
     expect(localizeTerm("zh-CN", "medium")).toBe("中等");
     expect(localizeSearchStopReason("zh-CN", "maxDepth", "策略终止")).toBe("达到最大深度");
     expect(localizeSearchStopReason("zh-CN", undefined, "策略终止")).toBe("策略终止");
-    expect(localizeTerm("zh-CN", "decision-authority")).toBe("decision authority");
+    expect(localizeTerm("zh-CN", "decision-authority")).toBe("决策授权关系");
     expect(localizeMessage("zh-CN", "Evidence accepted.")).toBe("证据已接受。");
     expect(localizeMessage("zh-CN", "verbatim model output")).toBe("verbatim model output");
   });
 
-  it("defaults invalid preferences to English and formats dates by locale", () => {
-    expect(readStoredLocale(undefined)).toBe("en");
-    expect(readStoredLocale({ getItem: () => "invalid" })).toBe("en");
+  it("defaults fresh and invalid preferences to Simplified Chinese while retaining an explicit choice", () => {
+    expect(readStoredLocale(undefined)).toBe("zh-CN");
+    expect(readStoredLocale({ getItem: () => "invalid" })).toBe("zh-CN");
     expect(readStoredLocale({ getItem: () => "zh-CN" })).toBe("zh-CN");
-    expect(readStoredLocale({ getItem: () => { throw new Error("storage blocked"); } })).toBe("en");
+    expect(readStoredLocale({ getItem: () => "en" })).toBe("zh-CN");
+    expect(readStoredLocale({ getItem: (key) => key === LOCALE_PREFERENCE_VERSION_KEY ? "2" : "en" })).toBe("en");
+    expect(readStoredLocale({ getItem: () => { throw new Error("storage blocked"); } })).toBe("zh-CN");
     expect(formatTime("zh-CN", "2026-08-17T10:20:00Z")).toContain("8月");
+  });
+
+  it("localizes only repository-owned synthetic presentation content", () => {
+    expect(localizeSyntheticText("zh-CN", PUBLIC_SYNTHETIC_PLAYGROUND_ID, "Clarify the decision boundary")).toBe("明确决策边界");
+    expect(localizeSyntheticText("zh-CN", PUBLIC_SYNTHETIC_PLAYGROUND_ID, "improve decision clarity")).toBe("提升决策清晰度");
+    expect(localizeSyntheticText("en", PUBLIC_SYNTHETIC_PLAYGROUND_ID, "Clarify the decision boundary")).toBe("Clarify the decision boundary");
+    expect(localizeSyntheticText("zh-CN", "playground-real", "Clarify the decision boundary")).toBe("Clarify the decision boundary");
+    expect(localizeSyntheticText("zh-CN", PUBLIC_SYNTHETIC_PLAYGROUND_ID, "user supplied text")).toBe("user supplied text");
+    expect(localizeSyntheticValue("zh-CN", PUBLIC_SYNTHETIC_PLAYGROUND_ID, { status: "synchronous-alignment-first" })).toEqual({ status: "优先同步对齐" });
   });
 });

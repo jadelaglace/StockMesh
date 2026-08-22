@@ -1,9 +1,9 @@
 import { echarts } from "../charts";
 import { useEffect, useRef } from "react";
 import type { WorkbenchSnapshot } from "../../../src/workbench/types";
-import { localizeTerm, translate, type Locale } from "../i18n";
+import { localizeSyntheticText, localizeTerm, translate, type Locale } from "../i18n";
 
-export function TimelineChart({ events, locale }: { events: WorkbenchSnapshot["timeline"]; locale: Locale }) {
+export function TimelineChart({ events, locale, playgroundId }: { events: WorkbenchSnapshot["timeline"]; locale: Locale; playgroundId: string }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current) return;
@@ -14,7 +14,7 @@ export function TimelineChart({ events, locale }: { events: WorkbenchSnapshot["t
       symbol,
       symbolSize: 11,
       itemStyle: { color, borderColor: "#ffffff", borderWidth: 2 },
-      data: events.filter(predicate).map((event, index) => ({ name: event.summary, value: [Date.parse(event.occurredAt), 0.44 + (index % 2) * 0.18], mode: event.mode, cutoffStatus: event.cutoffStatus })),
+      data: events.filter(predicate).map((event, index) => ({ name: localizeSyntheticText(locale, playgroundId, event.summary), value: [Date.parse(event.occurredAt), 0.44 + (index % 2) * 0.18], mode: event.mode, cutoffStatus: event.cutoffStatus })),
     });
     chart.setOption({
       animation: false,
@@ -32,6 +32,6 @@ export function TimelineChart({ events, locale }: { events: WorkbenchSnapshot["t
     const resize = new ResizeObserver(() => chart.resize());
     resize.observe(ref.current);
     return () => { resize.disconnect(); chart.dispose(); };
-  }, [events, locale]);
+  }, [events, locale, playgroundId]);
   return <div className="timeline-chart" ref={ref} role="img" aria-label={translate(locale, "evidenceTimeline")} />;
 }
