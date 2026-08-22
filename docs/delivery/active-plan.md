@@ -4,15 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-**REVIEW-006 — Review current delivery for requirement drift and defects, then repair reproduced findings.**
+None.
+
+## Last terminal: REVIEW-006
 
 - Source anchor: [DW-031](../discovery/direct-wording.md#dw-031--review-current-delivery-for-drift-and-repair-reproduced-defects).
-- User goal: review StockMesh for requirement drift and bugs; repair any concrete findings after review.
-- Current state: repaired and fully verified on `codex/review-fix-p7-integrity`; GitHub Flow remains.
-- Declared terminal: P7/P6 and affected P0-P5 contracts are reviewed against current requirements; each finding has a direct reproduction and severity; confirmed defects are repaired with regressions; the full repository, supply-chain, Skill, contract, and browser gates pass; no unsupported product/usefulness/acceptance claim remains; work is merged through GitHub Flow, or a no-finding review is recorded without manufactured implementation churn.
-- Protected boundary: no private case, locator, alias, credential, Babata operation, live provider, new dependency/service, component replacement, product-scope change, or human-acceptance claim enters the review without separate authority.
-- Agent temporary subplan: the three reproduced P7 decision-integrity defects are repaired with direct negative regressions. Full P0-P7 tests and compatibility, supply-chain, Skill, build, public-boundary, and desktop/mobile browser gates pass. P6 rating/calibration concerns were inspected but do not prove a violation of its frozen body-free pilot contract; no speculative schema change entered the repair. Product direction remains unchanged.
-- Next action: publish the bounded repair through GitHub Flow, verify mergeability, squash-merge, then record terminal evidence and clear the active item without claiming human acceptance.
+- Terminal: succeeded on 2026-08-22. Review reproduced and repaired three P7 decision-integrity defects: measurements now bind to exact declared component identities, policy establishment strictly precedes every observation, and semantically equivalent scope order produces one policy identity.
+- Review conclusion: no current requirement drift was found. Web primacy, thin Skill/CLI clients, provider-neutral analysis, canonical/possibility separation, private/public isolation, and the advisory-only replacement boundary remain intact. P6 timing/calibration suspicions did not prove violations of its frozen body-free pilot contract and were not promoted into speculative schema churn.
+- Verification: clean install and independent audit reported 0 vulnerabilities; 34 test files / 70 tests, Core/Web typecheck, build, licenses, Skill and contract validation, repository/public-boundary gate, diff check, and 2/2 desktop/mobile Playwright passed.
+- GitHub Flow: repair commit `6cf4d6d` was pushed on `codex/review-fix-p7-integrity`; [PR #21](https://github.com/jadelaglace/StockMesh/pull/21) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `3c35473`; local/public `origin/main` matched and the remote branch was deleted.
+- Protected boundaries: no private case, locator, credential, Babata operation, live provider, new dependency/service, component replacement, product-scope change, usefulness conclusion, or human-acceptance claim entered the review.
+- Evidence entry: [REVIEW-006 evidence](../verification/README.md#review-006-evidence---2026-08-22).
 - Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly created a Codex Goal to review current delivery and repair reproduced defects.
 
 ## Last terminal: P7-001

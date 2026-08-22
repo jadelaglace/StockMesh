@@ -2,6 +2,16 @@
 
 Purpose: define how documentation and delivery claims are checked. Product acceptance criteria live in [product/acceptance.md](../product/acceptance.md).
 
+## REVIEW-006 evidence - 2026-08-22
+
+- Requirement review found no drift in the product direction: Web remains the primary human route; Skill/CLI remain thin clients over the shared application capability; provider-neutral LLM analysis remains replaceable; canonical reality and possibility data remain separated; and P7 remains advisory without executing a replacement.
+- Three P7 decision-integrity defects were directly reproduced before implementation changes. High severity: measurements did not identify the component whose results they purported to contain. Medium severity: an observation at the exact policy-establishment instant passed even though the policy must precede observations. Medium severity: the public policy-identity helper hashed semantically irrelevant `requiredScopes` ordering.
+- `ComponentMeasurement.componentIdentity` is now required and must equal the stable identity of the declared baseline or candidate. Target policy establishment must be strictly earlier than every observation. Policy identity canonicalizes each target's nested scope list before hashing. Missing or swapped bindings, equal timestamps, and reordered scopes have direct regressions.
+- P6 human-rating time and calibration-reference concerns were inspected but did not establish violations of the frozen body-free pilot criteria. No speculative P6 schema change was made. P0-P5 storage, replay, authority, and client boundaries were reviewed through their existing direct regressions and the full repository gate.
+- Fresh terminal: `npm ci` installed 236 packages and audited 237 with 0 vulnerabilities; independent `npm audit --audit-level=low` also reported 0. All 34 Vitest files / 70 tests, Core/Web typechecks, production build, direct-license gate, Skill validation, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, and desktop/mobile Playwright (2/2) passed.
+- The existing transitive `prebuild-install@7.1.3` deprecation and approximately 737 KB main Web chunk remain non-blocking maintenance risks. No dependency, provider call, component replacement, private-data read, canonical/possibility write, usefulness conclusion, or human acceptance entered the repair.
+- Implementation commit `6cf4d6d` was pushed on `codex/review-fix-p7-integrity`. [PR #21](https://github.com/jadelaglace/StockMesh/pull/21) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `3c35473`; `main` and `origin/main` matched afterward and the remote implementation branch was deleted.
+
 ## Init verification checklist
 
 - [x] Repository root is a Git repository on branch `main`.
