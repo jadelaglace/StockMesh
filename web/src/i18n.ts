@@ -39,6 +39,10 @@ const en = {
   none: "none",
   closeTrace: "Close relation or flow trace",
   positionDelta: "Position delta",
+  activeNodeIds: "active node IDs",
+  relationIds: "relation IDs",
+  flowIds: "flow IDs",
+  stateIds: "state IDs",
   noProjectedChanges: "No projected identifier changes at this question boundary.",
   notRun: "not run",
   evidenceCutoff: "Evidence cutoff",
@@ -183,6 +187,10 @@ const zhCN: Record<MessageKey, string> = {
   none: "无",
   closeTrace: "关闭关系或流的溯源",
   positionDelta: "局势变化",
+  activeNodeIds: "活动节点标识",
+  relationIds: "关系标识",
+  flowIds: "流标识",
+  stateIds: "状态标识",
   noProjectedChanges: "此问题边界内没有投影标识变化。",
   notRun: "未运行",
   evidenceCutoff: "证据截止",
@@ -297,33 +305,69 @@ const zhTerms: Record<string, string> = {
   reconstructed: "重建",
   predicted: "预测",
   hypothetical: "假设",
+  "human-proposed": "人工提议",
   available: "截止点可用",
   hindsight: "事后信息",
   variation: "变化分支",
+  relation: "关系",
+  flow: "流",
   forecast: "预测",
   counterfactual: "反事实",
   exploratory: "探索",
   pending: "待定",
   unknown: "未知",
   matched: "已匹配",
+  partial: "部分匹配",
   "partially-matched": "部分匹配",
   diverged: "已偏离",
   "expired-unobserved": "到期未观测",
+  "not-applicable": "不适用",
   staged: "已暂存",
   accepted: "已接受",
   rejected: "已拒绝",
+  unresolved: "未解决",
+  observation: "观察",
+  observed: "已观察",
+  report: "报告",
+  inference: "推断",
+  judgment: "判断",
+  adopted: "已采纳",
+  hypothesis: "假设",
+  candidate: "候选",
   pinned: "已固定",
+  selected: "已选择",
+  archived: "已归档",
+  invalidated: "已失效",
   active: "活动",
+  superseded: "已取代",
   completed: "已完成",
+  cancelled: "已取消",
   running: "运行中",
+  succeeded: "已成功",
   "paused-budget": "预算暂停",
   "paused-user": "用户暂停",
   failed: "失败",
+  low: "低",
+  medium: "中等",
+  high: "高",
 };
 
 export function localizeTerm(locale: Locale, value: string): string {
   if (locale === "zh-CN" && zhTerms[value]) return zhTerms[value];
   return value.replaceAll("-", " ");
+}
+
+const searchStopReasons: Record<string, Record<Locale, string>> = {
+  maxDepth: { en: "Maximum depth reached", "zh-CN": "达到最大深度" },
+  maxMaterializedPositions: { en: "Maximum materialized Positions reached", "zh-CN": "达到最大物化局势数" },
+  maxAnalysisCalls: { en: "Maximum analysis calls reached", "zh-CN": "达到最大分析调用数" },
+  maxElapsedMs: { en: "Maximum elapsed time reached", "zh-CN": "达到最长运行时间" },
+  maxTokens: { en: "Token budget reached", "zh-CN": "达到 Token 预算上限" },
+  maxCost: { en: "Cost budget reached", "zh-CN": "达到成本预算上限" },
+};
+
+export function localizeSearchStopReason(locale: Locale, reason: string | undefined, fallback: string): string {
+  return reason ? searchStopReasons[reason]?.[locale] ?? reason : fallback;
 }
 
 const zhMessages: Record<string, string> = {

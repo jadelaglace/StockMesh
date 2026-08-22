@@ -369,3 +369,14 @@ The external conversations supplied with the same instruction are governed by th
 > 还有 你加个切简中功能
 
 - Interpretation boundary: add an English/Simplified Chinese switch to the Web workbench and preserve the user's selection. Localization changes interface labels, controls, status terminology, and date presentation only; it must not translate or rewrite source evidence, user-entered content, Node/Pawn labels, modeled branch content, identifiers, or stored Domain state.
+
+## DW-033 — Repair incomplete localized layout and copy coverage
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-23, Asia/Shanghai
+- Status: active; authorizes review and repair of the delivered Web localization
+- Retrieval phrases: “局势变化这个窗口显示不全”, “汉化文本不全”, “走流程修”
+
+> 局势 局势变化这个窗口显示不全 还有正谱 啊 一些地方啊 汉化文本不全 都看看怎么回事 走流程修
+
+- Interpretation boundary: reproduce and repair layout clipping around the Position/Position-delta surface and systematically inspect all Web-owned Simplified Chinese copy, including Main Line and branch surfaces. Preserve the existing boundary that evidence, user input, Node/Pawn labels, modeled branch content, identifiers, Method output, and stored Domain records remain verbatim. Deliver verified repairs through GitHub Flow without claiming human product acceptance.

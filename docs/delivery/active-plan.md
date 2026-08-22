@@ -4,7 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None.
+**FIX-WEB-I18N-001 — Repair localized layout clipping and incomplete copy coverage.**
+
+- Source anchor: [DW-033](../discovery/direct-wording.md#dw-033--repair-incomplete-localized-layout-and-copy-coverage).
+- User goal: make the Position/Position-delta area fully visible and complete Simplified Chinese coverage across Main Line and the rest of the workbench.
+- Current state: active on `codex/fix-web-i18n-layout-coverage`; `main` matched `origin/main` before work.
+- Declared terminal: reproduced layout defects are repaired at desktop/mobile breakpoints; all Web-owned interface copy has a reviewed English/Simplified Chinese mapping; evidence and Domain content stay verbatim; focused and full gates pass; delivery completes through GitHub Flow.
+- Protected boundary: no evidence, user input, Node/Pawn label, modeled branch title/action/response, identifier, Method output, Domain record, API/storage contract, dependency, private data, provider, product-usefulness conclusion, or human-acceptance claim changes.
+- Agent temporary subplan: live inspection reproduced a 42px Position-delta clip at `1366x768`; fixed flex bounds and a shrinkable graph canvas now keep the panel complete at `1366x768` and `1024x720`, with workbench scrolling as the short-viewport fallback. The reviewed closed vocabulary now covers previously leaked run/branch/realization/Claim/uncertainty/trace/search-stop and projection labels while preserving branch/model/Domain text. The full local terminal and visual desktop/mobile checks pass.
+- Next action: commit, push, verify and merge the implementation PR; then reconcile `main` and publish terminal delivery evidence.
+- Evidence entry: [FIX-WEB-I18N-001 evidence](../verification/README.md#fix-web-i18n-001-evidence---2026-08-23).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly requested review and repair of incomplete localized layout and copy through the established delivery process.
 
 ## Last terminal: WEB-I18N-001
 

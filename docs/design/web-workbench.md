@@ -8,6 +8,8 @@ P4 is one responsive workbench rather than four disconnected demo pages. The des
 
 The top bar includes a compact language control for English and Simplified Chinese. The choice is keyboard-accessible and locally persistent. Localization owns only workbench chrome, control labels, status vocabulary, and locale-aware dates; evidence bodies, user-entered text, Node/Pawn labels, branch titles/actions/responses, identifiers, Method output, and stored records remain verbatim.
 
+Localized labels may wrap or expand without clipping a workbench region. On desktop, the Position header, question, Pawn selector, legend, and Position-delta strip retain their complete bounds while the network canvas absorbs available-height changes; when the two-row workbench cannot fit a shorter viewport, the workbench scrolls rather than hiding panel content. Known run, branch, realization, review, uncertainty, trace-kind, search-stop, and projection-field terms belong to interface vocabulary and use the selected locale.
+
 The initial route opens a seeded, clearly labeled synthetic Playground. Empty, loading, selected, error, and successful-command states are explicit. The browser receives presentation-safe view models and validated commands only: it never receives a database path, arbitrary table access, private source body, or canonical write primitive.
 
 Purpose: provide the primary human route for universal network/time/evidence analysis, LLM-assisted situation reasoning, branch selection, and replay, with an optional organizational strategy layout that feels like analyzing a board position. Profiles may change terminology and panels without changing the underlying meanings.
