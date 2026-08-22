@@ -4,7 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None.
+**WEB-I18N-001 — Add an English/Simplified Chinese workbench switch.**
+
+- Source anchor: [DW-032](../discovery/direct-wording.md#dw-032--add-a-simplified-chinese-interface-switch).
+- User goal: close the stray `4310` browser page and let the visible Web workbench switch to Simplified Chinese.
+- Current state: implementation and the fresh local terminal are verified on `codex/web-simplified-chinese`; `main` matched `origin/main` before work.
+- Declared terminal: the workbench exposes an accessible English/简中 language switch, translates all owned interface chrome and date/status presentation, preserves the selection locally, leaves evidence and Domain content untouched, passes unit/type/build and desktop/mobile browser checks, and is delivered through GitHub Flow.
+- Protected boundary: no source evidence, user text, Pawn/Node label, branch content, identifier, canonical/possibility record, API contract, dependency, private data, provider, or product-acceptance claim changes.
+- Agent temporary subplan: the typed dependency-free locale catalog, chart locale inputs, guarded local preference, direct regressions, and desktop/mobile checks are complete. Deliver the verified change through GitHub Flow, then write back the terminal without claiming human product acceptance.
+- Next action: commit, push, verify and merge the implementation PR; then reconcile `main` and publish terminal delivery evidence.
+- Evidence entry: [WEB-I18N-001 evidence](../verification/README.md#web-i18n-001-evidence---2026-08-22).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly requested a Simplified Chinese switching capability in the current Web workbench.
 
 ## Last terminal: REVIEW-006
 

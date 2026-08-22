@@ -45,6 +45,7 @@ The human primarily works through the Web workbench and owns scope, objectives, 
 - Evaluate goal progress, relationship effect, authority fit, information gain, escalation risk, reversibility, cost, and robustness without hiding the vector behind one score.
 - Generate, retain, and compare multiple materially different possible Trajectories when the evidence and search budget support them; candidate count and depth are not fixed product constants.
 - Use a Web workbench with Timeline, Position/network board, Node detail, analysis/strategist console, and trajectory comparison; the organizational profile may label Nodes as Pawns.
+- Let the user switch the workbench chrome between English and Simplified Chinese without translating or rewriting evidence, user input, Node/Pawn labels, modeled branch content, or stored Domain records; retain the local interface preference across reloads.
 - Expose the same branch context, LLM analysis, Method, search, selection, and replay operations through narrow Agent Skill and CLI clients without direct canonical writes.
 - Load a domain profile that defines permitted node types, relation/flow types, state variables, event types, evaluation dimensions, and UI terminology without changing the universal evidence/time contracts.
 - Optionally pause an unfinished episode/game-record view and later resume it from the same frontier and identities.

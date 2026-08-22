@@ -358,3 +358,14 @@ The external conversations supplied with the same instruction are governed by th
 > codex目标，review 下有没有偏离需求，bug，做完后如有则修复，
 
 - Interpretation boundary: review the current P0-P7 implementation and delivery claims against the established StockMesh requirements. Repair only concrete reproduced defects or requirement drift, add regressions, and preserve the public/private, canonical/possibility, Web/Skill/CLI, provider-neutral, and human-acceptance boundaries. This does not authorize private-case access, Babata operations, live-provider calls, new product scope, or acceptance claims.
+
+## DW-032 — Add a Simplified Chinese interface switch
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-22, Asia/Shanghai
+- Status: active; authorizes a Web interface localization control
+- Retrieval phrases: “切简中功能”
+
+> 还有 你加个切简中功能
+
+- Interpretation boundary: add an English/Simplified Chinese switch to the Web workbench and preserve the user's selection. Localization changes interface labels, controls, status terminology, and date presentation only; it must not translate or rewrite source evidence, user-entered content, Node/Pawn labels, modeled branch content, identifiers, or stored Domain state.

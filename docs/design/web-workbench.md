@@ -6,6 +6,8 @@ Status: **Web-first direction and the bounded P4 synthetic workflow are adopted;
 
 P4 is one responsive workbench rather than four disconnected demo pages. The desktop shell keeps Timeline, Position board, Analysis, and Branches visible together; Node/Trace, staging/review, comparison, and correction open as focused drawers or panels. On narrow screens these same regions become a stable tab sequence without changing their data or commands.
 
+The top bar includes a compact language control for English and Simplified Chinese. The choice is keyboard-accessible and locally persistent. Localization owns only workbench chrome, control labels, status vocabulary, and locale-aware dates; evidence bodies, user-entered text, Node/Pawn labels, branch titles/actions/responses, identifiers, Method output, and stored records remain verbatim.
+
 The initial route opens a seeded, clearly labeled synthetic Playground. Empty, loading, selected, error, and successful-command states are explicit. The browser receives presentation-safe view models and validated commands only: it never receives a database path, arbitrary table access, private source body, or canonical write primitive.
 
 Purpose: provide the primary human route for universal network/time/evidence analysis, LLM-assisted situation reasoning, branch selection, and replay, with an optional organizational strategy layout that feels like analyzing a board position. Profiles may change terminology and panels without changing the underlying meanings.

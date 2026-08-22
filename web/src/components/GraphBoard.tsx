@@ -1,9 +1,11 @@
 import cytoscape, { type Core } from "cytoscape";
 import { useEffect, useRef } from "react";
 import type { WorkbenchSnapshot } from "../../../src/workbench/types";
+import { translate, type Locale } from "../i18n";
 
 interface Props {
   graph: WorkbenchSnapshot["graph"];
+  locale: Locale;
   selectedNodeId?: string;
   onSelectNode(id: string): void;
   onSelectTrace(selection?: GraphSelection): void;
@@ -17,7 +19,7 @@ export interface GraphSelection {
   evidenceRefs: string[];
 }
 
-export function GraphBoard({ graph, selectedNodeId, onSelectNode, onSelectTrace }: Props) {
+export function GraphBoard({ graph, locale, selectedNodeId, onSelectNode, onSelectTrace }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const instance = useRef<Core | undefined>(undefined);
 
@@ -63,5 +65,5 @@ export function GraphBoard({ graph, selectedNodeId, onSelectNode, onSelectTrace 
     instance.current.$id(selectedNodeId).select();
   }, [selectedNodeId]);
 
-  return <div className="graph-board" ref={container} role="img" aria-label="Question-bounded Position network" data-testid="graph-board" />;
+  return <div className="graph-board" ref={container} role="img" aria-label={translate(locale, "questionBoundedNetwork")} data-testid="graph-board" />;
 }

@@ -2,6 +2,15 @@
 
 Purpose: define how documentation and delivery claims are checked. Product acceptance criteria live in [product/acceptance.md](../product/acceptance.md).
 
+## WEB-I18N-001 evidence - 2026-08-22
+
+- The workbench now exposes an accessible `EN` / `简中` segmented control, defaults to English, persists the selected locale when browser storage is available, tolerates blocked storage, and updates the document language.
+- A typed dependency-free catalog localizes Web-owned chrome, controls, dates, known status terms, charts, tooltips, and known command messages. Evidence and user text, Node/Pawn labels, objectives/questions, branch titles/actions/responses, identifiers, Method output, and stored Domain records remain verbatim.
+- Direct unit regressions cover catalog interpolation, known and unknown term/message boundaries, invalid and blocked preferences, and locale-aware dates. Browser regressions cover switching, persistence, document language, and unchanged Domain content on desktop and mobile.
+- Fresh local terminal: all 35 Vitest files / 72 tests, Core/Web typechecks, production build, direct-license gate, Skill validation, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, and desktop/mobile Playwright (4/4) passed. Independent `npm audit --audit-level=low` reported 0 vulnerabilities.
+- Manual in-app Browser readback at `http://127.0.0.1:5173/` showed Simplified Chinese chrome with original synthetic evidence/question/Pawn labels intact and no console errors. The stray `4310` page is no longer open; the backend remains an internal API dependency of the displayed Web app.
+- No dependency, API or persistence contract, canonical/possibility record, provider, private data, component replacement, product-usefulness conclusion, or human acceptance entered this change. The existing large Web chunk warning remains a non-blocking maintenance risk.
+
 ## REVIEW-006 evidence - 2026-08-22
 
 - Requirement review found no drift in the product direction: Web remains the primary human route; Skill/CLI remain thin clients over the shared application capability; provider-neutral LLM analysis remains replaceable; canonical reality and possibility data remain separated; and P7 remains advisory without executing a replacement.
