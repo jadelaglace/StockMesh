@@ -1,6 +1,6 @@
 # Candidate delivery roadmap
 
-Status: **P0-P6 engineering terminals reached and merged; P7 remains held**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
+Status: **P0-P7 engineering terminals reached and merged**. This orders the work from domain clarification toward implementation. It does not authorize real-case publication or claim product acceptance.
 
 ## Ordering principle
 
@@ -31,7 +31,7 @@ first runtime phase.
 | P4 | Engineering terminal reached and merged | Responsive Web workflow over the public synthetic record; PR #8 merged as `e383d5d`. |
 | P5 | Engineering terminal reached and merged | Thin capability facade, CLI, and repository Skill over the public synthetic workflow pass the frozen matrix; PR #11 merged as `8ab1b40`. |
 | P6 | Engineering terminal reached | One local private organizational structural-validation round ran; complete inputs/reports remain outside Git and generalized gaps remain visible. |
-| P7 | Active under DW-030 | Freeze body-free measurement targets and make the smallest evidence-backed replace/retain/defer decision without executing a replacement. |
+| P7 | Engineering terminal reached and merged | Body-free measurement targets and transparent replace/retain/defer decisions are implemented; PR #19 merged as `71b69e2`. |
 
 ## Definition history — R0: Domain clarification
 
@@ -137,4 +137,4 @@ scope.
 
 ## Recommended next decision
 
-P7 is active under [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7). Freeze measurable component targets before observations, preserve missing real-use evidence, and record the smallest evidence-backed replace, retain, or defer decision. Do not turn P7 into a live-provider, private-publication, or product-acceptance claim.
+P7 reached its engineering terminal under [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7). The current decision is `defer-replacement` because no concrete candidate or paired authorized-private usefulness/calibration evidence exists. A later component proposal requires a new explicit scope; it cannot inherit authorization from this terminal.

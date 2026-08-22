@@ -4,15 +4,17 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-**P7-001 — Learning and replaceable-component hardening.**
+None.
+
+## Last terminal: P7-001
 
 - Source anchor: [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7), legally promoted after the valid FIX-005 terminal.
-- User goal: complete P7 with requirements first, architecture considered before development, and testing after implementation while keeping the original StockMesh need primary.
-- Current state: the frozen 11-criterion matrix, architecture, strict evaluator, replace/retain/defer regressions, and fresh full terminal gate pass on `codex/p7-measured-hardening`; GitHub publication remains.
-- Declared terminal: a dependency-free, body-free hardening evaluator compares exact baseline/candidate component identities over predeclared metrics and paired scenarios; target policy is frozen before observations; missing evidence remains visible; replacement is recommended only when required scopes, sample counts, absolute targets, minimum improvement, and regression guards all pass; current components receive an evidence-backed retain/defer result without automatic replacement; direct regressions and the full repository gate pass; P7 is merged through GitHub Flow.
-- Protected boundary: P7 does not call a live provider, read or publish the private case, alter canonical/possibility authority, execute a component replacement, select a universal social score, or claim usefulness/human acceptance from synthetic measurements.
-- Agent temporary subplan: freeze the P7 metric/decision contract and architecture, implement a pure evaluator and strict validation, prove replace/retain/defer branches with synthetic observations, record the actual evidence gap, then run and publish the full terminal gate.
-- Next action: commit, push, review, and merge P7 through GitHub Flow, then perform terminal status/Goal closure.
+- Terminal: succeeded on 2026-08-22. A dependency-free body-free evaluator freezes target/component identity before observations, compares unique paired scenario runs under explicit scopes and sample counts, exposes means/improvement/regression/limits/blockers, and returns replace/retain/defer without executing a replacement.
+- Current decision: `defer-replacement`. No concrete candidate component or paired authorized-private usefulness/calibration evidence exists; synthetic replace/retain examples prove mechanism only.
+- Verification: clean install and independent audit reported 0 vulnerabilities; all 11 frozen criteria, 34 test files / 67 tests, Core/Web typecheck, build, licenses, Skill and contract validation, P7 repository/public-boundary gate, diff check, and 2/2 desktop/mobile Playwright passed.
+- GitHub Flow: implementation commit `2f606a8` was pushed on `codex/p7-measured-hardening`; [PR #19](https://github.com/jadelaglace/StockMesh/pull/19) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `71b69e2`; local/public `origin/main` matched and the remote branch was deleted.
+- Protected boundaries: no dependency, live provider, private-case read/publication, component replacement, canonical/possibility write, package mutation, universal social score, usefulness conclusion, or human acceptance entered P7.
+- Evidence entry: [P7-001 evidence](../verification/README.md#p7-001-evidence---2026-08-22) and [frozen P7 matrix](../verification/p7-acceptance-matrix.json).
 - Goal transition: `legal-terminal-auto-promote` — legal-terminal-auto-promote: FIX-005 met its declared terminal and DW-030 explicitly authorized P7 as the next stage.
 
 ## Last terminal: FIX-005
