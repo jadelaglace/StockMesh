@@ -1,14 +1,14 @@
 import { expect, test } from "@playwright/test";
 
-test("switches and retains complete Simplified Chinese chrome without clipping the Position panel", async ({ page }, testInfo) => {
+test("defaults to and retains complete Simplified Chinese presentation without clipping the Position panel", async ({ page }, testInfo) => {
   if (testInfo.project.name.startsWith("desktop")) await page.setViewportSize({ width: 1366, height: 768 });
   await page.goto("/");
-  await page.getByRole("button", { name: "简中", exact: true }).click();
   await expect(page.getByRole("button", { name: "简中", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByText("推演时限 / 证据截止")).toBeVisible();
+  await expect(page.getByLabel("推演场").locator("option:checked")).toHaveText("公开合成跨团队决策场景");
   await expect(page.getByRole("heading", { name: "局势", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Sponsor", exact: true })).toBeVisible();
-  await expect(page.getByText("Which response best improves decision clarity without unnecessary escalation?", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "发起人", exact: true })).toBeVisible();
+  await expect(page.getByText("哪种回应既能提升决策清晰度，又能避免不必要的升级？", { exact: true })).toBeVisible();
   if (testInfo.project.name.startsWith("desktop")) {
     for (const viewport of [{ width: 1366, height: 768 }, { width: 1024, height: 720 }]) {
       await page.setViewportSize(viewport);
@@ -23,6 +23,10 @@ test("switches and retains complete Simplified Chinese chrome without clipping t
     }
   }
   if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "分析", exact: true }).click();
+  await expect(page.getByText("提升决策清晰度", { exact: true })).toBeVisible();
+  const methodTrace = page.locator("details.trace-detail").filter({ hasText: "sna.foundation" });
+  await methodTrace.locator("summary").click();
+  await expect(methodTrace).toContainText("度与强度衡量范围内的连接或观测量，不代表影响力、支持度或价值。");
   await page.getByRole("button", { name: "运行局势分析", exact: true }).click();
   await expect(page.getByText("分析和有界分支搜索已完成。")).toBeVisible();
   await expect(page.getByText("已成功", { exact: true })).toBeVisible();
@@ -30,7 +34,12 @@ test("switches and retains complete Simplified Chinese chrome without clipping t
   await expect(page.getByText("不适用", { exact: false }).first()).toBeVisible();
   await expect(page.getByText("候选", { exact: false }).first()).toBeVisible();
   await expect(page.getByText("达到最大深度", { exact: true })).toBeVisible();
-  await expect(page.locator(".branch-panel").getByText("Clarify the decision boundary", { exact: true }).first()).toBeVisible();
+  const clarifiedBranch = page.getByRole("treeitem").filter({ hasText: "明确决策边界" }).first();
+  await expect(clarifiedBranch).toBeVisible();
+  await clarifiedBranch.click();
+  await expect(page.locator(".branch-detail")).toContainText("发起人要求明确一位负责人和截止时间。");
+  await expect(page.locator(".branch-detail")).toContainText("画像主张保持冻结在分支根节点。");
+  await expect(page.locator(".branch-detail")).toContainText("决策清晰度");
   await expect.poll(() => page.evaluate(() => localStorage.getItem("stockmesh.locale"))).toBe("zh-CN");
   await page.reload();
   await expect(page.getByRole("button", { name: "简中", exact: true })).toHaveAttribute("aria-pressed", "true");
@@ -39,6 +48,11 @@ test("switches and retains complete Simplified Chinese chrome without clipping t
 
 test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) => {
   await page.goto("/");
+  await page.getByRole("button", { name: "EN", exact: true }).click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("stockmesh.locale.preference-version"))).toBe("2");
+  await page.reload();
+  await expect(page.getByRole("button", { name: "EN", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByText("StockMesh", { exact: true })).toBeVisible();
   if (testInfo.project.name.startsWith("desktop")) await expect(page.getByText("Public synthetic data")).toBeVisible();
   await expect(page.getByText("Horizon / evidence cutoff")).toBeVisible();
@@ -63,6 +77,7 @@ test("completes the visible P4 synthetic workflow", async ({ page }, testInfo) =
   await expect(page.getByText("Analysis and bounded branch search completed.")).toBeVisible();
   await expect(page.getByText("deterministic-offline / p4-workbench").first()).toBeVisible();
   if (testInfo.project.name.startsWith("mobile")) await page.getByRole("button", { name: "Branches", exact: true }).click();
+  await page.getByRole("treeitem").filter({ hasText: "Clarify the decision boundary" }).first().click();
   await expect(page.getByText("purpose: forecast").first()).toBeVisible();
   await expect(page.getByText("Score uncertainty")).toBeVisible();
   await expect(page.getByLabel("Compare branch")).toBeVisible();

@@ -2,6 +2,15 @@
 
 Purpose: define how documentation and delivery claims are checked. Product acceptance criteria live in [product/acceptance.md](../product/acceptance.md).
 
+## WEB-I18N-CONTENT-001 evidence - 2026-08-23
+
+- The reproduced gap was a presentation-boundary omission rather than missing fixed chrome: the public synthetic context, Main Line summaries, Pawns, objectives, branch titles/actions/responses/assumptions, score dimensions, profile hypotheses, revision alternatives, and Method caveats were rendered directly from Domain fields after the surrounding controls had been localized.
+- A presentation-only map gated by exact Playground identity `playground-syn-orchard` now localizes that repository-owned synthetic material. The API, SQLite data, versioned fixtures, identifiers, raw Method output, imported/user/private content, and unknown text remain unchanged; English presentation remains available.
+- A preference-version marker migrates the prior automatically persisted English default to Simplified Chinese. A fresh, invalid, unavailable, or legacy preference starts in Simplified Chinese; a user who explicitly selects English under the new preference version retains English across reloads.
+- Direct regressions cover the default and migrated locale, explicit English persistence, synthetic-only translation gating, state-value presentation, complete Main Line/Position/objective/Method-tip/branch/score surfaces, English workflow continuity, and the earlier Position-panel clipping bounds.
+- Fresh terminal: 35 Vitest files / 73 tests, Core/Web typechecks, production build, direct-license gate, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, independent 0-vulnerability audit, and desktop/mobile Playwright (4/4) passed. The existing approximately 757 KB main Web chunk warning remains non-blocking.
+- Live Browser inspection at `390x844` confirmed the Chinese Main Line, Position question/Pawns, objectives, branch process and scores, Pawn profile/revisions/trace, complete Position delta, and no horizontal overflow. An English-residual scan found only the brand/language control, protected IDs, versions, provider/model/Method identities, and the P4 stage identifier.
+
 ## FIX-WEB-I18N-001 evidence - 2026-08-23
 
 - Live `1366x768` inspection reproduced the reported Position-panel defect: the panel was about 416px tall but required 458px, `overflow: hidden` silently clipped about 42px from the Position-delta strip, and flex shrinking compressed its heading.

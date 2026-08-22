@@ -1,11 +1,12 @@
 import cytoscape, { type Core } from "cytoscape";
 import { useEffect, useRef } from "react";
 import type { WorkbenchSnapshot } from "../../../src/workbench/types";
-import { translate, type Locale } from "../i18n";
+import { localizeSyntheticText, localizeTerm, translate, type Locale } from "../i18n";
 
 interface Props {
   graph: WorkbenchSnapshot["graph"];
   locale: Locale;
+  playgroundId: string;
   selectedNodeId?: string;
   onSelectNode(id: string): void;
   onSelectTrace(selection?: GraphSelection): void;
@@ -19,21 +20,21 @@ export interface GraphSelection {
   evidenceRefs: string[];
 }
 
-export function GraphBoard({ graph, locale, selectedNodeId, onSelectNode, onSelectTrace }: Props) {
+export function GraphBoard({ graph, locale, playgroundId, selectedNodeId, onSelectNode, onSelectTrace }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const instance = useRef<Core | undefined>(undefined);
 
   useEffect(() => {
     if (!container.current) return;
     instance.current?.destroy();
-    const nodes = graph.nodes.map((node) => ({ data: { id: node.id, label: node.label, type: node.type, warning: node.claims.some((claim) => claim.status === "inference" || claim.status === "unknown") ? "?" : "" } }));
-    const relations = graph.relations.map((edge) => ({ data: { id: edge.id, source: edge.source, target: edge.target, label: edge.type, kind: "relation", traceId: edge.id, claimRefs: edge.claimRefs, evidenceRefs: edge.evidenceRefs } }));
+    const nodes = graph.nodes.map((node) => ({ data: { id: node.id, label: localizeSyntheticText(locale, playgroundId, node.label), type: node.type, warning: node.claims.some((claim) => claim.status === "inference" || claim.status === "unknown") ? "?" : "" } }));
+    const relations = graph.relations.map((edge) => ({ data: { id: edge.id, source: edge.source, target: edge.target, label: localizeTerm(locale, edge.type), kind: "relation", traceId: edge.id, claimRefs: edge.claimRefs, evidenceRefs: edge.evidenceRefs } }));
     const flows = graph.flows.flatMap((flow) => flow.path.slice(0, -1).map((source, index) => ({
       data: {
         id: `flow-segment-${flow.id}-${index}`,
         source,
         target: flow.path[index + 1],
-        label: index === 0 ? flow.type : "",
+        label: index === 0 ? localizeTerm(locale, flow.type) : "",
         kind: "flow",
         traceId: flow.id,
         claimRefs: flow.claimRefs,
@@ -57,7 +58,7 @@ export function GraphBoard({ graph, locale, selectedNodeId, onSelectNode, onSele
       onSelectTrace({ id: data.traceId, kind: data.kind, label: data.label, claimRefs: data.claimRefs, evidenceRefs: data.evidenceRefs });
     });
     return () => instance.current?.destroy();
-  }, [graph, onSelectNode, onSelectTrace]);
+  }, [graph, locale, playgroundId, onSelectNode, onSelectTrace]);
 
   useEffect(() => {
     if (!instance.current || !selectedNodeId) return;

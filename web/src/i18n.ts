@@ -1,4 +1,6 @@
 export type Locale = "en" | "zh-CN";
+export const LOCALE_PREFERENCE_VERSION = "2";
+export const LOCALE_PREFERENCE_VERSION_KEY = "stockmesh.locale.preference-version";
 
 const en = {
   loadingWorkbench: "Loading synthetic workbench...",
@@ -204,13 +206,13 @@ const zhCN: Record<MessageKey, string> = {
   frozenContext: "冻结上下文",
   configuration: "配置身份",
   usage: "用量",
-  usageValue: "{tokens} tokens · {cost} 成本",
+  usageValue: "{tokens} 个令牌 · {cost} 成本",
   stageSyntheticEvidence: "暂存合成证据",
   evidencePlaceholder: "记录接下来实际发生了什么...",
   syntheticEvidenceText: "合成证据内容",
   staging: "暂存中...",
   stageForReview: "提交审核暂存",
-  noStagedEvidence: "暂无 Web 暂存证据。",
+  noStagedEvidence: "暂无网页端暂存证据。",
   acceptEvidence: "接受证据",
   rejectEvidence: "拒绝证据",
   mainLineVariations: "正谱 + 变化分支",
@@ -350,6 +352,19 @@ const zhTerms: Record<string, string> = {
   low: "低",
   medium: "中等",
   high: "高",
+  person: "人",
+  team: "团队",
+  "decision-object": "决策对象",
+  membership: "成员关系",
+  "decision-authority": "决策授权关系",
+  information: "信息",
+  "decision-status": "决策状态",
+  "response-style-hypothesis": "响应风格假设",
+  "profile-response-style": "响应风格画像",
+  "synthetic-fixture": "合成样例",
+  "fixture-only": "仅样例",
+  "synthetic-scope-note": "合成范围说明",
+  "fixture-defined": "样例定义",
 };
 
 export function localizeTerm(locale: Locale, value: string): string {
@@ -387,14 +402,94 @@ export function localizeMessage(locale: Locale, message: string): string {
   return locale === "zh-CN" ? zhMessages[message] ?? message : message;
 }
 
+export const PUBLIC_SYNTHETIC_PLAYGROUND_ID = "playground-syn-orchard";
+
+const syntheticZhText: Record<string, string> = {
+  "Organizational strategy / Pawn": "组织策略 / 棋子",
+  "Public synthetic cross-team decision scenario": "公开合成跨团队决策场景",
+  "Which response best improves decision clarity without unnecessary escalation?": "哪种回应既能提升决策清晰度，又能避免不必要的升级？",
+  Analyst: "分析者",
+  Coordinator: "协调者",
+  Decision: "决策事项",
+  Reviewer: "审核者",
+  Sponsor: "发起人",
+  Team: "团队",
+  Pawn: "棋子",
+  analyst: "分析者",
+  sponsor: "发起人",
+  coordinator: "协调者",
+  "improve decision clarity": "提升决策清晰度",
+  "avoid unnecessary escalation": "避免不必要的升级",
+  "balanced-synthetic-risk": "平衡型合成风险策略",
+  "organizational-synthetic@1.0.0": "组织合成评估 1.0.0",
+  "Could we name the three acceptance conditions before choosing the next step?": "下一步行动前，我们能先明确三项验收条件吗？",
+  "Use evidence completeness, reversible cost, and a named owner; send a one-page risk note by noon.": "以证据完整性、可逆成本和明确负责人为准；中午前发一页风险说明。",
+  "I will turn those conditions into an asynchronous checklist.": "我会把这些条件整理成异步检查清单。",
+  "The invented budget cap changed this morning, so add a resource ceiling.": "今天早上合成预算上限有变，请增加资源上限。",
+  "Clarify the decision boundary": "明确决策边界",
+  "Check privately before escalating": "升级前先私下确认",
+  "Broaden the consultation": "扩大征询范围",
+  "Confirm the next commitment": "确认下一项承诺",
+  "The sponsor asks for one explicit owner and deadline.": "发起人要求明确一位负责人和截止时间。",
+  "The coordinator shares constraints with a smaller audience.": "协调者在较小范围内说明约束条件。",
+  "Additional perspectives appear, with slower convergence.": "更多视角进入讨论，但收敛速度变慢。",
+  "The network converges on a review checkpoint.": "网络各方在一个审核检查点上达成收敛。",
+  "Profile Claims remain frozen at the branch root.": "画像主张保持冻结在分支根节点。",
+  "The projection delta is hypothetical until separately observed and reviewed.": "投影变化在被单独观察和审核前仍属假设。",
+  "No unrecorded private context is available.": "没有可用的未记录私下上下文。",
+  "A reviewed actual Event contradicts the modeled response.": "已审核的真实事件与模拟反应相矛盾。",
+  "Deterministic P4 demonstration": "确定性 P4 演示",
+  "No real-world evidence is used.": "未使用现实世界证据。",
+  "public synthetic fixture": "公开合成样例",
+  "Decision clarity": "决策清晰度",
+  "Escalation risk": "升级风险",
+  "normalized synthetic score": "归一化合成评分",
+  "normalized synthetic risk": "归一化合成风险",
+  "Deterministic demo estimate, not a social fact.": "确定性演示估计，并非社会事实。",
+  "Higher values indicate more modeled escalation risk.": "数值越高表示模拟的升级风险越高。",
+  "The sponsor usually prefers synchronous alignment before written criteria.": "发起人通常倾向先同步对齐，再给出书面标准。",
+  "For bounded decision requests, the sponsor may respond directly with written criteria.": "对于边界明确的决策请求，发起人可能直接给出书面标准。",
+  "The written reply may be specific to this low-cost context rather than a stable preference.": "这次书面回复可能只适用于当前低成本情境，并非稳定偏好。",
+  "A changed time constraint may have caused an atypically direct written reply.": "时间约束变化可能导致了这次不同寻常的直接书面回复。",
+  "Degree and strength measure scoped connection or observed volume, not influence, support, or worth.": "度与强度衡量范围内的连接或观测量，不代表影响力、支持度或价值。",
+  "Topological reachability and shortest paths do not prove that information, trust, or action will travel.": "拓扑可达性和最短路径不能证明信息、信任或行动一定会传播。",
+  "Density, reciprocity, clustering, and category mixing are sensitive to scope and missing edges.": "密度、互惠性、聚类和类别混合对分析范围及缺失边高度敏感。",
+  "Betweenness is a structural brokerage hypothesis under unweighted shortest paths, not proof of control.": "中介中心性只是无权最短路径下的结构性桥接假设，不是控制力证明。",
+  "prior-estimate-error": "先前估计有误",
+  "context-specific-exception": "特定情境例外",
+  "changed-constraints": "约束条件变化",
+  open: "开放",
+  "synchronous-alignment-first": "优先同步对齐",
+  "synthetic fixture accepted": "合成样例已接受",
+};
+
+export function localizeSyntheticText(locale: Locale, playgroundId: string | undefined, value: string): string {
+  if (locale !== "zh-CN" || playgroundId !== PUBLIC_SYNTHETIC_PLAYGROUND_ID) return value;
+  if (syntheticZhText[value]) return syntheticZhText[value];
+  return Object.entries(syntheticZhText).reduce(
+    (text, [source, translation]) => text.includes(source) ? text.replaceAll(source, translation) : text,
+    value,
+  );
+}
+
+export function localizeSyntheticValue(locale: Locale, playgroundId: string | undefined, value: unknown): unknown {
+  if (typeof value === "string") return localizeSyntheticText(locale, playgroundId, value);
+  if (Array.isArray(value)) return value.map((item) => localizeSyntheticValue(locale, playgroundId, item));
+  if (value && typeof value === "object") return Object.fromEntries(
+    Object.entries(value).map(([key, item]) => [key, localizeSyntheticValue(locale, playgroundId, item)]),
+  );
+  return value;
+}
+
 export function formatTime(locale: Locale, value: string): string {
   return new Intl.DateTimeFormat(locale, { month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "UTC" }).format(new Date(value));
 }
 
 export function readStoredLocale(storage: Pick<Storage, "getItem"> | undefined): Locale {
   try {
-    return storage?.getItem("stockmesh.locale") === "zh-CN" ? "zh-CN" : "en";
+    return storage?.getItem(LOCALE_PREFERENCE_VERSION_KEY) === LOCALE_PREFERENCE_VERSION
+      && storage.getItem("stockmesh.locale") === "en" ? "en" : "zh-CN";
   } catch {
-    return "en";
+    return "zh-CN";
   }
 }

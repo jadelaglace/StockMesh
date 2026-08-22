@@ -7,16 +7,16 @@ import {
 import type { WorkbenchSnapshot } from "../../src/workbench/types";
 import { api } from "./api";
 import { GraphBoard, type GraphSelection } from "./components/GraphBoard";
-import { formatTime, localizeMessage, localizeSearchStopReason, localizeTerm, readStoredLocale, translate, type Locale, type MessageKey } from "./i18n";
+import { formatTime, LOCALE_PREFERENCE_VERSION, LOCALE_PREFERENCE_VERSION_KEY, localizeMessage, localizeSearchStopReason, localizeSyntheticText, localizeSyntheticValue, localizeTerm, readStoredLocale, translate, type Locale, type MessageKey } from "./i18n";
 import { ScoreView } from "./components/ScoreView";
 import { TimelineChart } from "./components/TimelineChart";
 
 type MobileTab = "timeline" | "board" | "analysis" | "branches";
 
-function uncertaintyLabel(locale: Locale, value: unknown): string {
+function uncertaintyLabel(locale: Locale, playgroundId: string | undefined, value: unknown): string {
   if (!value || typeof value !== "object") return String(value ?? translate(locale, "notDeclared"));
   const item = value as { level?: string; basis?: string[] };
-  return [item.level ? localizeTerm(locale, item.level) : undefined, ...(item.basis ?? [])].filter(Boolean).join(" · ");
+  return [item.level ? localizeTerm(locale, item.level) : undefined, ...(item.basis ?? []).map((basis) => localizeSyntheticText(locale, playgroundId, basis))].filter(Boolean).join(" · ");
 }
 
 function projectionDiff(
@@ -43,7 +43,7 @@ export function App() {
     try {
       return readStoredLocale(typeof window === "undefined" ? undefined : window.localStorage);
     } catch {
-      return "en";
+      return "zh-CN";
     }
   });
   const [snapshot, setSnapshot] = useState<WorkbenchSnapshot>();
@@ -61,11 +61,13 @@ export function App() {
   const t = useCallback((key: MessageKey, values?: Record<string, string | number>) => translate(locale, key, values), [locale]);
   const shortTime = useCallback((value: string) => formatTime(locale, value), [locale]);
   const statusLabel = useCallback((value: string) => localizeTerm(locale, value), [locale]);
+  const content = useCallback((value: string) => localizeSyntheticText(locale, snapshot?.context.playgroundId, value), [locale, snapshot?.context.playgroundId]);
 
   useEffect(() => {
     document.documentElement.lang = locale;
     try {
       window.localStorage.setItem("stockmesh.locale", locale);
+      window.localStorage.setItem(LOCALE_PREFERENCE_VERSION_KEY, LOCALE_PREFERENCE_VERSION);
     } catch {
       // The language switch remains usable when browser storage is unavailable.
     }
@@ -155,8 +157,8 @@ export function App() {
       </header>
 
       <section className="context-bar" aria-label={t("analysisContext")}>
-        <label><span>{t("playground")}</span><select value={snapshot.context.playgroundId} disabled><option>{snapshot.context.scope}</option></select></label>
-        <label><span>{t("perspective")}</span><select value={snapshot.context.perspectiveId} disabled><option>{snapshot.context.perspectiveId.replace("perspective-syn-", "")}</option></select></label>
+        <label><span>{t("playground")}</span><select value={snapshot.context.playgroundId} disabled><option>{content(snapshot.context.scope)}</option></select></label>
+        <label><span>{t("perspective")}</span><select value={snapshot.context.perspectiveId} disabled><option>{content(snapshot.context.perspectiveId.replace("perspective-syn-", ""))}</option></select></label>
         <label><span>{t("asOfPosition")}</span><select value={snapshot.selectedPositionId} onChange={(event) => void refresh(event.target.value)}>{snapshot.positions.map((position) => <option value={position.id} key={position.id}>{shortTime(position.asOf)} · {statusLabel(position.mode)}</option>)}</select></label>
         <label><span>{t("compareFrom")}</span><select value={comparePositionId} onChange={(event) => setComparePositionId(event.target.value)}>{snapshot.positions.filter((position) => position.id !== snapshot.selectedPositionId).map((position) => <option value={position.id} key={position.id}>{shortTime(position.asOf)} · {statusLabel(position.mode)}</option>)}</select></label>
         <div className="horizon"><span>{t("horizonEvidenceCutoff")}</span><strong>{shortTime(snapshot.context.horizon)} / {shortTime(snapshot.context.evidenceCutoff)}</strong></div>
@@ -171,7 +173,7 @@ export function App() {
       <main className="workspace">
         <section className={`panel timeline-panel ${mobileTab === "timeline" ? "mobile-active" : ""}`}>
           <div className="panel-heading"><div><History size={16} /><h2>{t("timeline")}</h2></div><span>{t("eventCount", { count: snapshot.timeline.length })}</span></div>
-          <TimelineChart events={snapshot.timeline} locale={locale} />
+          <TimelineChart events={snapshot.timeline} locale={locale} playgroundId={snapshot.context.playgroundId} />
           <div className="timeline-list">
             {(["available", "hindsight", "variation"] as const).map((group) => {
               const items = snapshot.timeline.filter((event) => event.cutoffStatus === group);
@@ -182,7 +184,7 @@ export function App() {
                 if (exact) void refresh(exact.id);
               }}>
                 <span className={`event-dot mode-${event.mode} cutoff-${event.cutoffStatus}`} />
-                <span className="event-body"><strong>{event.summary}</strong><small>{shortTime(event.occurredAt)} · {statusLabel(event.mode)} · {statusLabel(event.cutoffStatus)}</small></span>
+                <span className="event-body"><strong>{content(event.summary)}</strong><small>{shortTime(event.occurredAt)} · {statusLabel(event.mode)} · {statusLabel(event.cutoffStatus)}</small></span>
                 <ChevronRight size={14} />
               </button>)}</section>;
             })}
@@ -191,9 +193,9 @@ export function App() {
 
         <section className={`panel board-panel ${mobileTab === "board" ? "mobile-active" : ""}`}>
           <div className="panel-heading"><div><Network size={16} /><h2>{t("position")}</h2></div><span>{t("positionCounts", { pawns: snapshot.graph.nodes.length, relations: snapshot.graph.relations.length, flows: snapshot.graph.flows.length })}</span></div>
-          <div className="question"><Search size={15} /><span>{snapshot.context.question}</span></div>
-          <div className="node-strip" aria-label={t("visiblePawns")}>{snapshot.graph.nodes.map((node) => <button aria-pressed={selectedNodeId === node.id} className={selectedNodeId === node.id ? "selected" : ""} key={node.id} onClick={() => setSelectedNodeId(node.id)}><UserRound size={12} />{node.label}</button>)}</div>
-          <GraphBoard graph={snapshot.graph} locale={locale} selectedNodeId={selectedNodeId} onSelectNode={selectNode} onSelectTrace={selectTrace} />
+          <div className="question"><Search size={15} /><span>{content(snapshot.context.question)}</span></div>
+          <div className="node-strip" aria-label={t("visiblePawns")}>{snapshot.graph.nodes.map((node) => <button aria-pressed={selectedNodeId === node.id} className={selectedNodeId === node.id ? "selected" : ""} key={node.id} onClick={() => setSelectedNodeId(node.id)}><UserRound size={12} />{content(node.label)}</button>)}</div>
+          <GraphBoard graph={snapshot.graph} locale={locale} playgroundId={snapshot.context.playgroundId} selectedNodeId={selectedNodeId} onSelectNode={selectNode} onSelectTrace={selectTrace} />
           <div className="board-legend"><span><i className="legend-node" /> {t("pawnNode")}</span><span><i className="legend-line" /> {t("typedRelation")}</span><span><i className="legend-flow" /> {t("flow")}</span><span><b>?</b> {t("uncertainClaim")}</span></div>
           {selectedTrace && <div className="element-trace" role="status"><div><strong>{statusLabel(selectedTrace.kind)}: {selectedTrace.label || selectedTrace.id}</strong><span>{selectedTrace.id}</span></div><p>{t("claims")}: {selectedTrace.claimRefs.join(", ") || t("none")}<br />{t("evidence")}: {selectedTrace.evidenceRefs.join(", ") || t("none")}</p><button aria-label={t("closeTrace")} onClick={() => setSelectedTrace(undefined)}><X size={13} /></button></div>}
           <section className="comparison-strip">
@@ -204,14 +206,14 @@ export function App() {
 
         <aside className={`panel analysis-panel ${mobileTab === "analysis" ? "mobile-active" : ""}`}>
           <div className="panel-heading"><div><Activity size={16} /><h2>{t("analysis")}</h2></div><span>{snapshot.trace.analyses[0]?.model ?? t("notRun")}</span></div>
-          <dl className="analysis-boundary"><dt>{t("evidenceCutoff")}</dt><dd>{shortTime(snapshot.context.evidenceCutoff)}</dd><dt>{t("riskPolicy")}</dt><dd>{snapshot.context.riskPolicy}</dd><dt>{t("evaluationProfile")}</dt><dd>{snapshot.context.evaluationProfile}</dd></dl>
+          <dl className="analysis-boundary"><dt>{t("evidenceCutoff")}</dt><dd>{shortTime(snapshot.context.evidenceCutoff)}</dd><dt>{t("riskPolicy")}</dt><dd>{content(snapshot.context.riskPolicy)}</dd><dt>{t("evaluationProfile")}</dt><dd>{content(snapshot.context.evaluationProfile)}</dd></dl>
           <div className="objectives">
             <h3>{t("multiPartyObjectives")}</h3>
-            {snapshot.context.objectives.map((objective) => <div className="objective" key={objective.partyNodeId}><div><strong>{objective.partyLabel}</strong><span>{objective.objective}</span></div><b>{Math.round(objective.weight * 100)}%</b></div>)}
+            {snapshot.context.objectives.map((objective) => <div className="objective" key={objective.partyNodeId}><div><strong>{content(objective.partyLabel)}</strong><span>{content(objective.objective)}</span></div><b>{Math.round(objective.weight * 100)}%</b></div>)}
           </div>
           <button className="primary-command" aria-label={t("runPositionAnalysis")} aria-busy={busy === "analysis"} disabled={Boolean(busy)} onClick={() => void command("analysis", () => api.analyze(snapshot.selectedPositionId))}>{busy === "analysis" ? <RefreshCw className="spin" size={16} /> : <Play size={16} />}{busy === "analysis" ? t("analyzing") : snapshot.branches.length ? t("refreshBranchView") : t("analyzePosition")}</button>
           {snapshot.trace.analyses.map((analysis) => <details className="trace-detail" key={analysis.id}><summary><span><Activity size={14} />{analysis.provider} / {analysis.model}</span><b>{statusLabel(analysis.status)}</b></summary><dl><dt>{t("frozenContext")}</dt><dd>{analysis.contextSnapshotId}</dd><dt>{t("configuration")}</dt><dd>{analysis.configurationIdentity}</dd><dt>{t("usage")}</dt><dd>{t("usageValue", { tokens: analysis.tokens, cost: analysis.cost })}</dd></dl></details>)}
-          {snapshot.trace.methods.map((method) => <details className="trace-detail" key={method.runId}><summary><span><Info size={14} />{method.methodId}</span><b>{method.version}</b></summary><pre>{JSON.stringify(method.output, null, 2)}</pre><ul>{method.caveats.map((item) => <li key={item}>{item}</li>)}</ul></details>)}
+          {snapshot.trace.methods.map((method) => <details className="trace-detail" key={method.runId}><summary><span><Info size={14} />{method.methodId}</span><b>{method.version}</b></summary><pre>{JSON.stringify(method.output, null, 2)}</pre><ul>{method.caveats.map((item) => <li key={item}>{content(item)}</li>)}</ul></details>)}
           <form className="evidence-form" onSubmit={(event) => void submitEvidence(event)}>
             <h3><Plus size={15} /> {t("stageSyntheticEvidence")}</h3>
             <textarea value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={t("evidencePlaceholder")} aria-label={t("syntheticEvidenceText")} />
@@ -228,14 +230,14 @@ export function App() {
           {!snapshot.branches.length ? <div className="empty-state"><GitBranch /><strong>{t("noVariations")}</strong><span>{t("noVariationsHelp")}</span></div> : <div className="branch-layout">
             <div className="branch-tree" role="tree">
               <button className="branch-root" aria-label={t("checkoutMainLineRoot")} onClick={() => void refresh()}><span className="branch-marker main" /><div><strong>{t("mainLine")}</strong><small>{t("currentReviewedPosition")}</small></div></button>
-              {branchTree.map((branch) => <button role="treeitem" aria-selected={selectedBranchId === branch.id} className={`branch-row ${selectedBranchId === branch.id ? "selected" : ""}`} style={{ paddingLeft: `${18 + branch.depth * 18}px` }} key={branch.id} onClick={() => setSelectedBranchId(branch.id)}><span className={`branch-marker purpose-${branch.purpose}`} /><div><strong>{branch.title}</strong><small>{t("branchMeta", { purpose: statusLabel(branch.purpose), realization: statusLabel(branch.realization), depth: branch.depth, child: branch.parentId ? t("child") : "" })}</small></div>{branch.state === "pinned" && <Pin size={13} />}</button>)}
+              {branchTree.map((branch) => <button role="treeitem" aria-selected={selectedBranchId === branch.id} className={`branch-row ${selectedBranchId === branch.id ? "selected" : ""}`} style={{ paddingLeft: `${18 + branch.depth * 18}px` }} key={branch.id} onClick={() => setSelectedBranchId(branch.id)}><span className={`branch-marker purpose-${branch.purpose}`} /><div><strong>{content(branch.title)}</strong><small>{t("branchMeta", { purpose: statusLabel(branch.purpose), realization: statusLabel(branch.realization), depth: branch.depth, child: branch.parentId ? t("child") : "" })}</small></div>{branch.state === "pinned" && <Pin size={13} />}</button>)}
             </div>
             {selectedBranch && <div className="branch-detail">
               <div className="branch-labels"><span className={`status purpose-${selectedBranch.purpose}`}>{t("purpose")}: {statusLabel(selectedBranch.purpose)}</span><span className="status">{t("realization")}: {statusLabel(selectedBranch.realization)}</span><span className="status">{t("state")}: {statusLabel(selectedBranch.state)}</span></div>
-              <h3>{selectedBranch.title}</h3><p><b>{t("move")}:</b> {selectedBranch.action}</p><p><b>{t("modeledResponse")}:</b> {selectedBranch.modeledResponse}</p>
-              <dl><dt>{t("assumptions")}</dt><dd>{selectedBranch.assumptions.join(" ")}</dd><dt>{t("uncertainty")}</dt><dd>{uncertaintyLabel(locale, selectedBranch.uncertainty)}</dd><dt>{t("replanTrigger")}</dt><dd>{selectedBranch.replanTrigger}</dd><dt>{t("frozenContext")}</dt><dd>{selectedBranch.contextSnapshotId}</dd><dt>{t("evidenceCutoff")}</dt><dd>{shortTime(selectedBranch.evaluation.evidenceCutoff)}</dd><dt>{t("horizon")}</dt><dd>{shortTime(selectedBranch.evaluation.horizon)}</dd><dt>{t("riskPolicy")}</dt><dd>{selectedBranch.evaluation.riskPolicy}</dd><dt>{t("evaluationProfile")}</dt><dd>{selectedBranch.evaluation.evaluationProfile}</dd><dt>{t("objectiveWeights")}</dt><dd>{snapshot.context.objectives.map((item) => `${item.partyLabel} ${Math.round(item.weight * 100)}%`).join(" · ")}</dd><dt>{t("scoreUncertainty")}</dt><dd>{uncertaintyLabel(locale, selectedBranch.evaluation.uncertainty)}</dd></dl>
-              <ScoreView scorecards={selectedBranch.evaluation.partyScorecards} locale={locale} label={t("selectedBranch")} />
-              <section className="branch-compare" aria-label={t("branchComparison")}><label><span>{t("compareBranch")}</span><select value={compareBranchId ?? ""} onChange={(event) => setCompareBranchId(event.target.value)}>{snapshot.branches.filter((branch) => branch.id !== selectedBranch.id).map((branch) => <option value={branch.id} key={branch.id}>{branch.title} · {statusLabel(branch.purpose)}</option>)}</select></label>{comparedBranch && <><p><b>{comparedBranch.title}</b> · {statusLabel(comparedBranch.purpose)} · {statusLabel(comparedBranch.realization)}</p>{branchDiff.length === 0 ? <p>{t("noProjectedBranchDifferences")}</p> : branchDiff.map((item) => <p key={item.labelKey}><b>{t(item.labelKey)}</b> {item.added.length ? `+${item.added.join(", ")}` : ""} {item.removed.length ? `-${item.removed.join(", ")}` : ""}</p>)}<ScoreView label={t("comparedBranch")} locale={locale} scorecards={comparedBranch.evaluation.partyScorecards} /></>}</section>
+              <h3>{content(selectedBranch.title)}</h3><p><b>{t("move")}:</b> {content(selectedBranch.action)}</p><p><b>{t("modeledResponse")}:</b> {content(selectedBranch.modeledResponse)}</p>
+              <dl><dt>{t("assumptions")}</dt><dd>{selectedBranch.assumptions.map(content).join(" ")}</dd><dt>{t("uncertainty")}</dt><dd>{uncertaintyLabel(locale, snapshot.context.playgroundId, selectedBranch.uncertainty)}</dd><dt>{t("replanTrigger")}</dt><dd>{content(selectedBranch.replanTrigger)}</dd><dt>{t("frozenContext")}</dt><dd>{selectedBranch.contextSnapshotId}</dd><dt>{t("evidenceCutoff")}</dt><dd>{shortTime(selectedBranch.evaluation.evidenceCutoff)}</dd><dt>{t("horizon")}</dt><dd>{shortTime(selectedBranch.evaluation.horizon)}</dd><dt>{t("riskPolicy")}</dt><dd>{content(selectedBranch.evaluation.riskPolicy)}</dd><dt>{t("evaluationProfile")}</dt><dd>{content(selectedBranch.evaluation.evaluationProfile)}</dd><dt>{t("objectiveWeights")}</dt><dd>{snapshot.context.objectives.map((item) => `${content(item.partyLabel)} ${Math.round(item.weight * 100)}%`).join(" · ")}</dd><dt>{t("scoreUncertainty")}</dt><dd>{uncertaintyLabel(locale, snapshot.context.playgroundId, selectedBranch.evaluation.uncertainty)}</dd></dl>
+              <ScoreView scorecards={selectedBranch.evaluation.partyScorecards} locale={locale} playgroundId={snapshot.context.playgroundId} label={t("selectedBranch")} />
+              <section className="branch-compare" aria-label={t("branchComparison")}><label><span>{t("compareBranch")}</span><select value={compareBranchId ?? ""} onChange={(event) => setCompareBranchId(event.target.value)}>{snapshot.branches.filter((branch) => branch.id !== selectedBranch.id).map((branch) => <option value={branch.id} key={branch.id}>{content(branch.title)} · {statusLabel(branch.purpose)}</option>)}</select></label>{comparedBranch && <><p><b>{content(comparedBranch.title)}</b> · {statusLabel(comparedBranch.purpose)} · {statusLabel(comparedBranch.realization)}</p>{branchDiff.length === 0 ? <p>{t("noProjectedBranchDifferences")}</p> : branchDiff.map((item) => <p key={item.labelKey}><b>{t(item.labelKey)}</b> {item.added.length ? `+${item.added.join(", ")}` : ""} {item.removed.length ? `-${item.removed.join(", ")}` : ""}</p>)}<ScoreView label={t("comparedBranch")} locale={locale} playgroundId={snapshot.context.playgroundId} scorecards={comparedBranch.evaluation.partyScorecards} /></>}</section>
               <div className="branch-actions"><button title={t("checkoutVariation")} disabled={Boolean(busy) || snapshot.selectedPositionId === selectedBranch.positionId} onClick={() => void refresh(selectedBranch.positionId)}><ChevronRight size={15} /> {snapshot.selectedPositionId === selectedBranch.positionId ? t("checkedOut") : t("checkout")}</button><button title={t("pinVariation")} disabled={Boolean(busy)} onClick={() => void command("pin", () => api.pin(selectedBranch.id))}>{busy === "pin" ? <RefreshCw className="spin" size={15} /> : <Pin size={15} />} {busy === "pin" ? t("pinning") : t("pin")}</button><button title={t("replayFrozenContext")} disabled={Boolean(busy)} onClick={() => void command("replay", () => api.replay(selectedBranch.id))}>{busy === "replay" ? <RefreshCw className="spin" size={15} /> : <ArchiveRestore size={15} />} {busy === "replay" ? t("replaying") : t("replay")}</button><button title={t("forkVariation")} disabled={Boolean(busy)} onClick={() => void command("fork", () => api.fork(selectedBranch.id))}>{busy === "fork" ? <RefreshCw className="spin" size={15} /> : <Split size={15} />} {busy === "fork" ? t("forking") : t("fork")}</button></div>
             </div>}
           </div>}
@@ -244,15 +246,15 @@ export function App() {
       </main>
 
       {selectedNode && <aside className="node-drawer" aria-label={t("pawnDetail")}>
-        <div className="drawer-heading"><div className="avatar"><UserRound size={20} /></div><div><small>{selectedNode.profileLabel} · {selectedNode.type}</small><h2>{selectedNode.label}</h2></div><button className="icon-button" title={t("closePawnDetail")} aria-label={t("closePawnDetail")} onClick={() => setSelectedNodeId(undefined)}><X size={17} /></button></div>
-        <section><h3>{t("identityProfile")}</h3><dl className="drawer-meta"><dt>{t("universalType")}</dt><dd>{selectedNode.type}</dd><dt>{t("profileLabel")}</dt><dd>{selectedNode.profileLabel}</dd><dt>{t("roleSignals")}</dt><dd>{selectedNodeRelations.map((relation) => `${relation.source === selectedNode.id ? t("outgoing") : t("incoming")} ${statusLabel(relation.type)}`).join(" · ") || t("noTypedRole")}</dd><dt>{t("stance")}</dt><dd>{stanceClaims.map((claim) => claim.proposition ?? claim.kind).join(" · ") || t("noStance")}</dd><dt>{t("positionProfile")}</dt><dd>{selectedPosition?.profileSnapshotId}</dd></dl></section>
-        <section><h3>{t("stateAtCutoff")}</h3>{selectedNode.states.length ? selectedNode.states.map((state) => <div className="state-row" key={state.id}><strong>{statusLabel(state.type)}</strong><span>{JSON.stringify(state.value)}</span></div>) : <p className="muted">{t("noVisibleState")}</p>}</section>
-        <section><h3>{t("claimsAtCutoff")}</h3>{selectedNode.claims.length ? selectedNode.claims.map((claim) => <article className="claim-row" key={claim.id}><div><span className={`status status-${claim.status}`}>{statusLabel(claim.status)}</span><small>{t("revision")} {claim.revision}</small></div><p>{claim.proposition ?? claim.kind}</p><small>{claim.evidenceRefs.join(", ")}</small></article>) : <p className="muted">{t("noProfileClaim")}</p>}</section>
+        <div className="drawer-heading"><div className="avatar"><UserRound size={20} /></div><div><small>{content(selectedNode.profileLabel)} · {statusLabel(selectedNode.type)}</small><h2>{content(selectedNode.label)}</h2></div><button className="icon-button" title={t("closePawnDetail")} aria-label={t("closePawnDetail")} onClick={() => setSelectedNodeId(undefined)}><X size={17} /></button></div>
+        <section><h3>{t("identityProfile")}</h3><dl className="drawer-meta"><dt>{t("universalType")}</dt><dd>{statusLabel(selectedNode.type)}</dd><dt>{t("profileLabel")}</dt><dd>{content(selectedNode.profileLabel)}</dd><dt>{t("roleSignals")}</dt><dd>{selectedNodeRelations.map((relation) => `${relation.source === selectedNode.id ? t("outgoing") : t("incoming")} ${statusLabel(relation.type)}`).join(" · ") || t("noTypedRole")}</dd><dt>{t("stance")}</dt><dd>{stanceClaims.map((claim) => content(claim.proposition ?? claim.kind)).join(" · ") || t("noStance")}</dd><dt>{t("positionProfile")}</dt><dd>{selectedPosition?.profileSnapshotId}</dd></dl></section>
+        <section><h3>{t("stateAtCutoff")}</h3>{selectedNode.states.length ? selectedNode.states.map((state) => <div className="state-row" key={state.id}><strong>{statusLabel(state.type)}</strong><span>{JSON.stringify(localizeSyntheticValue(locale, snapshot.context.playgroundId, state.value))}</span></div>) : <p className="muted">{t("noVisibleState")}</p>}</section>
+        <section><h3>{t("claimsAtCutoff")}</h3>{selectedNode.claims.length ? selectedNode.claims.map((claim) => <article className="claim-row" key={claim.id}><div><span className={`status status-${claim.status}`}>{statusLabel(claim.status)}</span><small>{t("revision")} {claim.revision}</small></div><p>{content(claim.proposition ?? claim.kind)}</p><small>{claim.evidenceRefs.join(", ")}</small></article>) : <p className="muted">{t("noProfileClaim")}</p>}</section>
         <section><h3>{t("relationsFlows")}</h3>{selectedNodeRelations.map((relation) => <div className="trace-source" key={relation.id}><Network size={14} /><div><strong>{statusLabel(relation.type)}</strong><span>{relation.source} → {relation.target} · {t("claims")} {relation.claimRefs.join(", ")}</span></div></div>)}{selectedNodeFlows.map((flow) => <div className="trace-source" key={flow.id}><Activity size={14} /><div><strong>{statusLabel(flow.type)} {t("flowSuffix")}</strong><span>{flow.path.join(" → ")} · {t("claims")} {flow.claimRefs.join(", ")}</span></div></div>)}{!selectedNodeRelations.length && !selectedNodeFlows.length && <p className="muted">{t("noVisibleRelationFlow")}</p>}</section>
-        <section><h3>{t("timeline")}</h3>{selectedNodeTimeline.length ? selectedNodeTimeline.map((event) => <div className="node-event" key={event.id}><strong>{event.summary}</strong><span>{shortTime(event.occurredAt)} · {statusLabel(event.mode)} · {statusLabel(event.cutoffStatus)}</span></div>) : <p className="muted">{t("noLinkedEvent")}</p>}</section>
+        <section><h3>{t("timeline")}</h3>{selectedNodeTimeline.length ? selectedNodeTimeline.map((event) => <div className="node-event" key={event.id}><strong>{content(event.summary)}</strong><span>{shortTime(event.occurredAt)} · {statusLabel(event.mode)} · {statusLabel(event.cutoffStatus)}</span></div>) : <p className="muted">{t("noLinkedEvent")}</p>}</section>
         <section><h3>{t("profileHistory")}</h3>{selectedNodeProfileHistory.length ? selectedNodeProfileHistory.map((profile) => <div className="profile-snapshot" key={profile.id}><strong>{profile.id === selectedPosition?.profileSnapshotId ? t("selectedSnapshot") : t("laterSnapshot")}</strong><span>{profile.id} · {shortTime(profile.asOf)} · {profile.version}</span></div>) : <p className="muted">{t("noProfileSnapshot")}</p>}</section>
-        <section><h3>{t("reviewedCorrections")}</h3>{snapshot.revisionProposals.filter((proposal) => proposal.subjectNodeId === selectedNode.id).map((proposal) => { const actionable = proposal.reviewStatus === "accepted" && !proposal.applied; return <article className="revision-row" key={proposal.id}><p>{proposal.interpretation}</p><small>{t("evidence")}: {proposal.evidenceRefs.join(", ")}</small><button disabled={!actionable || Boolean(busy)} onClick={() => void command("revision", () => api.applyRevision(proposal.id))}>{proposal.applied ? <Check size={14} /> : busy === "revision" ? <RefreshCw className="spin" size={14} /> : actionable ? <RefreshCw size={14} /> : <Info size={14} />}{proposal.applied ? t("appliedAppendOnly") : busy === "revision" ? t("applying") : actionable ? t("applyRevision") : t("awaitingReview")}</button></article>; })}</section>
-        <section><h3>{t("trace")}</h3>{[...new Set(selectedNode.claims.flatMap((claim) => claim.evidenceRefs))].map((id) => { const source = snapshot.trace.evidence.find((item) => item.id === id); return <div className="trace-source" key={id}><ShieldCheck size={14} /><div><strong>{id}</strong><span>{source ? `${source.sourceKind} · ${source.integrity}` : t("sourceUnavailable")}</span></div></div>; })}</section>
+        <section><h3>{t("reviewedCorrections")}</h3>{snapshot.revisionProposals.filter((proposal) => proposal.subjectNodeId === selectedNode.id).map((proposal) => { const actionable = proposal.reviewStatus === "accepted" && !proposal.applied; return <article className="revision-row" key={proposal.id}><p>{content(proposal.interpretation)}</p><small>{t("evidence")}: {proposal.evidenceRefs.join(", ")}</small><button disabled={!actionable || Boolean(busy)} onClick={() => void command("revision", () => api.applyRevision(proposal.id))}>{proposal.applied ? <Check size={14} /> : busy === "revision" ? <RefreshCw className="spin" size={14} /> : actionable ? <RefreshCw size={14} /> : <Info size={14} />}{proposal.applied ? t("appliedAppendOnly") : busy === "revision" ? t("applying") : actionable ? t("applyRevision") : t("awaitingReview")}</button></article>; })}</section>
+        <section><h3>{t("trace")}</h3>{[...new Set(selectedNode.claims.flatMap((claim) => claim.evidenceRefs))].map((id) => { const source = snapshot.trace.evidence.find((item) => item.id === id); return <div className="trace-source" key={id}><ShieldCheck size={14} /><div><strong>{id}</strong><span>{source ? `${statusLabel(source.sourceKind)} · ${statusLabel(source.integrity)}` : t("sourceUnavailable")}</span></div></div>; })}</section>
       </aside>}
     </div>
   );
