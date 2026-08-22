@@ -27,7 +27,7 @@ The project is currently in **delivery foundation / measured hardening**. A Type
 
 ## Repository state
 
-The repository now includes candidate `stockmesh.domain@0.2.0`, a fully synthetic organizational learning loop, a responsive Web workbench, thin Skill/CLI clients, and a body-free private-pilot evaluation boundary. The private pilot proves prepared structural consistency only; it does not prove source-to-model reconstruction quality, live LLM quality, usefulness, or human acceptance. P7 adds evidence-backed component measurement and replacement/retention decisions without changing those boundaries.
+The repository now includes candidate `stockmesh.domain@0.2.0`, a fully synthetic organizational learning loop, a responsive Web workbench, thin Skill/CLI clients, a body-free private-pilot evaluation boundary, and an advisory measured-hardening evaluator. The private pilot proves prepared structural consistency only; no current component replacement is justified without a concrete candidate and paired quality/usefulness evidence. Live LLM quality, real workflow usefulness, and human acceptance remain open.
 
 ## License
 

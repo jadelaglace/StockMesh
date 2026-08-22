@@ -268,6 +268,29 @@ was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as
 `1128b56`. Local and public `main` matched after merge, and the remote
 implementation branch was deleted. Human product acceptance remains open.
 
+## P7-001 evidence - 2026-08-22
+
+- [DW-030](../discovery/direct-wording.md#dw-030--repair-the-reviewed-p6-defects-before-completing-p7) authorized P7 only after FIX-005. The [frozen P7 matrix](p7-acceptance-matrix.json) selects eleven criteria for an advisory measured-hardening boundary; it does not authorize a provider call, package update, automatic component replacement, private-case read, or human-acceptance claim.
+- The dependency-free hardening contract accepts exact opaque component/configuration identities, a target-policy identity established before observations, a closed metric/unit/direction catalog, and unique paired scenario/run identities. Unknown body-capable fields, endpoints as identities, post-hoc policy changes, invalid units/ranges, duplicate samples, reused runs, missing user attribution, and candidate measurements without a candidate component fail closed.
+- Each target declares absolute threshold, minimum mean improvement, maximum single-scenario regression, required scopes, and minimum paired scenarios per scope. Results expose scope/sample denominators, baseline/candidate means, improvement, regression, limitations, and blockers.
+- Direct regressions prove all three decisions: every target passes before `replace-candidate`; complete failed evidence yields `retain-baseline`; absent candidates or missing required human/private observations yield `defer-replacement`. Reports always declare zero component replacement, canonical/possibility writes, provider calls, and package writes.
+- Current decision: `defer-replacement`. StockMesh has no concrete candidate component or paired authorized-private usefulness/calibration comparison. The replace/retain examples are synthetic mechanism evidence only, not model/provider quality evidence.
+- Fresh local terminal before GitHub publication: the existing clean install remained at 236 packages / 237 audited with 0 vulnerabilities and independent audit also reported 0. All 34 Vitest files / 67 tests, Core/Web typechecks, production build, direct-license gate, Skill validation, P0 and `0.1.0` validators, P7-aware repository/public-boundary gate, `git diff --check`, and 2/2 desktop/mobile Playwright projects passed. No dependency, provider, service, database migration, private-data read, or component replacement entered P7.
+
+| Criterion | Terminal result | Direct evidence |
+| --- | --- | --- |
+| P7-01 | passed | Strict component/configuration identities and unknown-field mutations |
+| P7-02 | passed | Policy identity and pre-observation timestamp mutation |
+| P7-03 | passed | Frozen closed metric catalog with fixed unit/direction/range |
+| P7-04 | passed | Validated threshold, improvement, regression, scope, and sample targets |
+| P7-05 | passed | Unique paired scenario/run validation and duplicate mutations |
+| P7-06 | passed | `not-observed` propagation and required user attribution |
+| P7-07 | passed | Transparent per-target denominators, means, checks, limitations, and blockers |
+| P7-08 | passed | Direct replace, retain, and defer decision regressions |
+| P7-09 | passed | Deterministic report identity and explicit zero-effect envelope |
+| P7-10 | passed | Current defer result and open real-use/human evidence gaps |
+| P7-11 | passed | Full P0-P7 repository, supply-chain, Skill, and browser gates |
+
 ## FIX-005 evidence - 2026-08-22
 
 - The post-P6 review reproduced five defects: body-capable strings passed the

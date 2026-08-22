@@ -365,6 +365,44 @@ foreach ($p6RuntimePath in @(
     }
 }
 
+$p7MatrixPath = Join-Path $RepositoryRoot 'docs\verification\p7-acceptance-matrix.json'
+if (-not (Test-Path -LiteralPath $p7MatrixPath)) {
+    $failures.Add('P7 acceptance matrix is missing.')
+} else {
+    try {
+        $p7Matrix = Get-Content -Raw -LiteralPath $p7MatrixPath | ConvertFrom-Json
+        if ($p7Matrix.phase_id -ne 'P7' -or $p7Matrix.status -ne 'frozen') {
+            $failures.Add('P7 acceptance matrix must be frozen and identify phase P7.')
+        }
+        $expectedP7Ids = 1..11 | ForEach-Object { 'P7-{0:D2}' -f $_ }
+        $actualP7Ids = @($p7Matrix.criteria | ForEach-Object { $_.id })
+        if (($actualP7Ids -join ',') -ne ($expectedP7Ids -join ',')) {
+            $failures.Add('P7 acceptance matrix must contain ordered criteria P7-01 through P7-11 exactly once.')
+        }
+        foreach ($criterion in @($p7Matrix.criteria)) {
+            foreach ($evidencePath in @($criterion.evidence_paths)) {
+                if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $evidencePath))) {
+                    $failures.Add("P7 evidence path is missing for $($criterion.id): $evidencePath")
+                }
+            }
+        }
+    } catch {
+        $failures.Add("P7 acceptance matrix is not valid JSON: $($_.Exception.Message)")
+    }
+}
+
+foreach ($p7RuntimePath in @(
+    'src\hardening\types.ts',
+    'src\hardening\validation.ts',
+    'src\hardening\evaluator.ts',
+    'src\hardening\index.ts',
+    'tests\p7-hardening.test.ts'
+)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $p7RuntimePath))) {
+        $failures.Add("P7 runtime artifact is missing: $p7RuntimePath")
+    }
+}
+
 try {
     $package = Get-Content -Raw -LiteralPath (Join-Path $RepositoryRoot 'package.json') | ConvertFrom-Json
     $expectedP4Dependencies = @{
@@ -423,4 +461,4 @@ if ($failures.Count -gt 0) {
     exit 1
 }
 
-Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3/P4/P5/P6 delivery checks passed ($($markdownFiles.Count) Markdown files)."
+Write-Output "Repository documentation, public-content, 0.1.0/P0 compatibility, and P1/P2/P3/P4/P5/P6/P7 delivery checks passed ($($markdownFiles.Count) Markdown files)."

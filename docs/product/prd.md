@@ -30,6 +30,7 @@ The human primarily works through the Web workbench and owns scope, objectives, 
 18. Forecast outcomes separately calibrate the responsible LLM/Method/Search configuration when the prediction and observation coverage are specific enough; calibration never uses prediction text as evidence about a Pawn.
 19. The user can replay an earlier decision using only information and profile Claims available at that time and optionally compare it with a separately labeled hindsight/current-profile view.
 20. When an application uses an episode/game-record view, the user can preserve an ongoing record with confirmed history, Position-bound alternatives, Forecast Assessments, and profile revision history without rewriting source history.
+21. When evaluating a replaceable component, the system compares exact baseline and candidate identities against targets frozen before the observed runs, reports paired scope/sample evidence and regressions, and recommends replace, retain, or defer without applying the change itself.
 
 ## Initial capability slice
 
