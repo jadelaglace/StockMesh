@@ -4,7 +4,16 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None.
+**REVIEW-006 — Review current delivery for requirement drift and defects, then repair reproduced findings.**
+
+- Source anchor: [DW-031](../discovery/direct-wording.md#dw-031--review-current-delivery-for-drift-and-repair-reproduced-defects).
+- User goal: review StockMesh for requirement drift and bugs; repair any concrete findings after review.
+- Current state: repaired and fully verified on `codex/review-fix-p7-integrity`; GitHub Flow remains.
+- Declared terminal: P7/P6 and affected P0-P5 contracts are reviewed against current requirements; each finding has a direct reproduction and severity; confirmed defects are repaired with regressions; the full repository, supply-chain, Skill, contract, and browser gates pass; no unsupported product/usefulness/acceptance claim remains; work is merged through GitHub Flow, or a no-finding review is recorded without manufactured implementation churn.
+- Protected boundary: no private case, locator, alias, credential, Babata operation, live provider, new dependency/service, component replacement, product-scope change, or human-acceptance claim enters the review without separate authority.
+- Agent temporary subplan: the three reproduced P7 decision-integrity defects are repaired with direct negative regressions. Full P0-P7 tests and compatibility, supply-chain, Skill, build, public-boundary, and desktop/mobile browser gates pass. P6 rating/calibration concerns were inspected but do not prove a violation of its frozen body-free pilot contract; no speculative schema change entered the repair. Product direction remains unchanged.
+- Next action: publish the bounded repair through GitHub Flow, verify mergeability, squash-merge, then record terminal evidence and clear the active item without claiming human acceptance.
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: the user explicitly created a Codex Goal to review current delivery and repair reproduced defects.
 
 ## Last terminal: P7-001
 

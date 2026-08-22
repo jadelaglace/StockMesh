@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeHardeningPolicyIdentity, evaluateHardeningSuite, HARDENING_METRICS, validateHardeningSuite } from "../src/hardening/index.js";
+import { computeHardeningComponentIdentity, computeHardeningPolicyIdentity, evaluateHardeningSuite, HARDENING_METRICS, validateHardeningSuite } from "../src/hardening/index.js";
 import type { ComponentIdentity, HardeningMetricName, HardeningSuite, HardeningTarget, MetricObservation } from "../src/hardening/index.js";
 
 function hash(digit: string): string {
@@ -34,18 +34,18 @@ function suite(): HardeningSuite {
     scenarios: [
       {
         id: `scenario-${hash("1")}`, scope: "synthetic",
-        baseline: { runIdentity: hash("1"), observedAt: "2026-08-22T01:00:00Z", metrics: [observed("latencyMs", 100)] },
-        candidate: { runIdentity: hash("2"), observedAt: "2026-08-22T01:01:00Z", metrics: [observed("latencyMs", 80)] },
+        baseline: { componentIdentity: computeHardeningComponentIdentity(baseline), runIdentity: hash("1"), observedAt: "2026-08-22T01:00:00Z", metrics: [observed("latencyMs", 100)] },
+        candidate: { componentIdentity: computeHardeningComponentIdentity(candidate), runIdentity: hash("2"), observedAt: "2026-08-22T01:01:00Z", metrics: [observed("latencyMs", 80)] },
       },
       {
         id: `scenario-${hash("2")}`, scope: "synthetic",
-        baseline: { runIdentity: hash("3"), observedAt: "2026-08-22T01:02:00Z", metrics: [observed("latencyMs", 110)] },
-        candidate: { runIdentity: hash("4"), observedAt: "2026-08-22T01:03:00Z", metrics: [observed("latencyMs", 90)] },
+        baseline: { componentIdentity: computeHardeningComponentIdentity(baseline), runIdentity: hash("3"), observedAt: "2026-08-22T01:02:00Z", metrics: [observed("latencyMs", 110)] },
+        candidate: { componentIdentity: computeHardeningComponentIdentity(candidate), runIdentity: hash("4"), observedAt: "2026-08-22T01:03:00Z", metrics: [observed("latencyMs", 90)] },
       },
       {
         id: `scenario-${hash("3")}`, scope: "authorized-private",
-        baseline: { runIdentity: hash("5"), observedAt: "2026-08-22T01:04:00Z", metrics: [observed("contextualUsefulness", 3)] },
-        candidate: { runIdentity: hash("6"), observedAt: "2026-08-22T01:05:00Z", metrics: [observed("contextualUsefulness", 4.5)] },
+        baseline: { componentIdentity: computeHardeningComponentIdentity(baseline), runIdentity: hash("5"), observedAt: "2026-08-22T01:04:00Z", metrics: [observed("contextualUsefulness", 3)] },
+        candidate: { componentIdentity: computeHardeningComponentIdentity(candidate), runIdentity: hash("6"), observedAt: "2026-08-22T01:05:00Z", metrics: [observed("contextualUsefulness", 4.5)] },
       },
     ],
   };
@@ -127,7 +127,7 @@ describe("P7 measured hardening", () => {
       currencyCode: latePolicy.currencyCode, baseline: latePolicy.baseline, candidate: latePolicy.candidate,
       establishedAt: latePolicy.policy.establishedAt, targets: latePolicy.policy.targets,
     });
-    expect(() => validateHardeningSuite(latePolicy)).toThrow("predates the frozen target policy");
+    expect(() => validateHardeningSuite(latePolicy)).toThrow("must follow the frozen target policy");
 
     const missingAssessor = clone(suite());
     delete missingAssessor.scenarios[2]!.candidate!.metrics[0]!.assessor;
@@ -156,5 +156,42 @@ describe("P7 measured hardening", () => {
     const duplicatedRun = clone(suite());
     duplicatedRun.scenarios[1]!.baseline.runIdentity = duplicatedRun.scenarios[0]!.baseline.runIdentity;
     expect(() => validateHardeningSuite(duplicatedRun)).toThrow("unique identities");
+  });
+
+  it("binds every measurement to the exact declared component", () => {
+    const swapped = suite();
+    swapped.scenarios[0]!.baseline.componentIdentity = computeHardeningComponentIdentity(swapped.candidate!);
+    expect(() => validateHardeningSuite(swapped)).toThrow("does not match the declared component");
+
+    const missing = clone(suite()) as unknown as Record<string, unknown>;
+    const firstScenario = (missing.scenarios as Array<Record<string, unknown>>)[0]!;
+    delete (firstScenario.baseline as Record<string, unknown>).componentIdentity;
+    expect(() => validateHardeningSuite(missing)).toThrow("componentIdentity");
+  });
+
+  it("requires the frozen policy to strictly precede every observation", () => {
+    const input = suite();
+    input.scenarios[0]!.baseline.observedAt = input.policy.establishedAt;
+    expect(() => validateHardeningSuite(input)).toThrow("must follow the frozen target policy");
+  });
+
+  it("canonicalizes required scope order when computing policy identity", () => {
+    const input = suite();
+    const target = input.policy.targets[0]!;
+    const first = computeHardeningPolicyIdentity({
+      currencyCode: input.currencyCode,
+      baseline: input.baseline,
+      candidate: input.candidate,
+      establishedAt: input.policy.establishedAt,
+      targets: [{ ...target, requiredScopes: ["synthetic", "authorized-private"] }],
+    });
+    const second = computeHardeningPolicyIdentity({
+      currencyCode: input.currencyCode,
+      baseline: input.baseline,
+      candidate: input.candidate,
+      establishedAt: input.policy.establishedAt,
+      targets: [{ ...target, requiredScopes: ["authorized-private", "synthetic"] }],
+    });
+    expect(first).toBe(second);
   });
 });

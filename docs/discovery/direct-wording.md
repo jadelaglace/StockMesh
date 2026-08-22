@@ -347,3 +347,14 @@ The external conversations supplied with the same instruction are governed by th
 > codex目标，修复上述，然后完成p7 先聚焦需求 思考好架构 然后开发 测试
 
 - Interpretation boundary: the five reproduced review findings must be repaired and reverified before P7 starts. After that terminal, P7 is authorized in the stated order: requirements first, architecture second, implementation third, and testing last. This instruction does not authorize private-source publication, Babata mutation, a case-defined universal Domain, a live-provider quality claim, or human product acceptance.
+
+## DW-031 — Review current delivery for drift and repair reproduced defects
+
+- Source: direct user instruction in Codex task
+- Captured: 2026-08-22, Asia/Shanghai
+- Status: active; authorizes read-only review and repair of reproduced findings
+- Retrieval phrases: “codex目标”, “review”, “有没有偏离需求”, “bug”, “如有则修复”
+
+> codex目标，review 下有没有偏离需求，bug，做完后如有则修复，
+
+- Interpretation boundary: review the current P0-P7 implementation and delivery claims against the established StockMesh requirements. Repair only concrete reproduced defects or requirement drift, add regressions, and preserve the public/private, canonical/possibility, Web/Skill/CLI, provider-neutral, and human-acceptance boundaries. This does not authorize private-case access, Babata operations, live-provider calls, new product scope, or acceptance claims.
