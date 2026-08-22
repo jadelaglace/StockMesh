@@ -374,7 +374,7 @@ The external conversations supplied with the same instruction are governed by th
 
 - Source: direct user instruction in Codex task
 - Captured: 2026-08-23, Asia/Shanghai
-- Status: active; authorizes review and repair of the delivered Web localization
+- Status: resolved by FIX-WEB-I18N-001 and merged through PR #25
 - Retrieval phrases: “局势变化这个窗口显示不全”, “汉化文本不全”, “走流程修”
 
 > 局势 局势变化这个窗口显示不全 还有正谱 啊 一些地方啊 汉化文本不全 都看看怎么回事 走流程修

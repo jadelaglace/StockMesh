@@ -10,6 +10,7 @@ Purpose: define how documentation and delivery claims are checked. Product accep
 - Synthetic evidence/questions, Node/Pawn labels, objectives, branch titles/actions/responses, assumptions, identifiers, Method output, and stored Domain content remain verbatim. Browser checks explicitly retain the English synthetic question and `Clarify the decision boundary` branch title while their surrounding controls and statuses are Chinese.
 - Fresh local terminal: all 35 Vitest files / 72 tests, Core/Web typechecks, production build, direct-license gate, Skill validation, P0 and `0.1.0` validators, repository/public-boundary gate, `git diff --check`, and desktop/mobile Playwright (4/4) passed. Independent `npm audit --audit-level=low` reported 0 vulnerabilities.
 - Manual desktop and mobile Browser screenshots and geometry readback found no clipping, horizontal page overflow, or console errors. No dependency, API/storage contract, Domain record, private data, provider, product-usefulness conclusion, or human acceptance entered this repair; the existing large Web chunk warning remains non-blocking.
+- Implementation commit `b2775a4` was pushed on `codex/fix-web-i18n-layout-coverage`; [PR #25](https://github.com/jadelaglace/StockMesh/pull/25) was `MERGEABLE/CLEAN`, had no configured remote checks, and squash-merged as `3aaf696`. Local `main` matched `origin/main`, and the remote implementation branch was deleted before documentation closure.
 
 ## WEB-I18N-001 evidence - 2026-08-22
 
