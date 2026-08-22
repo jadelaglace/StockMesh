@@ -17,7 +17,12 @@ npm run --silent stockmesh -- <capability> --input '<json-object>'
 
 Use `--stdin` instead of `--input` when shell quoting would be fragile. Parse
 the single JSON envelope from stdout. Treat a nonzero exit and the bounded JSON
-diagnostic on stderr as a rejected operation.
+diagnostic on stderr as a rejected operation. The complete diagnostic line is
+bounded to 512 UTF-8 bytes.
+
+Use only the camelCase fields named for the selected route below. The P5 facade
+rejects every unknown or misnamed field before dispatch; do not translate these
+requests to the broader candidate contract's snake_case envelope.
 
 ## Route intents
 
@@ -27,12 +32,14 @@ diagnostic on stderr as a rejected operation.
   `fromPositionId` and `toPositionId`.
 - Run StockMesh analysis: `analysis.run` with an explicit `positionId`.
 - Inspect branches: `branch.list`, optionally with `positionId`.
-- Pin or fork: `branch.pin` / `branch.fork` with `variationId`.
+- Pin or fork: `branch.pin` / `branch.fork` with `variationId` and optional
+  response `positionId`.
 - Replay frozen branch context: `decision.replay` with `variationId`.
 - Continue a paused search: `search.continue` with `searchRunId` and, when
   presenting the result in context, `positionId`.
-- Stage public synthetic candidate evidence: `evidence.stage` with `text` and
-  ISO `observedAt`. Staging is not acceptance or truth.
+- Stage public synthetic candidate evidence: `evidence.stage` with `text`, ISO
+  `observedAt`, and optional response `positionId`. Staging is not acceptance
+  or truth.
 
 Always carry returned Position, cutoff, profile, branch, Method, Analysis, and
 Evaluation identities into the explanation. Keep forecast, counterfactual,

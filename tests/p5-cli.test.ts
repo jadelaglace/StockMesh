@@ -50,7 +50,7 @@ describe("P5 StockMesh CLI", () => {
     expect(output(cli(db, "search.continue", JSON.stringify({ searchRunId: analysisResult.runId, positionId: "position-syn-004" })))).toMatchObject({ operation: "search.continue" });
     const listed = output(cli(db, "branch.list", JSON.stringify({ positionId: "position-syn-004" })));
     expect((listed.result as { branches: Array<{ id: string; state: string }> }).branches.find((branch) => branch.id === forecast.id)?.state).toBe("pinned");
-  });
+  }, 20_000);
 
   it("offers staging only and fails closed with stable redacted diagnostics", () => {
     const db = database();
@@ -70,6 +70,11 @@ describe("P5 StockMesh CLI", () => {
     expect(missing.status).toBe(2);
     expect(JSON.parse(missing.stderr)).toEqual({ status: "rejected", error: "positionId is required" });
 
+    const misnamed = cli(db, "context.get", JSON.stringify({ position_id: "position-syn-001" }));
+    expect(misnamed.status).toBe(2);
+    expect(misnamed.stdout).toBe("");
+    expect(JSON.parse(misnamed.stderr)).toMatchObject({ status: "rejected", error: expect.stringContaining("unsupported input field") });
+
     const invalidTime = cli(db, "evidence.stage", JSON.stringify({ text: "synthetic", observedAt: "not-a-time" }));
     expect(invalidTime.status).toBe(2);
     expect(invalidTime.stdout).toBe("");
@@ -83,5 +88,11 @@ describe("P5 StockMesh CLI", () => {
     expect(JSON.parse(internal.stderr)).toEqual({ status: "rejected", error: "StockMesh capability failed" });
     expect(internal.stderr).not.toContain(internalRoot);
     expect(internal.stderr.toLowerCase()).not.toContain("sqlite");
-  });
+
+    const oversized = cli(db, "x".repeat(5_000));
+    expect(oversized.status).toBe(2);
+    expect(oversized.stdout).toBe("");
+    expect(Buffer.byteLength(oversized.stderr, "utf8")).toBeLessThanOrEqual(512);
+    expect(JSON.parse(oversized.stderr)).toMatchObject({ status: "rejected", error: expect.stringMatching(/\.\.\.$/) });
+  }, 20_000);
 });

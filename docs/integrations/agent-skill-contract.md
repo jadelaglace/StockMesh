@@ -63,13 +63,30 @@ corresponding application use case exists behind the shared facade.
 The P5 CLI and Skill share these rules:
 
 - input and output are JSON objects with stable operation/status fields;
+- each operation accepts only the camelCase fields listed below; unknown or
+  misnamed fields are rejected before dispatch rather than ignored;
 - Position identity is explicit for context-sensitive operations;
 - ordinary result data goes to stdout; diagnostics go to stderr;
-- rejected input uses a stable nonzero exit code and never exposes database paths or SQL;
+- rejected input uses a stable nonzero exit code; its single JSON diagnostic
+  line is at most 512 UTF-8 bytes and never exposes database paths or SQL;
 - the Skill invokes the CLI rather than reading SQLite or reimplementing StockMesh reasoning;
 - P5 has no review/accept command and no canonical-writer trust tier.
 
-## Common request envelope
+| P5 capability | Accepted request fields |
+| --- | --- |
+| `workbench.get`, `context.get`, `branch.list` | optional `positionId` |
+| `position.compare` | `fromPositionId`, `toPositionId` |
+| `analysis.run` | `positionId` |
+| `branch.pin`, `branch.fork` | `variationId`; optional response `positionId` |
+| `decision.replay` | `variationId` |
+| `search.continue` | `searchRunId`; optional response `positionId` |
+| `evidence.stage` | `text`, `observedAt`; optional response `positionId` |
+
+## Candidate common request envelope
+
+The following snake_case envelope belongs to the broader transport-neutral
+catalog. P5 CLI/Skill commands do not accept it verbatim; they use the strict
+operation-specific camelCase fields above.
 
 ```json
 {

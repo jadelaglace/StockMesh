@@ -3,6 +3,21 @@ import { createWorkbenchRuntime } from "../workbench/runtime.js";
 import { defaultRuntimeDatabasePath } from "../workbench/paths.js";
 
 const safeRuntimeError = /^(?:Position|Variation|Trajectory|Evaluation|search run|staging item) (?:not found|is unavailable):?/;
+const MAX_DIAGNOSTIC_BYTES = 512;
+
+function diagnosticLine(error: string): string {
+  const render = (value: string): string => `${JSON.stringify({ status: "rejected", error: value })}\n`;
+  if (Buffer.byteLength(render(error), "utf8") <= MAX_DIAGNOSTIC_BYTES) return render(error);
+
+  let low = 0;
+  let high = error.length;
+  while (low < high) {
+    const midpoint = Math.ceil((low + high) / 2);
+    if (Buffer.byteLength(render(`${error.slice(0, midpoint)}...`), "utf8") <= MAX_DIAGNOSTIC_BYTES) low = midpoint;
+    else high = midpoint - 1;
+  }
+  return render(`${error.slice(0, low)}...`);
+}
 
 async function stdin(): Promise<string> {
   const chunks: Buffer[] = [];
@@ -47,6 +62,6 @@ try {
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   const expected = error instanceof CapabilityInputError || safeRuntimeError.test(message);
-  process.stderr.write(`${JSON.stringify({ status: "rejected", error: expected ? message : "StockMesh capability failed" })}\n`);
+  process.stderr.write(diagnosticLine(expected ? message : "StockMesh capability failed"));
   process.exitCode = expected ? 2 : 1;
 }

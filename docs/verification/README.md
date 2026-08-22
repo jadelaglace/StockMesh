@@ -224,6 +224,45 @@ implementation branch was deleted.
 
 Engineering terminal: reached and merged. Human product acceptance remains open.
 
+## FIX-004 evidence - 2026-08-22
+
+- The post-P5 review reproduced five client-boundary defects: historical
+  `context.get` returned later Positions/Events/profile history and sibling
+  branches; invalid optional response Positions could be rejected only after a
+  stage, pin, fork, or search mutation; a failed SearchRun could be wrapped in
+  a succeeded capability envelope; unknown or misnamed request fields were
+  ignored; and CLI diagnostics had no effective fixed bound.
+- `context.get` now returns one selected Position, only canonical Timeline items
+  available at its `asOf`/evidence cutoff, only the selected hypothetical
+  lineage, relevant SearchRuns, temporally eligible selected-profile metadata,
+  and no staging or revision queue. The presentation-oriented `workbench.get`
+  remains unchanged.
+- Every P5 operation now has a strict camelCase field allowlist. Complete input
+  and optional response-Position identities are validated before dispatch, so
+  rejected malformed requests do not alter staging, Variation state, or search
+  state. The broader snake_case common envelope remains candidate vocabulary,
+  not an accepted P5 CLI request.
+- Existing failed SearchRuns are retried through the persisted coordinator;
+  `analysis.run` returns success only when the resulting run is present and is
+  neither failed, cancelled, nor running. CLI diagnostics are centralized and
+  the complete JSON stderr line is capped at 512 UTF-8 bytes.
+- Direct regressions pass 7/7 across the facade and real CLI subprocess: exact
+  historical and hypothetical lineage isolation, strict field rejection, zero
+  mutation on invalid requests, failed-run retry, and a 5,000-character input
+  diagnostic bounded to 512 bytes.
+- Fresh clean terminal: `npm ci` installed 236 packages and audited 237 with 0
+  vulnerabilities; an independent `npm audit --audit-level=low` also reported
+  0 vulnerabilities. All 31 Vitest files / 53 tests, Core/Web typechecks,
+  production build, direct-license gate, Skill validation, P0 and `0.1.0`
+  validators, repository/public-boundary gate, `git diff --check`, and 2/2
+  desktop/mobile Playwright projects passed.
+
+Repair defect ledger: the five reproduced P5 defects have direct passing
+regressions and the fresh full gate found no further FIX-004 defect. No schema,
+dependency, provider, Domain, capability catalog, canonical-writer boundary, or
+product scope changed. GitHub Flow delivery remains pending at this evidence
+write. Human product acceptance remains open.
+
 ## INIT-001 evidence — 2026-08-16
 
 - `scripts/verify-repository.ps1`: passed for 14 Markdown files.

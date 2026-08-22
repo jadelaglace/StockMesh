@@ -4,7 +4,18 @@ Purpose: the sole active-goal and recovery authority for repository work. It doe
 
 ## Current item
 
-None. P6 and later phases require explicit authorization.
+### FIX-004 — Repair P5 capability integrity
+
+- Source anchor: the 2026-08-22 post-P5 user-requested bug and requirement-drift review, followed by the user's explicit instruction to repair the findings.
+- User goal: repair the five reproduced P5 defects without entering P6 or expanding the client capability surface.
+- Current state: implementation and full local terminal verification complete; GitHub Flow delivery pending. The review disproved the prior no-known-defect implication: historical `context.get` exposes later Position/Event metadata; optional response-Position validation can happen after staging, pin, or resume mutations; failed SearchRuns can be wrapped as succeeded; unknown/misnamed input fields are silently ignored; and CLI diagnostics are not actually bounded.
+- Declared terminal: exact context contains only information available at the selected Position cutoff; every capability has a strict operation-specific request schema; rejected requests make no state change; `analysis.run` never reports a failed run as succeeded; diagnostics have a tested fixed bound; direct regressions and the full P0-P5/browser/public-boundary gates pass; the repair is merged through GitHub Flow.
+- Architecture conclusion (Agent-attributed): preserve the one-facade modular monolith. Add a dedicated frozen context projection, validate and normalize the complete request before dispatch, preflight all caller-supplied identities before mutation, propagate SearchRun terminal state honestly, and centralize bounded safe diagnostics. No schema, service, dependency, provider, Domain, or capability-catalog change is required.
+- Protected boundary: preserve Web as the primary human route, the provider-neutral AnalysisPort, reviewed canonical writes, possibility/canonical separation, public/private isolation, MIT posture, and name-only Stockfish tribute. Do not enter P6, use private/Kimi data, operate Babata, add a live provider, or claim product acceptance.
+- Temporary subplan (Agent-attributed): add failing regressions for all reproduced paths; implement the smallest facade/service/CLI corrections; rerun focused tests and the complete clean P0-P5 terminal round; record superseding evidence and deliver through GitHub Flow.
+- Next action: commit the verified bounded repair, open and inspect its GitHub PR, squash-merge it, then record the merge identity and clear the active item without promoting P6.
+- Evidence entry point: [P5 matrix](../verification/p5-acceptance-matrix.json) and [verification evidence](../verification/README.md).
+- Goal transition: `user-explicit-goal-start` — user-explicit-goal-start: after the review reproduced five P5 defects, the user explicitly instructed the Agent to repair them.
 
 ## Last terminal: P5-001
 
@@ -16,6 +27,7 @@ None. P6 and later phases require explicit authorization.
 - Residuals: the Vite main chunk remains about 737 KB (about 245 KB gzip) and transitive `prebuild-install@7.1.3` remains deprecated; both are non-blocking maintenance risks.
 - Evidence entry: [P5-001 evidence](../verification/README.md#p5-001-evidence---2026-08-22) and [frozen P5 matrix](../verification/p5-acceptance-matrix.json).
 - Goal transition: `legal-terminal-auto-promote` — legal-terminal-auto-promote: FIX-003 met its declared terminal and the user's numbered instruction explicitly authorized P5 as the next item.
+- Post-terminal correction: the 2026-08-22 review reproduced five integrity defects in exact-context isolation, mutation failure atomicity, SearchRun status propagation, strict request validation, and diagnostic bounds. FIX-004 reopens only these P5 guarantees; the original implementation/merge record remains historical evidence.
 
 ## Last terminal: FIX-003
 

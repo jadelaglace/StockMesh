@@ -243,6 +243,37 @@ export class WorkbenchService {
     };
   }
 
+  contextSnapshot(selectedPositionId?: string): WorkbenchSnapshot {
+    const snapshot = this.snapshot(selectedPositionId);
+    const selected = snapshot.positions.find((position) => position.id === snapshot.selectedPositionId);
+    if (!selected) throw new Error(`Position not found: ${snapshot.selectedPositionId}`);
+
+    const selectedVariation = this.store.db.prepare("SELECT id FROM variations WHERE position_id = ?").get(selected.id) as { id: string } | undefined;
+    const lineage = selectedVariation ? this.possibilities.checkout(selectedVariation.id).lineage : [];
+    const lineageIds = new Set(lineage);
+    const lineagePositionIds = new Set(snapshot.branches.filter((branch) => lineageIds.has(branch.id)).map((branch) => branch.positionId));
+    const searchRunIds = selectedVariation
+      ? new Set((this.store.db.prepare(`SELECT DISTINCT search_run_id AS id FROM search_frontier WHERE variation_id IN (${lineage.map(() => "?").join(", ")})`).all(...lineage) as Array<{ id: string }>).map((row) => row.id))
+      : new Set((this.store.db.prepare("SELECT id FROM search_runs WHERE root_position_id = ?").all(selected.id) as Array<{ id: string }>).map((row) => row.id));
+
+    return {
+      ...snapshot,
+      positions: [selected],
+      timeline: snapshot.timeline.filter((item) => item.cutoffStatus === "available" || (item.cutoffStatus === "variation" && item.resultingPositionId !== undefined && lineagePositionIds.has(item.resultingPositionId))),
+      branches: snapshot.branches.filter((branch) => lineageIds.has(branch.id)),
+      searchRuns: snapshot.searchRuns.filter((run) => searchRunIds.has(run.id)),
+      staging: [],
+      revisionProposals: [],
+      profileHistory: snapshot.profileHistory.filter((profile) => profile.id === selected.profileSnapshotId
+        && Date.parse(profile.asOf) <= Date.parse(selected.asOf)
+        && Date.parse(profile.evidenceCutoff) <= Date.parse(selected.evidenceCutoff)),
+    };
+  }
+
+  assertPosition(positionId: string): void {
+    if (!this.position(positionId)) throw new Error(`Position not found: ${positionId}`);
+  }
+
   stageEvidence(input: StageEvidenceCommand): string {
     if (!input.text.trim()) throw new Error("Evidence text is required");
     if (!Number.isFinite(Date.parse(input.observedAt))) throw new Error("Evidence time is invalid");
@@ -338,7 +369,13 @@ export class WorkbenchService {
     const position = this.position(positionId);
     if (!position) throw new Error(`Position not found: ${positionId}`);
     const existing = this.store.db.prepare("SELECT id FROM search_runs WHERE root_position_id = ? ORDER BY started_at LIMIT 1").get(positionId) as { id: string } | undefined;
-    if (existing) return existing.id;
+    if (existing) {
+      const run = this.search.getRun(existing.id);
+      if (!run) throw new Error(`search run not found: ${existing.id}`);
+      if (run.status === "failed") await this.search.resume(existing.id);
+      else if (run.status === "cancelled" || run.status === "running") throw new Error(`analysis search run is ${run.status}`);
+      return existing.id;
+    }
     const methodId = this.ensureFoundationMethod(positionId);
     const variation = this.store.db.prepare("SELECT id FROM variations WHERE position_id = ?").get(positionId) as { id: string } | undefined;
     const branchPath = variation ? this.possibilities.checkout(variation.id).lineage : [];

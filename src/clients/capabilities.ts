@@ -35,10 +35,29 @@ export interface PositionDelta {
 
 export class CapabilityInputError extends Error {}
 
+const CAPABILITY_INPUT_FIELDS: Record<StockMeshCapability, readonly string[]> = {
+  "workbench.get": ["positionId"],
+  "context.get": ["positionId"],
+  "position.compare": ["fromPositionId", "toPositionId"],
+  "analysis.run": ["positionId"],
+  "branch.list": ["positionId"],
+  "branch.pin": ["variationId", "positionId"],
+  "branch.fork": ["variationId", "positionId"],
+  "decision.replay": ["variationId"],
+  "search.continue": ["searchRunId", "positionId"],
+  "evidence.stage": ["text", "observedAt", "positionId"],
+};
+
 function object(value: unknown): Record<string, unknown> {
   if (value === undefined) return {};
   if (value === null || typeof value !== "object" || Array.isArray(value)) throw new CapabilityInputError("input must be a JSON object");
   return value as Record<string, unknown>;
+}
+
+function assertInputFields(operation: StockMeshCapability, input: Record<string, unknown>): void {
+  const allowed = new Set(CAPABILITY_INPUT_FIELDS[operation]);
+  const unsupported = Object.keys(input).find((key) => !allowed.has(key));
+  if (unsupported) throw new CapabilityInputError(`unsupported input field for ${operation}: ${unsupported}`);
 }
 
 function optionalString(input: Record<string, unknown>, name: string): string | undefined {
@@ -89,13 +108,19 @@ export class StockMeshCapabilities {
     if (!STOCKMESH_CAPABILITIES.includes(capability as StockMeshCapability)) throw new CapabilityInputError(`unsupported capability: ${capability}`);
     const operation = capability as StockMeshCapability;
     const input = object(rawInput);
+    assertInputFields(operation, input);
     let positionId: string | undefined;
     let result: unknown;
 
     switch (operation) {
-      case "workbench.get":
-      case "context.get": {
+      case "workbench.get": {
         const snapshot = this.workbench.snapshot(optionalString(input, "positionId"));
+        positionId = snapshot.selectedPositionId;
+        result = snapshot;
+        break;
+      }
+      case "context.get": {
+        const snapshot = this.workbench.contextSnapshot(optionalString(input, "positionId"));
         positionId = snapshot.selectedPositionId;
         result = snapshot;
         break;
@@ -110,7 +135,12 @@ export class StockMeshCapabilities {
       case "analysis.run": {
         positionId = requiredString(input, "positionId");
         const runId = await this.workbench.analyze(positionId);
-        result = { runId, snapshot: this.workbench.snapshot(positionId) };
+        const snapshot = this.workbench.snapshot(positionId);
+        const runStatus = snapshot.searchRuns.find((run) => run.id === runId)?.status;
+        if (runStatus === undefined || runStatus === "failed" || runStatus === "cancelled" || runStatus === "running") {
+          throw new Error(`analysis search run did not reach a client-readable state: ${runStatus ?? "missing"}`);
+        }
+        result = { runId, snapshot };
         break;
       }
       case "branch.list": {
@@ -121,16 +151,20 @@ export class StockMeshCapabilities {
       }
       case "branch.pin": {
         const variationId = requiredString(input, "variationId");
+        const requestedPositionId = optionalString(input, "positionId");
+        if (requestedPositionId) this.workbench.assertPosition(requestedPositionId);
         this.workbench.pin(variationId);
-        const snapshot = this.workbench.snapshot(optionalString(input, "positionId"));
+        const snapshot = this.workbench.snapshot(requestedPositionId);
         positionId = snapshot.selectedPositionId;
         result = { variationId, snapshot };
         break;
       }
       case "branch.fork": {
         const variationId = requiredString(input, "variationId");
+        const requestedPositionId = optionalString(input, "positionId");
+        if (requestedPositionId) this.workbench.assertPosition(requestedPositionId);
         const runId = await this.workbench.fork(variationId);
-        const snapshot = this.workbench.snapshot(optionalString(input, "positionId"));
+        const snapshot = this.workbench.snapshot(requestedPositionId);
         positionId = snapshot.selectedPositionId;
         result = { variationId, runId, snapshot };
         break;
@@ -143,8 +177,10 @@ export class StockMeshCapabilities {
       }
       case "search.continue": {
         const searchRunId = requiredString(input, "searchRunId");
+        const requestedPositionId = optionalString(input, "positionId");
+        if (requestedPositionId) this.workbench.assertPosition(requestedPositionId);
         await this.workbench.resume(searchRunId);
-        const snapshot = this.workbench.snapshot(optionalString(input, "positionId"));
+        const snapshot = this.workbench.snapshot(requestedPositionId);
         positionId = snapshot.selectedPositionId;
         result = { searchRunId, snapshot };
         break;
@@ -152,8 +188,10 @@ export class StockMeshCapabilities {
       case "evidence.stage": {
         const text = requiredString(input, "text");
         const observedAt = requiredInstant(input, "observedAt");
+        const requestedPositionId = optionalString(input, "positionId");
+        if (requestedPositionId) this.workbench.assertPosition(requestedPositionId);
         const stageId = this.workbench.stageEvidence({ text, observedAt });
-        const snapshot = this.workbench.snapshot(optionalString(input, "positionId"));
+        const snapshot = this.workbench.snapshot(requestedPositionId);
         positionId = snapshot.selectedPositionId;
         result = { stageId, staging: snapshot.staging.find((item) => item.id === stageId), snapshot };
         break;
