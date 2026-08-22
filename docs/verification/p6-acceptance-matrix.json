@@ -1,0 +1,18 @@
+{
+  "phase_id": "P6",
+  "status": "frozen",
+  "frozen_at": "2026-08-22T00:00:00+08:00",
+  "scope": "One explicitly authorized local private organizational pilot measured through a body-free structural bundle and private report; only generalized non-linkable consequences may enter Git.",
+  "criteria": [
+    { "id": "P6-01", "expected": "Every pilot bundle declares explicit authorization, purpose, authorization time, retention rule, deletion rule, and publication policy before processing.", "evidence_paths": ["src/pilot/types.ts", "src/pilot/validation.ts", "tests/p6-private-pilot.test.ts"] },
+    { "id": "P6-02", "expected": "The public pilot contract accepts only opaque identities, structural references, metric inputs, and optional bounded human ratings; source bodies, locators, credentials, and free-text dossiers are rejected.", "evidence_paths": ["src/pilot/types.ts", "src/pilot/validation.ts", "tests/p6-private-pilot.test.ts"] },
+    { "id": "P6-03", "expected": "The CLI fails closed unless both input and output resolve inside Git-ignored private paths, and it never writes a report beside public source or documentation files.", "evidence_paths": ["src/cli/pilot.ts", "tests/p6-pilot-cli.test.ts"] },
+    { "id": "P6-04", "expected": "An unchanged authorized bundle has a stable SHA-256 input identity and produces a deterministic measurement report without canonical, possibility, or runtime-database writes.", "evidence_paths": ["src/pilot/evaluator.ts", "tests/p6-private-pilot.test.ts"] },
+    { "id": "P6-05", "expected": "Reconstruction coverage, source-reference integrity, profile coverage, unresolved corrections, and correction burden expose explicit numerators, denominators, status, and limitations rather than an opaque quality score.", "evidence_paths": ["src/pilot/evaluator.ts", "tests/p6-private-pilot.test.ts"] },
+    { "id": "P6-06", "expected": "Contextual usefulness, profile-revision usefulness, and user learning remain not-observed until an attributed human rating is supplied; code cannot infer these outcomes from record counts.", "evidence_paths": ["src/pilot/evaluator.ts", "tests/p6-private-pilot.test.ts"] },
+    { "id": "P6-07", "expected": "Forecast specificity and calibration are measured only for purpose-typed forecasts with declared criteria and eligible assessments; absent evidence remains not-observed and is not converted into a miss.", "evidence_paths": ["src/pilot/evaluator.ts", "tests/p6-private-pilot.test.ts"] },
+    { "id": "P6-08", "expected": "The authorized dormant organizational record is evaluated locally, its complete report remains ignored/private, and the public evidence records only generalized non-linkable results and gaps.", "evidence_paths": ["docs/verification/README.md", "scripts/verify-repository.ps1"] },
+    { "id": "P6-09", "expected": "The pilot boundary adds no runtime dependency, provider, service, or private-data writer and preserves the P0-P5 compatibility, supply-chain, browser, Skill, and public-content gates.", "evidence_paths": ["package.json", "docs/architecture/architecture.md", "scripts/verify-repository.ps1"] },
+    { "id": "P6-10", "expected": "P6 reports engineering observations and gaps without claiming human acceptance, universal case semantics, live-provider quality, P7 hardening, or authorization to publish a case.", "evidence_paths": ["docs/delivery/status.md", "docs/verification/README.md"] }
+  ]
+}

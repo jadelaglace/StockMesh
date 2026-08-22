@@ -308,6 +308,29 @@ P5 exposes a Contributor boundary only for staging synthetic Evidence. Human
 review and canonical acceptance remain outside CLI/Skill. Runtime errors are
 mapped to stable client errors so internal SQL and paths do not cross the
 transport boundary.
+
+### P6 private-pilot evaluation architecture
+
+P6 adds one local evaluation boundary, not another product backend or ingestion
+authority. A private adapter prepares a body-free bundle containing explicit
+authorization, opaque structural identities and references, expected counts,
+unresolved correction items, eligible forecast/assessment markers, and optional
+attributed human ratings. The adapter and real bundle remain outside Git.
+
+The public `pilot` module strictly validates that bundle, computes transparent
+measurements with numerators and denominators, and writes a complete report only
+to a Git-ignored private path. Missing human judgment, forecast criteria, or
+assessment evidence remains `not-observed`; record volume cannot stand in for
+usefulness or calibration. The CLI verifies both paths through Git ignore before
+reading or writing and emits only a body-free execution envelope.
+
+This boundary does not read SQLite, append canonical or possibility records,
+call an LLM provider, teach the universal Domain a case-specific schema, or make
+the private cleaning format public. Public evidence may retain only generalized,
+non-linkable outcomes and gaps. A later product ingestion adapter must still use
+the existing staging/review/canonical writer and requires its own demonstrated
+need.
+
 6. **Learning slice:** run synthetic and explicitly authorized pilots, measure errors/latency/usefulness, and replace only the components that fail their acceptance target.
 
 ### Upgrade triggers
